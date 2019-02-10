@@ -1,0 +1,41 @@
+.comic-chapters {
+  @include flex($wrap: wrap);
+
+  padding: 20px 0;
+
+  .chapter-type {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 10px;
+    line-height: 1em;
+    order: 0;
+    padding: 5px;
+
+    &.active {
+      border-bottom: 2px solid #fb0;
+      color: #fb0;
+      display: table;
+    }
+  }
+
+  .chapters-list {
+    @include dimen(100%);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    margin-top: 15px;
+    order: 1;
+  }
+
+  .chapter-item {
+    background-color: #333;
+    padding: 10px 10px;
+
+    &:hover {
+      background-color: #fb0;
+      color: #333;
+    }
+  }
+}

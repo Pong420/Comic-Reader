@@ -1,0 +1,5 @@
+{
+  "HOME": "/",
+  "COMIC": "/comic/:comicID",
+  "CONTENT": "/content/:comicID/:chapterID/:pageNo"
+}

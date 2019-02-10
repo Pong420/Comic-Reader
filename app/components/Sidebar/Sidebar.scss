@@ -1,0 +1,6 @@
+.sidebar {
+  @include dimen(80px, 100vh);
+
+  background-color: #424242;
+  z-index: 1;
+}

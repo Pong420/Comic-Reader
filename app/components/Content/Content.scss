@@ -1,0 +1,27 @@
+.content-page {
+  .content-page-scroller {
+    @include dimen(100%, 100vh);
+    @include relative();
+
+    overflow: auto;
+  }
+
+  .image {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .error,
+  .loading {
+    @include absolute(0, null, 0);
+    @include sq-dimen(100%);
+    @include flex(center, center);
+
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
