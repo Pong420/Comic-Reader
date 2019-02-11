@@ -1,6 +1,8 @@
 import { api } from './api';
 import { GetComicDataParam, Chapters } from '../../../typing';
 
+const LZString = require('./utils/LZString');
+
 export async function getComicData({ comicID }: GetComicDataParam) {
   const { data: $ } = await api.get(`/comic/${comicID}/`);
 
@@ -12,6 +14,8 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     .children()
     .map((index: number, c: CheerioElement) => $(c).text())
     .toArray();
+
+  const adultOnly = !!$('#checkAdult').length;
 
   const details = $('.detail-list li > span')
     .map((index: number, details: CheerioElement) => {
@@ -38,6 +42,16 @@ export async function getComicData({ comicID }: GetComicDataParam) {
       };
     })
     .toArray();
+
+  if (adultOnly) {
+    try {
+      $('#erroraudit_show').replaceWith(
+        $(LZString.decompressFromBase64($('#__VIEWSTATE').attr('value')))
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const chapters: Chapters = {};
 
@@ -76,8 +90,6 @@ export async function getComicData({ comicID }: GetComicDataParam) {
         });
       }
     });
-
-  const adultOnly = !!$('#checkAdult').length;
 
   return {
     comicID,
