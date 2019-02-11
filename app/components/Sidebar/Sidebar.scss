@@ -1,6 +1,9 @@
 .sidebar {
   @include dimen(80px, 100vh);
+  @include flex(center, flex-start, column);
 
   background-color: #424242;
+  border-right: 1px solid #222;
+  padding-top: 40px;
   z-index: 1;
 }

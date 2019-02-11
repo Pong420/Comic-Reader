@@ -7,10 +7,11 @@
   }
 
   .image {
+    @include absolute(0, 0, 0, 0);
+
     display: block;
     margin: auto;
     max-width: 100%;
-    position: relative;
     z-index: 1;
   }
 

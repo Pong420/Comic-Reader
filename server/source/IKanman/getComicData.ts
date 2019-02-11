@@ -72,7 +72,7 @@ export async function getComicData({ comicID }: GetComicDataParam) {
               .replace(/.*\/(?=[^\/].*$)|.html/g, ''),
             title: $aTag.attr('title'),
             p: $aTag.find('i').text(),
-            new: !!$(chapter).find('.new').length
+            isNew: !!$(chapter).find('.new').length
           };
         });
       }

@@ -1,3 +1,5 @@
+import { ComponentType } from 'react';
+
 export interface GetLatestUpdateParam {
   page?: number;
 }
@@ -47,7 +49,7 @@ export interface ChpaterItem {
   chapterID: string;
   title: string;
   p: string;
-  new: boolean;
+  isNew: boolean;
 }
 
 export interface ContentData {
@@ -55,3 +57,12 @@ export interface ContentData {
   prevId?: string | number | undefined;
   nextId?: string | number | undefined;
 }
+
+type Icon =
+  | ComponentType<any>
+  | {
+      component: ComponentType<any>;
+      [props: string]: any;
+    };
+
+export type SidebarIcons = Icon[];
