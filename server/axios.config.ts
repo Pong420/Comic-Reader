@@ -8,8 +8,8 @@ interface ResponseHeader {
   'content-type': string;
 }
 
-export const createAxiosInstance = (options: AxiosRequestConfig) => {
-  return axios.create({
+export const createAxiosInstance = (options: AxiosRequestConfig) =>
+  axios.create({
     responseType: 'arraybuffer',
     transformResponse: [
       (data: any, responseHeader: ResponseHeader) => {
@@ -25,12 +25,10 @@ export const createAxiosInstance = (options: AxiosRequestConfig) => {
         html = chineseConv.tify(html);
         html = cheerio.load(html);
 
-        // return cheerio.load(data);
         return html;
       }
     ],
     ...options
   });
 
-  // return api as AxiosInstance;
-};
+// return api as AxiosInstance;

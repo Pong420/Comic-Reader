@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import Star from '@material-ui/icons/StarRounded';
 import { Layout } from '../Layout';
@@ -6,12 +7,14 @@ import { ComicData } from '../../../typing';
 import { ComicHeader } from './ComicHeader';
 import { ComicChapters } from './ComicChapters';
 
-export interface ComicProps {
-  comicData: ComicData;
-}
-
-export function Comic({ chapters, comicID, ...comicHeader }: ComicData) {
-  return (
+export const Comic = withRouter(
+  ({
+    history,
+    adultOnly,
+    chapters,
+    comicID,
+    ...comicHeader
+  }: ComicData & RouteComponentProps) => (
     <Layout
       className="comic"
       sidebarIcons={[
@@ -19,13 +22,17 @@ export function Comic({ chapters, comicID, ...comicHeader }: ComicData) {
         {
           component: Previous,
           onClick() {
-            console.log('HI');
+            history.push('/');
           }
         }
       ]}
     >
       <ComicHeader {...comicHeader} />
-      <ComicChapters comicID={comicID} chapters={chapters} />
+      <ComicChapters
+        comicID={comicID}
+        adultOnly={adultOnly}
+        chapters={chapters}
+      />
     </Layout>
-  );
-}
+  )
+);

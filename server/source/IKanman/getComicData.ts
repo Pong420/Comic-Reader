@@ -30,9 +30,8 @@ export async function getComicData({ comicID }: GetComicDataParam) {
             // @ts-ignore
             if (el.nodeType === 3) {
               return text;
-            } 
-              return `<span>${text}</span>`;
-            
+            }
+            return `<span>${text}</span>`;
           })
           .toArray()
           .join('')
@@ -78,6 +77,8 @@ export async function getComicData({ comicID }: GetComicDataParam) {
       }
     });
 
+  const adultOnly = !!$('#checkAdult').length;
+
   return {
     comicID,
     cover,
@@ -86,6 +87,7 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     intro,
     title,
     details,
-    chapters
+    chapters,
+    adultOnly
   };
 }

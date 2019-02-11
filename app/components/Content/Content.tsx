@@ -17,7 +17,6 @@ export const Content = withRouter(
     history,
     match
   }: RouteComponentProps & ContentProps) => {
-    // const picUrl = images[pageNo];
     const [error, setError] = useState(images.length && !images[pageNo]);
     const [dialogProps, setDialogProps] = useState({
       msg: '',

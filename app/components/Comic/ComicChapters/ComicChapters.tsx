@@ -11,6 +11,7 @@ export interface ChapterProps
   extends GetComicDataParam,
     WithStyles<typeof styles> {
   chapters: Chapters;
+  adultOnly: boolean;
 }
 
 const styles = (theme: Theme) =>
@@ -23,7 +24,7 @@ const styles = (theme: Theme) =>
   });
 
 export const ComicChapters = withStyles(styles)(
-  ({ comicID, chapters = {}, classes }: ChapterProps) => {
+  ({ comicID, adultOnly, chapters = {}, classes }: ChapterProps) => {
     const chaptersEntries = Object.entries(chapters).sort(
       ([, l1], [, l2]) => l2.length - l1.length
     );
@@ -43,22 +44,25 @@ export const ComicChapters = withStyles(styles)(
                 >
                   {chapterType}
                 </div>
-                {active && (
-                  <div className="chapters-list">
-                    {chapterList.map(({ chapterID, title, isNew }) => (
-                      <Link
-                        to={`/content/${comicID}/${chapterID}/0`}
-                        className="chapter-item"
-                        key={chapterID}
-                      >
-                        {title}
-                        {isNew && (
-                          <NewIcon className={classes.icon} color="inherit" />
-                        )}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                {active &&
+                  (adultOnly ? (
+                    <div>Warning</div>
+                  ) : (
+                    <div className="chapters-list">
+                      {chapterList.map(({ chapterID, title, isNew }) => (
+                        <Link
+                          to={`/content/${comicID}/${chapterID}/0`}
+                          className="chapter-item"
+                          key={chapterID}
+                        >
+                          {title}
+                          {isNew && (
+                            <NewIcon className={classes.icon} color="inherit" />
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  ))}
               </Fragment>
             );
           }

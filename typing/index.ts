@@ -26,6 +26,7 @@ export interface ComicItemProps {
 
 export interface ComicData extends GetComicDataParam, ComicHeader {
   chapters: Chapters;
+  adultOnly: boolean;
 }
 
 export interface ComicHeader {
