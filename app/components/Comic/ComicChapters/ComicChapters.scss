@@ -1,4 +1,6 @@
 .comic-chapters {
+  @include flex($wrap: wrap);
+
   padding: 20px 0;
 
   .chapter-type {
@@ -28,7 +30,7 @@
   }
 
   .chapter-item {
-    @include flex(center, spacse-between);
+    @include flex(center, space-between);
 
     background-color: #333;
     min-height: 40px;
