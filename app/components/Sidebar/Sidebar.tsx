@@ -12,7 +12,9 @@ interface SidebarProps extends RouteComponentProps {
 
 export const Sidebar = withRouter(({ Icons = [] }: SidebarProps) => (
   <div className="sidebar">
-    <SidebarIcon Icon={Search} />
+    <Link to="/search">
+      <SidebarIcon Icon={Search} />
+    </Link>
     <Link to={{ pathname: '/' }}>
       <SidebarIcon Icon={BackToHome} />
     </Link>
