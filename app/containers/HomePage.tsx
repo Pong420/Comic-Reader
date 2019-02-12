@@ -6,9 +6,11 @@ export function HomePage() {
   const [comicList, setComicList] = useState([]);
 
   useEffect(() => {
-    getLatestUpdate().then(data => {
-      setComicList(data);
-    });
+    getLatestUpdate()
+      .then(data => {
+        setComicList(data);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   return <Home comicList={comicList} />;
