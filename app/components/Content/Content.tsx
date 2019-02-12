@@ -80,7 +80,7 @@ export const Content = withRouter(
 
     useLayoutEffect(() => {
       scrollerRef.current.scrollTop = 0;
-    }, []);
+    }, [pageNo]);
 
     return (
       <>
