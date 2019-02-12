@@ -9,10 +9,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 export interface ContentDialogProps {
   msg: string;
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
+  onConfirm?: () => void;
 }
 
-export function ContentDialog({ msg, open, onClose }: ContentDialogProps) {
+export function ContentDialog({
+  msg,
+  open,
+  onConfirm,
+  onClose
+}: ContentDialogProps) {
   return (
     <Dialog
       open={open}
@@ -28,7 +34,14 @@ export function ContentDialog({ msg, open, onClose }: ContentDialogProps) {
         <Button onClick={onClose} color="primary">
           取消
         </Button>
-        <Button onClick={onClose} color="primary" autoFocus>
+        <Button
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
+          color="primary"
+          autoFocus
+        >
           確定
         </Button>
       </DialogActions>

@@ -55,8 +55,8 @@ export interface ChpaterItem {
 
 export interface ContentData {
   images?: string[];
-  prevId?: string | number | undefined;
-  nextId?: string | number | undefined;
+  prevId?: number | undefined;
+  nextId?: number | undefined;
 }
 
 type Icon =

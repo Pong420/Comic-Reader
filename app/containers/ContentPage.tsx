@@ -10,13 +10,18 @@ interface MatchParam extends GetContentDataParam {
 
 export function ContentPage({ match }: RouteComponentProps<MatchParam>) {
   const [contentData, setContentData] = useState(null);
-  const { pageNo, ...params } = match.params;
+  const { pageNo, chapterID, comicID } = match.params;
 
   useEffect(() => {
-    getContentData(params).then(data => {
+    setContentData([]);
+
+    getContentData({
+      comicID,
+      chapterID
+    }).then(data => {
       setContentData(data);
     });
-  }, []);
+  }, [comicID, chapterID]);
 
   return <Content {...contentData} pageNo={pageNo} />;
 }

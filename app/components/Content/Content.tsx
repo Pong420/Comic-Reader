@@ -10,30 +10,47 @@ export interface ContentProps extends ContentData {
   pageNo: string;
 }
 
+interface MatchParam {
+  comicID: string;
+  chapterID: string;
+  pageNo: string;
+}
+
 export const Content = withRouter(
   ({
     images = [],
     pageNo,
+    prevId,
+    nextId,
     history,
     match
-  }: RouteComponentProps & ContentProps) => {
+  }: RouteComponentProps<MatchParam> & ContentProps) => {
+    const scrollerRef = useRef(null);
     const [error, setError] = useState(images.length && !images[pageNo]);
     const [dialogProps, setDialogProps] = useState({
       msg: '',
       open: false
     });
-    const scrollerRef = useRef(null);
 
     const navigate = (evt: MouseEvent | undefined, step: number) => {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
 
+      const onConfirm = (chapterID: number | undefined) => () => {
+        history.push(
+          chapterID ? `/content/${match.params.comicID}/${chapterID}/0` : '/'
+        );
+      };
+
       if (newPageNo === -1) {
         setDialogProps(prevState => ({
           ...prevState,
-          msg: `已經係第一頁，返回上一話？`,
-          open: true
+          msg: prevId
+            ? `已經係第一頁，返回上一話？`
+            : '已經係第一話，返回首頁?',
+          open: true,
+          onConfirm: onConfirm(prevId)
         }));
 
         return;
@@ -42,8 +59,11 @@ export const Content = withRouter(
       if (newPageNo === images.length) {
         setDialogProps(prevState => ({
           ...prevState,
-          msg: `已經係最後一頁，睇下一話？`,
-          open: true
+          msg: nextId
+            ? `已經係最後一頁，睇下一話？`
+            : `已經係最後一話，返回首頁?`,
+          open: true,
+          onConfirm: onConfirm(nextId)
         }));
 
         return;
@@ -59,17 +79,17 @@ export const Content = withRouter(
 
     useLayoutEffect(() => {
       scrollerRef.current.scrollTop = 0;
-    }, [pageNo]);
+    }, []);
 
     return (
       <>
         <Layout
           className="content-page"
+          sidebarIcons={[Star, Previous]}
           contentProps={{
             onClick,
             onContextMenu
           }}
-          sidebarIcons={[Star, Previous]}
         >
           <div className="content-page-scroller" ref={scrollerRef}>
             {!error && <div className="loading">撈緊...</div>}
