@@ -12,11 +12,11 @@ interface SidebarProps extends RouteComponentProps {
 
 export const Sidebar = withRouter(({ Icons = [] }: SidebarProps) => (
   <div className="sidebar">
-    <Link to="/search">
-      <SidebarIcon Icon={Search} />
-    </Link>
     <Link to={{ pathname: '/' }}>
       <SidebarIcon Icon={BackToHome} />
+    </Link>
+    <Link to="/search">
+      <SidebarIcon Icon={Search} />
     </Link>
     {!!Icons.length && <SidebarDivider />}
     {Icons.map((Icon, index) => {

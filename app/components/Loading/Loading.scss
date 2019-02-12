@@ -1,0 +1,5 @@
+.loading {
+  .content {
+    @include flex(center, center, column);
+  }
+}

@@ -275,6 +275,7 @@
     "history": "^4.7.2",
     "lazysizes": "^4.1.5",
     "react": "v16.8.0-alpha.0",
+    "react-async": "^3.13.2",
     "react-dom": "v16.8.0-alpha.0",
     "react-hot-loader": "^4.6.5",
     "react-redux": "^6.0.0",

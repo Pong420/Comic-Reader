@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import red from '@material-ui/core/colors/red';
@@ -15,7 +14,7 @@ export interface ChapterProps
   adultOnly: boolean;
 }
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     icon: {
       alignSelf: 'flex-start',

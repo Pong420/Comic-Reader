@@ -9886,6 +9886,11 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-async@^3.13.2:
+  version "3.13.2"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-3.13.2.tgz#0476d9ea44cc52819c46732358e5e389ea918e02"
+  integrity sha512-UuHmoN0bEPOHEQ9wTZMYZyup6Iq4MbZ8WJRW/RXMkwQU9aqUjokpX9mpp5PgjujUTcYXwWRXmhb8GuY6Tvedsw==
+
 react-dom@v16.8.0-alpha.0:
   version "16.8.0-alpha.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.0-alpha.0.tgz#47bbcf42593eab5468b577d3c3f3c27f251a65ef"

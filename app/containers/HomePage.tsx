@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useAsync } from '../utils/useAsync';
 import { Home } from '../components/Home';
+import { Loading } from '../components/Loading';
+import { Error } from '../components/Error';
 import { getLatestUpdate } from '../api';
+import { ComicItemList } from '../../typing';
 
 export function HomePage() {
-  const [comicList, setComicList] = useState([]);
+  const { data, error, isLoading, reload } = useAsync<ComicItemList>({
+    deferFn: () => getLatestUpdate()
+  });
 
-  useEffect(() => {
-    getLatestUpdate()
-      .then(data => {
-        setComicList(data);
-      })
-      .catch(err => console.log(err));
-  }, []);
-
-  return <Home comicList={comicList} />;
+  return isLoading ? (
+    <Loading />
+  ) : error ? (
+    <Error {...error} reload={reload} />
+  ) : data ? (
+    <Home comicList={data} />
+  ) : null;
 }

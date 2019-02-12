@@ -22,6 +22,8 @@ const getErrorCode = (error: AxiosError) => {
   return 500;
 };
 
+const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
+
 app.get('/update', async (req: Request, res: Response) => {
   getLatestUpdate(req.query || {})
     .then((data: ComicItemList) => {

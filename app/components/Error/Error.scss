@@ -1,0 +1,12 @@
+.error {
+  .content {
+    @include flex(center, center, column);
+
+    color: #fff;
+    font-size: 16px;
+
+    div:not(:first-child) {
+      margin-top: 5px;
+    }
+  }
+}
