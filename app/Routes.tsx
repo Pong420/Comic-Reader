@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import App from './containers/App';
 import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';
@@ -15,6 +15,7 @@ export default () => (
       <Route path={routes.COMIC} component={ComicPage} />
       <Route path={routes.CONTENT} component={ContentPage} />
       <Route path={routes.SEARCH} component={SearchPage} />
+      <Redirect to="/" />
     </Switch>
   </App>
 );

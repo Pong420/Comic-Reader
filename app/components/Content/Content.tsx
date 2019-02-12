@@ -2,6 +2,7 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import Star from '@material-ui/icons/StarRounded';
+import Button from '@material-ui/core/Button';
 import { Layout } from '../Layout';
 import { ContentDialog } from './ContentDialog';
 import { ContentData } from '../../../typing';
@@ -85,7 +86,22 @@ export const Content = withRouter(
       <>
         <Layout
           className="content-page"
-          sidebarIcons={[Star, Previous]}
+          sidebarIcons={[
+            Star,
+            {
+              component: Previous,
+              onClick() {
+                history.push(`/comic/${match.params.comicID}`);
+              }
+            },
+            {
+              component: (props: any) => (
+                <Button {...props}>
+                  <sup>{Number(pageNo) + 1}</sup> / <sub>{images.length}</sub>
+                </Button>
+              )
+            }
+          ]}
           contentProps={{
             onClick,
             onContextMenu
