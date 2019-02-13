@@ -2,7 +2,6 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import Star from '@material-ui/icons/StarRounded';
-import Button from '@material-ui/core/Button';
 import { Layout } from '../Layout';
 import { ContentDialog } from './ContentDialog';
 import { ContentData } from '../../../typing';
@@ -94,11 +93,12 @@ export const Content = withRouter(
                 history.push(`/comic/${match.params.comicID}`);
               }
             },
+            () => <div style={{ flex: '1 1 auto' }} />,
             {
-              component: (props: any) => (
-                <Button {...props}>
+              component: ({ className, ...props }: any) => (
+                <div className={`${className} page-nav-button`} {...props}>
                   <sup>{Number(pageNo) + 1}</sup> / <sub>{images.length}</sub>
-                </Button>
+                </div>
               )
             }
           ]}
@@ -108,7 +108,7 @@ export const Content = withRouter(
           }}
         >
           <div className="content-page-scroller" ref={scrollerRef}>
-            {!error && <div className="loading">撈緊...</div>}
+            {!error && <div className="image-loading">撈緊...</div>}
             {images.map((url, index: number) => {
               const props =
                 index === Number(pageNo)
@@ -122,7 +122,7 @@ export const Content = withRouter(
 
               return <img src={url} key={index} {...props} />;
             })}
-            {error && <div className="error">張圖撈唔到，試下下一頁</div>}
+            {error && <div className="image-error">張圖撈唔到，試下下一頁</div>}
           </div>
         </Layout>
         <ContentDialog

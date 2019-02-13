@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { useAsync } from '../utils/useAsync';
 import { Content } from '../components/Content';
+import { Loading } from '../components/Loading';
+import { Error } from '../components/Error';
 import { getContentData } from '../api';
-import { GetContentDataParam } from '../../typing';
+import { GetContentDataParam, ContentData } from '../../typing';
 
 interface MatchParam extends GetContentDataParam {
   pageNo: string;
 }
 
 export function ContentPage({ match }: RouteComponentProps<MatchParam>) {
-  const [contentData, setContentData] = useState(null);
   const { pageNo, chapterID, comicID } = match.params;
+  const { data, error, isLoading, reload } = useAsync<ContentData>({
+    deferFn: () => getContentData({ comicID, chapterID })
+  });
 
-  useEffect(() => {
-    setContentData([]);
+  if (isLoading) {
+    return <Loading />;
+  }
 
-    getContentData({
-      comicID,
-      chapterID
-    }).then(data => {
-      setContentData(data);
-    });
-  }, [comicID, chapterID]);
+  if (error) {
+    return <Error {...error} reload={reload} />;
+  }
 
-  return <Content {...contentData} pageNo={pageNo} />;
+  if (data) {
+    return <Content {...data} pageNo={pageNo} />;
+  }
+
+  return null;
 }

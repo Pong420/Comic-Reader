@@ -11,11 +11,17 @@ export function HomePage() {
     deferFn: () => getLatestUpdate()
   });
 
-  return isLoading ? (
-    <Loading />
-  ) : error ? (
-    <Error {...error} reload={reload} />
-  ) : data ? (
-    <Home comicList={data} />
-  ) : null;
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error {...error} reload={reload} />;
+  }
+
+  if (data) {
+    return <Home comicList={data} />;
+  }
+
+  return null;
 }

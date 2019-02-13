@@ -15,8 +15,8 @@
     z-index: 1;
   }
 
-  .error,
-  .loading {
+  .image-error,
+  .image-loading {
     @include absolute(0, null, 0);
     @include sq-dimen(100%);
     @include flex(center, center);
@@ -24,5 +24,32 @@
     color: #fff;
     font-size: 16px;
     font-weight: bold;
+  }
+
+  .page-nav-button {
+    @include flex(center, center);
+
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+
+    sup,
+    sub {
+      min-width: 1em;
+      line-height: 1em;
+    }
+
+    sup {
+      position: relative;
+      top: -0.4em;
+      text-align: right;
+    }
+
+    sub {
+      position: relative;
+      top: 0.3em;
+      text-align: left;
+    }
   }
 }

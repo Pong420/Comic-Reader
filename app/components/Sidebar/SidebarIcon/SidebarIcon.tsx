@@ -11,42 +11,40 @@ export interface SidebarIconProps extends WithStyles<typeof styles> {
 
 const styles = () =>
   createStyles({
-    iconButton: {
-      maxWidth: 50,
-      minWidth: 50,
-      minHeight: 50,
-      padding: 0,
-      fontSize: 20,
+    size: {
+      width: 50,
+      height: 50
+    },
+    color: {
       color: grey.A200,
       '&:hover': {
-        background: grey.A400,
+        color: grey[50],
         '& $icon': {
           color: grey[50]
         }
       }
     },
+    iconButton: {
+      padding: 0
+    },
     icon: {
       cursor: 'pointer',
       fontSize: 30
-    },
-    divider: {
-      background: grey.A200,
-      marginTop: 10,
-      marginBottom: 10,
-      width: 40
     }
   });
 
 export const SidebarIcon = withStyles(styles)(
   ({ Icon, classes, ...props }: SidebarIconProps) => {
+    const { size, color, iconButton, icon } = classes;
+
     if (/Icon/.test(Icon.displayName)) {
       return (
-        <IconButton className={classes.iconButton} {...props}>
-          <Icon className={classes.icon} color="inherit" />
+        <IconButton className={`${size} ${color} ${iconButton}`} {...props}>
+          <Icon className={icon} color="inherit" />
         </IconButton>
       );
     }
 
-    return <Icon className={classes.iconButton} {...props} />;
+    return <Icon className={`${size} ${color}`} {...props} />;
   }
 );
