@@ -1,0 +1,13 @@
+$gap: 15px;
+
+.home-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-row-gap: $gap;
+  grid-column-gap: $gap;
+  padding: $gap;
+
+  .grid {
+    position: relative;
+  }
+}

@@ -1,0 +1,28 @@
+.home-header {
+  @include dimen(100%, 60px);
+  @include flex(center, space-evenly);
+
+  background-color: #424242;
+
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10000000;
+
+  .home-header-tab {
+    @include sq-dimen(100%);
+    @include flex(center, center);
+
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+
+    &.active {
+      border-bottom-color: #fb0;
+    }
+  }
+}
