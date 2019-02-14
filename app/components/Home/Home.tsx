@@ -17,10 +17,10 @@ export function Home({ comicList }: HomeProps) {
     <Layout className="home">
       <HomeHeader tabs={tabs} onChange={label => setCurrentSection(label)} />
       <HomeGridContainer
-        show={currentSection === tabs[0]}
+        hidden={currentSection !== tabs[0]}
         list={comicList}
         render={(props, index) => <ComicItem {...props} key={index} />}
-        onLoadMore={() => {}}
+        onLoadMore={() => Promise.resolve()}
       />
     </Layout>
   );

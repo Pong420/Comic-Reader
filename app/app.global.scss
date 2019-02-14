@@ -41,3 +41,7 @@ a {
   /* stylelint-disable */
   -webkit-app-region: drag;
 }
+
+[hidden] {
+  display: none !important;
+}

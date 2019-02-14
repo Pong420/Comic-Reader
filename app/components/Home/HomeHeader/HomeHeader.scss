@@ -1,11 +1,6 @@
 .home-header {
-  @include dimen(100%, 60px);
+  @include dimen(100%, $home-header-height);
   @include flex(center, space-evenly);
-
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 10000000;
 
   .home-header-tab {
     @include sq-dimen(100%);
@@ -18,7 +13,7 @@
     color: #888;
     cursor: pointer;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
 
     &:hover {
       background-color: #424242;
