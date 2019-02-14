@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export interface HomeHeaderPorps {}
+export interface HomeHeaderPorps {
+  tabs: string[];
+  onChange?: (label: string) => void;
+}
 
-export function HomeHeader({  }: HomeHeaderPorps) {
+export function HomeHeader({ tabs, onChange }: HomeHeaderPorps) {
+  const [active, setActive] = useState(0);
+
   return (
     <div className="home-header">
-      <div className="home-header-tab active">最新更新</div>
-      <div className="home-header-tab">收藏</div>
+      {tabs.map((label, index) => {
+        const isActive = index === active ? 'active' : '';
+        return (
+          <div
+            key={index}
+            className={`home-header-tab ${isActive}`}
+            onClick={() => {
+              setActive(index);
+              onChange(label);
+            }}
+          >
+            {label}
+          </div>
+        );
+      })}
     </div>
   );
 }
