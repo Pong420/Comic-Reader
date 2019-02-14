@@ -2,8 +2,6 @@
   @include dimen(100%, 60px);
   @include flex(center, space-evenly);
 
-  background-color: #424242;
-
   position: sticky;
   top: 0;
   left: 0;
@@ -16,13 +14,20 @@
     border-bottom-width: 3px;
     border-bottom-style: solid;
     border-bottom-color: transparent;
+    background-color: #222;
+    color: #888;
     cursor: pointer;
-    color: #fff;
     font-weight: bold;
     font-size: 15px;
 
+    &:hover {
+      background-color: #424242;
+    }
+
     &.active {
+      // background-color: #2a2a2a;
       border-bottom-color: #fb0;
+      color: #fff;
     }
   }
 }
