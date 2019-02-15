@@ -46,7 +46,7 @@ export const HomePage = connect(
   }
 
   if (comicList.length) {
-    return <Home comicList={comicList} />;
+    return <Home />;
   }
 
   return null;

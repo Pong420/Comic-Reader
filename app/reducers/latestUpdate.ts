@@ -2,11 +2,13 @@ import { LatestUpdateKeys, LatestUpdateTypes } from '../actions/latestUpdate';
 import { ComicItemList } from '../../typing';
 
 export interface LatestUpdateState {
+  page: number;
   comicList: ComicItemList;
 }
 
 const initialState: LatestUpdateState = {
-  comicList: []
+  comicList: [],
+  page: 1
 };
 
 export default function(state = initialState, action: LatestUpdateTypes) {
@@ -21,6 +23,12 @@ export default function(state = initialState, action: LatestUpdateTypes) {
         ...state,
         comicList: [...state.comicList, ...action.payload.comicList]
       };
+    case LatestUpdateKeys.SET_PAGE_NUMBER:
+      return {
+        ...state,
+        page: action.payload.page
+      };
+      break;
     default:
       return state;
   }

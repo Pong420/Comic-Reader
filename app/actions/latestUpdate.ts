@@ -2,7 +2,8 @@ import { ComicItemList } from '../../typing';
 
 export enum LatestUpdateKeys {
   SET_COMICS = 'SET_COMICS',
-  ADD_COMICS = 'ADD_COMICS'
+  ADD_COMICS = 'ADD_COMICS',
+  SET_PAGE_NUMBER = 'UPDATE_PAGE_NUMBER'
 }
 
 interface ComicAction {
@@ -12,23 +13,47 @@ interface ComicAction {
   };
 }
 
-export type LatestUpdateTypes = ComicAction;
+export interface AddComicsPayload {
+  comicList: ComicItemList;
+  page: number;
+}
 
-export function comicAction(comicList: ComicItemList) {
+interface SetPageNoAction {
+  type: LatestUpdateKeys.SET_PAGE_NUMBER;
+  payload: {
+    page: number;
+  };
+}
+
+export type LatestUpdateTypes = ComicAction | SetPageNoAction;
+
+export function comicAction(type: LatestUpdateKeys, comicList: ComicItemList) {
   return {
-    type: LatestUpdateKeys.SET_COMICS,
+    type,
     payload: {
       comicList
     }
   };
 }
 
-export function setComics(comicList) {
-  return comicAction(comicList);
+export function setPageNumber(page: number) {
+  return {
+    type: LatestUpdateKeys.SET_PAGE_NUMBER,
+    payload: {
+      page
+    }
+  };
 }
 
-export function updateComics(comicList) {
-  return comicAction(comicList);
+export function setComics(comicList: ComicItemList) {
+  return comicAction(LatestUpdateKeys.ADD_COMICS, comicList);
 }
 
-export default { setComics, updateComics };
+export function addComics({ comicList, page }: AddComicsPayload) {
+  return dispatch => {
+    dispatch(setPageNumber(page));
+    dispatch(comicAction(LatestUpdateKeys.ADD_COMICS, comicList));
+  };
+}
+
+export default { setComics, addComics, setPageNumber };
