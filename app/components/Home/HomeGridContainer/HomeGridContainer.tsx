@@ -1,109 +1,79 @@
-import React, { ReactNode, useRef, useLayoutEffect, useState } from 'react';
-// import React, { ReactNode } from 'react';
+import React, { ReactNode, useLayoutEffect, useState } from 'react';
 // import { useAsync } from 'react-async';
-import {
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
-  createMasonryCellPositioner,
-  Masonry,
-  MasonryCellProps
-} from 'react-virtualized';
+import { Grid, GridCellProps } from 'react-virtualized';
 import debounce from 'lodash/debounce';
 
 export interface HomeGridContainerProps {
+  width: number;
+  height: number;
+  gridEl: HTMLElement | null;
   list: any[];
-  render: (props: any) => ReactNode;
-  onLoadMore?: () => Promise<any>;
   hidden?: boolean;
+  loadMore?: () => Promise<any>;
+  onGridRender: (props: any) => ReactNode;
 }
 
 const spacer = 15;
 
-export function HomeGridContainer({ list, render }: HomeGridContainerProps) {
-  const masonryRef = useRef(null);
-  const gridSizerRef = useRef(null);
-  const [cache, setCache] = useState(null);
-  const [cellPositioner, setCellPositioner] = useState(null);
+export function HomeGridContainer({
+  width,
+  height,
+  gridEl,
+  list,
+  hidden,
+  onGridRender
+}: HomeGridContainerProps) {
+  const [{ columnCount, columnWidth }, setColumnData] = useState({
+    columnCount: 0,
+    columnWidth: 0
+  });
 
-  const calcCellPositioner = () => {
-    const width = window.innerWidth - 80 + spacer;
-    const tempcolumnWidth = gridSizerRef.current.offsetWidth; // offsetWith not return decimal
+  const calcColumnData = () => {
+    const width_ = width - spacer * 2;
+    const tempcolumnWidth = gridEl ? gridEl.offsetWidth : 0; // offsetWith not return decimal, so we not count this value
     const columnCount = Math.floor(width / tempcolumnWidth);
-    const columnWidth = (width - spacer * columnCount) / columnCount;
+    const columnWidth = (width_ - spacer * columnCount) / columnCount;
 
     return {
       columnWidth,
-      columnCount,
-      spacer
+      columnCount
     };
   };
 
+  const loadMoreHandler = debounce(() => {
+    setColumnData(calcColumnData());
+  }, 100);
+
   useLayoutEffect(() => {
-    const { columnWidth, columnCount } = calcCellPositioner();
+    loadMoreHandler();
+  }, [width, height]);
 
-    const cache = new CellMeasurerCache({
-      fixedWidth: true,
-      defaultWidth: columnWidth,
-      defaultHeight: columnWidth / 0.75
-    });
-
-    const cellPositioner = createMasonryCellPositioner({
-      cellMeasurerCache: cache,
-      columnCount,
-      columnWidth,
-      spacer
-    });
-
-    setCache(cache);
-    setCellPositioner(() => () => cellPositioner);
-
-    const loadMoreHandler = debounce(evt => {
-      cellPositioner.reset(calcCellPositioner());
-      masonryRef.current.clearCellPositions();
-    }, 150);
-
-    // scrollerRef.current.addEventListener('scroll', loadMoreHandler);
-    window.addEventListener('resize', loadMoreHandler);
-
-    return () => {
-      // scrollerRef.current.removeEventListener('scroll', loadMoreHandler);
-      window.removeEventListener('resize', loadMoreHandler);
-    };
-  }, []);
-
-  function cellRenderer({ index, key, parent, style }: MasonryCellProps) {
-    const data = list[index];
-
+  function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
+    const index = rowIndex * columnCount + columnIndex;
     return (
-      <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-        <div style={style}>{render(data)}</div>
-      </CellMeasurer>
+      <div style={style} key={key}>
+        <div style={{ padding: `${spacer / 2}px` }}>
+          {onGridRender(list[index])}
+        </div>
+      </div>
     );
   }
 
   return (
     <>
-      {cellPositioner && cache && (
-        <AutoSizer>
-          {({ height, width }) => (
-            <Masonry
-              className="home-grid-container"
-              cellCount={list.length}
-              cellMeasurerCache={cache}
-              cellPositioner={cellPositioner()}
-              cellRenderer={cellRenderer}
-              height={height}
-              width={width}
-              autoHeight={false}
-              ref={masonryRef}
-            />
-          )}
-        </AutoSizer>
+      {!hidden && columnCount && columnWidth && (
+        <Grid
+          className="home-grid-container"
+          columnCount={columnCount}
+          columnWidth={columnWidth + spacer}
+          rowCount={list.length / columnCount}
+          rowHeight={columnWidth / 0.75 + spacer}
+          height={height}
+          width={width}
+          cellRenderer={cellRenderer}
+          style={{ padding: `${spacer}px` }}
+        />
       )}
-      <div className="home-grid-sizer-container">
-        <div ref={gridSizerRef} />
-      </div>
     </>
   );
 }
