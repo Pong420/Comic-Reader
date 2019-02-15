@@ -8,7 +8,7 @@ import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { getLatestUpdate } from '../api';
 import { ComicItemList } from '../../typing';
-import LatestUpdateActions, { setComics } from '../actions/latestUpdate';
+import LatestUpdateActions from '../actions/latestUpdate';
 
 function mapStateToProps({ latestUpdate }) {
   return {
@@ -21,20 +21,20 @@ function mapDispatchToProps(dispatch) {
 }
 
 interface Props extends RouteComponentProps {
-  comistList: ComicItemList;
-  setComics: () => void;
+  comicList: ComicItemList;
+  setComics: (comicList: ComicItemList) => void;
 }
 
 export const HomePage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ comistList }: Props) => {
+)(({ comicList, setComics }: Props) => {
   const { error, isLoading, reload } = useAsync<ComicItemList>({
     deferFn: () =>
-      getLatestUpdate().then(data => {
-        setComics(data);
-        return data;
-      })
+      comicList.length ? Promise.resolve(comicList) : getLatestUpdate(),
+    onResolve(data) {
+      setComics(data);
+    }
   });
 
   if (isLoading) {
@@ -45,8 +45,8 @@ export const HomePage = connect(
     return <Error {...error} reload={reload} />;
   }
 
-  if (comistList.length) {
-    return <Home comicList={comistList} />;
+  if (comicList.length) {
+    return <Home comicList={comicList} />;
   }
 
   return null;

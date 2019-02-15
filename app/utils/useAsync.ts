@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 
 export interface useAsyncOptions<T> {
   deferFn: (args?: any) => Promise<T>;
+  onResolve?: (data: T) => void;
 }
 
 export function useAsync<T>(options: useAsyncOptions<T>) {
