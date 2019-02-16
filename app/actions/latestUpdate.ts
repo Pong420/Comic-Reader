@@ -46,7 +46,7 @@ export function setPageNumber(page: number) {
 }
 
 export function setComics(comicList: ComicItemList) {
-  return comicAction(LatestUpdateKeys.ADD_COMICS, comicList);
+  return comicAction(LatestUpdateKeys.SET_COMICS, comicList);
 }
 
 export function addComics({ comicList, page }: AddComicsPayload) {

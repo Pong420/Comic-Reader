@@ -1,7 +1,8 @@
-import React, { ReactNode, useLayoutEffect, useState } from 'react';
-// import { useAsync } from 'react-async';
-import { Grid, GridCellProps } from 'react-virtualized';
-import debounce from 'lodash/debounce';
+import React, { ReactNode, useLayoutEffect, useState, useRef } from 'react';
+import { useAsync } from 'react-async';
+import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
+import throttle from 'lodash/throttle';
+import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
 export interface HomeGridContainerProps {
   width: number;
@@ -15,14 +16,19 @@ export interface HomeGridContainerProps {
 
 const spacer = 15;
 
+// const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
+
 export function HomeGridContainer({
   width,
   height,
   gridEl,
   list,
   hidden,
+  loadMore,
   onGridRender
 }: HomeGridContainerProps) {
+  const gridRef = useRef(null);
+  const scrollTopRef = useRef(Number(localStorage.getItem('scrollTop')));
   const [{ columnCount, columnWidth }, setColumnData] = useState({
     columnCount: 0,
     columnWidth: 0
@@ -40,13 +46,21 @@ export function HomeGridContainer({
     };
   };
 
-  const loadMoreHandler = debounce(() => {
+  const { isLoading, run } = useAsync({
+    // deferFn: () => delay(5000)
+    deferFn: () => loadMore()
+  });
+  const isLoadingRef = useRef(isLoading);
+
+  const loadMoreHandler = () => {
+    if (!isLoading) {
+      run();
+    }
+  };
+
+  const onResizeHandler = throttle(() => {
     setColumnData(calcColumnData());
   }, 100);
-
-  useLayoutEffect(() => {
-    loadMoreHandler();
-  }, [width, height]);
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
@@ -59,9 +73,29 @@ export function HomeGridContainer({
     );
   }
 
+  function onScroll({ scrollTop }: OnScrollParams) {
+    scrollTopRef.current = scrollTop;
+  }
+
+  useLayoutEffect(() => {
+    isLoadingRef.current = isLoading;
+  }, [isLoading]);
+
+  useLayoutEffect(() => {
+    onResizeHandler();
+  }, [width, height]);
+
+  useLayoutEffect(() => {
+    return () => {
+      localStorage.setItem('scrollTop', String(scrollTopRef.current));
+    };
+  }, []);
+
   return (
-    <>
-      {!hidden && columnCount && columnWidth && (
+    !hidden &&
+    columnCount &&
+    columnWidth && (
+      <>
         <Grid
           className="home-grid-container"
           columnCount={columnCount}
@@ -71,9 +105,20 @@ export function HomeGridContainer({
           height={height}
           width={width}
           cellRenderer={cellRenderer}
-          style={{ padding: `${spacer}px` }}
+          style={{ padding: `${spacer}px`, outline: 0 }}
+          onScroll={onScroll}
+          ref={gridRef}
+          overscanRowCount={1}
+          onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
+            const rowCount = list.length / columnCount;
+
+            if (rowStopIndex - rowCount >= -1) {
+              loadMoreHandler();
+            }
+          }}
         />
-      )}
-    </>
+        {/* {isLoading ? '<div>isLoading</div>' : ''} */}
+      </>
+    )
   );
 }

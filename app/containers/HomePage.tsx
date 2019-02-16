@@ -30,8 +30,9 @@ export const HomePage = connect(
   mapDispatchToProps
 )(({ comicList, setComics }: Props) => {
   const { error, isLoading, reload } = useAsync<ComicItemList>({
-    deferFn: () =>
-      comicList.length ? Promise.resolve(comicList) : getLatestUpdate(),
+    deferFn() {
+      return comicList.length ? Promise.resolve(comicList) : getLatestUpdate();
+    },
     onResolve(data) {
       setComics(data);
     }
