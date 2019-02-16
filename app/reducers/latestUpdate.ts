@@ -19,9 +19,16 @@ export default function(state = initialState, action: LatestUpdateTypes) {
         comicList: action.payload.comicList
       };
     case LatestUpdateKeys.ADD_COMICS:
+      const total = state.comicList.length;
+      const { from = total, to = from } = action.payload;
+
       return {
         ...state,
-        comicList: [...state.comicList, ...action.payload.comicList]
+        comicList: [
+          ...state.comicList.slice(0, from),
+          ...action.payload.comicList,
+          ...state.comicList.slice(to, total)
+        ]
       };
     case LatestUpdateKeys.SET_PAGE_NUMBER:
       return {

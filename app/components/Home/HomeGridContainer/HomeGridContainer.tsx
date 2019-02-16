@@ -1,7 +1,5 @@
 import React, { ReactNode, useLayoutEffect, useState, useRef } from 'react';
-import { useAsync } from 'react-async';
 import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
-import throttle from 'lodash/throttle';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
 export interface HomeGridContainerProps {
@@ -15,8 +13,6 @@ export interface HomeGridContainerProps {
 }
 
 const spacer = 15;
-
-// const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
 export function HomeGridContainer({
   width,
@@ -46,21 +42,9 @@ export function HomeGridContainer({
     };
   };
 
-  const { isLoading, run } = useAsync({
-    // deferFn: () => delay(5000)
-    deferFn: () => loadMore()
-  });
-  const isLoadingRef = useRef(isLoading);
-
-  const loadMoreHandler = () => {
-    if (!isLoading) {
-      run();
-    }
-  };
-
-  const onResizeHandler = throttle(() => {
+  const onResizeHandler = () => {
     setColumnData(calcColumnData());
-  }, 100);
+  };
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
@@ -76,10 +60,6 @@ export function HomeGridContainer({
   function onScroll({ scrollTop }: OnScrollParams) {
     scrollTopRef.current = scrollTop;
   }
-
-  useLayoutEffect(() => {
-    isLoadingRef.current = isLoading;
-  }, [isLoading]);
 
   useLayoutEffect(() => {
     onResizeHandler();
@@ -113,11 +93,10 @@ export function HomeGridContainer({
             const rowCount = list.length / columnCount;
 
             if (rowStopIndex - rowCount >= -1) {
-              loadMoreHandler();
+              loadMore();
             }
           }}
         />
-        {/* {isLoading ? '<div>isLoading</div>' : ''} */}
       </>
     )
   );

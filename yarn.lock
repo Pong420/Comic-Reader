@@ -1152,6 +1152,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
+"@types/react-content-loader@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react-content-loader/-/react-content-loader-3.1.4.tgz#ceb75c2b20b6e697e249c063ddc2b4f9ad32bb5e"
+  integrity sha512-CJhW+3D5xTpMqTEM/coWOHhJ3sXBWqZUuWGUNhHNgMJYYqqmC+LuqPpJMETmuMnZoIWScReeXjppyPjQMUnkuQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^16.8.0":
   version "16.8.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.0.tgz#c565f43f9d2ec911f9e0b8f3b74e25e67879aa3f"
@@ -10482,6 +10489,11 @@ react-async@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-async/-/react-async-4.0.0.tgz#7d2dea29f1f05a3391d28d7fcbb8f586a793bd69"
   integrity sha512-2MYTWZqJhKg3SlfR5v3QUnPRoIahzhlyOz3iMXKCIyRu1uQ+kA4qUo5nYunDbhLOKHTu3rATqXHZYrXJ1kFldA==
+
+react-content-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-4.0.1.tgz#a1e20110d7efecc446fb95d47766d3d792e5ea4c"
+  integrity sha512-qLuPQkaIRaUpAm65vaBQsiF+yfDuX5jTffok7zT0FDDXBn6qI6O8ZYoLtyDdO7Mqpq2pu/6jpzi8cD+rSDiEoQ==
 
 react-dom@16.8.1:
   version "16.8.1"

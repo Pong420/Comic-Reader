@@ -28,6 +28,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(LatestUpdateActions, dispatch);
 }
 
+const placeHolder = new Array(42).fill({}) as ComicItemList;
+
 export const Home = connect(
   mapStateToProps,
   mapDispatchToProps
@@ -37,13 +39,24 @@ export const Home = connect(
   const gridSizerRef = useRef(null);
 
   const nextPage = page + 1;
-  const loadMoreLatestComic = () =>
-    getLatestUpdate({ page: nextPage }).then(comicList =>
+  const loadMoreLatestComic = () => {
+    const from = comicList.length;
+    const to = comicList.length + placeHolder.length;
+
+    addComics({
+      comicList: placeHolder.slice(0),
+      page: nextPage
+    });
+
+    return getLatestUpdate({ page: nextPage }).then(comicList =>
       addComics({
         comicList,
-        page: nextPage
+        page: nextPage,
+        from,
+        to
       })
     );
+  };
 
   return (
     <Layout className="home">

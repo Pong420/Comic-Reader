@@ -6,16 +6,16 @@ export enum LatestUpdateKeys {
   SET_PAGE_NUMBER = 'UPDATE_PAGE_NUMBER'
 }
 
-interface ComicAction {
-  type: LatestUpdateKeys.SET_COMICS | LatestUpdateKeys.ADD_COMICS;
+interface SetComicAction {
+  type: LatestUpdateKeys.SET_COMICS;
   payload: {
     comicList: ComicItemList;
   };
 }
 
-export interface AddComicsPayload {
-  comicList: ComicItemList;
-  page: number;
+interface AddComicAction {
+  type: LatestUpdateKeys.ADD_COMICS;
+  payload: AddComicsPayload;
 }
 
 interface SetPageNoAction {
@@ -25,15 +25,16 @@ interface SetPageNoAction {
   };
 }
 
-export type LatestUpdateTypes = ComicAction | SetPageNoAction;
+export type LatestUpdateTypes =
+  | SetComicAction
+  | AddComicAction
+  | SetPageNoAction;
 
-export function comicAction(type: LatestUpdateKeys, comicList: ComicItemList) {
-  return {
-    type,
-    payload: {
-      comicList
-    }
-  };
+export interface AddComicsPayload {
+  comicList: ComicItemList;
+  page: number;
+  from?: number;
+  to?: number;
 }
 
 export function setPageNumber(page: number) {
@@ -46,13 +47,25 @@ export function setPageNumber(page: number) {
 }
 
 export function setComics(comicList: ComicItemList) {
-  return comicAction(LatestUpdateKeys.SET_COMICS, comicList);
+  return {
+    type: LatestUpdateKeys.SET_COMICS,
+    payload: {
+      comicList
+    }
+  };
 }
 
-export function addComics({ comicList, page }: AddComicsPayload) {
+export function addComics({ page, comicList, from, to }: AddComicsPayload) {
   return dispatch => {
     dispatch(setPageNumber(page));
-    dispatch(comicAction(LatestUpdateKeys.ADD_COMICS, comicList));
+    dispatch({
+      type: LatestUpdateKeys.ADD_COMICS,
+      payload: {
+        comicList,
+        from,
+        to
+      }
+    });
   };
 }
 
