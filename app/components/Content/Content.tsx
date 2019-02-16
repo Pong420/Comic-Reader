@@ -33,11 +33,11 @@ export const Content = withRouter(
     });
 
     const navigateChapter = (chapterID: number) => {
-      if (chapterID !== 0) {
-        history.replace(
-          chapterID ? `/content/${match.params.comicID}/${chapterID}/0` : '/'
-        );
-      }
+      history.push(
+        chapterID !== 0
+          ? `/content/${match.params.comicID}/${chapterID}/0`
+          : '/'
+      );
     };
 
     const prevChapter = () => navigateChapter(prevId);
@@ -51,9 +51,10 @@ export const Content = withRouter(
       if (newPageNo === -1) {
         setDialogProps(prevState => ({
           ...prevState,
-          msg: prevId
-            ? `已經係第一頁，返回上一話？`
-            : '已經係第一話，返回首頁?',
+          msg:
+            prevId !== 0
+              ? `已經係第一頁，返回上一話？`
+              : '已經係第一話，返回首頁?',
           open: true,
           onConfirm: prevChapter
         }));
@@ -64,9 +65,10 @@ export const Content = withRouter(
       if (newPageNo === images.length) {
         setDialogProps(prevState => ({
           ...prevState,
-          msg: nextId
-            ? `已經係最後一頁，睇下一話？`
-            : `已經係最後一話，返回首頁?`,
+          msg:
+            nextId !== 0
+              ? `已經係最後一頁，睇下一話？`
+              : `已經係最後一話，返回首頁?`,
           open: true,
           onConfirm: nextChapter
         }));
