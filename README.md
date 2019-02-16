@@ -6,13 +6,17 @@ Built from [electron-react-boilerplate](https://github.com/electron-react-boiler
 
 <img src="internals/img/screenshot.png">
 
+## Note
+
+- A local server will listen on port 8080 for data scraping
+
 ## Install
 
 ```
 yarn && cd server && yarn && cd ..
 ```
 
-## Run
+## Development
 
 Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
 
@@ -70,3 +74,7 @@ DEBUG_PROD=true yarn package
 ## License
 
 [MIT](./LICENSE)
+
+## Disclaimer
+
+This project is for technical testing and educational purposes only. The owner and contributors do not assume any legal responsibilities caused by the users. Users should be aware of and take the risks.
