@@ -1,7 +1,21 @@
 .comic {
+  $padding: 15px;
+
   .content {
     color: #fff;
-    padding: 20px;
     overflow: auto;
+  }
+
+  .comic-header {
+    padding-top: $padding;
+  }
+
+  .comic-chapters {
+    padding-bottom: $padding;
+  }
+
+  .comic-header,
+  .comic-chapters {
+    @include padding-x($padding);
   }
 }

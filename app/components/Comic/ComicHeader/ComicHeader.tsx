@@ -17,7 +17,6 @@ export function ComicHeader({
           <h1>{title[0]}</h1>
           <h2>{title[1]}</h2>
         </div>
-        <div className="comic-title" />
         <div className="comic-details">
           {details.map(({ key, val }, index: number) => (
             <div className="comic-details-item" key={index}>

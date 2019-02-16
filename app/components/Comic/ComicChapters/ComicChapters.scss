@@ -1,20 +1,28 @@
 .comic-chapters {
-  @include flex($wrap: wrap);
+  .chapter-types {
+    @include flex();
+    @include sticky(0);
 
-  padding: 20px 0;
+    background-color: $background-color;
+    padding: 10px 0;
 
-  .chapter-type {
-    cursor: pointer;
-    font-size: 18px;
-    margin-right: 10px;
-    line-height: 1em;
-    order: 0;
-    padding: 5px 10px;
+    .type {
+      color: #999;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1em;
+      margin-right: 10px;
+      order: 0;
+      padding: 10px 20px;
 
-    &.active {
-      border-bottom: 2px solid #fb0;
-      color: #fb0;
-      display: table;
+      &:hover {
+        color: #fff;
+      }
+
+      &.active {
+        color: #fb0;
+        border-bottom: 2px solid #fb0;
+      }
     }
   }
 

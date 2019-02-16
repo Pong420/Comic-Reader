@@ -12,7 +12,7 @@ main {
 }
 
 body {
-  background: #2a2a2a;
+  background: $background-color;
   font-size: 14px;
   font-family: Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif;
   margin: 0;
@@ -31,15 +31,18 @@ a {
   color: inherit;
 }
 
-#drag-area {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 1.5em;
-
+.drag-area {
   /* stylelint-disable */
   -webkit-app-region: drag;
+}
+
+body {
+  > .drag-area {
+    @include absolute(0, null, 0);
+
+    width: 100%;
+    min-height: 1.5em;
+  }
 }
 
 [hidden] {

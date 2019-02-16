@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
@@ -54,39 +54,43 @@ export const ComicChapters = withStyles(styles)(
       </div>
     );
 
+    const WarningContainer = () => (
+      <div className="warning">
+        <Warning className={classes.warning} />
+        漫畫已被列為限制漫畫，其中有部份章節可能含有暴力、血腥、色情或不當的語言等內容，不適合未成年觀眾。如果你法定年齡已超過18歲，
+        <div
+          onClick={() => {
+            localStorage.setItem(IS_ADULT, '1');
+            setShowChapters(true);
+          }}
+        >
+          點擊繼續閱讀
+        </div>
+      </div>
+    );
+
     return (
       <div className="comic-chapters">
         {showChapters ? (
-          chaptersEntries.map(
-            ([chapterType, chapterList = []], index: number) => {
-              const active = currentChapter === index ? 'active' : '';
-
-              return (
-                <Fragment key={index}>
+          <>
+            <div className="chapter-types">
+              {chaptersEntries.map(([chapterType], index: number) => {
+                const active = currentChapter === index ? 'active' : '';
+                return (
                   <div
-                    className={`chapter-type ${active}`}
+                    key={index}
+                    className={`type ${active}`}
                     onClick={() => setCurrentChapter(index)}
                   >
-                    {chapterType}
+                    <div className="label">{chapterType}</div>
                   </div>
-                  {active && <ChapterList chapterList={chapterList} />}
-                </Fragment>
-              );
-            }
-          )
-        ) : (
-          <div className="warning">
-            <Warning className={classes.warning} />
-            漫畫已被列為限制漫畫，其中有部份章節可能含有暴力、血腥、色情或不當的語言等內容，不適合未成年觀眾。如果你法定年齡已超過18歲，
-            <div
-              onClick={() => {
-                localStorage.setItem(IS_ADULT, '1');
-                setShowChapters(true);
-              }}
-            >
-              點擊繼續閱讀
+                );
+              })}
             </div>
-          </div>
+            <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
+          </>
+        ) : (
+          <WarningContainer />
         )}
       </div>
     );
