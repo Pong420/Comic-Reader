@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useAsync } from '../utils/useAsync';
+import { useAsync } from 'react-async';
+import { AxiosError } from 'axios';
 import { Comic } from '../components/Comic';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { getComicData } from '../api';
 import { ComicData } from '../../typing';
 
-export function ComicPage({ match }: RouteComponentProps) {
-  const { data, error, isLoading, reload } = useAsync<ComicData>({
-    deferFn: () => getComicData({ ...match.params })
+interface MatchParam {
+  comicID: string;
+}
+
+export function ComicPage({ match }: RouteComponentProps<MatchParam>) {
+  const { data, error, isLoading, reload, run } = useAsync<ComicData>({
+    deferFn: ([{ comicID }]: MatchParam[]) =>
+      getComicData({
+        comicID
+      })
   });
+
+  useEffect(() => {
+    run(match.params);
+  }, []);
 
   if (isLoading) {
     return <Loading />;
   }
 
   if (error) {
-    return <Error {...error} reload={reload} />;
+    return <Error {...error as AxiosError} reload={reload} />;
   }
 
   if (data) {

@@ -10485,10 +10485,10 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-async@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-async/-/react-async-4.0.0.tgz#7d2dea29f1f05a3391d28d7fcbb8f586a793bd69"
-  integrity sha512-2MYTWZqJhKg3SlfR5v3QUnPRoIahzhlyOz3iMXKCIyRu1uQ+kA4qUo5nYunDbhLOKHTu3rATqXHZYrXJ1kFldA==
+react-async@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-4.0.1.tgz#0decf36a72465fb4e601cbe5bb11fe4f3fbeebb2"
+  integrity sha512-zieuHfc/7lb0L8Pj48oiBt3TCTuwwIqq/My86HzrCea5ycxhx/lBbXYjL+uW2t5qlzTv0uWhPUA4Ctqn5/qxwg==
 
 react-content-loader@^4.0.1:
   version "4.0.1"

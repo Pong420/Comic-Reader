@@ -21,8 +21,8 @@ const PlaceHodler = () => {
 };
 
 export function ComicItem({ comicID, cover, name, latest }: ComicItemProps) {
-  if (false) {
-    // if (comicID) {
+  // if (false) {
+  if (comicID) {
     return (
       <Link to={`/comic/${comicID}`} className="comic-item">
         <div

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { useAsync } from '../utils/useAsync';
+import { useAsync } from 'react-async';
+import { AxiosError } from 'axios';
 import { Home } from '../components/Home';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
@@ -29,7 +30,7 @@ export const HomePage = connect(
   mapStateToProps,
   mapDispatchToProps
 )(({ comicList, setComics }: Props) => {
-  const { error, isLoading, reload } = useAsync<ComicItemList>({
+  const { error, isLoading, reload, run } = useAsync<ComicItemList>({
     deferFn() {
       return comicList.length ? Promise.resolve(comicList) : getLatestUpdate();
     },
@@ -38,12 +39,16 @@ export const HomePage = connect(
     }
   });
 
+  useEffect(() => {
+    run();
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
 
   if (error) {
-    return <Error {...error} reload={reload} />;
+    return <Error {...error as AxiosError} reload={reload} />;
   }
 
   if (comicList.length) {

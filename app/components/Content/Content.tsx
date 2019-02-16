@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, KeyboardEvent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import Star from '@material-ui/icons/StarRounded';
@@ -32,16 +32,21 @@ export const Content = withRouter(
       open: false
     });
 
-    const navigate = (evt: MouseEvent | undefined, step: number) => {
+    const navigateChapter = (chapterID: number) => {
+      if (chapterID !== 0) {
+        history.replace(
+          chapterID ? `/content/${match.params.comicID}/${chapterID}/0` : '/'
+        );
+      }
+    };
+
+    const prevChapter = () => navigateChapter(prevId);
+    const nextChapter = () => navigateChapter(nextId);
+
+    const navigate = (evt: Event | undefined, step: number) => {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
-
-      const onConfirm = (chapterID: number | undefined) => () => {
-        history.push(
-          chapterID ? `/content/${match.params.comicID}/${chapterID}/0` : '/'
-        );
-      };
 
       if (newPageNo === -1) {
         setDialogProps(prevState => ({
@@ -50,7 +55,7 @@ export const Content = withRouter(
             ? `已經係第一頁，返回上一話？`
             : '已經係第一話，返回首頁?',
           open: true,
-          onConfirm: onConfirm(prevId)
+          onConfirm: prevChapter
         }));
 
         return;
@@ -63,7 +68,7 @@ export const Content = withRouter(
             ? `已經係最後一頁，睇下一話？`
             : `已經係最後一話，返回首頁?`,
           open: true,
-          onConfirm: onConfirm(nextId)
+          onConfirm: nextChapter
         }));
 
         return;
@@ -74,11 +79,17 @@ export const Content = withRouter(
       }
     };
 
-    const onClick = (evt: MouseEvent) => navigate(evt, 1);
-    const onContextMenu = (evt: MouseEvent) => navigate(evt, -1);
+    const nextPage = (evt?: Event) => navigate(evt, 1);
+    const prevPage = (evt?: Event) => navigate(evt, -1);
+
+    const onKeyDown = ({ which }: KeyboardEvent<HTMLDivElement>) => {
+      if (which === 37) prevPage();
+      if (which === 39) nextPage();
+    };
 
     useLayoutEffect(() => {
       scrollerRef.current.scrollTop = 0;
+      scrollerRef.current.focus();
     }, [pageNo]);
 
     return (
@@ -103,11 +114,16 @@ export const Content = withRouter(
             }
           ]}
           contentProps={{
-            onClick,
-            onContextMenu
+            onClick: nextPage,
+            onContextMenu: prevPage
           }}
         >
-          <div className="content-page-scroller" ref={scrollerRef}>
+          <div
+            className="content-page-scroller"
+            ref={scrollerRef}
+            tabIndex={0}
+            onKeyDown={onKeyDown}
+          >
             {!error && <div className="image-loading">撈緊...</div>}
             {images.map((url, index: number) => {
               const props =
@@ -120,7 +136,7 @@ export const Content = withRouter(
                       hidden: true
                     };
 
-              return <img src={url} key={index} {...props} />;
+              return <img src={url} key={url + index} {...props} />;
             })}
             {error && <div className="image-error">張圖撈唔到，試下下一頁</div>}
           </div>

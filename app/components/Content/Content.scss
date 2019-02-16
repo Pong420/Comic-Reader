@@ -1,6 +1,7 @@
 .content-page {
   .content-page-scroller {
     @include dimen(100%, 100vh);
+    @include flex();
     @include relative();
 
     overflow: auto;
