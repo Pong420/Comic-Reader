@@ -88,7 +88,6 @@ export function HomeGridContainer({
           style={{ padding: `${spacer}px`, outline: 0 }}
           onScroll={onScroll}
           ref={gridRef}
-          overscanRowCount={1}
           onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
             const rowCount = list.length / columnCount;
 

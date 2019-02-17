@@ -21,14 +21,13 @@ const PlaceHodler = () => {
 };
 
 export function ComicItem({ comicID, cover, name, latest }: ComicItemProps) {
-  // if (false) {
   if (comicID) {
     return (
       <Link to={`/comic/${comicID}`} className="comic-item">
         <div
           className="cover"
           style={{
-            backgroundImage: `url(${cover.replace(/\/[m|b|c]\//, '/h/')})`
+            backgroundImage: `url(${cover.replace(/\/[a-z]\//, '/h/')})`
           }}
         />
         <div className="caption">

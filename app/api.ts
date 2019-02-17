@@ -18,12 +18,18 @@ export const api = axios.create({
   adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
 });
 
+let getLatestUpdateQueue = Promise.resolve([]);
+
 export function getLatestUpdate(params?: GetLatestUpdateParam) {
-  return api
-    .get('/update', {
-      params
-    })
-    .then(({ data }: AxiosResponse<ComicItemList>) => data);
+  getLatestUpdateQueue = getLatestUpdateQueue.then(() =>
+    api
+      .get('/update', {
+        params
+      })
+      .then(({ data }: AxiosResponse<ComicItemList>) => data)
+  );
+
+  return getLatestUpdateQueue;
 }
 
 export function getComicData({ comicID }: GetComicDataParam) {
