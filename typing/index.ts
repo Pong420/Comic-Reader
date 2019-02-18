@@ -13,9 +13,9 @@ export interface GetContentDataParam {
   chapterID?: string;
 }
 
-export type ComicItemList = ComicItemProps[];
+export type ComicItemList = GridProps[];
 
-export interface ComicItemProps {
+export interface GridProps {
   comicID: string;
   cover: string;
   status: string;
@@ -58,6 +58,23 @@ export interface ContentData {
   prevId?: number | undefined;
   nextId?: number | undefined;
 }
+
+export interface SearchParam {
+  keyword: string;
+  page?: number;
+}
+
+export interface SearchResultItem {
+  comicID: string;
+  cover: string;
+  name: string;
+  author: string;
+  category: string[];
+  latest: string;
+  updateTime: string;
+}
+
+export type SearchResults = SearchResultItem[];
 
 type Icon =
   | ComponentType<any>

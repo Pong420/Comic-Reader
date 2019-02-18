@@ -1,7 +1,23 @@
 .search {
-  .content {
-    @include flex(center, center);
+  $space: 15px;
 
-    color: #fff;
+  .content {
+    @include flex(center, center, column);
+  }
+
+  .search-header {
+    padding: $space;
+    @include dimen(100%);
+  }
+
+  form {
+    @include flex(center);
+
+    padding: 2px 4px;
+  }
+
+  .search-results {
+    flex: 1 1 auto;
+    align-self: stretch;
   }
 }

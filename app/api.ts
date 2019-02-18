@@ -10,7 +10,9 @@ import {
   GetComicDataParam,
   ComicData,
   GetContentDataParam,
-  ContentData
+  ContentData,
+  SearchParam,
+  SearchResults
 } from '../typing';
 
 export const api = axios.create({
@@ -42,4 +44,12 @@ export function getContentData({ comicID, chapterID }: GetContentDataParam) {
   return api
     .get(`/content/${comicID}/${chapterID}`)
     .then(({ data }: AxiosResponse<ContentData>) => data);
+}
+
+export function search(params: SearchParam) {
+  return api
+    .get(`/search`, {
+      params
+    })
+    .then(({ data }: AxiosResponse<SearchResults>) => data);
 }

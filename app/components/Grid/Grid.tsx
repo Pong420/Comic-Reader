@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ContentLoader from 'react-content-loader';
-import { ComicItemProps } from '../../../../typing';
+import { GridProps } from '../../../typing';
 
-const PlaceHodler = () => {
+const PlaceHolder = () => {
   const width = 360;
   const height = 510;
 
@@ -20,10 +20,10 @@ const PlaceHodler = () => {
   );
 };
 
-export function ComicItem({ comicID, cover, name, latest }: ComicItemProps) {
+export function Grid({ comicID, cover, name, latest }: GridProps) {
   if (comicID) {
     return (
-      <Link to={`/comic/${comicID}`} className="comic-item">
+      <Link to={`/comic/${comicID}`} className="grid">
         <div
           className="cover"
           style={{
@@ -38,5 +38,5 @@ export function ComicItem({ comicID, cover, name, latest }: ComicItemProps) {
     );
   }
 
-  return <PlaceHodler />;
+  return <PlaceHolder />;
 }

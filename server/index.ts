@@ -5,9 +5,15 @@ import { AxiosError } from 'axios';
 import {
   getLatestUpdate,
   getComicData,
-  getContentData
+  getContentData,
+  search
 } from './source/IKanman';
-import { ComicItemList, ComicData, ContentData } from '../typing';
+import {
+  ComicItemList,
+  ComicData,
+  ContentData,
+  SearchResults
+} from '../typing';
 
 const app = express();
 
@@ -21,8 +27,6 @@ const getErrorCode = (error: AxiosError) => {
 
   return 500;
 };
-
-const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
 app.get('/update', async (req: Request, res: Response) => {
   getLatestUpdate(req.query || {})
@@ -54,6 +58,17 @@ app.get('/content/:comicID/:chapterID', async (req: Request, res: Response) => {
     .catch(err => {
       res.status(getErrorCode(err));
       res.json({});
+    });
+});
+
+app.get('/search', async (req: Request, res: Response) => {
+  search(req.query)
+    .then((data: SearchResults) => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(getErrorCode(err));
+      res.json([]);
     });
 });
 

@@ -3,7 +3,7 @@
     @include flex();
     @include sticky(0);
 
-    background-color: $background-color;
+    background-color: $primary-color;
     padding: 10px 0;
 
     .type {
@@ -20,8 +20,8 @@
       }
 
       &.active {
-        color: #fb0;
-        border-bottom: 2px solid #fb0;
+        color: $secondary-color;
+        border-bottom: 2px solid $secondary-color;
       }
     }
   }
@@ -45,7 +45,7 @@
     padding: 5px 10px;
 
     &:hover {
-      background-color: #fb0;
+      background-color: $secondary-color;
       color: #333;
     }
   }
@@ -58,7 +58,7 @@
     text-align: center;
 
     div {
-      color: #fb0;
+      color: $secondary-color;
       cursor: pointer;
       font-weight: bold;
       margin: 1em;

@@ -20,8 +20,8 @@
     }
 
     &.active {
-      background-color: $background-color;
-      border-bottom-color: #fb0;
+      background-color: $primary-color;
+      border-bottom-color: $secondary-color;
       color: #fff;
     }
   }
