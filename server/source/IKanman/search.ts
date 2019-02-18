@@ -2,7 +2,11 @@ import { createAxiosInstance } from '../../axios.config';
 import { SearchParam } from '../../../typing';
 
 const api = createAxiosInstance({
-  baseURL: 'https://m.manhuagui.com'
+  baseURL: 'https://m.manhuagui.com',
+  headers: {
+    'User-Agent':
+      '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")'
+  }
 });
 
 export async function search({ keyword, page = 1 }: SearchParam) {
