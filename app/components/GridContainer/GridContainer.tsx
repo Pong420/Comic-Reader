@@ -49,11 +49,15 @@ export function GridContainer({
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
+    const data = list[index];
+
+    if (!data) {
+      return null;
+    }
+
     return (
       <div style={style} key={key}>
-        <div style={{ padding: `${spacer / 2}px` }}>
-          {onGridRender(list[index])}
-        </div>
+        <div style={{ padding: `${spacer / 2}px` }}>{onGridRender(data)}</div>
       </div>
     );
   }
@@ -77,7 +81,7 @@ export function GridContainer({
           className="grid-container"
           columnCount={columnCount}
           columnWidth={columnWidth + spacer}
-          rowCount={list.length / columnCount}
+          rowCount={Math.ceil(list.length / columnCount)}
           rowHeight={columnWidth / 0.75 + spacer}
           height={height}
           width={width}
@@ -94,7 +98,7 @@ export function GridContainer({
           }}
         />
       )}
-      <div className="grid-sizer-container">
+      <div className="grid-sizer-container" style={{ gridGap: `${spacer}px` }}>
         <div ref={gridSizerRef} />
       </div>
     </>
