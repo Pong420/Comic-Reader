@@ -3,7 +3,7 @@ import { ComicItemList } from '../../typing';
 export enum LatestUpdateKeys {
   SET_COMICS = 'SET_COMICS',
   ADD_COMICS = 'ADD_COMICS',
-  SET_PAGE_NUMBER = 'UPDATE_PAGE_NUMBER'
+  SET_PAGE_NUMBER = 'SET_PAGE_NUMBER'
 }
 
 interface SetComicAction {

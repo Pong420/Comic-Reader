@@ -26,6 +26,8 @@ export function GridContainer({
     columnWidth: 0
   });
 
+  const rowCount = Math.ceil(list.length / columnCount);
+
   const calcColumnData = () => {
     const width_ = width - spacer * 2;
 
@@ -81,7 +83,7 @@ export function GridContainer({
           className="grid-container"
           columnCount={columnCount}
           columnWidth={columnWidth + spacer}
-          rowCount={Math.ceil(list.length / columnCount)}
+          rowCount={rowCount}
           rowHeight={columnWidth / 0.75 + spacer}
           height={height}
           width={width}
@@ -90,8 +92,6 @@ export function GridContainer({
           onScroll={onScroll}
           overscanRowCount={1}
           onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
-            const rowCount = list.length / columnCount;
-
             if (rowStopIndex - rowCount >= -1) {
               loadMore && loadMore();
             }

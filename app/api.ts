@@ -21,6 +21,7 @@ export const api = axios.create({
 });
 
 let getLatestUpdateQueue = Promise.resolve([]);
+let getSearchResultQueue = Promise.resolve([]);
 
 export function getLatestUpdate(params?: GetLatestUpdateParam) {
   getLatestUpdateQueue = getLatestUpdateQueue.then(() =>
@@ -47,9 +48,11 @@ export function getContentData({ comicID, chapterID }: GetContentDataParam) {
 }
 
 export function search(params: SearchParam) {
-  return api
-    .get(`/search`, {
-      params
-    })
-    .then(({ data }: AxiosResponse<SearchResults>) => data);
+  return (getSearchResultQueue = getSearchResultQueue.then(() =>
+    api
+      .get(`/search`, {
+        params
+      })
+      .then(({ data }: AxiosResponse<SearchResults>) => data)
+  ));
 }

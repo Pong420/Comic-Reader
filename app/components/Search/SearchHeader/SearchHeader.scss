@@ -1,0 +1,12 @@
+$space: 15px;
+
+.search-header {
+  padding: $space;
+  @include dimen(100%);
+}
+
+form {
+  @include flex(center);
+
+  padding: 2px 4px;
+}

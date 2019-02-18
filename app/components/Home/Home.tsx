@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(LatestUpdateActions, dispatch);
 }
 
-const placeHolder = new Array(42).fill({}) as ComicItemList;
+const placeholders = new Array(42).fill({}) as ComicItemList;
 
 export const Home = connect(
   mapStateToProps,
@@ -36,13 +36,13 @@ export const Home = connect(
 )(function({ page, comicList, addComics }: HomeProps) {
   const tabs = ['最新更新', '收藏'];
 
-  const nextPage = page + 1;
   const loadMoreLatestComic = () => {
+    const nextPage = page + 1;
     const from = comicList.length;
-    const to = comicList.length + placeHolder.length;
+    const to = comicList.length + placeholders.length;
 
     addComics({
-      comicList: placeHolder.slice(0),
+      comicList: placeholders.slice(0),
       page: nextPage
     });
 

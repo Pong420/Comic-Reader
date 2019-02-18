@@ -1,19 +1,6 @@
 .search {
-  $space: 15px;
-
   .content {
     @include flex(center, center, column);
-  }
-
-  .search-header {
-    padding: $space;
-    @include dimen(100%);
-  }
-
-  form {
-    @include flex(center);
-
-    padding: 2px 4px;
   }
 
   .search-results {
