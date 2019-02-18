@@ -61,10 +61,18 @@ export interface ContentData {
 
 export interface SearchParam {
   keyword: string;
-  page: number;
+  page?: number;
 }
 
-export interface SearchResultItem {}
+export interface SearchResultItem {
+  comicID: string;
+  cover: string;
+  name: string;
+  author: string;
+  category: string[];
+  latest: string;
+  updateTime: string;
+}
 
 export type SearchResults = SearchResultItem[];
 

@@ -62,7 +62,6 @@ app.get('/content/:comicID/:chapterID', async (req: Request, res: Response) => {
 });
 
 app.get('/search', async (req: Request, res: Response) => {
-  console.log(req.query);
   search(req.query)
     .then((data: SearchResults) => {
       res.json(data);

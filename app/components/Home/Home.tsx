@@ -35,7 +35,6 @@ export const Home = connect(
   mapDispatchToProps
 )(function({ page, comicList, addComics }: HomeProps) {
   const tabs = ['最新更新', '收藏'];
-  // const [currentSection, setCurrentSection] = useState(tabs[0]);
 
   const nextPage = page + 1;
   const loadMoreLatestComic = () => {
@@ -62,17 +61,15 @@ export const Home = connect(
       <HomeHeader tabs={tabs} onChange={label => {}} />
       <div className="home-grids">
         <AutoSizer>
-          {({ width, height }) => {
-            return (
-              <GridContainer
-                width={width}
-                height={height}
-                list={comicList}
-                onGridRender={props => <Grid {...props} />}
-                loadMore={loadMoreLatestComic}
-              />
-            );
-          }}
+          {({ width, height }) => (
+            <GridContainer
+              width={width}
+              height={height}
+              list={comicList}
+              onGridRender={props => <Grid {...props} />}
+              loadMore={loadMoreLatestComic}
+            />
+          )}
         </AutoSizer>
       </div>
     </Layout>

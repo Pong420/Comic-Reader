@@ -13,6 +13,11 @@ export async function search({ keyword, page = 1 }: SearchParam) {
 
     const searchResult = $('li')
       .map((index: number, li: CheerioElement) => {
+        const comicID = $(li)
+          .find('a')
+          .attr('href')
+          .replace(/[^\d.]+/g, '');
+
         const cover = $(li)
           .find('img')
           .attr('data-src');
@@ -26,7 +31,8 @@ export async function search({ keyword, page = 1 }: SearchParam) {
           .text();
         const category = $(li)
           .find('dl:nth-child(2) dd')
-          .text();
+          .text()
+          .split(',');
         const latest = $(li)
           .find('dl:nth-child(3) dd')
           .text();
@@ -35,6 +41,7 @@ export async function search({ keyword, page = 1 }: SearchParam) {
           .text();
 
         return {
+          comicID,
           cover,
           name,
           author,

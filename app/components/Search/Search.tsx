@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { FormEvent, useState, ChangeEvent } from 'react';
+import { AutoSizer } from 'react-virtualized';
 import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { Layout } from '../Layout';
+import { GridContainer } from '../GridContainer';
+import { Grid } from '../Grid';
+import { search } from '../../api';
 
 const styles = (theme: Theme) => ({
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    margin: 'auto',
-    background: theme.palette.primary.light
+  background: {
+    backgroundColor: theme.palette.primary.light
   },
   input: {
     marginLeft: 15,
@@ -29,14 +27,53 @@ const styles = (theme: Theme) => ({
 export interface SearchProps extends WithStyles<typeof styles> {}
 
 export const Search = withStyles(styles)(({ classes }: SearchProps) => {
+  const [keyword, setKeyword] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  function onSubmit(evt: FormEvent<HTMLFormElement> | null) {
+    evt && evt.preventDefault();
+    search({ keyword, page: 1 }).then(data => setSearchResults(data));
+  }
+
+  function onChange(evt: ChangeEvent<HTMLInputElement>) {
+    setKeyword(evt.target.value);
+  }
+
   return (
     <Layout className="search">
-      <Paper className={classes.root} elevation={1}>
-        <InputBase className={classes.input} placeholder="" />
-        <IconButton className={classes.iconButton} aria-label="Search">
-          <SearchIcon />
-        </IconButton>
-      </Paper>
+      <div className="search-header">
+        <form
+          onSubmit={evt => onSubmit(evt)}
+          className={`search ${classes.background}`}
+        >
+          <InputBase
+            className={classes.input}
+            value={keyword}
+            onChange={onChange}
+            fullWidth
+          />
+          <IconButton
+            className={classes.iconButton}
+            aria-label="Search"
+            onClick={() => onSubmit(null)}
+          >
+            <SearchIcon />
+          </IconButton>
+        </form>
+      </div>
+
+      <div className="search-results">
+        <AutoSizer>
+          {({ width, height }) => (
+            <GridContainer
+              width={width}
+              height={height}
+              list={searchResults}
+              onGridRender={props => <Grid {...props} />}
+            />
+          )}
+        </AutoSizer>
+      </div>
     </Layout>
   );
 });
