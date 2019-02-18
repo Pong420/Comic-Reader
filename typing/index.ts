@@ -13,9 +13,9 @@ export interface GetContentDataParam {
   chapterID?: string;
 }
 
-export type ComicItemList = ComicItemProps[];
+export type ComicItemList = GridProps[];
 
-export interface ComicItemProps {
+export interface GridProps {
   comicID: string;
   cover: string;
   status: string;

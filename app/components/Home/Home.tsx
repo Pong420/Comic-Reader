@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { HomeHeader } from './HomeHeader';
-import { HomeGridContainer } from './HomeGridContainer';
-import { ComicItem } from './ComicItem';
+import { GridContainer } from '../GridContainer';
+import { Grid } from '../Grid';
 import { getLatestUpdate } from '../../api';
 import { ComicItemList } from '../../../typing';
 import LatestUpdateActions, {
@@ -35,8 +35,7 @@ export const Home = connect(
   mapDispatchToProps
 )(function({ page, comicList, addComics }: HomeProps) {
   const tabs = ['最新更新', '收藏'];
-  const [currentSection, setCurrentSection] = useState(tabs[0]);
-  const gridSizerRef = useRef(null);
+  // const [currentSection, setCurrentSection] = useState(tabs[0]);
 
   const nextPage = page + 1;
   const loadMoreLatestComic = () => {
@@ -60,25 +59,21 @@ export const Home = connect(
 
   return (
     <Layout className="home">
-      <HomeHeader tabs={tabs} onChange={label => setCurrentSection(label)} />
+      <HomeHeader tabs={tabs} onChange={label => {}} />
       <div className="home-grids">
         <AutoSizer>
-          {dimension => (
-            <>
-              <HomeGridContainer
-                {...dimension}
-                gridEl={gridSizerRef.current}
+          {({ width, height }) => {
+            return (
+              <GridContainer
+                width={width}
+                height={height}
                 list={comicList}
-                hidden={currentSection !== tabs[0]}
-                onGridRender={props => <ComicItem {...props} />}
+                onGridRender={props => <Grid {...props} />}
                 loadMore={loadMoreLatestComic}
               />
-            </>
-          )}
+            );
+          }}
         </AutoSizer>
-        <div className="home-grid-sizer-container">
-          <div ref={gridSizerRef} />
-        </div>
       </div>
     </Layout>
   );
