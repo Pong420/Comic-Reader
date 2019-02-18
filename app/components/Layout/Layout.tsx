@@ -11,7 +11,7 @@ export interface LayoutProps {
 }
 
 export function Layout({
-  className,
+  className = "",
   children,
   contentProps,
   sidebarIcons,

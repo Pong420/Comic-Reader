@@ -1,7 +1,5 @@
 .search {
   .content {
-    @include flex(center, center);
-
-    color: #fff;
+    padding: 25px;
   }
 }

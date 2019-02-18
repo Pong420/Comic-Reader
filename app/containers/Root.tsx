@@ -14,6 +14,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#fb0'
     }
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 

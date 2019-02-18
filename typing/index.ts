@@ -59,6 +59,15 @@ export interface ContentData {
   nextId?: number | undefined;
 }
 
+export interface SearchParam {
+  keyword: string;
+  page: number;
+}
+
+export interface SearchResultItem {}
+
+export type SearchResults = SearchResultItem[];
+
 type Icon =
   | ComponentType<any>
   | {
