@@ -83,11 +83,14 @@ export function setPageNumber(page: number) {
 }
 
 export function setSearchResults(searchResults: SearchResults) {
-  return {
-    type: SearchResultKeys.SET_SEARCH_RESULT,
-    payload: {
-      searchResults
-    }
+  return dispatch => {
+    dispatch(setPageNumber(1));
+    dispatch({
+      type: SearchResultKeys.SET_SEARCH_RESULT,
+      payload: {
+        searchResults
+      }
+    });
   };
 }
 

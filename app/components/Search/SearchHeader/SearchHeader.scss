@@ -1,8 +1,9 @@
-$space: 15px;
+$space: 20px;
 
 .search-header {
-  padding: $space;
   @include dimen(100%);
+
+  padding: $space;
 }
 
 form {

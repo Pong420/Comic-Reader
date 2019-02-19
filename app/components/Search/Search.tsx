@@ -37,7 +37,6 @@ function mapActionToProps(dispatch) {
 }
 
 const placeholders = new Array(20).fill({}) as SearchResults;
-
 /**
  *  TODO:
  *  - Search Fail
@@ -58,13 +57,18 @@ export const Search = connect(
     addSearchResults
   }: SearchProps) => {
     const { isLoading, run } = useAsync({
-      deferFn: ([params]: [SearchParam]) => search(params),
-      onResolve(data) {
+      deferFn: ([params]: [SearchParam]) => searchRequest(params)
+    });
+
+    function searchRequest(params: SearchParam) {
+      return search(params).then(data => {
         if (data.length < 20) {
           setNoMoreResult(true);
         }
-      }
-    });
+
+        return data;
+      });
+    }
 
     function onSearch() {
       if (keyword.trim()) {
@@ -72,7 +76,9 @@ export const Search = connect(
 
         run({
           keyword
-        }).then(data => setSearchResults(data));
+        }).then(data => {
+          setSearchResults(data);
+        });
       }
     }
 
@@ -87,14 +93,16 @@ export const Search = connect(
           page: nextPage
         });
 
-        return run({ keyword, page: nextPage }).then(searchResults => {
-          addSearchResults({
-            searchResults,
-            page: nextPage,
-            from,
-            to
-          });
-        });
+        return searchRequest({ keyword, page: nextPage }).then(
+          searchResults => {
+            addSearchResults({
+              searchResults,
+              page: nextPage,
+              from,
+              to
+            });
+          }
+        );
       }
     }
 
