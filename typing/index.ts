@@ -13,20 +13,28 @@ export interface GetContentDataParam {
   chapterID?: string;
 }
 
-export type ComicItemList = GridProps[];
-
 export interface GridProps {
   comicID: string;
   cover: string;
-  status: string;
   name: string;
   latest: string;
   updateTime: string;
 }
 
-export interface ComicData extends GetComicDataParam, ComicHeader {
+export interface ComicItem extends GridProps {
+  status: string;
+}
+
+export type ComicItemList = ComicItem[];
+
+export interface ComicData extends ComicHeader {
+  comicID?: string;
   chapters: Chapters;
   adultOnly: boolean;
+}
+
+export interface ComicHeaderDetails {
+  [key: string]: string;
 }
 
 export interface ComicHeader {
@@ -35,9 +43,7 @@ export interface ComicHeader {
   finished: boolean;
   intro: string;
   title: string[];
-  details: {
-    [key: string]: string;
-  }[];
+  details: ComicHeaderDetails[];
 }
 
 export type Chapters = {
@@ -64,14 +70,9 @@ export interface SearchParam {
   page?: number;
 }
 
-export interface SearchResultItem {
-  comicID: string;
-  cover: string;
-  name: string;
+export interface SearchResultItem extends GridProps {
   author: string;
   category: string[];
-  latest: string;
-  updateTime: string;
 }
 
 export type SearchResults = SearchResultItem[];

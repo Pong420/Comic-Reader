@@ -16,11 +16,12 @@ export const Sidebar = withRouter(({ Icons = [] }: SidebarProps) => {
   const [isFullscreen, setIsFullscreen] = useState(checkFullscreen());
 
   useEffect(() => {
-    const onResize = () => {
+    function onResize() {
       setIsFullscreen(checkFullscreen());
-    };
+    }
 
     window.addEventListener('resize', onResize);
+
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
@@ -29,17 +30,18 @@ export const Sidebar = withRouter(({ Icons = [] }: SidebarProps) => {
       className="sidebar"
       style={{ paddingTop: `${isFullscreen ? '15' : '40'}px` }}
     >
-      <div className="drag-area"></div>
-      
+      <div className="drag-area" />
+
       <Link to={{ pathname: '/' }}>
         <SidebarIcon Icon={BackToHome} />
       </Link>
+
       <Link to="/search">
         <SidebarIcon Icon={Search} />
       </Link>
 
       {!!Icons.length && <SidebarDivider />}
-      
+
       {Icons.map((Icon, index) => {
         if (typeof Icon === 'object') {
           const { component, ...props } = Icon;

@@ -1,17 +1,16 @@
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactNode, useRef, DOMAttributes } from 'react';
 import { Sidebar } from '../Sidebar';
 import { SidebarIcons } from '../../../typing';
 
 export interface LayoutProps {
   className?: string;
-  contentProps?: any;
+  contentProps?: DOMAttributes<HTMLDivElement>;
   children?: ReactNode;
   sidebarIcons?: SidebarIcons;
-  [key: string]: any;
 }
 
 export function Layout({
-  className = "",
+  className = '',
   children,
   contentProps,
   sidebarIcons,

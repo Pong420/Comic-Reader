@@ -2,12 +2,12 @@ import React, { ReactNode, useLayoutEffect, useState, useRef } from 'react';
 import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
-export interface GridContainerProps {
+export interface GridContainerProps<T> {
   width: number;
   height: number;
-  list: any[];
-  loadMore?: () => Promise<any>;
-  onGridRender: (props: any) => ReactNode;
+  list: T[];
+  loadMore?: () => Promise<void>;
+  onGridRender: (props: T) => ReactNode;
 }
 
 // TODO:
@@ -16,13 +16,13 @@ export interface GridContainerProps {
 const spacer = 15;
 const SCROLL_POSITION = 'SCROLL_POSITION';
 
-export function GridContainer({
+export function GridContainer<T>({
   width,
   height,
   list,
   loadMore,
   onGridRender
-}: GridContainerProps) {
+}: GridContainerProps<T>) {
   const gridSizerRef = useRef(null);
   const scrollTopRef = useRef(Number(localStorage.getItem(SCROLL_POSITION)));
   const [{ columnCount, columnWidth }, setColumnData] = useState({

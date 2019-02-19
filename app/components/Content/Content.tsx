@@ -1,4 +1,10 @@
-import React, { useState, useRef, useLayoutEffect, KeyboardEvent } from 'react';
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  KeyboardEvent,
+  MouseEvent
+} from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import { Layout } from '../Layout';
@@ -33,8 +39,8 @@ export const Content = withRouter(
 
     const prevChapter = () => changeChapter(prevId);
     const nextChapter = () => changeChapter(nextId);
-    const nextPage = (evt?: Event) => changePage(evt, 1);
-    const prevPage = (evt?: Event) => changePage(evt, -1);
+    const nextPage = (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, 1);
+    const prevPage = (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, -1);
 
     function changeChapter(chapterID: number) {
       history.push(
@@ -44,7 +50,10 @@ export const Content = withRouter(
       );
     }
 
-    function changePage(evt: Event | undefined, step: number) {
+    function changePage(
+      evt: MouseEvent<HTMLDivElement> | undefined,
+      step: number
+    ) {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
