@@ -39,6 +39,23 @@ export const ComicChapters = withStyles(styles)(
       adultOnly ? localStorage.getItem(IS_ADULT) === '1' : true
     );
 
+    const ChapterType = () => (
+      <div className="chapter-types">
+        {chaptersEntries.map(([chapterType], index: number) => {
+          const active = currentChapter === index ? 'active' : '';
+          return (
+            <div
+              key={index}
+              className={`type ${active}`}
+              onClick={() => setCurrentChapter(index)}
+            >
+              <div className="label">{chapterType}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
+
     const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
       <div className="chapters-list">
         {chapterList.map(({ chapterID, title, isNew }) => (
@@ -73,20 +90,7 @@ export const ComicChapters = withStyles(styles)(
       <div className="comic-chapters">
         {showChapters ? (
           <>
-            <div className="chapter-types">
-              {chaptersEntries.map(([chapterType], index: number) => {
-                const active = currentChapter === index ? 'active' : '';
-                return (
-                  <div
-                    key={index}
-                    className={`type ${active}`}
-                    onClick={() => setCurrentChapter(index)}
-                  >
-                    <div className="label">{chapterType}</div>
-                  </div>
-                );
-              })}
-            </div>
+            <ChapterType />
             <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
           </>
         ) : (

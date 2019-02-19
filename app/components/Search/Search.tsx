@@ -40,6 +40,7 @@ const placeholders = new Array(20).fill({}) as SearchResults;
  *  - No Search Result
  *  - Loading
  *  - Fix navigate back to result page
+ *  - User keep scrolling down
  */
 
 export const Search = connect(

@@ -14,10 +14,12 @@ export async function getLatestUpdate({ page = 1 }: GetLatestUpdateParam) {
       const $updateTime = $item.find('.updateon');
       const $status = $item.find('.bcover span:last-child');
 
+      const cover = $cover.attr('src') || $cover.attr('data-src');
+
       return {
         comicID: $aTag.attr('href').replace(/[^\d.]+/g, ''),
         name: $aTag.attr('title'),
-        cover: $cover.attr('src') || $cover.attr('data-src'),
+        cover: cover.replace(/\/[a-z]\//, '/h/'),
         latest: $latest.text(),
         updateTime: $updateTime.text(),
         status: $status.attr('class') === 'sl' ? '連載' : '完結'

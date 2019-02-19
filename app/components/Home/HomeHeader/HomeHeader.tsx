@@ -10,21 +10,18 @@ export function HomeHeader({ tabs, onChange }: HomeHeaderPorps) {
 
   return (
     <div className="home-header">
-      {tabs.map((label, index) => {
-        const isActive = index === active ? 'active' : '';
-        return (
-          <div
-            key={index}
-            className={`home-header-tab ${isActive}`}
-            onClick={() => {
-              setActive(index);
-              onChange(label);
-            }}
-          >
-            {label}
-          </div>
-        );
-      })}
+      {tabs.map((label, index) => (
+        <div
+          className={`home-header-tab ${index === active ? 'active' : ''}`}
+          key={index}
+          onClick={() => {
+            setActive(index);
+            onChange(label);
+          }}
+        >
+          {label}
+        </div>
+      ))}
     </div>
   );
 }

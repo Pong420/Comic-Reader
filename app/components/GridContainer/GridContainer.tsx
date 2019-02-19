@@ -10,7 +10,11 @@ export interface GridContainerProps {
   onGridRender: (props: any) => ReactNode;
 }
 
+// TODO:
+// - Update scrollTopRef
+
 const spacer = 15;
+const SCROLL_POSITION = 'SCROLL_POSITION';
 
 export function GridContainer({
   width,
@@ -20,7 +24,7 @@ export function GridContainer({
   onGridRender
 }: GridContainerProps) {
   const gridSizerRef = useRef(null);
-  const scrollTopRef = useRef(Number(localStorage.getItem('scrollTop')));
+  const scrollTopRef = useRef(Number(localStorage.getItem(SCROLL_POSITION)));
   const [{ columnCount, columnWidth }, setColumnData] = useState({
     columnCount: 0,
     columnWidth: 0
@@ -28,8 +32,8 @@ export function GridContainer({
 
   const rowCount = Math.ceil(list.length / columnCount);
 
-  const calcColumnData = () => {
-    const width_ = width - spacer * 2;
+  function getColumnData() {
+    const innerWidth = width - spacer * 2;
 
     // offsetWith not return decimal, so do not count this value
     const tempcolumnWidth = gridSizerRef.current
@@ -37,17 +41,17 @@ export function GridContainer({
       : 0;
 
     const columnCount = Math.floor(width / tempcolumnWidth);
-    const columnWidth = (width_ - spacer * columnCount) / columnCount;
+    const columnWidth = (innerWidth - spacer * columnCount) / columnCount;
 
     return {
       columnCount,
       columnWidth
     };
-  };
+  }
 
-  const onResizeHandler = () => {
-    setColumnData(calcColumnData());
-  };
+  function resizeHandler() {
+    setColumnData(getColumnData());
+  }
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
@@ -68,11 +72,11 @@ export function GridContainer({
     scrollTopRef.current = scrollTop;
   }
 
-  useLayoutEffect(() => onResizeHandler(), [width, height]);
+  useLayoutEffect(() => resizeHandler(), [width, height]);
 
   useLayoutEffect(() => {
     return () => {
-      localStorage.setItem('scrollTop', String(scrollTopRef.current));
+      localStorage.setItem(SCROLL_POSITION, String(scrollTopRef.current));
     };
   }, []);
 

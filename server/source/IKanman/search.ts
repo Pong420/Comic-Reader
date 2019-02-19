@@ -24,7 +24,8 @@ export async function search({ keyword, page = 1 }: SearchParam) {
 
         const cover = $(li)
           .find('img')
-          .attr('data-src');
+          .attr('data-src')
+          .replace(/\/[a-z]\//, '/h/');
 
         const name = $(li)
           .find('h3')

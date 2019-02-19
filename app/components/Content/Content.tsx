@@ -1,7 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, KeyboardEvent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
-import Star from '@material-ui/icons/StarRounded';
 import { Layout } from '../Layout';
 import { ContentDialog } from './ContentDialog';
 import { ContentData } from '../../../typing';
@@ -32,18 +31,20 @@ export const Content = withRouter(
       open: false
     });
 
-    const navigateChapter = (chapterID: number) => {
+    const prevChapter = () => changeChapter(prevId);
+    const nextChapter = () => changeChapter(nextId);
+    const nextPage = (evt?: Event) => changePage(evt, 1);
+    const prevPage = (evt?: Event) => changePage(evt, -1);
+
+    function changeChapter(chapterID: number) {
       history.push(
         chapterID !== 0
           ? `/content/${match.params.comicID}/${chapterID}/0`
           : '/'
       );
-    };
+    }
 
-    const prevChapter = () => navigateChapter(prevId);
-    const nextChapter = () => navigateChapter(nextId);
-
-    const navigate = (evt: Event | undefined, step: number) => {
+    function changePage(evt: Event | undefined, step: number) {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
@@ -79,15 +80,47 @@ export const Content = withRouter(
       if (images[newPageNo]) {
         history.replace(match.url.replace(/\/.\d*$/, `/${newPageNo}`));
       }
-    };
+    }
 
-    const nextPage = (evt?: Event) => navigate(evt, 1);
-    const prevPage = (evt?: Event) => navigate(evt, -1);
-
-    const onKeyDown = ({ which }: KeyboardEvent<HTMLDivElement>) => {
+    function onKeyDown({ which }: KeyboardEvent<HTMLDivElement>) {
       if (which === 37) prevPage();
       if (which === 39) nextPage();
-    };
+    }
+
+    const FlexSpacer = () => <div style={{ flex: '1 1 auto' }} />;
+
+    const PageNoButton = ({ className, ...props }: any) => (
+      <div className={`${className} page-no-button`} {...props}>
+        <sup>{Number(pageNo) + 1}</sup> / <sub>{images.length}</sub>
+      </div>
+    );
+
+    const sidebarIcons = [
+      {
+        component: Previous,
+        onClick() {
+          history.push(`/comic/${match.params.comicID}`);
+        }
+      },
+      FlexSpacer,
+      {
+        component: PageNoButton
+      }
+    ];
+
+    const Images = () =>
+      images.map((url, index: number) => {
+        let props = null;
+
+        if (index === Number(pageNo)) {
+          props = {
+            className: 'image',
+            onError: () => setError(true)
+          };
+        }
+
+        return <img src={url} key={url} {...props} />;
+      });
 
     useLayoutEffect(() => {
       scrollerRef.current.scrollTop = 0;
@@ -98,23 +131,7 @@ export const Content = withRouter(
       <>
         <Layout
           className="content-page"
-          sidebarIcons={[
-            Star,
-            {
-              component: Previous,
-              onClick() {
-                history.push(`/comic/${match.params.comicID}`);
-              }
-            },
-            () => <div style={{ flex: '1 1 auto' }} />,
-            {
-              component: ({ className, ...props }: any) => (
-                <div className={`${className} page-nav-button`} {...props}>
-                  <sup>{Number(pageNo) + 1}</sup> / <sub>{images.length}</sub>
-                </div>
-              )
-            }
-          ]}
+          sidebarIcons={sidebarIcons}
           contentProps={{
             onClick: nextPage,
             onContextMenu: prevPage
@@ -126,21 +143,9 @@ export const Content = withRouter(
             tabIndex={0}
             onKeyDown={onKeyDown}
           >
-            {!error && <div className="image-loading">撈緊...</div>}
-            {images.map((url, index: number) => {
-              const props =
-                index === Number(pageNo)
-                  ? {
-                      className: 'image',
-                      onError: () => setError(true)
-                    }
-                  : {
-                      hidden: true
-                    };
-
-              return <img src={url} key={url + index} {...props} />;
-            })}
             {error && <div className="image-error">張圖撈唔到，試下下一頁</div>}
+            {!error && <div className="image-loading">撈緊...</div>}
+            {Images}
           </div>
         </Layout>
         <ContentDialog

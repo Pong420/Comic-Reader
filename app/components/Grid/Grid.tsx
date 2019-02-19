@@ -27,7 +27,7 @@ export function Grid({ comicID, cover, name, latest }: GridProps) {
         <div
           className="cover"
           style={{
-            backgroundImage: `url(${cover.replace(/\/[a-z]\//, '/h/')})`
+            backgroundImage: `url(${cover})`
           }}
         />
         <div className="caption">
