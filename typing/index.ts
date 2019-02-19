@@ -77,6 +77,10 @@ export interface SearchResultItem extends GridProps {
 
 export type SearchResults = SearchResultItem[];
 
+export type Bookmarks = BookmarkItem[];
+
+export type BookmarkItem = GridProps;
+
 type Icon =
   | ComponentType<any>
   | {
