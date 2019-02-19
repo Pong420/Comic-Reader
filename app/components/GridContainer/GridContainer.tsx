@@ -8,6 +8,7 @@ export interface GridContainerProps<T> {
   list: T[];
   loadMore?: () => Promise<void>;
   onGridRender: (props: T) => ReactNode;
+  noContentRenderer?: () => ReactNode;
 }
 
 // TODO:
@@ -21,7 +22,8 @@ export function GridContainer<T>({
   height,
   list,
   loadMore,
-  onGridRender
+  onGridRender,
+  noContentRenderer
 }: GridContainerProps<T>) {
   const gridSizerRef = useRef(null);
   const scrollTopRef = useRef(Number(localStorage.getItem(SCROLL_POSITION)));
@@ -95,6 +97,7 @@ export function GridContainer<T>({
           style={{ padding: `${spacer}px`, outline: 0 }}
           onScroll={onScroll}
           overscanRowCount={1}
+          noContentRenderer={noContentRenderer}
           onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
             if (rowStopIndex - rowCount >= -1) {
               loadMore && loadMore();

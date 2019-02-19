@@ -7,4 +7,12 @@
     flex: 1 1 auto;
     align-self: stretch;
   }
+
+  .wrapper {
+    @include absolute(0, null, 0);
+    @include flex(center, center);
+    @include sq-dimen(100%);
+
+    color: #fff;
+  }
 }
