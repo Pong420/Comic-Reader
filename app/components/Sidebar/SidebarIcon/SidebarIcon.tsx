@@ -4,12 +4,12 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
 
-export interface SidebarIconProps extends WithStyles<typeof styles> {
+export interface SidebarIconProps extends WithStyles<typeof sidebarIconStyles> {
   Icon: ComponentType<any>;
   [props: string]: any;
 }
 
-const styles = () =>
+export const sidebarIconStyles = () =>
   createStyles({
     size: {
       width: 50,
@@ -33,7 +33,7 @@ const styles = () =>
     }
   });
 
-export const SidebarIcon = withStyles(styles)(
+export const SidebarIcon = withStyles(sidebarIconStyles)(
   ({ Icon, classes, ...props }: SidebarIconProps) => {
     const { size, color, iconButton, icon } = classes;
 

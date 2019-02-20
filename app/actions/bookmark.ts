@@ -3,7 +3,12 @@ import { BookmarkItem, Bookmarks } from '../../typing';
 export enum BookmarkKeys {
   SET_BOOKMARK = 'SET_BOOKMARK',
   ADD_BOOKMARK = 'ADD_BOOKMARK',
+  REMOVE_BOOKMARK = 'REMOVE_BOOKMARK',
   SAVE_BOOKMARK = 'SAVE_BOOKMARK'
+}
+
+export interface AddBookMarkPayload {
+  bookmark: BookmarkItem;
 }
 
 interface SetBookmarkAction {
@@ -18,18 +23,22 @@ interface AddBookmarkAction {
   payload: AddBookMarkPayload;
 }
 
-interface SaveBookmarkAction {
-  type: BookmarkKeys.SAVE_BOOKMARK;
+interface RemoveBookmarkAction {
+  type: BookmarkKeys.REMOVE_BOOKMARK;
+  payload: {
+    comicID: string;
+  };
 }
 
-export interface AddBookMarkPayload {
-  bookmark: BookmarkItem;
+interface SaveBookmarkAction {
+  type: BookmarkKeys.SAVE_BOOKMARK;
 }
 
 export type BookmarkTypes =
   | SetBookmarkAction
   | AddBookmarkAction
-  | SaveBookmarkAction;
+  | SaveBookmarkAction
+  | RemoveBookmarkAction;
 
 export function setBookmark(bookmarks: Bookmarks) {
   return dispatch => {
@@ -44,12 +53,25 @@ export function setBookmark(bookmarks: Bookmarks) {
   };
 }
 
-export function addBookmark(bookmarks: Bookmarks) {
+export function addBookmark(bookmark: BookmarkItem) {
   return dispatch => {
     dispatch({
-      type: BookmarkKeys.SET_BOOKMARK,
+      type: BookmarkKeys.ADD_BOOKMARK,
       payload: {
-        bookmarks
+        bookmark
+      }
+    });
+
+    dispatch(saveBookmark());
+  };
+}
+
+export function removeBookmark(comicID: string) {
+  return dispatch => {
+    dispatch({
+      type: BookmarkKeys.REMOVE_BOOKMARK,
+      payload: {
+        comicID
       }
     });
 
@@ -63,4 +85,16 @@ export function saveBookmark() {
   };
 }
 
-export default { setBookmark, addBookmark };
+export type BookmarkActionCreator = {
+  setBookmark: (bookmarks: Bookmarks) => void;
+  addBookmark: (bookmark: BookmarkItem) => void;
+  removeBookmark: (comicID: string) => void;
+  saveBookmark: () => void;
+};
+
+export default {
+  setBookmark,
+  addBookmark,
+  removeBookmark,
+  saveBookmark
+};

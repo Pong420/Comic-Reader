@@ -2,9 +2,10 @@ import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Previous from '@material-ui/icons/ArrowBack';
 import { Layout } from '../Layout';
-import { ComicData } from '../../../typing';
 import { ComicHeader } from './ComicHeader';
 import { ComicChapters } from './ComicChapters';
+import { BookmarkBtn } from '../BookmarkBtn';
+import { ComicData } from '../../../typing';
 
 export const Comic = withRouter(
   ({
@@ -23,6 +24,13 @@ export const Comic = withRouter(
           } else {
             history.goBack();
           }
+        }
+      },
+      {
+        component: BookmarkBtn,
+        bookmarkItem: {
+          comicID,
+          ...comicHeaderProps
         }
       }
     ];
