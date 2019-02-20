@@ -62,9 +62,7 @@ export const Search = connect(
 
     function searchRequest(params: SearchParam) {
       return search(params).then(data => {
-        if (data.length < 20) {
-          setNoMoreResult(true);
-        }
+        setNoMoreResult(data.length < 20);
 
         return data;
       });
@@ -72,7 +70,7 @@ export const Search = connect(
 
     function onSearch() {
       if (keyword.trim()) {
-        setNoMoreResult(false);
+        setSearchResults([]);
 
         run({
           keyword
