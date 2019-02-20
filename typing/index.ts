@@ -70,16 +70,20 @@ export interface SearchParam {
   page?: number;
 }
 
+export type SearchResults = SearchResultItem[];
+
 export interface SearchResultItem extends GridProps {
   author: string;
   category: string[];
 }
 
-export type SearchResults = SearchResultItem[];
-
 export type SearchHistory = SearchHistoryItem[];
 
 export type SearchHistoryItem = string;
+
+export type Bookmarks = BookmarkItem[];
+
+export type BookmarkItem = GridProps;
 
 type Icon =
   | ComponentType<any>
