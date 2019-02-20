@@ -1,4 +1,5 @@
 import { BookmarkItem, Bookmarks } from '../../typing';
+import { getComicData } from '../api';
 
 export enum BookmarkKeys {
   SET_BOOKMARK = 'SET_BOOKMARK',
@@ -20,7 +21,10 @@ interface SetBookmarkAction {
 
 interface AddBookmarkAction {
   type: BookmarkKeys.ADD_BOOKMARK;
-  payload: AddBookMarkPayload;
+  payload: {
+    comicID: string;
+    bookmarkItem: BookmarkItem;
+  };
 }
 
 interface RemoveBookmarkAction {
@@ -53,16 +57,30 @@ export function setBookmark(bookmarks: Bookmarks) {
   };
 }
 
-export function addBookmark(bookmark: BookmarkItem) {
-  return dispatch => {
-    dispatch({
-      type: BookmarkKeys.ADD_BOOKMARK,
-      payload: {
-        bookmark
-      }
-    });
+function addBookmark_(comicID: string, bookmarkItem: BookmarkItem) {
+  return {
+    type: BookmarkKeys.ADD_BOOKMARK,
+    payload: {
+      comicID,
+      bookmarkItem
+    }
+  };
+}
 
+export function addBookmark(comicID: string) {
+  return dispatch => {
+    dispatch(addBookmark_(comicID, null));
     dispatch(saveBookmark());
+
+    getComicData({
+      comicID
+    }).then(data => {
+      const { comicID, name, cover, latest, updateTime } = data;
+      dispatch(
+        addBookmark_(comicID, { comicID, name, cover, latest, updateTime })
+      );
+      dispatch(saveBookmark());
+    });
   };
 }
 
@@ -87,7 +105,7 @@ export function saveBookmark() {
 
 export type BookmarkActionCreator = {
   setBookmark: (bookmarks: Bookmarks) => void;
-  addBookmark: (bookmark: BookmarkItem) => void;
+  addBookmark: (comicID: string) => void;
   removeBookmark: (comicID: string) => void;
   saveBookmark: () => void;
 };

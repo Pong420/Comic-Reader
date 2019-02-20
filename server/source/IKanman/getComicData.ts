@@ -100,6 +100,8 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     title,
     details,
     chapters,
-    adultOnly
+    adultOnly,
+    name: title[0],
+    updateTime: $('.detail-list li > span span:nth-of-type(2)').text()
   };
 }

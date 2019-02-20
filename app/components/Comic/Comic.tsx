@@ -28,10 +28,7 @@ export const Comic = withRouter(
       },
       {
         component: BookmarkBtn,
-        bookmarkItem: {
-          comicID,
-          ...comicHeaderProps
-        }
+        comicID
       }
     ];
 

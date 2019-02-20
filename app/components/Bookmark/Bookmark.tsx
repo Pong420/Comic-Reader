@@ -5,7 +5,7 @@ import { AutoSizer } from 'react-virtualized';
 import BookmarkActions from '../../actions/bookmark';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-import { Grid } from '../../components/Grid';
+// import { Grid } from '../../components/Grid';
 import { Bookmarks } from '../../../typing';
 
 export interface BookmarkProps {
@@ -37,7 +37,7 @@ export const Bookmark = connect(
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={props => <Grid {...props} />}
+            onGridRender={props => <div />}
           />
         )}
       </AutoSizer>

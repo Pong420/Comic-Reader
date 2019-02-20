@@ -6,10 +6,9 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { SidebarIcon } from '../Sidebar/SidebarIcon';
 import BookmarkActions, { BookmarkActionCreator } from '../../actions/bookmark';
 import { BookmarkState } from '../../reducers/bookmark';
-import { BookmarkItem } from '../../../typing';
 
 export interface BookmarkBtnProps extends BookmarkState, BookmarkActionCreator {
-  bookmarkItem?: BookmarkItem;
+  comicID?: string;
 }
 
 function mapStateToProps({ bookmark }, ownProps) {
@@ -26,24 +25,15 @@ function mapActionToProps(dispatch) {
 export const BookmarkBtn = connect(
   mapStateToProps,
   mapActionToProps
-)(
-  ({
-    bookmarked,
-    bookmarkItem,
-    addBookmark,
-    removeBookmark
-  }: BookmarkBtnProps) => {
-    const isBookmarked = !!bookmarked.get(bookmarkItem.comicID);
+)(({ bookmarked, comicID, addBookmark, removeBookmark }: BookmarkBtnProps) => {
+  const isBookmarked = !!bookmarked[comicID];
 
-    return (
-      <SidebarIcon
-        Icon={isBookmarked ? BookMarkIcon : BookmarkBorderIcon}
-        onClick={() =>
-          isBookmarked
-            ? removeBookmark(bookmarkItem.comicID)
-            : addBookmark(bookmarkItem)
-        }
-      />
-    );
-  }
-);
+  return (
+    <SidebarIcon
+      Icon={isBookmarked ? BookMarkIcon : BookmarkBorderIcon}
+      onClick={() =>
+        isBookmarked ? removeBookmark(comicID) : addBookmark(comicID)
+      }
+    />
+  );
+});

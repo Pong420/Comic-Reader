@@ -11,23 +11,25 @@ const storeDirectory = path.join(
   'bookmark.json'
 );
 
+interface Bookmarked {
+  [comicID: string]: BookmarkItem;
+}
+
 export interface BookmarkState {
   bookmarks: Bookmarks;
-  bookmarked: Map<string, BookmarkItem>;
+  bookmarked: Bookmarked;
 }
 
 const initialBookmarks: Bookmarks = fs.existsSync(storeDirectory)
   ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
   : [];
 
-const bookmarked = new Map<string, BookmarkItem>(
-  initialBookmarks.map<[string, BookmarkItem]>(val => [val.comicID, val])
-);
-
 const initialState: BookmarkState = {
   bookmarks: initialBookmarks,
-  bookmarked
+  bookmarked: getBookmarked(initialBookmarks)
 };
+
+console.log(storeDirectory, initialBookmarks);
 
 export default function(state = initialState, action: BookmarkTypes) {
   switch (action.type) {
@@ -35,17 +37,41 @@ export default function(state = initialState, action: BookmarkTypes) {
       writeFileSync(storeDirectory, state.bookmarks);
 
       return state;
-    case BookmarkKeys.ADD_BOOKMARK:
+    case BookmarkKeys.SET_BOOKMARK:
+      const { bookmarks } = action.payload;
       return {
         ...state,
-        bookmarks: [...state.bookmarks, action.payload.bookmark]
+        bookmarks,
+        bookmarked: getBookmarked(bookmarks)
       };
-    case BookmarkKeys.SET_BOOKMARK:
+    case BookmarkKeys.ADD_BOOKMARK:
+      const { comicID, bookmarkItem } = action.payload;
       return {
-        ...action.payload,
-        ...state
+        bookmarks: [bookmarkItem, ...state.bookmarks].filter(v => !!v),
+        bookmarked: {
+          ...state.bookmarked,
+          [comicID]: bookmarkItem
+        }
+      };
+    case BookmarkKeys.REMOVE_BOOKMARK:
+      const newBookmarks = state.bookmarks.filter(({ comicID }) => {
+        return String(comicID) !== action.payload.comicID;
+      });
+
+      return {
+        ...state,
+        bookmarks: newBookmarks,
+        bookmarked: getBookmarked(newBookmarks)
       };
     default:
       return state;
   }
+}
+
+function getBookmarked(bookmarks: Bookmarks) {
+  return bookmarks.reduce<Bookmarked>((result, item) => {
+    result[item.comicID] = item;
+
+    return result;
+  }, {});
 }

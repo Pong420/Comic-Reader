@@ -31,6 +31,8 @@ export interface ComicData extends ComicHeader {
   comicID?: string;
   chapters: Chapters;
   adultOnly: boolean;
+  name: string;
+  updateTime: string;
 }
 
 export interface ComicHeaderDetails {
@@ -83,7 +85,11 @@ export type SearchHistoryItem = string;
 
 export type Bookmarks = BookmarkItem[];
 
-export type BookmarkItem = GridProps;
+export type BookmarkItem =
+  | GridProps
+  | {
+      comicID: string;
+    };
 
 type Icon =
   | ComponentType<any>
