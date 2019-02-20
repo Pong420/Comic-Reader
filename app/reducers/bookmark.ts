@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
-import { Bookmarks } from '../../typing';
+import { Bookmarks, BookmarkItem } from '../../typing';
 import { BookmarkKeys, BookmarkTypes } from '../actions/bookmark';
 import { writeFileSync } from '../utils/writeFileSync';
 
@@ -13,12 +13,20 @@ const storeDirectory = path.join(
 
 export interface BookmarkState {
   bookmarks: Bookmarks;
+  bookmarked: Map<string, BookmarkItem>;
 }
 
+const initialBookmarks: Bookmarks = fs.existsSync(storeDirectory)
+  ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
+  : [];
+
+const bookmarked = new Map<string, BookmarkItem>(
+  initialBookmarks.map<[string, BookmarkItem]>(val => [val.comicID, val])
+);
+
 const initialState: BookmarkState = {
-  bookmarks: fs.existsSync(storeDirectory)
-    ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
-    : []
+  bookmarks: initialBookmarks,
+  bookmarked
 };
 
 export default function(state = initialState, action: BookmarkTypes) {
@@ -34,8 +42,8 @@ export default function(state = initialState, action: BookmarkTypes) {
       };
     case BookmarkKeys.SET_BOOKMARK:
       return {
-        ...state,
-        ...action.payload
+        ...action.payload,
+        ...state
       };
     default:
       return state;

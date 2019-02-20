@@ -18,7 +18,11 @@ export const Comic = withRouter(
       {
         component: Previous,
         onClick() {
-          history.push('/');
+          if (history.action === 'POP') {
+            history.push('/');
+          } else {
+            history.goBack();
+          }
         }
       }
     ];

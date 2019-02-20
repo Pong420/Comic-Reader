@@ -1,5 +1,17 @@
-import React, { ReactNode, useLayoutEffect, useState, useRef } from 'react';
-import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
+import React, {
+  ReactNode,
+  useMemo,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
+import { withRouter, RouteComponentProps } from 'react-router';
+import {
+  Grid,
+  GridCellProps,
+  OnScrollParams,
+  GridProps
+} from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
 export interface GridContainerProps<T> {
@@ -11,11 +23,37 @@ export interface GridContainerProps<T> {
   noContentRenderer?: () => ReactNode;
 }
 
-// TODO:
-// - Update scrollTopRef
-
 const spacer = 15;
-const SCROLL_POSITION = 'SCROLL_POSITION';
+const scrollPosition = new Map<string, number>();
+
+const GridWithScrollHandler = withRouter(
+  ({ location, ...props }: GridProps & RouteComponentProps) => {
+    const [mounted, setMounted] = useState(false);
+    const gridRef = useRef(null);
+    const key = location.pathname;
+    const scrollRef = useRef(scrollPosition.get(key));
+
+    function onScroll({ scrollTop }: OnScrollParams) {
+      if (mounted) {
+        scrollRef.current = scrollTop;
+      }
+    }
+
+    useLayoutEffect(() => {
+      gridRef.current.scrollToPosition({
+        scrollTop: scrollRef.current
+      });
+
+      setMounted(true);
+
+      return () => {
+        scrollPosition.set(key, scrollRef.current);
+      };
+    }, []);
+
+    return <Grid {...props} ref={gridRef} onScroll={onScroll} />;
+  }
+);
 
 export function GridContainer<T>({
   width,
@@ -26,34 +64,11 @@ export function GridContainer<T>({
   noContentRenderer
 }: GridContainerProps<T>) {
   const gridSizerRef = useRef(null);
-  const scrollTopRef = useRef(Number(localStorage.getItem(SCROLL_POSITION)));
-  const [{ columnCount, columnWidth }, setColumnData] = useState({
-    columnCount: 0,
-    columnWidth: 0
-  });
-
+  const { columnCount, columnWidth } = useMemo(
+    () => getColumnData(width, gridSizerRef.current),
+    [width, height]
+  );
   const rowCount = Math.ceil(list.length / columnCount);
-
-  function getColumnData() {
-    const innerWidth = width - spacer * 2;
-
-    // offsetWith not return decimal, so do not count this value
-    const tempcolumnWidth = gridSizerRef.current
-      ? gridSizerRef.current.offsetWidth
-      : 0;
-
-    const columnCount = Math.floor(width / tempcolumnWidth);
-    const columnWidth = (innerWidth - spacer * columnCount) / columnCount;
-
-    return {
-      columnCount,
-      columnWidth
-    };
-  }
-
-  function resizeHandler() {
-    setColumnData(getColumnData());
-  }
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
@@ -70,22 +85,10 @@ export function GridContainer<T>({
     );
   }
 
-  function onScroll({ scrollTop }: OnScrollParams) {
-    scrollTopRef.current = scrollTop;
-  }
-
-  useLayoutEffect(() => resizeHandler(), [width, height]);
-
-  useLayoutEffect(() => {
-    return () => {
-      localStorage.setItem(SCROLL_POSITION, String(scrollTopRef.current));
-    };
-  }, []);
-
   return (
     <>
       {columnCount && columnWidth && (
-        <Grid
+        <GridWithScrollHandler
           className="grid-container"
           columnCount={columnCount}
           columnWidth={columnWidth + spacer}
@@ -95,9 +98,9 @@ export function GridContainer<T>({
           width={width}
           cellRenderer={cellRenderer}
           style={{ padding: `${spacer}px`, outline: 0 }}
-          onScroll={onScroll}
           overscanRowCount={1}
           noContentRenderer={noContentRenderer}
+          scrollToAlignment="center"
           onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
             if (rowStopIndex - rowCount >= -1) {
               loadMore && loadMore();
@@ -110,4 +113,19 @@ export function GridContainer<T>({
       </div>
     </>
   );
+}
+
+function getColumnData(width: number, el: HTMLDivElement | null) {
+  const innerWidth = width - spacer * 2;
+
+  // offsetWith not return decimal, so do not count this value
+  const tempcolumnWidth = el ? el.offsetWidth : 0;
+
+  const columnCount = Math.floor(width / tempcolumnWidth);
+  const columnWidth = (innerWidth - spacer * columnCount) / columnCount;
+
+  return {
+    columnCount,
+    columnWidth
+  };
 }
