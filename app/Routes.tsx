@@ -45,7 +45,7 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: '/bookmark',
-    main: () => BookmarkPage,
+    main: BookmarkPage,
     sidebar: Sidebar
   }
 ];
