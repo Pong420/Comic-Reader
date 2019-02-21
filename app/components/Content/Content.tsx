@@ -117,19 +117,24 @@ export const Content = withRouter(
       }
     ];
 
-    const Images = () =>
-      images.map((url, index: number) => {
-        let props = null;
-
-        if (index === Number(pageNo)) {
-          props = {
-            className: 'image',
-            onError: () => setError(true)
+    const Images = () => (
+      <>
+        {images.map((url, index: number) => {
+          let props: any = {
+            hidden: true
           };
-        }
 
-        return <img src={url} key={url} {...props} />;
-      });
+          if (index === Number(pageNo)) {
+            props = {
+              className: 'image',
+              onError: () => setError(true)
+            };
+          }
+
+          return <img src={url} key={url} {...props} />;
+        })}
+      </>
+    );
 
     useLayoutEffect(() => {
       scrollerRef.current.scrollTop = 0;
@@ -154,7 +159,7 @@ export const Content = withRouter(
           >
             {error && <div className="image-error">張圖撈唔到，試下下一頁</div>}
             {!error && <div className="image-loading">撈緊...</div>}
-            {Images}
+            <Images />
           </div>
         </Layout>
         <ContentDialog

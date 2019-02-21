@@ -280,7 +280,7 @@
     "immutable": "^4.0.0-rc.12",
     "lazysizes": "^4.1.5",
     "react": "16.8.1",
-    "react-async": "^4.0.1",
+    "react-async": "^4.1.1",
     "react-content-loader": "^4.0.1",
     "react-dom": "16.8.1",
     "react-hot-loader": "^4.6.5",

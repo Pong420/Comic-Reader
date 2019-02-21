@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import BookMarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { SidebarIcon } from '../Sidebar/SidebarIcon';
-import BookmarkActions, { BookmarkActionCreator } from '../../actions/bookmark';
+import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 import { BookmarkState } from '../../reducers/bookmark';
 
-export interface BookmarkBtnProps extends BookmarkState, BookmarkActionCreator {
+export interface BookmarkBtnProps extends BookmarkState, BookmarkActions {
   comicID?: string;
 }
 
@@ -19,7 +19,7 @@ function mapStateToProps({ bookmark }, ownProps) {
 }
 
 function mapActionToProps(dispatch) {
-  return bindActionCreators(BookmarkActions, dispatch);
+  return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
 export const BookmarkBtn = connect(

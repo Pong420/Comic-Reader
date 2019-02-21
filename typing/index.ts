@@ -85,11 +85,7 @@ export type SearchHistoryItem = string;
 
 export type Bookmarks = BookmarkItem[];
 
-export type BookmarkItem =
-  | GridProps
-  | {
-      comicID: string;
-    };
+export type BookmarkItem = GridProps | null;
 
 type Icon =
   | ComponentType<any>

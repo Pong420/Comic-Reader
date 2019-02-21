@@ -2,23 +2,20 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
-import BookmarkActions from '../../actions/bookmark';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-// import { Grid } from '../../components/Grid';
-import { Bookmarks } from '../../../typing';
+import { Grid } from '../../components/Grid';
+import { BookmarkState } from '../../reducers/bookmark';
+import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 
-export interface BookmarkProps {
-  bookmarks: Bookmarks;
-  setBookmark: (bookmarks: Bookmarks) => void;
-}
+export interface BookmarkProps extends BookmarkState, BookmarkActions {}
 
 function mapStateToProps({ bookmark }, ownProps) {
   return { ...bookmark, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(BookmarkActions, dispatch);
+  return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
 // TODO:
@@ -37,7 +34,7 @@ export const Bookmark = connect(
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={props => <div />}
+            onGridRender={props => <Grid {...props[1]} />}
           />
         )}
       </AutoSizer>

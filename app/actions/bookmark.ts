@@ -103,7 +103,7 @@ export function saveBookmark() {
   };
 }
 
-export type BookmarkActionCreator = {
+export type BookmarkActions = {
   setBookmark: (bookmarks: Bookmarks) => void;
   addBookmark: (comicID: string) => void;
   removeBookmark: (comicID: string) => void;
