@@ -2,13 +2,17 @@
 
 An Electron based comic reader.
 
-Built from [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate), inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
+- Data are scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
+- Built from [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
+- Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
 <img src="internals/img/screenshot.png">
 
-## Note
+## :warning: Note
 
-- A local server will listen on port 8080 for data scraping
+- Project is working in progress and not ready for packaging
+- A local server will automatically started at port `8080` for data scraping.
+- Home page allow infinite scrolling but don't scroll too fast. Otherwise your IP may **blocked** by data owner.
 
 ## Install
 
