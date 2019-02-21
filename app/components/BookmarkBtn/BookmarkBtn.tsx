@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import BookMarkIcon from '@material-ui/icons/Bookmark';
@@ -25,14 +25,15 @@ function mapActionToProps(dispatch) {
 export const BookmarkBtn = connect(
   mapStateToProps,
   mapActionToProps
-)(({ bookmarked, comicID, addBookmark, removeBookmark }: BookmarkBtnProps) => {
-  const isBookmarked = !!bookmarked[comicID];
+)(({ bookmarks, comicID, addBookmark, removeBookmark }: BookmarkBtnProps) => {
+  const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
+  const bookmarked = mappedBookmarks.has(comicID);
 
   return (
     <SidebarIcon
-      Icon={isBookmarked ? BookMarkIcon : BookmarkBorderIcon}
+      Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
       onClick={() =>
-        isBookmarked ? removeBookmark(comicID) : addBookmark(comicID)
+        bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
       }
     />
   );
