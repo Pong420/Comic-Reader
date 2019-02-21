@@ -48,3 +48,15 @@ body {
 [hidden] {
   display: none !important;
 }
+
+#root {
+  @include flex();
+
+  .sidebar {
+    flex: 0 0 auto;
+  }
+
+  .layout {
+    flex: 1 1 auto;
+  }
+}

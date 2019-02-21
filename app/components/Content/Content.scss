@@ -26,31 +26,4 @@
     font-size: 16px;
     font-weight: bold;
   }
-
-  .page-no-button {
-    @include flex(center, center);
-
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 0.5em;
-
-    sup,
-    sub {
-      min-width: 1em;
-      line-height: 1em;
-    }
-
-    sup {
-      position: relative;
-      top: -0.4em;
-      text-align: right;
-    }
-
-    sub {
-      position: relative;
-      top: 0.3em;
-      text-align: left;
-    }
-  }
 }

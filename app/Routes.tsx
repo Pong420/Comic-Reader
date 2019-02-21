@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Switch, Route, Redirect } from 'react-router';
+import React, { ComponentType } from 'react';
+import { Switch, Route, Redirect, RouteProps } from 'react-router';
 import App from './containers/App';
 import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';
@@ -7,18 +7,58 @@ import { ContentPage } from './containers/ContentPage';
 import { SearchPage } from './containers/SearchPage';
 import { HistoryPage } from './containers/HistoryPage';
 import { BookmarkPage } from './containers/BookmarkPage';
+import { Sidebar } from './components/Sidebar';
+import { ComicSidebar } from './components/Comic/ComicSidebar';
+import { ContentSidebar } from './components/Content/ContentSidebar';
 
-const routes = require('./constants/routes.json');
+interface CustomRouteProps extends RouteProps {
+  main: ComponentType<any>;
+  sidebar: ComponentType<any>;
+}
+
+const routes: CustomRouteProps[] = [
+  {
+    path: '/',
+    exact: true,
+    main: HomePage,
+    sidebar: Sidebar
+  },
+  {
+    path: '/comic/:comicID',
+    main: ComicPage,
+    sidebar: ComicSidebar
+  },
+  {
+    path: '/content/:comicID/:chapterID/:pageNo',
+    main: ContentPage,
+    sidebar: ContentSidebar
+  },
+  {
+    path: '/search',
+    main: SearchPage,
+    sidebar: Sidebar
+  },
+  {
+    path: '/history',
+    main: HistoryPage,
+    sidebar: Sidebar
+  },
+  {
+    path: '/bookmark',
+    main: () => BookmarkPage,
+    sidebar: Sidebar
+  }
+];
 
 export default () => (
   <App>
+    {routes.map(({ sidebar, ...props }, index) => (
+      <Route {...props} key={index} component={sidebar} />
+    ))}
     <Switch>
-      <Route path={routes.HOME} component={HomePage} exact />
-      <Route path={routes.COMIC} component={ComicPage} />
-      <Route path={routes.CONTENT} component={ContentPage} />
-      <Route path={routes.SEARCH} component={SearchPage} />
-      <Route path={routes.HISTORY} component={HistoryPage} />
-      <Route path={routes.BOOKMARK} component={BookmarkPage} />
+      {routes.map(({ main, ...props }, index) => (
+        <Route {...props} key={index} component={main} />
+      ))}
       <Redirect to="/" />
     </Switch>
   </App>

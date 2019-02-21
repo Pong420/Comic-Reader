@@ -9,22 +9,23 @@ export interface SidebarIconProps extends WithStyles<typeof sidebarIconStyles> {
   [props: string]: any;
 }
 
-export const sidebarIconStyles = () =>
-  createStyles({
-    size: {
-      width: 50,
-      height: 50
-    },
-    color: {
-      color: grey.A200,
-      '&:hover': {
-        color: grey[50],
-        '& $icon': {
-          color: grey[50]
-        }
+export const sidebarIconStyles = () => {
+  const root = {
+    width: 50,
+    height: 50,
+    color: grey.A200,
+    '&:hover': {
+      color: grey[50],
+      '& $icon': {
+        color: grey[50]
       }
-    },
+    }
+  };
+
+  return createStyles({
+    root,
     iconButton: {
+      ...root,
       padding: 0
     },
     icon: {
@@ -32,19 +33,20 @@ export const sidebarIconStyles = () =>
       fontSize: 30
     }
   });
+};
 
 export const SidebarIcon = withStyles(sidebarIconStyles)(
   ({ Icon, classes, ...props }: SidebarIconProps) => {
-    const { size, color, iconButton, icon } = classes;
+    const { root, iconButton, icon } = classes;
 
     if (/Icon/.test(Icon.displayName)) {
       return (
-        <IconButton className={`${size} ${color} ${iconButton}`} {...props}>
+        <IconButton className={iconButton} {...props}>
           <Icon className={icon} color="inherit" />
         </IconButton>
       );
     }
 
-    return <Icon className={`${size} ${color}`} {...props} />;
+    return <Icon className={root} {...props} />;
   }
 );

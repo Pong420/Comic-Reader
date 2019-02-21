@@ -86,12 +86,3 @@ export type SearchHistoryItem = string;
 export type Bookmarks = BookmarkItem[];
 
 export type BookmarkItem = GridProps | null;
-
-type Icon =
-  | ComponentType<any>
-  | {
-      component: ComponentType<any>;
-      [props: string]: any;
-    };
-
-export type SidebarIcons = Icon[];

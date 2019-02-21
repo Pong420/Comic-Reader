@@ -6,7 +6,6 @@ import React, {
   MouseEvent
 } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import Previous from '@material-ui/icons/ArrowBack';
 import { Layout } from '../Layout';
 import { ContentDialog } from './ContentDialog';
 import { ContentData } from '../../../typing';
@@ -96,27 +95,6 @@ export const Content = withRouter(
       if (which === 39) nextPage();
     }
 
-    const FlexSpacer = () => <div style={{ flex: '1 1 auto' }} />;
-
-    const PageNoButton = ({ className, ...props }: any) => (
-      <div className={`${className} page-no-button`} {...props}>
-        <sup>{Number(pageNo) + 1}</sup> / <sub>{images.length}</sub>
-      </div>
-    );
-
-    const sidebarIcons = [
-      {
-        component: Previous,
-        onClick() {
-          history.push(`/comic/${match.params.comicID}`);
-        }
-      },
-      FlexSpacer,
-      {
-        component: PageNoButton
-      }
-    ];
-
     const Images = () => (
       <>
         {images.map((url, index: number) => {
@@ -145,7 +123,6 @@ export const Content = withRouter(
       <>
         <Layout
           className="content-page"
-          sidebarIcons={sidebarIcons}
           contentProps={{
             onClick: nextPage,
             onContextMenu: prevPage
