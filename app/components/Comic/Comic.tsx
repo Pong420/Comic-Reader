@@ -19,11 +19,7 @@ export const Comic = withRouter(
       {
         component: Previous,
         onClick() {
-          if (history.action === 'POP') {
-            history.push('/');
-          } else {
-            history.goBack();
-          }
+          history.push('/');
         }
       },
       {
@@ -37,8 +33,8 @@ export const Comic = withRouter(
         <ComicHeader {...comicHeaderProps} />
         <ComicChapters
           comicID={comicID}
-          adultOnly={adultOnly}
           chapters={chapters}
+          adultOnly={adultOnly}
         />
       </Layout>
     );

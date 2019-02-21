@@ -16,7 +16,7 @@ export interface ChapterProps
 
 const styles = () =>
   createStyles({
-    icon: {
+    new: {
       alignSelf: 'flex-start',
       color: red[500],
       fontSize: 30
@@ -65,7 +65,7 @@ export const ComicChapters = withStyles(styles)(
             key={chapterID}
           >
             {title}
-            {isNew && <NewIcon className={classes.icon} color="inherit" />}
+            {isNew && <NewIcon className={classes.new} color="inherit" />}
           </Link>
         ))}
       </div>

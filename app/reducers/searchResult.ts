@@ -1,7 +1,7 @@
 import { SearchResultKeys, SearchResultTypes } from '../actions/searchResult';
 import { SearchResults, SearchHistory } from '../../typing';
 
-export interface LatestUpdateState {
+export interface SearchResultState {
   page: number;
   keyword: string;
   noMoreResult: boolean;
@@ -9,7 +9,7 @@ export interface LatestUpdateState {
   searchResults: SearchResults;
 }
 
-const initialState: LatestUpdateState = {
+const initialState: SearchResultState = {
   page: 1,
   keyword: '',
   noMoreResult: false,

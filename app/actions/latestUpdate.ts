@@ -37,16 +37,13 @@ export interface AddComicsPayload {
   to?: number;
 }
 
-export function setPageNumber(page: number) {
-  return {
-    type: LatestUpdateKeys.SET_PAGE_NUMBER,
-    payload: {
-      page
-    }
-  };
-}
+export type LatestUpdateActions = {
+  setComics: (comicList: ComicItemList) => void;
+  addComics: (args: AddComicsPayload) => void;
+  setPageNumber: (page: number) => void;
+};
 
-export function setComics(comicList: ComicItemList) {
+export function setComics(comicList: ComicItemList): SetComicAction {
   return {
     type: LatestUpdateKeys.SET_COMICS,
     payload: {
@@ -69,4 +66,13 @@ export function addComics({ page, comicList, from, to }: AddComicsPayload) {
   };
 }
 
-export default { setComics, addComics, setPageNumber };
+export function setPageNumber(page: number): SetPageNoAction {
+  return {
+    type: LatestUpdateKeys.SET_PAGE_NUMBER,
+    payload: {
+      page
+    }
+  };
+}
+
+export default { setComics, addComics, setPageNumber } as LatestUpdateActions;

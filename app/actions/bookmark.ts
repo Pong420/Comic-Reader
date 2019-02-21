@@ -44,6 +44,13 @@ export type BookmarkTypes =
   | SaveBookmarkAction
   | RemoveBookmarkAction;
 
+export type BookmarkActions = {
+  setBookmark: (bookmarks: Bookmarks) => void;
+  addBookmark: (comicID: string) => void;
+  removeBookmark: (comicID: string) => void;
+  saveBookmark: () => void;
+};
+
 export function setBookmark(bookmarks: Bookmarks) {
   return dispatch => {
     dispatch({
@@ -103,16 +110,9 @@ export function saveBookmark() {
   };
 }
 
-export type BookmarkActions = {
-  setBookmark: (bookmarks: Bookmarks) => void;
-  addBookmark: (comicID: string) => void;
-  removeBookmark: (comicID: string) => void;
-  saveBookmark: () => void;
-};
-
 export default {
   setBookmark,
   addBookmark,
   removeBookmark,
   saveBookmark
-};
+} as BookmarkActions;

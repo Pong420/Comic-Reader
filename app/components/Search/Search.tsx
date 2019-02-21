@@ -8,22 +8,14 @@ import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
 import { LoadingSpinner } from '../Loading/LoadingSpinner';
 import { SearchHeader } from './SearchHeader';
-import SearchResultActions, {
-  AddSearchResultsPayload
-} from '../../actions/searchResult';
 import { SearchResults, SearchParam } from '../../../typing';
 import { search } from '../../api';
+import SearchResultActionCreator, {
+  SearchResultsActions
+} from '../../actions/searchResult';
+import { SearchResultState } from '../../reducers/searchResult';
 
-export interface SearchProps {
-  page: number;
-  keyword: string;
-  noMoreResult: boolean;
-  searchResults: SearchResults;
-  setKeyword: (keyword: string) => void;
-  setNoMoreResult: (noMoreResult: boolean) => void;
-  setSearchResults: (searchResults: SearchResults) => void;
-  addSearchResults: (args: AddSearchResultsPayload) => void;
-}
+export interface SearchProps extends SearchResultState, SearchResultsActions {}
 
 function mapStateToProps({ searchResult }, ownProps) {
   return {
@@ -33,7 +25,7 @@ function mapStateToProps({ searchResult }, ownProps) {
 }
 
 function mapActionToProps(dispatch) {
-  return bindActionCreators(SearchResultActions, dispatch);
+  return bindActionCreators(SearchResultActionCreator, dispatch);
 }
 
 const placeholders = new Array(20).fill({}) as SearchResults;

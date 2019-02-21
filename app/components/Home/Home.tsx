@@ -8,15 +8,12 @@ import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
 import { getLatestUpdate } from '../../api';
 import { ComicItemList } from '../../../typing';
-import LatestUpdateActions, {
-  AddComicsPayload
+import LatestUpdateActionCreator, {
+  LatestUpdateActions
 } from '../../actions/latestUpdate';
+import { LatestUpdateState } from '../../reducers/latestUpdate';
 
-export interface HomeProps {
-  page: number;
-  comicList: ComicItemList;
-  addComics: (args: AddComicsPayload) => void;
-}
+export interface HomeProps extends LatestUpdateState, LatestUpdateActions {}
 
 function mapStateToProps({ latestUpdate }) {
   return {
@@ -25,7 +22,7 @@ function mapStateToProps({ latestUpdate }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(LatestUpdateActions, dispatch);
+  return bindActionCreators(LatestUpdateActionCreator, dispatch);
 }
 
 const placeholders = new Array(42).fill({}) as ComicItemList;
