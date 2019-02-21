@@ -29,10 +29,9 @@ function mapActionToProps(dispatch) {
 }
 
 const placeholders = new Array(20).fill({}) as SearchResults;
-/**
- *  TODO:
- *  - Search Fail
- */
+
+//  TODO:
+// - Search fails handling
 
 export const Search = connect(
   mapStateToProps,

@@ -5,7 +5,7 @@ import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';
 import { ContentPage } from './containers/ContentPage';
 import { SearchPage } from './containers/SearchPage';
-import { HistoryPage } from './containers/HistoryPage';
+import { BrowsingHistoryPage } from './containers/BrowsingHistoryPage';
 import { BookmarkPage } from './containers/BookmarkPage';
 import { Sidebar } from './components/Sidebar';
 import { ComicSidebar } from './components/Comic/ComicSidebar';
@@ -40,7 +40,7 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: '/history',
-    main: HistoryPage,
+    main: BrowsingHistoryPage,
     sidebar: Sidebar
   },
   {

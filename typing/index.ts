@@ -1,5 +1,3 @@
-import { ComponentType } from 'react';
-
 export interface GetLatestUpdateParam {
   page?: number;
 }
@@ -86,3 +84,7 @@ export type SearchHistoryItem = string;
 export type Bookmarks = BookmarkItem[];
 
 export type BookmarkItem = GridProps | null;
+
+export type BrowsingHistory = BrowsingHistoryItem[];
+
+export type BrowsingHistoryItem = GridProps | null;

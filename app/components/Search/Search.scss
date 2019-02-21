@@ -3,6 +3,10 @@
     @include flex(center, center, column);
   }
 
+  .search-header {
+    flex: 0 0 auto;
+  }
+
   .search-results {
     flex: 1 1 auto;
     align-self: stretch;
