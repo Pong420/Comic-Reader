@@ -1,5 +1,8 @@
 .comic-header {
   @include flex();
+  @include relative;
+
+  z-index: 1;
 
   .comic-info {
     @include padding-x(1em);
@@ -45,6 +48,7 @@
 }
 
 .comic-cover {
+  box-shadow: 2px 3px 10px #111;
   min-width: 190px;
 
   div {

@@ -1,0 +1,40 @@
+.page-no-button {
+  margin-bottom: 10px !important;
+
+  .page-no-wrapper {
+    @include dimen(100%);
+
+    display: table;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  .slash {
+    font-size: 24px;
+    margin-left: 0.5em;
+  }
+
+  .sup,
+  .sub {
+    font-weight: bold;
+    min-width: 1em;
+    line-height: 1em;
+  }
+
+  $top: 0.5em;
+
+  .sup {
+    position: relative;
+    top: -$top;
+    text-align: right;
+  }
+
+  .sub {
+    position: relative;
+    top: $top;
+    text-align: left;
+  }
+}

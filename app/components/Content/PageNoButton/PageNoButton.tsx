@@ -38,9 +38,11 @@ export const PageNoButton = withRouter(
       return (
         <>
           <Button className={`${className} page-no-button`} onClick={openMenu}>
-            <div className="sup">{pageNoStr}</div>
-            <div className="slash">/</div>
-            <div className="sub">{totalPageStr}</div>
+            <div className="page-no-wrapper">
+              <div className="sup">{pageNoStr}</div>
+              <div className="slash">/</div>
+              <div className="sub">{totalPageStr}</div>
+            </div>
           </Button>
           <Menu
             anchorEl={anchorEl}

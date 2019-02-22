@@ -8,6 +8,7 @@
     background-size: cover;
     background-position: 50%;
     padding-bottom: (480/360) * 100%;
+    box-shadow: 2px 3px 10px #111;
   }
 
   .caption {
@@ -25,7 +26,12 @@
     font-weight: bold;
     padding: 20px 5px 5px;
 
-    div {
+    .name {
+      font-size: 1.2em;
+    }
+
+    .name,
+    .latest {
       line-height: 1.5em;
       text-overflow: ellipsis;
       overflow: hidden;
