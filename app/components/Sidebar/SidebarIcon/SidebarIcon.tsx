@@ -29,7 +29,6 @@ export const sidebarIconStyles = () => {
       padding: 0
     },
     icon: {
-      cursor: 'pointer',
       fontSize: 30
     }
   });

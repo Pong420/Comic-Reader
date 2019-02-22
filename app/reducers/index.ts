@@ -5,6 +5,7 @@ import latestUpdate from './latestUpdate';
 import searchResult from './searchResult';
 import bookmark from './bookmark';
 import browsingHistory from './browsingHistory';
+import content from './content';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -12,6 +13,7 @@ export default function createRootReducer(history: History) {
     latestUpdate,
     searchResult,
     bookmark,
-    browsingHistory
+    browsingHistory,
+    content
   });
 }

@@ -1,26 +1,28 @@
 .page-no-button {
-  @include flex(center, center);
+  margin-bottom: 10px !important;
 
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 0.5em;
+  .slash {
+    font-size: 24px;
+  }
 
-  sup,
-  sub {
+  .sup,
+  .sub {
+    font-weight: bold;
     min-width: 1em;
     line-height: 1em;
   }
 
-  sup {
+  $top: 0.5em;
+
+  .sup {
     position: relative;
-    top: -0.4em;
+    top: -$top;
     text-align: right;
   }
 
-  sub {
+  .sub {
     position: relative;
-    top: 0.3em;
+    top: $top;
     text-align: left;
   }
 }
