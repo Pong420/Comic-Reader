@@ -125,13 +125,16 @@ export default class MenuBuilder {
     const subMenuViewProd = {
       label: 'View',
       submenu: [
+        { role: 'Reload', accelerator: 'CmdOrCtrl+R' },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
           }
-        }
+        },
+        { type: 'separator' },
+        { role: 'toggledevtools', accelerator: 'Option+CmdOrCtrl+i' }
       ]
     };
     const subMenuWindow = {

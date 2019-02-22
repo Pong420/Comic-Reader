@@ -3,13 +3,15 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
+import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
 export interface SidebarIconProps extends WithStyles<typeof sidebarIconStyles> {
-  Icon: ComponentType<any>;
+  Icon?: ComponentType<SvgIconProps>;
+  Component?: ComponentType<any>;
   [props: string]: any;
 }
 
-export const sidebarIconStyles = () => {
+const sidebarIconStyles = () => {
   const root = {
     width: 50,
     height: 50,
@@ -35,10 +37,10 @@ export const sidebarIconStyles = () => {
 };
 
 export const SidebarIcon = withStyles(sidebarIconStyles)(
-  ({ Icon, classes, ...props }: SidebarIconProps) => {
+  ({ Icon, Component, classes, ...props }: SidebarIconProps) => {
     const { root, iconButton, icon } = classes;
 
-    if (/Icon/.test(Icon.displayName)) {
+    if (Icon) {
       return (
         <IconButton className={iconButton} {...props}>
           <Icon className={icon} color="inherit" />
@@ -46,6 +48,6 @@ export const SidebarIcon = withStyles(sidebarIconStyles)(
       );
     }
 
-    return <Icon className={root} {...props} />;
+    return <Component className={root} {...props} />;
   }
 );

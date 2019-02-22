@@ -31,9 +31,9 @@ export const ContentSidebar = connect(mapStateToProps)(
           Icon={Previous}
           onClick={() => history.push(`/comic/${match.params.comicID}`)}
         />
-        <SidebarIcon Icon={FlexSpacer} />
+        <SidebarIcon Component={FlexSpacer} />
         <SidebarIcon
-          Icon={PageNoButton}
+          Component={PageNoButton}
           pageNo={match.params.pageNo}
           totalPage={totalPage}
         />
