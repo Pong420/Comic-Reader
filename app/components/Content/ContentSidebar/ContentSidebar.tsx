@@ -12,8 +12,6 @@ const FlexSpacer = () => <div style={{ flex: '1 1 auto' }} />;
 
 // FIXME:
 const PageNoButton = ({ className, pageNo, ...props }: any) => {
-  console.log(className);
-
   return (
     <div className={`${className} page-no-button`} {...props}>
       <sup>{Number(pageNo) + 1}</sup> / <sub>99</sub>
