@@ -16,7 +16,7 @@ An Electron based comic reader.
 ## Install
 
 ```
-yarn && cd server && yarn && cd ..
+yarn
 ```
 
 ## Development
