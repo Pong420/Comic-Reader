@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import path from 'path';
 import cors from 'cors';
 import compression from 'compression';
 import { AxiosError } from 'axios';
@@ -28,8 +29,10 @@ const getErrorCode = (error: AxiosError) => {
   return 500;
 };
 
-export const startServer = (PORT: number = 8080) => {
+export const startServer = (PORT: number | string = 8080) => {
   return new Promise((resolve, rejcet) => {
+    app.use('/', express.static(path.join(__dirname, '../app')));
+
     app.get('/update', async (req: Request, res: Response) => {
       getLatestUpdate(req.query || {})
         .then((data: ComicItemList) => {

@@ -31,7 +31,8 @@
     "test-e2e-live": "node -r @babel/register ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test testcafe-live electron:./ ./test/e2e/HomePage.e2e.ts",
     "test-watch": "yarn test --watch",
     "component": "node ./internals/scripts/CreateComponent.js",
-    "rebuild-iconv": "node-gyp --directory node_modules/iconv rebuild"
+    "rebuild-iconv": "node-gyp --directory node_modules/iconv rebuild",
+    "port": "ts-node --project ./tsconfig.json test.ts"
   },
   "lint-staged": {
     "*.{js,jsx}": [

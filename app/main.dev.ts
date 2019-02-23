@@ -17,6 +17,7 @@ import {
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { startServer } from '../server';
+import { getFreePort } from './utils/getFreePort';
 import MenuBuilder from './menu';
 
 interface RequestHeaders {
@@ -77,7 +78,8 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
-  server = await startServer();
+  const PORT = process.env.PORT || (await getFreePort(1212));
+  server = await startServer(PORT);
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -86,6 +88,10 @@ app.on('ready', async () => {
     titleBarStyle: 'hiddenInset',
     frame: false
   });
+
+  mainWindow.config = {
+    PORT
+  };
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 

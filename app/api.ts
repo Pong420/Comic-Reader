@@ -4,6 +4,7 @@ import {
   throttleAdapterEnhancer
 } from 'axios-extensions';
 
+import { remote } from 'electron';
 import {
   GetLatestUpdateParam,
   ComicItemList,
@@ -15,8 +16,16 @@ import {
   SearchResults
 } from '../typing';
 
+interface ExtendedBrowserWindow extends Electron.BrowserWindow {
+  config: {
+    PORT: string | number;
+  };
+}
+
+const { config } = remote.getCurrentWindow() as ExtendedBrowserWindow;
+
 export const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: `http://localhost:${config.PORT}`,
   adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
 });
 
