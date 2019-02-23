@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "lib": ["es2017", "dom"],
     "allowJs": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "outDir": "dist"
   },
   "exclude": ["node_modules", "**/node_modules/*"]
 }

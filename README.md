@@ -1,4 +1,4 @@
-## Desktop Comic Reader (WIP)
+## Desktop Comic Reader ( Beta )
 
 An Electron based comic reader.
 
@@ -10,9 +10,8 @@ An Electron based comic reader.
 
 ## :warning: Note
 
-- Project is working in progress and not ready for packaging
-- A local server will automatically started at port `8080` for data scraping.
-- Home page allow infinite scrolling but don't scroll too fast. Otherwise your IP may **blocked** by data owner.
+- **NodeJS is required**. A local server will automatically started for data scraping.
+- Frequently request may cause your IP banned by the data owner. In my experience, it will unlock after around one day.
 
 ## Install
 
@@ -32,6 +31,14 @@ If you don't need autofocus when your files was changed, then run `dev` with env
 
 ```bash
 $ START_MINIMIZED=true yarn dev
+```
+
+#### Create a Component
+
+You can create a react component quickly by below command
+
+```bash
+yarn component ComponentName
 ```
 
 ## Packaging
@@ -77,6 +84,7 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
+- [ ] Add a button for remove browing history and bookmark
 - [ ] Error Handling
 - [ ] Code Review
 

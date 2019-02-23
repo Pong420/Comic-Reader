@@ -78,7 +78,7 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
-  const PORT = process.env.PORT || (await getFreePort(1212));
+  const PORT = process.env.PORT || (await getFreePort(1213));
   server = await startServer(PORT);
 
   mainWindow = new BrowserWindow({

@@ -1,7 +1,7 @@
 {
   "name": "comic-reader",
   "productName": "ComicReader",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "build": "yarn build-clean && concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -31,8 +31,7 @@
     "test-e2e-live": "node -r @babel/register ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test testcafe-live electron:./ ./test/e2e/HomePage.e2e.ts",
     "test-watch": "yarn test --watch",
     "component": "node ./internals/scripts/CreateComponent.js",
-    "rebuild-iconv": "node-gyp --directory node_modules/iconv rebuild",
-    "port": "ts-node --project ./tsconfig.json test.ts"
+    "rebuild-iconv": "node-gyp --directory node_modules/iconv rebuild"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -100,6 +99,19 @@
       "buildResources": "resources",
       "output": "release"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pong420/Comic-Reader"
+  },
+  "author": {
+    "name": "Pong420",
+    "email": "samfunghp@gmail.com",
+    "url": "https://pong420.netlify.com/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pong420/Comic-Reader/issues"
   },
   "jest": {
     "testURL": "http://localhost/",
@@ -212,7 +224,6 @@
     "testcafe-live": "^0.1.4",
     "testcafe-react-selectors": "^3.0.3",
     "ts-loader": "^5.3.3",
-    "ts-node": "^8.0.2",
     "typescript": "^3.3.3",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.3",
