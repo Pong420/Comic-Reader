@@ -15,21 +15,21 @@ import {
   SearchResults
 } from '../typing';
 
-export const startServer = (PORT: number = 8080) =>
-  new Promise((resolve, reject) => {
-    const app = express();
+const app = express();
 
-    app.use(cors());
-    app.use(compression());
+app.use(cors());
+app.use(compression());
 
-    const getErrorCode = (error: AxiosError) => {
-      if (error.response) {
-        return error.response.status;
-      }
+const getErrorCode = (error: AxiosError) => {
+  if (error.response) {
+    return error.response.status;
+  }
 
-      return 500;
-    };
+  return 500;
+};
 
+export const startServer = (PORT: number = 8080) => {
+  return new Promise((resolve, rejcet) => {
     app.get('/update', async (req: Request, res: Response) => {
       getLatestUpdate(req.query || {})
         .then((data: ComicItemList) => {
@@ -78,7 +78,8 @@ export const startServer = (PORT: number = 8080) =>
     });
 
     app.listen(PORT, () => {
+      resolve(app);
       console.log(`local server listening on port ${PORT}`);
-      resolve();
     });
   });
+};

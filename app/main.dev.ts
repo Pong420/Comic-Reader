@@ -16,7 +16,7 @@ import {
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-// import { startServer } from '../server/index';
+import { startServer } from '../server';
 import MenuBuilder from './menu';
 
 interface RequestHeaders {
@@ -33,6 +33,7 @@ export default class AppUpdater {
 }
 
 let mainWindow = null;
+let server = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -74,9 +75,9 @@ app.on('ready', async () => {
     process.env.DEBUG_PROD === 'true'
   ) {
     await installExtensions();
-  } else {
-    // await startServer(8080);
   }
+
+  server = await startServer();
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -139,4 +140,8 @@ app.on('ready', async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+});
+
+app.on('before-quit', () => {
+  server && server.close();
 });
