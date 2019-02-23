@@ -3,7 +3,7 @@
 An Electron based comic reader.
 
 - Data are scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
-- Built from [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
+- Built from [iRath96/electron-react-typescript-boilerplate](https://github.com/iRath96/electron-react-typescript-boilerplate)
 - Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
 <img src="internals/img/screenshot.png">
@@ -74,6 +74,11 @@ $ yarn test-e2e
 ```bash
 DEBUG_PROD=true yarn package
 ```
+
+## TODO
+
+- [ ] Error Handling
+- [ ] Code Review
 
 ## License
 

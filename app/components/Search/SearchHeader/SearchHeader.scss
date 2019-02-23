@@ -4,10 +4,10 @@ $space: 20px;
   @include dimen(100%);
 
   padding: $space;
-}
 
-form {
-  @include flex(center);
+  form {
+    @include flex(center);
 
-  padding: 2px 4px;
+    padding: 2px 4px;
+  }
 }

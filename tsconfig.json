@@ -13,6 +13,5 @@
     "lib": ["es2017", "dom"],
     "allowSyntheticDefaultImports": true
   },
-  "files": ["global.d.ts"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }
