@@ -1,8 +1,9 @@
 {
-  "private": true,
   "name": "server",
   "scripts": {
     "dev": "nodemon --watch . --exec ts-node devServer.ts",
+    "build": "yarn build:clean & tsc --project ./tsconfig.json",
+    "build:clean": "rimraf ./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
