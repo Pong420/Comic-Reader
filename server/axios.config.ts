@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import cheerio from 'cheerio';
 
-const iconv = require('iconv');
+import Iconv = require('iconv');
 const chineseConv = require('chinese-conv');
 
 interface ResponseHeader {
@@ -19,13 +19,14 @@ export const createAxiosInstance = (options: AxiosRequestConfig) =>
         const encoding = matches
           ? matches[0].split('=')[1].toUpperCase()
           : 'UTF-8';
-        const converter = new iconv.Iconv(encoding, 'UTF-8//TRANSLIT//IGNORE');
+        const converter = new Iconv(encoding, 'UTF-8//TRANSLIT//IGNORE');
 
         let html = converter.convert(data).toString();
         html = chineseConv.tify(html);
-        html = cheerio.load(html);
 
-        return html;
+        const $ = cheerio.load(html);
+
+        return $;
       }
     ],
     ...options

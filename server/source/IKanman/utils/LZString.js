@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = LZString = (function() {
+module.exports = (function() {
   var f = String.fromCharCode;
   var keyStrBase64 =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
