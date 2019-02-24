@@ -12,6 +12,7 @@ interface SidebarProps extends RouteComponentProps {
   children?: ReactNode;
 }
 
+const macos = process.platform === 'darwin';
 const checkFullscreen = () => window.outerHeight === screen.height;
 
 export const Sidebar = withRouter(
@@ -19,41 +20,45 @@ export const Sidebar = withRouter(
     const [isFullscreen, setIsFullscreen] = useState(checkFullscreen());
 
     useEffect(() => {
-      function onResize() {
-        setIsFullscreen(checkFullscreen());
+      if (macos) {
+        function onResize() {
+          setIsFullscreen(checkFullscreen());
+        }
+
+        window.addEventListener('resize', onResize);
+
+        return () => window.removeEventListener('resize', onResize);
       }
-
-      window.addEventListener('resize', onResize);
-
-      return () => window.removeEventListener('resize', onResize);
     }, []);
 
     return (
       <div
-        className={`sidebar ${className}`.trim()}
+        className={`sidebar ${className}}`.trim()}
         style={{ paddingTop: `${isFullscreen ? '15' : '40'}px` }}
       >
         <div className="drag-area" />
 
-        <Link to="/">
-          <SidebarIcon Icon={BackToHome} />
-        </Link>
+        <div className="sidebar-content">
+          <Link to="/">
+            <SidebarIcon Icon={BackToHome} />
+          </Link>
 
-        <Link to="/search">
-          <SidebarIcon Icon={Search} />
-        </Link>
+          <Link to="/search">
+            <SidebarIcon Icon={Search} />
+          </Link>
 
-        <Link to="/history">
-          <SidebarIcon Icon={HistoryIcon} />
-        </Link>
+          <Link to="/history">
+            <SidebarIcon Icon={HistoryIcon} />
+          </Link>
 
-        <Link to="/bookmark">
-          <SidebarIcon Icon={BookMarksIcon} />
-        </Link>
+          <Link to="/bookmark">
+            <SidebarIcon Icon={BookMarksIcon} />
+          </Link>
 
-        {!!children && <SidebarDivider />}
+          {!!children && <SidebarDivider />}
 
-        {children}
+          {children}
+        </div>
       </div>
     );
   }

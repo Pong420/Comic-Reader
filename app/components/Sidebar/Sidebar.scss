@@ -1,6 +1,5 @@
 .sidebar {
   @include dimen(80px, 100vh);
-  @include flex(center, flex-start, column);
   @include relative();
 
   background-color: #424242;
@@ -10,5 +9,12 @@
   .drag-area {
     @include absolute(0, null, 0);
     @include sq-dimen(100%);
+  }
+
+  .sidebar-content {
+    @include flex(center, flex-start, column);
+    @include relative();
+
+    z-index: 1;
   }
 }
