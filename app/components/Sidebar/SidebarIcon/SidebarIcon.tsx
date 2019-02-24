@@ -14,7 +14,9 @@ export interface SidebarIconProps extends WithStyles<typeof sidebarIconStyles> {
 const sidebarIconStyles = () => {
   const root = {
     width: 50,
+    minWidth: 50,
     height: 50,
+    padding: 0,
     color: grey.A200,
     '&:hover': {
       color: grey[50],
@@ -28,7 +30,6 @@ const sidebarIconStyles = () => {
     root,
     iconButton: {
       ...root,
-      padding: 0
     },
     icon: {
       fontSize: 30

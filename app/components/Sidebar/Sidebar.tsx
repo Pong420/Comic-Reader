@@ -13,17 +13,17 @@ interface SidebarProps extends RouteComponentProps {
 }
 
 const macos = process.platform === 'darwin';
-const checkFullscreen = () => window.outerHeight === screen.height;
+const isFullscreen = () => window.outerHeight === screen.height;
 
 export const Sidebar = withRouter(
   ({ className = '', children }: SidebarProps) => {
-    const [isFullscreen, setIsFullscreen] = useState(checkFullscreen());
+    const [paddingTop, setPaddingTop] = useState(15);
 
     useEffect(() => {
       if (macos) {
-        function onResize() {
-          setIsFullscreen(checkFullscreen());
-        }
+        const onResize = () => setPaddingTop(isFullscreen() ? 15 : 40);
+
+        onResize();
 
         window.addEventListener('resize', onResize);
 
@@ -32,11 +32,8 @@ export const Sidebar = withRouter(
     }, []);
 
     return (
-      <div
-        className={`sidebar ${className}}`.trim()}
-        style={{ paddingTop: `${isFullscreen ? '15' : '40'}px` }}
-      >
-        <div className="drag-area" />
+      <div className={`sidebar ${className}}`.trim()} style={{ paddingTop }}>
+        {macos && <div className="drag-area" />}
 
         <div className="sidebar-content">
           <Link to="/">
