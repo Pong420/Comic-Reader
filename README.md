@@ -84,7 +84,6 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
-- [ ] Add a button for remove browing history and bookmark
 - [ ] Error Handling
 - [ ] Code Review
 
