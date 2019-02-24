@@ -1,35 +1,17 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import cheerio from 'cheerio';
 
-const iconv = require('iconv');
 const chineseConv = require('chinese-conv');
-
-interface ResponseHeader {
-  'content-type': string;
-}
 
 export const createAxiosInstance = (options: AxiosRequestConfig) =>
   axios.create({
-    responseType: 'arraybuffer',
+    responseType: 'text',
     transformResponse: [
-      (data: any, responseHeader: ResponseHeader) => {
-        const matches = responseHeader['content-type'].match(
-          /charset=([^&| |;]+)/g
-        );
-        const encoding = matches
-          ? matches[0].split('=')[1].toUpperCase()
-          : 'UTF-8';
-        const converter = new iconv.Iconv(encoding, 'UTF-8//TRANSLIT//IGNORE');
+      (response: string) => {
+        const html = chineseConv.tify(response);
 
-        let html = converter.convert(data).toString();
-        html = chineseConv.tify(html);
-
-        const $ = cheerio.load(html);
-
-        return $;
+        return cheerio.load(html);
       }
     ],
     ...options
   });
-
-// return api as AxiosInstance;
