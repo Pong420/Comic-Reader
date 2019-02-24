@@ -1,5 +1,5 @@
 .sidebar {
-  @include dimen(80px, 100vh);
+  @include dimen(80px, auto);
   @include relative();
 
   background-color: #424242;
@@ -14,6 +14,7 @@
   .sidebar-content {
     @include flex(center, flex-start, column);
     @include relative();
+    @include sq-dimen(100%);
 
     z-index: 1;
   }

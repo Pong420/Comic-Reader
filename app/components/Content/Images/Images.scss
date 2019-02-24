@@ -4,6 +4,7 @@
   @include relative();
 
   overflow: auto;
+  outline: none;
 
   img:not([hidden]) {
     @include relative();
