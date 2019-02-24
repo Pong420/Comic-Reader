@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-import { Grid } from '../../components/Grid';
+import { RemovableGrid } from '../../components/Grid';
 import { BookmarkState } from '../../reducers/bookmark';
 import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 
@@ -18,14 +18,10 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
-// TODO:
-// No Content render
-// Remove button
-
 export const Bookmark = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ bookmarks }: BookmarkProps) => {
+)(({ bookmarks, removeBookmark }: BookmarkProps) => {
   return (
     <Layout className="bookmark">
       <AutoSizer>
@@ -34,7 +30,9 @@ export const Bookmark = connect(
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={props => <Grid {...props[1]} />}
+            onGridRender={props => (
+              <RemovableGrid {...props[1]} onClose={removeBookmark} />
+            )}
           />
         )}
       </AutoSizer>

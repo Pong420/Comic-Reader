@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import ContentLoader from 'react-content-loader';
-import { GridProps } from '../../../typing';
+import { GridData } from '../../../typing';
+
+export interface GridPorps extends GridData {
+  className?: string;
+  gridHeader?: ReactNode;
+}
 
 const PlaceHolder = () => {
   const width = 360;
@@ -20,21 +25,31 @@ const PlaceHolder = () => {
   );
 };
 
-export function Grid({ comicID, cover, name, latest }: GridProps) {
+export function Grid({
+  comicID,
+  cover,
+  name,
+  latest,
+  className = '',
+  gridHeader
+}: GridPorps) {
   if (comicID) {
     return (
-      <Link to={`/comic/${comicID}`} className="grid">
-        <div
-          className="cover"
-          style={{
-            backgroundImage: `url(${cover})`
-          }}
-        />
-        <div className="caption">
-          <div className="name">{name}</div>
-          <div className="latest">{latest}</div>
-        </div>
-      </Link>
+      <div className={`grid ${className}`.trim()}>
+        <div className="grid-header">{gridHeader}</div>
+        <Link to={`/comic/${comicID}`}>
+          <div
+            className="cover"
+            style={{
+              backgroundImage: `url(${cover})`
+            }}
+          />
+          <div className="caption">
+            <div className="name">{name}</div>
+            <div className="latest">{latest}</div>
+          </div>
+        </Link>
+      </div>
     );
   }
 

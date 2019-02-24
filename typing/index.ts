@@ -11,7 +11,7 @@ export interface GetContentDataParam {
   chapterID?: string;
 }
 
-export interface GridProps {
+export interface GridData {
   comicID: string;
   cover: string;
   name: string;
@@ -19,7 +19,7 @@ export interface GridProps {
   updateTime: string;
 }
 
-export interface ComicItem extends GridProps {
+export interface ComicItem extends GridData {
   status: string;
 }
 
@@ -72,7 +72,7 @@ export interface SearchParam {
 
 export type SearchResults = SearchResultItem[];
 
-export interface SearchResultItem extends GridProps {
+export interface SearchResultItem extends GridData {
   author: string;
   category: string[];
 }
@@ -83,8 +83,8 @@ export type SearchHistoryItem = string;
 
 export type Bookmarks = BookmarkItem[];
 
-export type BookmarkItem = GridProps | null;
+export type BookmarkItem = GridData | null;
 
 export type BrowsingHistory = BrowsingHistoryItem[];
 
-export type BrowsingHistoryItem = GridProps | null;
+export type BrowsingHistoryItem = GridData | null;

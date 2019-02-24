@@ -1,0 +1,5 @@
+.removable-grid {
+  .grid-header {
+    @include flex($justify-content: flex-end);
+  }
+}

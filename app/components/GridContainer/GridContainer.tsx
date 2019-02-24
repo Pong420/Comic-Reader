@@ -116,13 +116,8 @@ export function GridContainer<T>({
 }
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
-  const innerWidth = width - spacer * 2;
-
-  // offsetWith not return decimal, so do not count this value
-  const tempcolumnWidth = el ? el.offsetWidth : 0;
-
-  const columnCount = Math.floor(width / tempcolumnWidth);
-  const columnWidth = (innerWidth - spacer * columnCount) / columnCount;
+  const columnWidth = el ? el.offsetWidth : 0;
+  const columnCount = Math.floor(width / columnWidth);
 
   return {
     columnCount,
