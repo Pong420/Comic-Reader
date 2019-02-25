@@ -1,3 +1,5 @@
+<img src="./resources/icons/128x128.png" align="right">
+
 ## Desktop Comic Reader ( Beta )
 
 An Electron based comic reader.
