@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetLatestUpdateParam } from '../../../typing/index';
+import { GetLatestUpdateParam } from '../../../../typing/index';
 
 export async function getLatestUpdate({ page = 1 }: GetLatestUpdateParam) {
   const page_ = page === 1 ? '' : `_p${page}`;

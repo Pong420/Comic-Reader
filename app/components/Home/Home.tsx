@@ -5,7 +5,7 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
-import { getLatestUpdate } from '../../api';
+import { getLatestUpdateAPI } from '../../apis';
 import { ComicItemList } from '../../../typing';
 import LatestUpdateActionCreator, {
   LatestUpdateActions
@@ -40,7 +40,7 @@ export const Home = connect(
       page: nextPage
     });
 
-    return getLatestUpdate({ page: nextPage }).then(comicList =>
+    return getLatestUpdateAPI({ page: nextPage }).then(comicList =>
       addComics({
         comicList,
         page: nextPage,

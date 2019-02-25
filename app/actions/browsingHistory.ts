@@ -1,5 +1,5 @@
 import { BrowsingHistoryItem, BrowsingHistory } from '../../typing';
-import { getComicData } from '../api';
+import { getComicDataAPI } from '../apis';
 
 export enum BrowsingHistoryKeys {
   SET_BROWSING_HISTORY = 'SET_BROWSING_HISTORY',
@@ -64,7 +64,10 @@ export function setBrowsingHistory(browsingHistory: BrowsingHistory) {
   };
 }
 
-function addBrowsingHistory_(comicID: string, browsingHistoryItem: BrowsingHistoryItem) {
+function addBrowsingHistory_(
+  comicID: string,
+  browsingHistoryItem: BrowsingHistoryItem
+) {
   return {
     type: BrowsingHistoryKeys.ADD_BROWSING_HISTORY,
     payload: {
@@ -79,12 +82,18 @@ export function addBrowsingHistory(comicID: string) {
     dispatch(addBrowsingHistory_(comicID, null));
     dispatch(saveBrowsingHistory());
 
-    getComicData({
+    getComicDataAPI({
       comicID
     }).then(data => {
       const { comicID, name, cover, latest, updateTime } = data;
       dispatch(
-        addBrowsingHistory_(comicID, { comicID, name, cover, latest, updateTime })
+        addBrowsingHistory_(comicID, {
+          comicID,
+          name,
+          cover,
+          latest,
+          updateTime
+        })
       );
       dispatch(saveBrowsingHistory());
     });

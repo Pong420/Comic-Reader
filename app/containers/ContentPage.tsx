@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 import { Content } from '../components/Content';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
-import { getContentData } from '../api';
+import { getContentDataAPI } from '../apis';
 import { GetContentDataParam } from '../../typing';
 import ContentActionCreator, { ContentActions } from '../actions/content';
 
@@ -30,7 +30,7 @@ export const ContentPage = connect(
   const { pageNo, chapterID, comicID } = match.params;
   const { data, error, isLoading, reload, run } = useAsync({
     deferFn: ([{ comicID, chapterID }]: GetContentDataParam[]) => {
-      return getContentData({ comicID, chapterID });
+      return getContentDataAPI({ comicID, chapterID });
     }
   });
 

@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 import { Home } from '../components/Home';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
-import { getLatestUpdate } from '../api';
+import { getLatestUpdateAPI } from '../apis';
 import { ComicItemList } from '../../typing';
 import LatestUpdateActions from '../actions/latestUpdate';
 
@@ -32,7 +32,9 @@ export const HomePage = connect(
 )(({ comicList, setComics }: Props) => {
   const { error, isLoading, reload, run } = useAsync<ComicItemList>({
     deferFn() {
-      return comicList.length ? Promise.resolve(comicList) : getLatestUpdate();
+      return comicList.length
+        ? Promise.resolve(comicList)
+        : getLatestUpdateAPI();
     },
     onResolve(data) {
       setComics(data);

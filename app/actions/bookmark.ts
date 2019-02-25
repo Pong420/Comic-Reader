@@ -1,5 +1,5 @@
 import { BookmarkItem, Bookmarks } from '../../typing';
-import { getComicData } from '../api';
+import { getComicDataAPI } from '../apis';
 
 export enum BookmarkKeys {
   SET_BOOKMARK = 'SET_BOOKMARK',
@@ -79,7 +79,7 @@ export function addBookmark(comicID: string) {
     dispatch(addBookmark_(comicID, null));
     dispatch(saveBookmark());
 
-    getComicData({
+    getComicDataAPI({
       comicID
     }).then(data => {
       const { comicID, name, cover, latest, updateTime } = data;

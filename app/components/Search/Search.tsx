@@ -9,7 +9,7 @@ import { Grid } from '../Grid';
 import { LoadingSpinner } from '../Loading/LoadingSpinner';
 import { SearchHeader } from './SearchHeader';
 import { SearchResults, SearchParam } from '../../../typing';
-import { search } from '../../api';
+import { searchAPI } from '../../apis';
 import SearchResultActionCreator, {
   SearchResultsActions
 } from '../../actions/searchResult';
@@ -52,7 +52,7 @@ export const Search = connect(
     });
 
     function searchRequest(params: SearchParam) {
-      return search(params).then(data => {
+      return searchAPI(params).then(data => {
         setNoMoreResult(data.length < 20);
 
         return data;

@@ -10,7 +10,6 @@ An Electron based comic reader.
 
 ## :warning: Note
 
-- **NodeJS is required**. A local server will automatically started for data scraping.
 - Frequently request may cause your IP banned by the data owner. In my experience, it will unlock after around one day.
 
 ## Install

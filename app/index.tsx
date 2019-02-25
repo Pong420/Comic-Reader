@@ -10,7 +10,3 @@ render(
   <Root store={store} history={history} />,
   document.getElementById('root')
 );
-
-if ((module as any).hot) {
-  (module as any).hot.accept();
-}

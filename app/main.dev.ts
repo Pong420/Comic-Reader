@@ -16,13 +16,16 @@ import {
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { startServer } from '../server';
-import { getFreePort } from './utils/getFreePort';
 import MenuBuilder from './menu';
 
 interface RequestHeaders {
   Origin: string;
   Referer: string;
+  'User-Agent': string;
+}
+
+interface HeaderDetails extends OnBeforeSendHeadersDetails {
+  requestHeaders: RequestHeaders;
 }
 
 export default class AppUpdater {
@@ -34,7 +37,6 @@ export default class AppUpdater {
 }
 
 let mainWindow = null;
-let server = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -78,9 +80,6 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
-  const PORT = process.env.PORT || (await getFreePort(1213));
-  server = await startServer(PORT);
-
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024 + 80,
@@ -88,10 +87,6 @@ app.on('ready', async () => {
     titleBarStyle: 'hiddenInset',
     frame: false
   });
-
-  mainWindow.config = {
-    PORT
-  };
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -116,25 +111,17 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  const filters = [
-    {
-      regex: /hamreus/,
-      origin: 'https://tw.manhuagui.com/'
-    }
-  ];
-
   session.defaultSession.webRequest.onBeforeSendHeaders(
     { urls: [] },
-    (
-      details: OnBeforeSendHeadersDetails & { requestHeaders: RequestHeaders },
-      callback
-    ) => {
-      filters.forEach(({ regex, origin }) => {
-        if (regex.test(details.url)) {
-          details.requestHeaders.Origin = origin;
-          details.requestHeaders.Referer = origin;
-        }
-      });
+    (details: HeaderDetails, callback) => {
+      if (/hamreus/.test(details.url)) {
+        details.requestHeaders.Referer = 'https://tw.manhuagui.com/';
+      }
+
+      if (/m\.manhuagui\.com/.test(details.url)) {
+        details.requestHeaders['User-Agent'] =
+          '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
+      }
 
       callback({
         cancel: false,
@@ -146,8 +133,4 @@ app.on('ready', async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
-});
-
-app.on('before-quit', () => {
-  server && server.close();
 });
