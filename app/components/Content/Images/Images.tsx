@@ -1,4 +1,5 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
+import { useGetSet } from 'react-use';
 
 export interface ImageProsp {
   active: number;
@@ -8,14 +9,32 @@ export interface ImageProsp {
 
 interface ImageStatus {
   src: string;
+  index: number;
   loaded: boolean;
   error: boolean;
 }
 
+type onLoad = (i: number) => void;
+type onError = (i: number) => void;
+type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
+  ? A
+  : never;
+
+type preload = (
+  images: ImageStatus[],
+  onLoad: onLoad,
+  onError: onError
+) => IterableIterator<Promise<void>>;
+
+// TODO:
+// - Code Review
+// - Error Handling
+
 export function Images({ active, images, ...props }: ImageProsp) {
   const scrollRef = useRef(null);
-  const [imagesDetail, setImagesDetail] = useState<ImageStatus[]>(
-    images.map(src => ({
+  const [getImagesDetail, setImagesDetail] = useGetSet<ImageStatus[]>(
+    images.map((src, index) => ({
+      index,
       src,
       loaded: false,
       error: false
@@ -24,12 +43,12 @@ export function Images({ active, images, ...props }: ImageProsp) {
 
   function updateArr(index: number, val: any) {
     setImagesDetail([
-      ...imagesDetail.slice(0, index),
+      ...getImagesDetail().slice(0, index),
       {
-        ...imagesDetail[index],
+        ...getImagesDetail()[index],
         ...val
       },
-      ...imagesDetail.slice(index + 1, imagesDetail.length)
+      ...getImagesDetail().slice(index + 1, getImagesDetail().length)
     ]);
   }
 
@@ -48,14 +67,23 @@ export function Images({ active, images, ...props }: ImageProsp) {
   useLayoutEffect(() => {
     scrollRef.current.scrollTop = 0;
     scrollRef.current.focus();
+  }, [active]);
 
-    onLoad(active + 1);
+  useEffect(() => {
+    const { cancel, isCanceled } = runWithCancel<preload>(
+      preload,
+      getImagesDetail().slice(active),
+      i => !isCanceled() && onLoad(i),
+      i => !isCanceled() && onError(i)
+    );
+
+    return cancel;
   }, [active]);
 
   return (
     <div className="images" ref={scrollRef} {...props}>
       <div className="image-loading">撈緊...</div>
-      {imagesDetail.map(({ src, loaded, error }, index) => {
+      {getImagesDetail().map(({ src, loaded, error }, index) => {
         const hidden = index !== active;
         const imgSrc = loaded || !hidden ? src : '';
 
@@ -77,74 +105,83 @@ export function Images({ active, images, ...props }: ImageProsp) {
   );
 }
 
-// function* preload(images: ImageStatus[]) {
-//   for (let i = 0; i < images.length; i++) {
-//     const { src, loaded } = images[i];
-//     const promise = loaded
-//       ? Promise.resolve(i)
-//       : delay(1000).then(() => loadImage(src).then(() => i));
+function* preload(images: ImageStatus[], onLoad: onLoad, onError: onError) {
+  for (let i = 0; i < images.length; i++) {
+    const { src, loaded, index } = images[i];
+    const promise = loaded
+      ? Promise.resolve(index)
+      : loadImage(src).then(() => index);
 
-//     yield promise;
-//   }
-// }
+    yield promise.then(onLoad).catch(() => {
+      onError(index);
+    });
+  }
+}
 
-// function loadImage(src: string) {
-//   return new Promise((resolve, reject) => {
-//     const imgEl = new Image();
-//     imgEl.src = src;
-//     imgEl.onload = resolve;
-//     imgEl.onerror = reject;
-//   });
-// }
+function loadImage(src: string) {
+  return new Promise((resolve, reject) => {
+    const imgEl = new Image();
+    imgEl.src = src;
+    imgEl.onload = resolve;
+    imgEl.onerror = reject;
+  });
+}
 
-// // https://blog.bloomca.me/2017/12/04/how-to-cancel-your-promise.html
-// // this is a core function which will run our async code
-// // and provide cancellation method
-// function runWithCancel(fn, ...args) {
-//   const gen = fn(...args);
-//   let cancelled;
-//   let cancel;
-//   const promise = new Promise((resolve, reject) => {
-//     // define cancel function to return it from our fn
-//     cancel = () => {
-//       cancelled = true;
-//       reject({ reason: 'cancelled' });
-//     };
+// https://blog.bloomca.me/2017/12/04/how-to-cancel-your-promise.html
+// this is a core function which will run our async code
+// and provide cancellation method
+function runWithCancel<T extends Function>(
+  fn: T,
+  ...args: ArgumentTypes<typeof fn>
+) {
+  const gen = fn(...args);
 
-//     onFulfilled();
+  let cancelled: boolean = false;
+  let cancel: () => void;
 
-//     function onFulfilled(res?) {
-//       if (!cancelled) {
-//         let result;
-//         try {
-//           result = gen.next(res);
-//         } catch (e) {
-//           return reject(e);
-//         }
-//         next(result);
+  const promise = new Promise((resolve, reject) => {
+    cancel = () => {
+      cancelled = true;
+    };
 
-//         return null;
-//       }
-//     }
+    onFulfilled();
 
-//     function onRejected(err) {
-//       let result;
-//       try {
-//         result = gen.throw(err);
-//       } catch (e) {
-//         return reject(e);
-//       }
-//       next(result);
-//     }
+    function onFulfilled(res?) {
+      if (!cancelled) {
+        let result;
+        try {
+          result = gen.next(res);
+        } catch (e) {
+          return reject(e);
+        }
+        next(result);
 
-//     function next({ done, value }) {
-//       if (done) {
-//         return resolve(value);
-//       }
-//       // we assume we always receive promises, so no type checks
-//       return value.then(onFulfilled, onRejected);
-//     }
-//   });
+        return null;
+      }
+    }
 
-//   return { promise, cancel };
-// }
+    function onRejected(err) {
+      let result;
+      try {
+        result = gen.throw(err);
+      } catch (e) {
+        return reject(e);
+      }
+      next(result);
+    }
+
+    function next({ done, value }) {
+      if (done) {
+        return resolve(value);
+      }
+      // we assume we always receive promises, so no type checks
+      return value.then(onFulfilled, onRejected);
+    }
+  });
+
+  return {
+    promise,
+    cancel,
+    isCanceled: () => cancelled
+  };
+}
