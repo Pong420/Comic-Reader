@@ -88,6 +88,10 @@ DEBUG_PROD=true yarn package
 - [ ] Error Handling
 - [ ] Code Review
 
+## Credit
+
+- [ComicBunch Icon by ncrow](https://www.deviantart.com/ncrow/art/ComicBunch-Icon-189969026)
+
 ## License
 
 [MIT](./LICENSE)
