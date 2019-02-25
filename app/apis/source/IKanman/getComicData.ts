@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetComicDataParam, Chapters } from '../../../typing';
+import { GetComicDataParam, Chapters } from '../../../../typing';
 
 const LZString = require('./utils/LZString');
 

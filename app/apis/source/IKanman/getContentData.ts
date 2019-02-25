@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetContentDataParam, ContentData } from '../../../typing';
+import { GetContentDataParam, ContentData } from '../../../../typing';
 import './utils/splic';
 
 interface SMH {
