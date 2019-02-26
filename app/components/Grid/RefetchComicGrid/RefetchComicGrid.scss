@@ -1,0 +1,5 @@
+.refetch-comic-grid-content {
+  @include absolute(0, null 0);
+  @include flex(center, center);
+  @include sq-dimen(100%);
+}

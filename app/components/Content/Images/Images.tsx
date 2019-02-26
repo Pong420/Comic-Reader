@@ -16,9 +16,6 @@ interface ImageStatus {
 
 type onLoad = (i: number) => void;
 type onError = (i: number) => void;
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
-  ? A
-  : never;
 
 type preload = (
   images: ImageStatus[],

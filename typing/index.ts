@@ -26,7 +26,7 @@ export interface ComicItem extends GridData {
 export type ComicItemList = ComicItem[];
 
 export interface ComicData extends ComicHeader {
-  comicID?: string;
+  comicID: string;
   chapters: Chapters;
   adultOnly: boolean;
   name: string;

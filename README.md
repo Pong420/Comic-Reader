@@ -85,6 +85,9 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
+- [ ] New Features
+  - Fit to page/with
+  - PrevNext Chapter Button
 - [ ] Error Handling
 - [ ] Code Review
 

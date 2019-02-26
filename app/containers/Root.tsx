@@ -17,6 +17,13 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true
+  },
+  overrides: {
+    MuiSvgIcon: {
+      colorPrimary: {
+        color: '#fff'
+      }
+    }
   }
 });
 
