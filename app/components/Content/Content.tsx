@@ -37,7 +37,7 @@ export const Content = withRouter(
     function changeChapter(chapterID: number) {
       history.push(
         chapterID !== 0
-          ? `/content/${match.params.comicID}/${chapterID}/0`
+          ? `/content/${match.params.comicID}/${chapterID}/1`
           : '/'
       );
     }
@@ -50,7 +50,7 @@ export const Content = withRouter(
 
       const newPageNo = Number(pageNo) + step;
 
-      if (newPageNo === -1) {
+      if (newPageNo < 0) {
         setDialogProps(prevState => ({
           ...prevState,
           msg:
@@ -64,7 +64,7 @@ export const Content = withRouter(
         return;
       }
 
-      if (newPageNo === images.length) {
+      if (newPageNo > images.length) {
         setDialogProps(prevState => ({
           ...prevState,
           msg:
@@ -78,7 +78,7 @@ export const Content = withRouter(
         return;
       }
 
-      if (images[newPageNo]) {
+      if (images[newPageNo - 1]) {
         history.replace(match.url.replace(/\/.\d*$/, `/${newPageNo}`));
       }
     }
@@ -98,7 +98,7 @@ export const Content = withRouter(
           }}
         >
           <Images
-            active={Number(pageNo)}
+            activeIndex={Number(pageNo) - 1}
             images={images}
             tabIndex={0}
             onKeyDown={onKeyDown}

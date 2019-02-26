@@ -34,7 +34,7 @@ export const ContentSidebar = connect(mapStateToProps)(
         <SidebarIcon Component={FlexSpacer} />
         <SidebarIcon
           Component={PageNoButton}
-          pageNo={match.params.pageNo}
+          currentPageNo={match.params.pageNo}
           totalPage={totalPage}
         />
       </Sidebar>

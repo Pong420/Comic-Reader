@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import { useGetSet } from 'react-use';
 
 export interface ImageProsp {
-  active: number;
+  activeIndex: number;
   images: string[];
   [key: string]: any;
 }
@@ -30,7 +30,7 @@ type preload = (
 // - Code Review
 // - Error Handling
 
-export function Images({ active, images, ...props }: ImageProsp) {
+export function Images({ activeIndex, images, ...props }: ImageProsp) {
   const scrollRef = useRef(null);
   const [getImagesDetail, setImagesDetail] = useGetSet<ImageStatus[]>(
     images.map((src, index) => ({
@@ -67,24 +67,24 @@ export function Images({ active, images, ...props }: ImageProsp) {
   useLayoutEffect(() => {
     scrollRef.current.scrollTop = 0;
     scrollRef.current.focus();
-  }, [active]);
+  }, [activeIndex]);
 
   useEffect(() => {
     const { cancel, isCanceled } = runWithCancel<preload>(
       preload,
-      getImagesDetail().slice(active),
+      getImagesDetail().slice(activeIndex),
       i => !isCanceled() && onLoad(i),
       i => !isCanceled() && onError(i)
     );
 
     return cancel;
-  }, [active]);
+  }, [activeIndex]);
 
   return (
     <div className="images" ref={scrollRef} {...props}>
       <div className="image-loading">撈緊...</div>
       {getImagesDetail().map(({ src, loaded, error }, index) => {
-        const hidden = index !== active;
+        const hidden = index !== activeIndex;
         const imgSrc = loaded || !hidden ? src : '';
 
         if (error) {

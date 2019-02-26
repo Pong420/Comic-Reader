@@ -60,7 +60,7 @@ export const ComicChapters = withStyles(styles)(
       <div className="chapters-list">
         {chapterList.map(({ chapterID, title, isNew }) => (
           <Link
-            to={`/content/${comicID}/${chapterID}/0`}
+            to={`/content/${comicID}/${chapterID}/1`}
             className="chapter-item"
             key={chapterID}
           >
