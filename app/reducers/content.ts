@@ -15,8 +15,6 @@ export default function(state = initialState, action: ContentTypes) {
         ...state,
         ...action.payload
       };
-
-      return state;
     default:
       return state;
   }

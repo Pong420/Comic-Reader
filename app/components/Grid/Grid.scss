@@ -3,11 +3,24 @@
 
   background-color: #232323;
 
+  &:before {
+    @include dimen(100%, 0);
+
+    content: '';
+    display: block;
+    padding-bottom: (480/360) * 100%;
+  }
+
+  .grid-content {
+    @include absolute(0, null 0);
+    @include sq-dimen(100%);
+  }
+
   .cover {
-    width: 100%;
+    @include sq-dimen(100%);
+
     background-size: cover;
     background-position: 50%;
-    padding-bottom: (480/360) * 100%;
     box-shadow: 2px 3px 10px #111;
   }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-import { RemovableGrid } from '../../components/Grid';
+import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
 import { BrowsingHistoryState } from '../../reducers/browsingHistory';
 import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
@@ -25,23 +25,48 @@ export interface BrowsingHistoryProps
 export const BrowsingHistory = connect(
   mapStateToProps,
   mapActiontoProps
-)(({ browsingHistory, removeBrowsingHistory }: BrowsingHistoryProps) => {
-  const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
+)(
+  ({
+    browsingHistory,
+    setBrowsingHistory,
+    removeBrowsingHistory
+  }: BrowsingHistoryProps) => {
+    const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
 
-  return (
-    <Layout className="browsing-history">
-      <AutoSizer>
-        {({ width, height }) => (
-          <GridContainer
-            width={width}
-            height={height}
-            list={ReversedBrowsingHistory}
-            onGridRender={props => (
-              <RemovableGrid {...props[1]} onClose={removeBrowsingHistory} />
-            )}
-          />
-        )}
-      </AutoSizer>
-    </Layout>
-  );
-});
+    return (
+      <Layout className="browsing-history">
+        <AutoSizer>
+          {({ width, height }) => (
+            <GridContainer
+              width={width}
+              height={height}
+              list={ReversedBrowsingHistory}
+              onGridRender={([_, props]) => {
+                if (props.comicData) {
+                  return (
+                    <RemovableGrid
+                      {...props.comicData}
+                      onClose={removeBrowsingHistory}
+                    />
+                  );
+                }
+
+                return (
+                  <RefetchComicGrid
+                    comicID={props.comicID}
+                    onFetch={comicData =>
+                      setBrowsingHistory({
+                        comicID: props.comicID,
+                        comicData
+                      })
+                    }
+                  />
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
+      </Layout>
+    );
+  }
+);

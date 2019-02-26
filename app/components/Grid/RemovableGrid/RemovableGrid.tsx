@@ -5,9 +5,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { Grid, GridPorps } from '../Grid';
 
-export interface RemovableGridProps
-  extends GridPorps,
-    WithStyles<typeof styles> {
+export interface RemovableGridProps extends GridPorps {
   onClose: (comicID: string) => void;
 }
 
@@ -19,7 +17,11 @@ const styles = () =>
   });
 
 export const RemovableGrid = withStyles(styles)(
-  ({ onClose, classes, ...props }: RemovableGridProps) => {
+  ({
+    onClose,
+    classes,
+    ...props
+  }: RemovableGridProps & WithStyles<typeof styles>) => {
     return (
       <Grid
         {...props}

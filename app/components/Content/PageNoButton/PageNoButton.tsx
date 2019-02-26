@@ -6,19 +6,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export interface PageNoButtonProps extends RouteComponentProps {
   className: string;
-  pageNo: string;
+  currentPageNo: string;
   totalPage: number;
 }
 
 const ITEM_HEIGHT = 20;
 
 export const PageNoButton = withRouter(
-  ({ className, pageNo, totalPage, history }: PageNoButtonProps) => {
+  ({ className, currentPageNo, totalPage, history }: PageNoButtonProps) => {
     const totalPageStr = String(totalPage);
-    const pageNoStr = `${Number(pageNo) + 1}`.padStart(
-      totalPageStr.length,
-      '0'
-    );
+    const pageNoStr = currentPageNo.padStart(totalPageStr.length, '0');
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
@@ -31,7 +28,6 @@ export const PageNoButton = withRouter(
     function closeMenu() {
       setAnchorEl(null);
       setOpen(false);
-      console.log('handle close');
     }
 
     if (totalPage) {
@@ -55,19 +51,23 @@ export const PageNoButton = withRouter(
               }
             }}
           >
-            {new Array(totalPage).fill(null).map((_, index) => (
-              <MenuItem
-                color="#fff"
-                key={index}
-                selected={index === Number(pageNo)}
-                onClick={() => {
-                  history.push(String(index));
-                  closeMenu();
-                }}
-              >
-                {index++}
-              </MenuItem>
-            ))}
+            {new Array(totalPage).fill(null).map((_, index) => {
+              const pageNo = index + 1;
+
+              return (
+                <MenuItem
+                  color="#fff"
+                  key={index}
+                  selected={pageNo === Number(currentPageNo)}
+                  onClick={() => {
+                    history.push(String(pageNo));
+                    closeMenu();
+                  }}
+                >
+                  {pageNo}
+                </MenuItem>
+              );
+            })}
           </Menu>
         </>
       );

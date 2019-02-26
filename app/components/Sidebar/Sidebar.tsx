@@ -32,7 +32,7 @@ export const Sidebar = withRouter(
     }, []);
 
     return (
-      <div className={`sidebar ${className}}`.trim()} style={{ paddingTop }}>
+      <div className={`sidebar ${className}`.trim()} style={{ paddingTop }}>
         {macos && <div className="drag-area" />}
 
         <div className="sidebar-content">

@@ -36,19 +36,21 @@ export function Grid({
   if (comicID) {
     return (
       <div className={`grid ${className}`.trim()}>
-        <div className="grid-header">{gridHeader}</div>
-        <Link to={`/comic/${comicID}`}>
-          <div
-            className="cover"
-            style={{
-              backgroundImage: `url(${cover})`
-            }}
-          />
-          <div className="caption">
-            <div className="name">{name}</div>
-            <div className="latest">{latest}</div>
-          </div>
-        </Link>
+        <div className="grid-content">
+          <div className="grid-header">{gridHeader}</div>
+          <Link to={`/comic/${comicID}`}>
+            <div
+              className="cover"
+              style={{
+                backgroundImage: `url(${cover})`
+              }}
+            />
+            <div className="caption">
+              <div className="name">{name}</div>
+              <div className="latest">{latest}</div>
+            </div>
+          </Link>
+        </div>
       </div>
     );
   }

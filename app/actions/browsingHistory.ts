@@ -1,4 +1,4 @@
-import { BrowsingHistoryItem, BrowsingHistory } from '../../typing';
+import { BrowsingHistoryItem } from '../../typing';
 import { getComicDataAPI } from '../apis';
 
 export enum BrowsingHistoryKeys {
@@ -8,23 +8,20 @@ export enum BrowsingHistoryKeys {
   SAVE_BROWSING_HISTORY = 'SAVE_BROWSING_HISTORY'
 }
 
-export interface AddBookMarkPayload {
-  bookmark: BrowsingHistoryItem;
+export interface BrowsingHistoryPayload {
+  comicID: string;
+  chapterID?: string;
+  comicData?: BrowsingHistoryItem;
 }
 
 interface SetBrowsingHistoryAction {
   type: BrowsingHistoryKeys.SET_BROWSING_HISTORY;
-  payload: {
-    browsingHistory: BrowsingHistory;
-  };
+  payload: BrowsingHistoryPayload;
 }
 
 interface AddBrowsingHistoryAction {
   type: BrowsingHistoryKeys.ADD_BROWSING_HISTORY;
-  payload: {
-    comicID: string;
-    browsingHistoryItem: BrowsingHistoryItem;
-  };
+  payload: BrowsingHistoryPayload;
 }
 
 interface RemoveBrowsingHistoryAction {
@@ -45,41 +42,39 @@ export type BrowsingHistoryTypes =
   | RemoveBrowsingHistoryAction;
 
 export type BrowsingHistoryActions = {
-  setBrowsingHistory: (browsingHistory: BrowsingHistory) => void;
-  addBrowsingHistory: (comicID: string) => void;
-  removeBrowsingHistory: (comicID: string) => void;
+  setBrowsingHistory: (
+    ...args: ArgumentTypes<typeof setBrowsingHistory>
+  ) => void;
+  addBrowsingHistory: (
+    ...args: ArgumentTypes<typeof addBrowsingHistory>
+  ) => void;
+  removeBrowsingHistory: (
+    ...args: ArgumentTypes<typeof removeBrowsingHistory>
+  ) => void;
   saveBrowsingHistory: () => void;
 };
 
-export function setBrowsingHistory(browsingHistory: BrowsingHistory) {
+export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
   return dispatch => {
     dispatch({
       type: BrowsingHistoryKeys.SET_BROWSING_HISTORY,
-      payload: {
-        browsingHistory
-      }
+      payload
     });
 
     dispatch(saveBrowsingHistory());
   };
 }
 
-function addBrowsingHistory_(
-  comicID: string,
-  browsingHistoryItem: BrowsingHistoryItem
-) {
+function addBrowsingHistory_(payload: BrowsingHistoryPayload) {
   return {
     type: BrowsingHistoryKeys.ADD_BROWSING_HISTORY,
-    payload: {
-      comicID,
-      browsingHistoryItem
-    }
+    payload
   };
 }
 
-export function addBrowsingHistory(comicID: string) {
+export function addBrowsingHistory(comicID: string, chapterID?: string) {
   return dispatch => {
-    dispatch(addBrowsingHistory_(comicID, null));
+    dispatch(addBrowsingHistory_({ comicID }));
     dispatch(saveBrowsingHistory());
 
     getComicDataAPI({
@@ -87,12 +82,16 @@ export function addBrowsingHistory(comicID: string) {
     }).then(data => {
       const { comicID, name, cover, latest, updateTime } = data;
       dispatch(
-        addBrowsingHistory_(comicID, {
+        addBrowsingHistory_({
           comicID,
-          name,
-          cover,
-          latest,
-          updateTime
+          chapterID,
+          comicData: {
+            comicID,
+            name,
+            cover,
+            latest,
+            updateTime
+          }
         })
       );
       dispatch(saveBrowsingHistory());

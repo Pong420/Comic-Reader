@@ -14,18 +14,22 @@ const storeDirectory = path.join(
   'browsingHistory.json'
 );
 
-export interface BrowsingHistoryState {
-  browsingHistory: [string, BrowsingHistoryItem][];
+interface HistroyItem {
+  comicData?: BrowsingHistoryItem;
+  chapterID?: string;
+  comicID: string;
 }
 
-const initialBrowsingHistorys: [string, BrowsingHistoryItem][] = fs.existsSync(
-  storeDirectory
-)
+export interface BrowsingHistoryState {
+  browsingHistory: [string, HistroyItem][];
+}
+
+const initialBrowsingHistory = (fs.existsSync(storeDirectory)
   ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
-  : [];
+  : []) as [string, HistroyItem][];
 
 const initialState: BrowsingHistoryState = {
-  browsingHistory: initialBrowsingHistorys
+  browsingHistory: initialBrowsingHistory
 };
 
 export default function(state = initialState, action: BrowsingHistoryTypes) {
@@ -37,9 +41,13 @@ export default function(state = initialState, action: BrowsingHistoryTypes) {
 
       return state;
     case BrowsingHistoryKeys.SET_BROWSING_HISTORY:
+      mappedBrowsingHistorys.set(action.payload.comicID, action.payload);
+
       return {
         ...state,
-        ...action.payload
+        browsingHistory: [
+          ...mappedBrowsingHistorys.set(action.payload.comicID, action.payload)
+        ]
       };
     case BrowsingHistoryKeys.ADD_BROWSING_HISTORY:
       mappedBrowsingHistorys.delete(action.payload.comicID);
@@ -47,10 +55,7 @@ export default function(state = initialState, action: BrowsingHistoryTypes) {
       return {
         ...state,
         browsingHistory: [
-          ...mappedBrowsingHistorys.set(
-            action.payload.comicID,
-            action.payload.browsingHistoryItem
-          )
+          ...mappedBrowsingHistorys.set(action.payload.comicID, action.payload)
         ]
       };
     case BrowsingHistoryKeys.REMOVE_BROWSING_HISTORY:

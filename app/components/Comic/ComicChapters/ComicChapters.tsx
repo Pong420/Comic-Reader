@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import red from '@material-ui/core/colors/red';
 import NewIcon from '@material-ui/icons/FiberNewOutlined';
-import Warning from '@material-ui/icons/WarningRounded';
+import WarningIcon from '@material-ui/icons/WarningRounded';
+import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
+import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
 import { Chapters, GetComicDataParam, ChapterList } from '../../../../typing';
 
 export interface ChapterProps
@@ -16,7 +19,7 @@ export interface ChapterProps
 
 const styles = () =>
   createStyles({
-    new: {
+    icon: {
       alignSelf: 'flex-start',
       color: red[500],
       fontSize: 30
@@ -29,74 +32,99 @@ const styles = () =>
 
 const IS_ADULT = 'isAdult';
 
+function mapStateToProps({ browsingHistory }, ownProps: any) {
+  return { ...browsingHistory, ...ownProps };
+}
+
 export const ComicChapters = withStyles(styles)(
-  ({ comicID, adultOnly, chapters = {}, classes }: ChapterProps) => {
-    const chaptersEntries = Object.entries(chapters).sort(
-      ([, l1], [, l2]) => l2.length - l1.length
-    );
-    const [currentChapter, setCurrentChapter] = useState(0);
-    const [showChapters, setShowChapters] = useState(
-      adultOnly ? localStorage.getItem(IS_ADULT) === '1' : true
-    );
+  connect(mapStateToProps)(
+    ({
+      comicID,
+      adultOnly,
+      chapters = {},
+      classes,
+      browsingHistory
+    }: ChapterProps & BrowsingHistoryState) => {
+      const chaptersEntries = Object.entries(chapters).sort(
+        ([, l1], [, l2]) => l2.length - l1.length
+      );
+      const [currentChapter, setCurrentChapter] = useState(0);
+      const [showChapters, setShowChapters] = useState(
+        adultOnly ? localStorage.getItem(IS_ADULT) === '1' : true
+      );
 
-    const ChapterType = () => (
-      <div className="chapter-types">
-        {chaptersEntries.map(([chapterType], index: number) => {
-          const active = currentChapter === index ? 'active' : '';
-          return (
-            <div
-              key={index}
-              className={`type ${active}`}
-              onClick={() => setCurrentChapter(index)}
-            >
-              <div className="label">{chapterType}</div>
-            </div>
-          );
-        })}
-      </div>
-    );
+      const mappedBrowsingHistory = new Map(browsingHistory);
 
-    const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
-      <div className="chapters-list">
-        {chapterList.map(({ chapterID, title, isNew }) => (
-          <Link
-            to={`/content/${comicID}/${chapterID}/0`}
-            className="chapter-item"
-            key={chapterID}
-          >
-            {title}
-            {isNew && <NewIcon className={classes.new} color="inherit" />}
-          </Link>
-        ))}
-      </div>
-    );
-
-    const WarningContainer = () => (
-      <div className="warning">
-        <Warning className={classes.warning} />
-        漫畫已被列為限制漫畫，其中有部份章節可能含有暴力、血腥、色情或不當的語言等內容，不適合未成年觀眾。如果你法定年齡已超過18歲，
-        <div
-          onClick={() => {
-            localStorage.setItem(IS_ADULT, '1');
-            setShowChapters(true);
-          }}
-        >
-          點擊繼續閱讀
+      const ChapterType = () => (
+        <div className="chapter-types">
+          {chaptersEntries.map(([chapterType], index: number) => {
+            const active = currentChapter === index ? 'active' : '';
+            return (
+              <div
+                key={index}
+                className={`type ${active}`}
+                onClick={() => setCurrentChapter(index)}
+              >
+                <div className="label">{chapterType}</div>
+              </div>
+            );
+          })}
         </div>
-      </div>
-    );
+      );
 
-    return (
-      <div className="comic-chapters">
-        {showChapters ? (
-          <>
-            <ChapterType />
-            <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
-          </>
-        ) : (
-          <WarningContainer />
-        )}
-      </div>
-    );
-  }
+      const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
+        <div className="chapters-list">
+          {chapterList.map(({ chapterID, title, isNew }) => {
+            const lastVisitChapter = mappedBrowsingHistory.has(comicID)
+              ? mappedBrowsingHistory.get(comicID).chapterID === chapterID
+              : false;
+            const Icon = lastVisitChapter
+              ? LastVisitIcon
+              : isNew
+              ? NewIcon
+              : null;
+
+            return (
+              <Link
+                to={`/content/${comicID}/${chapterID}/1`}
+                className="chapter-item"
+                key={chapterID}
+              >
+                {title}
+                {Icon && <Icon className={classes.icon} color="inherit" />}
+              </Link>
+            );
+          })}
+        </div>
+      );
+
+      const Warning = () => (
+        <div className="warning">
+          <WarningIcon className={classes.warning} />
+          漫畫已被列為限制漫畫，其中有部份章節可能含有暴力、血腥、色情或不當的語言等內容，不適合未成年觀眾。如果你法定年齡已超過18歲，
+          <div
+            onClick={() => {
+              localStorage.setItem(IS_ADULT, '1');
+              setShowChapters(true);
+            }}
+          >
+            點擊繼續閱讀
+          </div>
+        </div>
+      );
+
+      return (
+        <div className="comic-chapters">
+          {showChapters ? (
+            <>
+              <ChapterType />
+              <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
+            </>
+          ) : (
+            <Warning />
+          )}
+        </div>
+      );
+    }
+  )
 );
