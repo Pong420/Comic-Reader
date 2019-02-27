@@ -21,6 +21,7 @@ function mapActiontoProps(dispatch: Dispatch) {
 
 function BrowsingHistoryComponent({
   browsingHistory,
+  removable,
   setBrowsingHistory,
   removeBrowsingHistory
 }: BrowsingHistoryState & BrowsingHistoryActions) {
@@ -39,6 +40,7 @@ function BrowsingHistoryComponent({
                 return (
                   <RemovableGrid
                     {...comicData}
+                    removable={removable}
                     onRemove={removeBrowsingHistory}
                   />
                 );

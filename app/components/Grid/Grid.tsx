@@ -5,7 +5,7 @@ import { GridData } from '../../../typing';
 
 export interface GridPorps extends GridData {
   className?: string;
-  gridHeader?: ReactNode;
+  children?: ReactNode;
 }
 
 function PlaceHolder() {
@@ -31,13 +31,12 @@ export function Grid({
   name,
   latest,
   className = '',
-  gridHeader
+  children
 }: GridPorps) {
   if (comicID) {
     return (
       <div className={`grid ${className}`.trim()}>
         <div className="grid-content">
-          <div className="grid-header">{gridHeader}</div>
           <Link to={`/comic/${comicID}`}>
             <div
               className="cover"
@@ -51,6 +50,7 @@ export function Grid({
             </div>
           </Link>
         </div>
+        {children}
       </div>
     );
   }

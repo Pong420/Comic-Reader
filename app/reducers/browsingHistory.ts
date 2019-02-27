@@ -22,6 +22,7 @@ interface HistroyItem {
 
 export interface BrowsingHistoryState {
   browsingHistory: [string, HistroyItem][];
+  removable: boolean;
 }
 
 const initialBrowsingHistory = (fs.existsSync(storeDirectory)
@@ -29,7 +30,8 @@ const initialBrowsingHistory = (fs.existsSync(storeDirectory)
   : []) as [string, HistroyItem][];
 
 const initialState: BrowsingHistoryState = {
-  browsingHistory: initialBrowsingHistory
+  browsingHistory: initialBrowsingHistory,
+  removable: false
 };
 
 export default function(state = initialState, action: BrowsingHistoryTypes) {
@@ -64,6 +66,16 @@ export default function(state = initialState, action: BrowsingHistoryTypes) {
       return {
         ...state,
         browsingHistory: [...mappedBrowsingHistorys]
+      };
+    case BrowsingHistoryKeys.REMOVE_ALL_BROWSING_HISTORY:
+      return {
+        ...state,
+        browsingHistory: []
+      };
+    case BrowsingHistoryKeys.TOGGLE_REMOVABLE:
+      return {
+        ...state,
+        ...action.payload
       };
     default:
       return state;

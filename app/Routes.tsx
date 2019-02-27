@@ -10,6 +10,8 @@ import { BookmarkPage } from './containers/BookmarkPage';
 import { Sidebar } from './components/Sidebar';
 import { ComicSidebar } from './components/Comic/ComicSidebar';
 import { ContentSidebar } from './components/Content/ContentSidebar';
+import { BrowsingHistorySidebar } from './components/BrowsingHistory/BrowsingHistorySidebar';
+import { BookmarkSidebar } from './components/Bookmark/BookmarkSidebar';
 
 interface CustomRouteProps extends RouteProps {
   main: ComponentType<any>;
@@ -41,12 +43,12 @@ const routes: CustomRouteProps[] = [
   {
     path: '/history',
     main: BrowsingHistoryPage,
-    sidebar: Sidebar
+    sidebar: BrowsingHistorySidebar
   },
   {
     path: '/bookmark',
     main: BookmarkPage,
-    sidebar: Sidebar
+    sidebar: BookmarkSidebar
   }
 ];
 

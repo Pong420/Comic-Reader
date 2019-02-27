@@ -11,21 +11,25 @@ const storeDirectory = path.join(
   'bookmark.json'
 );
 
-interface Temp {
+interface BookmarkItem2 {
   comicID: string;
   bookmarkItem: BookmarkItem;
 }
 
 export interface BookmarkState {
-  bookmarks: [string, Temp][];
+  bookmarks: [string, BookmarkItem2][];
+  removable: boolean;
 }
 
-const initialBookmarks: [string, Temp][] = fs.existsSync(storeDirectory)
+const initialBookmarks: [string, BookmarkItem2][] = fs.existsSync(
+  storeDirectory
+)
   ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
   : [];
 
 const initialState: BookmarkState = {
-  bookmarks: initialBookmarks
+  bookmarks: initialBookmarks,
+  removable: false
 };
 
 export default function(state = initialState, action: BookmarkTypes) {
@@ -58,6 +62,16 @@ export default function(state = initialState, action: BookmarkTypes) {
       return {
         ...state,
         bookmarks: [...mappedBookmarks]
+      };
+    case BookmarkKeys.REMOVE_ALL_BOOKMARK:
+      return {
+        ...state,
+        browsingHistory: []
+      };
+    case BookmarkKeys.TOGGLE_REMOVABLE:
+      return {
+        ...state,
+        ...action.payload
       };
     default:
       return state;

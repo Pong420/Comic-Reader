@@ -6,7 +6,9 @@ export enum BookmarkKeys {
   SET_BOOKMARK = 'SET_BOOKMARK',
   ADD_BOOKMARK = 'ADD_BOOKMARK',
   REMOVE_BOOKMARK = 'REMOVE_BOOKMARK',
-  SAVE_BOOKMARK = 'SAVE_BOOKMARK'
+  SAVE_BOOKMARK = 'SAVE_BOOKMARK',
+  REMOVE_ALL_BOOKMARK = 'REMOVE_ALL_BOOKMARK',
+  TOGGLE_REMOVABLE = 'TOGGLE_REMOVABLE'
 }
 
 export interface BookMarkPayload {
@@ -35,17 +37,32 @@ interface SaveBookmarkAction {
   type: BookmarkKeys.SAVE_BOOKMARK;
 }
 
+interface ToggleRemovableAction {
+  type: BookmarkKeys.TOGGLE_REMOVABLE;
+  payload: {
+    removable: boolean;
+  };
+}
+
+interface RemoveAllBookmarkAction {
+  type: BookmarkKeys.REMOVE_ALL_BOOKMARK;
+}
+
 export type BookmarkTypes =
   | SetBookmarkAction
   | AddBookmarkAction
   | SaveBookmarkAction
-  | RemoveBookmarkAction;
+  | RemoveBookmarkAction
+  | ToggleRemovableAction
+  | RemoveAllBookmarkAction;
 
 export type BookmarkActions = {
   setBookmark: typeof setBookmark;
   addBookmark: typeof addBookmark;
   removeBookmark: typeof removeBookmark;
   saveBookmark: typeof saveBookmark;
+  toogleRemovable: typeof toogleRemovable;
+  removeAllBookmark: typeof removeAllBookmark;
 };
 
 export function setBookmark(payload: BookMarkPayload) {
@@ -105,9 +122,30 @@ export function saveBookmark() {
   };
 }
 
+export function toogleRemovable(removable: boolean) {
+  return {
+    type: BookmarkKeys.TOGGLE_REMOVABLE,
+    payload: {
+      removable
+    }
+  };
+}
+
+export function removeAllBookmark() {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: BookmarkKeys.REMOVE_ALL_BOOKMARK
+    });
+
+    dispatch(saveBookmark());
+  };
+}
+
 export default {
   setBookmark,
   addBookmark,
   removeBookmark,
-  saveBookmark
+  saveBookmark,
+  toogleRemovable,
+  removeAllBookmark
 };

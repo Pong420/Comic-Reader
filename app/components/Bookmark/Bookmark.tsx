@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 function BookmarkComponent({
   bookmarks,
+  removable,
   setBookmark,
   removeBookmark
 }: BookmarkProps & BookmarkState & BookmarkActions) {
@@ -35,7 +36,11 @@ function BookmarkComponent({
             onGridRender={([, { comicID, bookmarkItem }]) => {
               if (bookmarkItem) {
                 return (
-                  <RemovableGrid {...bookmarkItem} onRemove={removeBookmark} />
+                  <RemovableGrid
+                    {...bookmarkItem}
+                    removable={removable}
+                    onRemove={removeBookmark}
+                  />
                 );
               }
 

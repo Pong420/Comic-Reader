@@ -6,7 +6,9 @@ export enum BrowsingHistoryKeys {
   SET_BROWSING_HISTORY = 'SET_BROWSING_HISTORY',
   ADD_BROWSING_HISTORY = 'ADD_BROWSING_HISTORY',
   REMOVE_BROWSING_HISTORY = 'REMOVE_BROWSING_HISTORY',
-  SAVE_BROWSING_HISTORY = 'SAVE_BROWSING_HISTORY'
+  SAVE_BROWSING_HISTORY = 'SAVE_BROWSING_HISTORY',
+  REMOVE_ALL_BROWSING_HISTORY = 'REMOVE_ALL_BROWSING_HISTORY',
+  TOGGLE_REMOVABLE = 'TOGGLE_REMOVABLE'
 }
 
 export interface BrowsingHistoryPayload {
@@ -36,17 +38,32 @@ interface SaveBrowsingHistoryAction {
   type: BrowsingHistoryKeys.SAVE_BROWSING_HISTORY;
 }
 
+interface ToggleRemovableAction {
+  type: BrowsingHistoryKeys.TOGGLE_REMOVABLE;
+  payload: {
+    removable: boolean;
+  };
+}
+
+interface RemoveAllBrowsingHistoryAction {
+  type: BrowsingHistoryKeys.REMOVE_ALL_BROWSING_HISTORY;
+}
+
 export type BrowsingHistoryTypes =
   | SetBrowsingHistoryAction
   | AddBrowsingHistoryAction
   | SaveBrowsingHistoryAction
-  | RemoveBrowsingHistoryAction;
+  | RemoveBrowsingHistoryAction
+  | ToggleRemovableAction
+  | RemoveAllBrowsingHistoryAction;
 
 export type BrowsingHistoryActions = {
   setBrowsingHistory: typeof setBrowsingHistory;
   addBrowsingHistory: typeof addBrowsingHistory;
   removeBrowsingHistory: typeof removeBrowsingHistory;
   saveBrowsingHistory: typeof saveBrowsingHistory;
+  toogleRemovable: typeof toogleRemovable;
+  removeAllBrowsingHistory: typeof removeAllBrowsingHistory;
 };
 
 export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
@@ -113,9 +130,30 @@ export function saveBrowsingHistory() {
   };
 }
 
+export function toogleRemovable(removable: boolean) {
+  return {
+    type: BrowsingHistoryKeys.TOGGLE_REMOVABLE,
+    payload: {
+      removable
+    }
+  };
+}
+
+export function removeAllBrowsingHistory() {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: BrowsingHistoryKeys.REMOVE_ALL_BROWSING_HISTORY
+    });
+
+    dispatch(saveBrowsingHistory());
+  };
+}
+
 export default {
   setBrowsingHistory,
   addBrowsingHistory,
   removeBrowsingHistory,
-  saveBrowsingHistory
+  saveBrowsingHistory,
+  toogleRemovable,
+  removeAllBrowsingHistory
 };
