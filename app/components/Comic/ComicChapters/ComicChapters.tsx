@@ -75,9 +75,12 @@ export const ComicChapters = withStyles(styles)(
       const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
         <div className="chapters-list">
           {chapterList.map(({ chapterID, title, isNew }) => {
-            const lastVisitChapter = mappedBrowsingHistory.has(comicID)
-              ? mappedBrowsingHistory.get(comicID).chapterID === chapterID
-              : false;
+            const lastVisitChapter =
+              mappedBrowsingHistory.has(comicID) &&
+              (mappedBrowsingHistory.get(comicID).chapterIDs || []).includes(
+                chapterID
+              );
+
             const Icon = lastVisitChapter
               ? LastVisitIcon
               : isNew

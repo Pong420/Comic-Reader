@@ -10,7 +10,7 @@ export enum BrowsingHistoryKeys {
 
 export interface BrowsingHistoryPayload {
   comicID: string;
-  chapterID?: string;
+  chapterIDs?: string[];
   comicData?: BrowsingHistoryItem;
 }
 
@@ -84,7 +84,7 @@ export function addBrowsingHistory(comicID: string, chapterID?: string) {
       dispatch(
         addBrowsingHistory_({
           comicID,
-          chapterID,
+          chapterIDs: [chapterID],
           comicData: {
             comicID,
             name,

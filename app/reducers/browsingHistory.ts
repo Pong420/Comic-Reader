@@ -16,7 +16,7 @@ const storeDirectory = path.join(
 
 interface HistroyItem {
   comicData?: BrowsingHistoryItem;
-  chapterID?: string;
+  chapterIDs?: string[];
   comicID: string;
 }
 

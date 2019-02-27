@@ -10,7 +10,7 @@ An Electron based comic reader.
 
 <img src="internals/img/screenshot.png">
 
-## :warning: Note
+## :warning:
 
 - Frequently request may cause your IP banned by the data owner. In my experience, it will unlock after around one day.
 
@@ -22,7 +22,9 @@ yarn
 
 ## Development
 
-Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
+:warning: The code may have breaking change after code review. Currently, I am not suggest to contribute.
+
+Start the app in the `dev` environment. **There is some issue on hot updates, you may need to refresh few time after edit**
 
 ```bash
 $ yarn dev
@@ -85,11 +87,11 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
+- [ ] Code Review
 - [ ] New Features
   - Fit to page/with
   - PrevNext Chapter Button
 - [ ] Error Handling
-- [ ] Code Review
 
 ## Credit
 
