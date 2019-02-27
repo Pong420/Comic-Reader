@@ -20,7 +20,7 @@ export default function(state = initialState, action: LatestUpdateTypes) {
       };
     case LatestUpdateKeys.ADD_COMICS:
       const total = state.comicList.length;
-      const { from = total, to = from } = action.payload;
+      const { from = total, to = total } = action.payload;
 
       return {
         ...state,

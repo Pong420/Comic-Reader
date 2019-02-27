@@ -3,11 +3,11 @@ import { useAsync } from 'react-async';
 import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/RefreshRounded';
 import { getComicDataAPI } from '../../../apis';
-import { ComicData } from '../../../../typing';
+import { GridData } from '../../../../typing';
 
 export interface RefetchComicGridProps {
   comicID: string;
-  onFetch: (data: ComicData) => void;
+  onFetch: (data: GridData) => void;
 }
 
 export function RefetchComicGrid({ comicID, onFetch }: RefetchComicGridProps) {
@@ -21,7 +21,19 @@ export function RefetchComicGrid({ comicID, onFetch }: RefetchComicGridProps) {
         <IconButton
           onClick={() => {
             if (!isLoading) {
-              run().then(onFetch);
+              run().then(
+                ({
+                  adultOnly,
+                  chapters,
+                  finished,
+                  intro,
+                  details,
+                  title,
+                  ...data
+                }) => {
+                  onFetch(data);
+                }
+              );
             }
           }}
         >

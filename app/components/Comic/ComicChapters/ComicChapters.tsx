@@ -10,9 +10,7 @@ import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
 import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
 import { Chapters, GetComicDataParam, ChapterList } from '../../../../typing';
 
-export interface ChapterProps
-  extends GetComicDataParam,
-    WithStyles<typeof styles> {
+export interface ChapterProps extends GetComicDataParam {
   chapters: Chapters;
   adultOnly: boolean;
 }
@@ -32,7 +30,8 @@ const styles = () =>
 
 const IS_ADULT = 'isAdult';
 
-function mapStateToProps({ browsingHistory }, ownProps: any) {
+// FIXME:
+function mapStateToProps({ browsingHistory }: any, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 
@@ -44,7 +43,7 @@ export const ComicChapters = withStyles(styles)(
       chapters = {},
       classes,
       browsingHistory
-    }: ChapterProps & BrowsingHistoryState) => {
+    }: ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) => {
       const chaptersEntries = Object.entries(chapters).sort(
         ([, l1], [, l2]) => l2.length - l1.length
       );
@@ -75,12 +74,9 @@ export const ComicChapters = withStyles(styles)(
       const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
         <div className="chapters-list">
           {chapterList.map(({ chapterID, title, isNew }) => {
-            const lastVisitChapter =
-              mappedBrowsingHistory.has(comicID) &&
-              (mappedBrowsingHistory.get(comicID).chapterIDs || []).includes(
-                chapterID
-              );
-
+            const record = mappedBrowsingHistory.get(comicID);
+            const chapterIDs = record ? record.chapterIDs : [];
+            const lastVisitChapter = chapterIDs.includes(chapterID);
             const Icon = lastVisitChapter
               ? LastVisitIcon
               : isNew

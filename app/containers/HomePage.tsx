@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { useAsync } from 'react-async';
@@ -11,13 +11,14 @@ import { getLatestUpdateAPI } from '../apis';
 import { ComicItemList } from '../../typing';
 import LatestUpdateActions from '../actions/latestUpdate';
 
-function mapStateToProps({ latestUpdate }) {
+// FIXME:
+function mapStateToProps({ latestUpdate }: any) {
   return {
     ...latestUpdate
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(LatestUpdateActions, dispatch);
 }
 

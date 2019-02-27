@@ -20,15 +20,21 @@ const styles = (theme: Theme) =>
     }
   });
 
-export interface ContentDialogProps extends WithStyles<typeof styles> {
+export interface ContentDialogProps {
   msg: string;
   open: boolean;
-  onClose?: () => void;
-  onConfirm?: () => void;
+  onClose: () => void;
+  onConfirm: () => void;
 }
 
 export const ContentDialog = withStyles(styles)(
-  ({ msg, open, onConfirm, onClose, classes }: ContentDialogProps) => (
+  ({
+    msg,
+    open,
+    onConfirm,
+    onClose,
+    classes
+  }: ContentDialogProps & WithStyles<typeof styles>) => (
     <Dialog open={open} onClose={onClose} classes={{ paper: classes.paper }}>
       <DialogContent>
         <DialogContentText classes={{ root: classes.content }}>

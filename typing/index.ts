@@ -3,7 +3,7 @@ export interface GetLatestUpdateParam {
 }
 
 export interface GetComicDataParam {
-  comicID?: string;
+  comicID: string;
 }
 
 export interface GetContentDataParam {
@@ -60,7 +60,7 @@ export interface ChpaterItem {
 }
 
 export interface ContentData {
-  images?: string[];
+  images: string[];
   prevId?: number | undefined;
   nextId?: number | undefined;
 }
@@ -81,10 +81,6 @@ export type SearchHistory = SearchHistoryItem[];
 
 export type SearchHistoryItem = string;
 
-export type Bookmarks = BookmarkItem[];
-
 export type BookmarkItem = GridData | null;
-
-export type BrowsingHistory = BrowsingHistoryItem[];
 
 export type BrowsingHistoryItem = GridData | null;

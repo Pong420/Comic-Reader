@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { SearchResults, SearchHistory, SearchHistoryItem } from '../../typing';
 
 export enum SearchResultKeys {
@@ -93,7 +94,7 @@ export function setPageNumber(page: number) {
 }
 
 export function setSearchResults(searchResults: SearchResults) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(setPageNumber(1));
     dispatch({
       type: SearchResultKeys.SET_SEARCH_RESULT,
@@ -110,7 +111,7 @@ export function addSearchResults({
   from,
   to
 }: AddSearchResultsPayload) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(setPageNumber(page));
     dispatch({
       type: SearchResultKeys.ADD_SEARCH_RESULT,

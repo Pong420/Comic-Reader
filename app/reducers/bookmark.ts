@@ -11,11 +11,16 @@ const storeDirectory = path.join(
   'bookmark.json'
 );
 
-export interface BookmarkState {
-  bookmarks: [string, BookmarkItem][];
+interface Temp {
+  comicID: string;
+  bookmarkItem: BookmarkItem;
 }
 
-const initialBookmarks: [string, BookmarkItem][] = fs.existsSync(storeDirectory)
+export interface BookmarkState {
+  bookmarks: [string, Temp][];
+}
+
+const initialBookmarks: [string, Temp][] = fs.existsSync(storeDirectory)
   ? JSON.parse(fs.readFileSync(storeDirectory, 'utf8'))
   : [];
 
@@ -32,18 +37,19 @@ export default function(state = initialState, action: BookmarkTypes) {
 
       return state;
     case BookmarkKeys.SET_BOOKMARK:
+      mappedBookmarks.set(action.payload.comicID, action.payload);
+
       return {
         ...state,
-        ...action.payload
+        bookmarks: [
+          ...mappedBookmarks.set(action.payload.comicID, action.payload)
+        ]
       };
     case BookmarkKeys.ADD_BOOKMARK:
       return {
         ...state,
         bookmarks: [
-          ...mappedBookmarks.set(
-            action.payload.comicID,
-            action.payload.bookmarkItem
-          )
+          ...mappedBookmarks.set(action.payload.comicID, action.payload)
         ]
       };
     case BookmarkKeys.REMOVE_BOOKMARK:

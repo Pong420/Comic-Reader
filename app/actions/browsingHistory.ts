@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { BrowsingHistoryItem } from '../../typing';
 import { getComicDataAPI } from '../apis';
 
@@ -10,7 +11,7 @@ export enum BrowsingHistoryKeys {
 
 export interface BrowsingHistoryPayload {
   comicID: string;
-  chapterIDs?: string[];
+  chapterIDs: string[];
   comicData?: BrowsingHistoryItem;
 }
 
@@ -55,7 +56,7 @@ export type BrowsingHistoryActions = {
 };
 
 export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: BrowsingHistoryKeys.SET_BROWSING_HISTORY,
       payload
@@ -73,8 +74,8 @@ function addBrowsingHistory_(payload: BrowsingHistoryPayload) {
 }
 
 export function addBrowsingHistory(comicID: string, chapterID?: string) {
-  return dispatch => {
-    dispatch(addBrowsingHistory_({ comicID }));
+  return (dispatch: Dispatch) => {
+    dispatch(addBrowsingHistory_({ comicID, chapterIDs: [] }));
     dispatch(saveBrowsingHistory());
 
     getComicDataAPI({
@@ -84,7 +85,7 @@ export function addBrowsingHistory(comicID: string, chapterID?: string) {
       dispatch(
         addBrowsingHistory_({
           comicID,
-          chapterIDs: [chapterID],
+          chapterIDs: chapterID ? [chapterID] : [],
           comicData: {
             comicID,
             name,
@@ -100,7 +101,7 @@ export function addBrowsingHistory(comicID: string, chapterID?: string) {
 }
 
 export function removeBrowsingHistory(comicID: string) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: BrowsingHistoryKeys.REMOVE_BROWSING_HISTORY,
       payload: {

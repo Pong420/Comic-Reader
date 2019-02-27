@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { useAsync } from 'react-async';
@@ -17,14 +17,15 @@ import { SearchResultState } from '../../reducers/searchResult';
 
 export interface SearchProps extends SearchResultState, SearchResultsActions {}
 
-function mapStateToProps({ searchResult }, ownProps) {
+// FIXME:
+function mapStateToProps({ searchResult }: any, ownProps: any) {
   return {
     ...searchResult,
     ...ownProps
   };
 }
 
-function mapActionToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(SearchResultActionCreator, dispatch);
 }
 
@@ -35,7 +36,7 @@ const placeholders = new Array(20).fill({}) as SearchResults;
 
 export const Search = connect(
   mapStateToProps,
-  mapActionToProps
+  mapDispatchToProps
 )(
   ({
     page,
@@ -47,8 +48,9 @@ export const Search = connect(
     setSearchResults,
     addSearchResults
   }: SearchProps) => {
+    // FIXME:
     const { isLoading, run } = useAsync({
-      deferFn: ([params]: [SearchParam]) => searchRequest(params)
+      deferFn: (params: any) => searchRequest(params)
     });
 
     function searchRequest(params: SearchParam) {
@@ -93,6 +95,8 @@ export const Search = connect(
           }
         );
       }
+
+      return Promise.resolve();
     }
 
     return (

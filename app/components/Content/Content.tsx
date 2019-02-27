@@ -1,10 +1,10 @@
 import React, { useState, KeyboardEvent, MouseEvent, useEffect } from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
-import { ContentDialog } from './ContentDialog';
+import { ContentDialog, ContentDialogProps } from './ContentDialog';
 import { ContentData } from '../../../typing';
 import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
@@ -28,7 +28,7 @@ function mapStateToProps(_: any, ownProps: any) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
 }
 
@@ -46,9 +46,11 @@ export const Content = withRouter(
       match,
       addBrowsingHistory
     }: ContentProps & BrowsingHistoryActions) => {
-      const [dialogProps, setDialogProps] = useState({
+      const [dialogProps, setDialogProps] = useState<ContentDialogProps>({
         msg: '',
-        open: false
+        open: false,
+        onConfirm: () => {},
+        onClose: () => {}
       });
 
       const { comicID, chapterID } = match.params;
@@ -59,10 +61,8 @@ export const Content = withRouter(
       const prevPage = (evt?: MouseEvent<HTMLDivElement>) =>
         changePage(evt, -1);
 
-      function changeChapter(chapterID: number) {
-        history.push(
-          chapterID !== 0 ? `/content/${comicID}/${chapterID}/1` : '/'
-        );
+      function changeChapter(chapterID: number | undefined) {
+        history.push(chapterID ? `/content/${comicID}/${chapterID}/1` : '/');
       }
 
       function changePage(
@@ -134,7 +134,7 @@ export const Content = withRouter(
           <ContentDialog
             {...dialogProps}
             onClose={() =>
-              setDialogProps(prevState => ({
+              setDialogProps((prevState: ContentDialogProps) => ({
                 ...prevState,
                 open: false
               }))

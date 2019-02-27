@@ -1,41 +1,64 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-import { RemovableGrid } from '../../components/Grid';
+import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
 import { BookmarkState } from '../../reducers/bookmark';
 import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 
-export interface BookmarkProps extends BookmarkState, BookmarkActions {}
+export interface BookmarkProps {}
 
-function mapStateToProps({ bookmark }, ownProps) {
+// FIXME:
+function mapStateToProps({ bookmark }: any, ownProps: any) {
   return { ...bookmark, ...ownProps };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
 export const Bookmark = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ bookmarks, removeBookmark }: BookmarkProps) => {
-  return (
-    <Layout className="bookmark">
-      <AutoSizer>
-        {({ width, height }) => (
-          <GridContainer
-            width={width}
-            height={height}
-            list={bookmarks}
-            onGridRender={props => (
-              <RemovableGrid {...props[1]} onClose={removeBookmark} />
-            )}
-          />
-        )}
-      </AutoSizer>
-    </Layout>
-  );
-});
+)(
+  ({
+    bookmarks,
+    setBookmark,
+    removeBookmark
+  }: BookmarkProps & BookmarkState & BookmarkActions) => {
+    return (
+      <Layout className="bookmark">
+        <AutoSizer>
+          {({ width, height }) => (
+            <GridContainer
+              width={width}
+              height={height}
+              list={bookmarks}
+              onGridRender={([, { comicID, bookmarkItem }]) => {
+                if (bookmarkItem) {
+                  return (
+                    <RemovableGrid {...bookmarkItem} onClose={removeBookmark} />
+                  );
+                }
+
+                return (
+                  <RefetchComicGrid
+                    comicID={comicID}
+                    onFetch={bookmarkItem =>
+                      setBookmark({
+                        comicID,
+                        bookmarkItem
+                      })
+                    }
+                  />
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
+      </Layout>
+    );
+  }
+);

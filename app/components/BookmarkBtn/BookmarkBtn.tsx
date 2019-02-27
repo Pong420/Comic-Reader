@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import BookMarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
@@ -7,34 +7,42 @@ import { SidebarIcon } from '../Sidebar/SidebarIcon';
 import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 import { BookmarkState } from '../../reducers/bookmark';
 
-export interface BookmarkBtnProps extends BookmarkState, BookmarkActions {
-  comicID?: string;
+export interface BookmarkBtnProps {
+  comicID: string;
 }
 
-function mapStateToProps({ bookmark }, ownProps) {
+// FIXME:
+function mapStateToProps({ bookmark }: any, ownProps: any) {
   return {
     ...bookmark,
     ...ownProps
   };
 }
 
-function mapActionToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
 export const BookmarkBtn = connect(
   mapStateToProps,
-  mapActionToProps
-)(({ bookmarks, comicID, addBookmark, removeBookmark }: BookmarkBtnProps) => {
-  const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
-  const bookmarked = mappedBookmarks.has(comicID);
+  mapDispatchToProps
+)(
+  ({
+    bookmarks,
+    comicID,
+    addBookmark,
+    removeBookmark
+  }: BookmarkBtnProps & BookmarkState & BookmarkActions) => {
+    const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
+    const bookmarked = mappedBookmarks.has(comicID);
 
-  return (
-    <SidebarIcon
-      Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
-      onClick={() =>
-        bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
-      }
-    />
-  );
-});
+    return (
+      <SidebarIcon
+        Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
+        onClick={() =>
+          bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
+        }
+      />
+    );
+  }
+);

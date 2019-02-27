@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -17,10 +17,10 @@ export const PageNoButton = withRouter(
     const totalPageStr = String(totalPage);
     const pageNoStr = currentPageNo.padStart(totalPageStr.length, '0');
 
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [open, setOpen] = useState(false);
 
-    function openMenu(event) {
+    function openMenu(event: MouseEvent<HTMLElement>) {
       setAnchorEl(event.currentTarget);
       setOpen(true);
     }

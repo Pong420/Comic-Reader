@@ -20,8 +20,7 @@ const styles = (theme: Theme) => ({
     color: '#fff'
   },
   iconButton: {
-    padding: 10,
-    color: '#fff'
+    padding: 10
   }
 });
 
@@ -53,7 +52,7 @@ export const SearchHeader = withStyles(styles)(
             aria-label="Search"
             onClick={() => onSubmit(null)}
           >
-            <SearchIcon />
+            <SearchIcon color="primary" />
           </IconButton>
         </form>
       </div>

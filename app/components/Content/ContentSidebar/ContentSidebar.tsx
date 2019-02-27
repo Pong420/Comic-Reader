@@ -11,7 +11,8 @@ interface MatchParams {
   pageNo: string;
 }
 
-function mapStateToProps({ content }) {
+// FIXME:
+function mapStateToProps({ content }: any) {
   return {
     ...content
   };

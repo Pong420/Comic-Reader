@@ -29,7 +29,7 @@ const sidebarIconStyles = () => {
   return createStyles({
     root,
     iconButton: {
-      ...root,
+      ...root
     },
     icon: {
       fontSize: 30
@@ -49,6 +49,10 @@ export const SidebarIcon = withStyles(sidebarIconStyles)(
       );
     }
 
-    return <Component className={root} {...props} />;
+    if (Component) {
+      return <Component className={root} {...props} />;
+    }
+
+    return null;
   }
 );

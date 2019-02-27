@@ -28,7 +28,7 @@ type preload = (
 // - Error Handling
 
 export function Images({ activeIndex, images, ...props }: ImageProsp) {
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [getImagesDetail, setImagesDetail] = useGetSet<ImageStatus[]>(
     images.map((src, index) => ({
       index,
@@ -62,16 +62,20 @@ export function Images({ activeIndex, images, ...props }: ImageProsp) {
   }
 
   useLayoutEffect(() => {
-    scrollRef.current.scrollTop = 0;
-    scrollRef.current.focus();
+    scrollRef.current!.scrollTop = 0;
+    scrollRef.current!.focus();
   }, [activeIndex]);
 
   useEffect(() => {
-    const { cancel, isCanceled } = runWithCancel<preload>(
+    const { cancel, isCancelled } = runWithCancel<preload>(
       preload,
       getImagesDetail().slice(activeIndex),
-      i => !isCanceled() && onLoad(i),
-      i => !isCanceled() && onError(i)
+      i => {
+        !isCancelled() && onLoad(i);
+      },
+      i => {
+        !isCancelled() && onError(i);
+      }
     );
 
     return cancel;
@@ -124,26 +128,31 @@ function loadImage(src: string) {
   });
 }
 
+// FIXME:
+interface RunWithCancel {
+  promise: Promise<any>;
+  cancel: () => void;
+  isCancelled: () => boolean;
+}
+
 // https://blog.bloomca.me/2017/12/04/how-to-cancel-your-promise.html
 // this is a core function which will run our async code
 // and provide cancellation method
 function runWithCancel<T extends Function>(
   fn: T,
   ...args: ArgumentTypes<typeof fn>
-) {
+): RunWithCancel {
   const gen = fn(...args);
 
   let cancelled: boolean = false;
-  let cancel: () => void;
+  const cancel = () => {
+    cancelled = true;
+  };
 
   const promise = new Promise((resolve, reject) => {
-    cancel = () => {
-      cancelled = true;
-    };
-
     onFulfilled();
 
-    function onFulfilled(res?) {
+    function onFulfilled(res?: IteratorResult<any>) {
       if (!cancelled) {
         let result;
         try {
@@ -157,7 +166,7 @@ function runWithCancel<T extends Function>(
       }
     }
 
-    function onRejected(err) {
+    function onRejected(err: Error) {
       let result;
       try {
         result = gen.throw(err);
@@ -167,7 +176,7 @@ function runWithCancel<T extends Function>(
       next(result);
     }
 
-    function next({ done, value }) {
+    function next({ done, value }: IteratorResult<any>) {
       if (done) {
         return resolve(value);
       }
@@ -179,6 +188,6 @@ function runWithCancel<T extends Function>(
   return {
     promise,
     cancel,
-    isCanceled: () => cancelled
+    isCancelled: () => cancelled
   };
 }

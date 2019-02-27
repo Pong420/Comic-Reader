@@ -1,4 +1,5 @@
-import { BookmarkItem, Bookmarks } from '../../typing';
+import { Dispatch } from 'redux';
+import { BookmarkItem } from '../../typing';
 import { getComicDataAPI } from '../apis';
 
 export enum BookmarkKeys {
@@ -8,23 +9,19 @@ export enum BookmarkKeys {
   SAVE_BOOKMARK = 'SAVE_BOOKMARK'
 }
 
-export interface AddBookMarkPayload {
-  bookmark: BookmarkItem;
+export interface BookMarkPayload {
+  comicID: string;
+  bookmarkItem: BookmarkItem;
 }
 
 interface SetBookmarkAction {
   type: BookmarkKeys.SET_BOOKMARK;
-  payload: {
-    bookmarks: Bookmarks;
-  };
+  payload: BookMarkPayload;
 }
 
 interface AddBookmarkAction {
   type: BookmarkKeys.ADD_BOOKMARK;
-  payload: {
-    comicID: string;
-    bookmarkItem: BookmarkItem;
-  };
+  payload: BookMarkPayload;
 }
 
 interface RemoveBookmarkAction {
@@ -45,19 +42,17 @@ export type BookmarkTypes =
   | RemoveBookmarkAction;
 
 export type BookmarkActions = {
-  setBookmark: (bookmarks: Bookmarks) => void;
-  addBookmark: (comicID: string) => void;
-  removeBookmark: (comicID: string) => void;
+  setBookmark: (...args: ArgumentTypes<typeof setBookmark>) => void;
+  addBookmark: (...args: ArgumentTypes<typeof addBookmark>) => void;
+  removeBookmark: (...args: ArgumentTypes<typeof removeBookmark>) => void;
   saveBookmark: () => void;
 };
 
-export function setBookmark(bookmarks: Bookmarks) {
-  return dispatch => {
+export function setBookmark(payload: BookMarkPayload) {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: BookmarkKeys.SET_BOOKMARK,
-      payload: {
-        bookmarks
-      }
+      payload
     });
 
     dispatch(saveBookmark());
@@ -75,7 +70,7 @@ function addBookmark_(comicID: string, bookmarkItem: BookmarkItem) {
 }
 
 export function addBookmark(comicID: string) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(addBookmark_(comicID, null));
     dispatch(saveBookmark());
 
@@ -92,7 +87,7 @@ export function addBookmark(comicID: string) {
 }
 
 export function removeBookmark(comicID: string) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: BookmarkKeys.REMOVE_BOOKMARK,
       payload: {

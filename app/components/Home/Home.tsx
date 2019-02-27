@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -14,13 +14,14 @@ import { LatestUpdateState } from '../../reducers/latestUpdate';
 
 export interface HomeProps extends LatestUpdateState, LatestUpdateActions {}
 
-function mapStateToProps({ latestUpdate }) {
+// FIXME:
+function mapStateToProps({ latestUpdate }: any) {
   return {
     ...latestUpdate
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(LatestUpdateActionCreator, dispatch);
 }
 

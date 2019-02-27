@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -10,11 +10,12 @@ import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
 } from '../../actions/browsingHistory';
 
-function mapStateToProps({ browsingHistory }, ownProps) {
+// FIXME:
+function mapStateToProps({ browsingHistory }: any, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 
-function mapActiontoProps(dispatch) {
+function mapActiontoProps(dispatch: Dispatch) {
   return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
 }
 
@@ -41,11 +42,11 @@ export const BrowsingHistory = connect(
               width={width}
               height={height}
               list={ReversedBrowsingHistory}
-              onGridRender={([_, props]) => {
-                if (props.comicData) {
+              onGridRender={([_, { comicID, comicData }]) => {
+                if (comicData) {
                   return (
                     <RemovableGrid
-                      {...props.comicData}
+                      {...comicData}
                       onClose={removeBrowsingHistory}
                     />
                   );
@@ -53,11 +54,12 @@ export const BrowsingHistory = connect(
 
                 return (
                   <RefetchComicGrid
-                    comicID={props.comicID}
+                    comicID={comicID}
                     onFetch={comicData =>
                       setBrowsingHistory({
-                        comicID: props.comicID,
-                        comicData
+                        comicID,
+                        comicData,
+                        chapterIDs: []
                       })
                     }
                   />
