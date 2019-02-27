@@ -9874,10 +9874,10 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-async@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-async/-/react-async-4.1.1.tgz#304d45ee91484c9fc4d61cc185bc484f8906b622"
-  integrity sha512-iI+0q4mq6EVuuM8JWFu/Hysnez9Ef7s3gvJFqI+wsuDVhLf7ghZNURXM5rv/5DPWr9/PW1bfXxIN3BZP10Mjdw==
+react-async@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-4.1.2.tgz#eefb7d5bb6ff7c79c1bab66d37e88d5805f52730"
+  integrity sha512-4CqzDd2kpw0lLgEobomrwH56D0TrYZwwi6OTXhwsomKUryI5zhXgI2GXhGfEzDztFjONy1fUkxHmwhRyssMR8g==
   optionalDependencies:
     prop-types ">=15.5.7"
 

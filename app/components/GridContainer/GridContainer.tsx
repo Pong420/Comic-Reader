@@ -64,7 +64,7 @@ export function GridContainer<T>({
   onGridRender,
   noContentRenderer
 }: GridContainerProps<T>) {
-  const gridSizerRef = useRef(null);
+  const gridSizerRef = useRef<HTMLDivElement>(null);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
     [width, height]

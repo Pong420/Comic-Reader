@@ -5,13 +5,13 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
+import { RootState } from '../../reducers';
 import { BookmarkState } from '../../reducers/bookmark';
 import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 
 export interface BookmarkProps {}
 
-// FIXME:
-function mapStateToProps({ bookmark }: any, ownProps: any) {
+function mapStateToProps({ bookmark }: RootState, ownProps: any) {
   return { ...bookmark, ...ownProps };
 }
 
@@ -35,7 +35,7 @@ function BookmarkComponent({
             onGridRender={([, { comicID, bookmarkItem }]) => {
               if (bookmarkItem) {
                 return (
-                  <RemovableGrid {...bookmarkItem} onClose={removeBookmark} />
+                  <RemovableGrid {...bookmarkItem} onRemove={removeBookmark} />
                 );
               }
 

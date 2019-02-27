@@ -26,15 +26,13 @@ const ContentPageComponent = ({
   setTotoalPage
 }: RouteComponentProps<MatchParam> & ContentActions) => {
   const { pageNo, chapterID, comicID } = match.params;
-  // FIXME:
-  // @ts-ignore
+
   const { data, error, isLoading, reload, run } = useAsync<ContentData>({
-    deferFn: ([params]: [GetContentDataParam]) => getContentDataAPI(params)
+    deferFn: ([params]: GetContentDataParam[]) => getContentDataAPI(params)
   });
 
   useEffect(() => {
-    // FIXME: ContentData should not required
-    run({ comicID, chapterID }).then(({ images }: ContentData) => {
+    run({ comicID, chapterID }).then(({ images }) => {
       setTotoalPage(images.length);
     });
   }, [chapterID]);

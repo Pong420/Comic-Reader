@@ -24,43 +24,39 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export const SearchHeader = withStyles(styles)(
-  ({
-    classes,
-    value,
-    onSearch,
-    onInputChange
-  }: SearchHeaderProps & WithStyles<typeof styles>) => {
-    function onSubmit(evt: FormEvent<HTMLFormElement> | null) {
-      evt && evt.preventDefault();
-      onSearch();
-    }
-
-    function onChange(evt: ChangeEvent<HTMLInputElement>) {
-      onInputChange(evt.target.value);
-    }
-
-    return (
-      <div className="search-header">
-        <form
-          onSubmit={evt => onSubmit(evt)}
-          className={`search ${classes.background}`}
-        >
-          <InputBase
-            className={classes.input}
-            onChange={onChange}
-            value={value}
-            fullWidth
-          />
-          <IconButton
-            className={classes.iconButton}
-            aria-label="Search"
-            onClick={() => onSubmit(null)}
-          >
-            <SearchIcon color="primary" />
-          </IconButton>
-        </form>
-      </div>
-    );
+function SearchHeaderComponent({
+  classes,
+  value,
+  onSearch,
+  onInputChange
+}: SearchHeaderProps & WithStyles<typeof styles>) {
+  function onSubmit(evt?: FormEvent<HTMLFormElement>) {
+    evt && evt.preventDefault();
+    onSearch();
   }
-);
+
+  function onChange(evt: ChangeEvent<HTMLInputElement>) {
+    onInputChange(evt.target.value);
+  }
+
+  return (
+    <div className="search-header">
+      <form
+        onSubmit={evt => onSubmit(evt)}
+        className={`search ${classes.background}`}
+      >
+        <InputBase
+          className={classes.input}
+          onChange={onChange}
+          value={value}
+          fullWidth
+        />
+        <IconButton className={classes.iconButton} onClick={() => onSubmit()}>
+          <SearchIcon color="primary" />
+        </IconButton>
+      </form>
+    </div>
+  );
+}
+
+export const SearchHeader = withStyles(styles)(SearchHeaderComponent);

@@ -4,16 +4,16 @@ import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import { Grid, GridPorps } from '../Grid';
 
 export interface RemovableGridProps extends GridPorps {
-  onClose: (comicID: string) => void;
+  onRemove: (comicID: string) => void;
 }
 
-export function RemovableGrid({ onClose, ...props }: RemovableGridProps) {
+export function RemovableGrid({ onRemove, ...gridProps }: RemovableGridProps) {
   return (
     <Grid
-      {...props}
+      {...gridProps}
       className="removable-grid"
       gridHeader={
-        <IconButton onClick={() => onClose(props.comicID)}>
+        <IconButton onClick={() => onRemove(gridProps.comicID)}>
           <DeleteIcon color="primary" />
         </IconButton>
       }

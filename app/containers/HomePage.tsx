@@ -12,10 +12,10 @@ import { ComicItemList } from '../../typing';
 import LatestUpdateActionCreators, {
   LatestUpdateActions
 } from '../actions/latestUpdate';
+import { RootState } from '../reducers';
 import { LatestUpdateState } from '../reducers/latestUpdate';
 
-// FIXME:
-function mapStateToProps({ latestUpdate }: any) {
+function mapStateToProps({ latestUpdate }: RootState) {
   return {
     ...latestUpdate
   };

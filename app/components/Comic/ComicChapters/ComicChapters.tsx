@@ -7,6 +7,7 @@ import red from '@material-ui/core/colors/red';
 import NewIcon from '@material-ui/icons/FiberNewOutlined';
 import WarningIcon from '@material-ui/icons/WarningRounded';
 import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
+import { RootState } from '../../../reducers';
 import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
 import { Chapters, ChapterList } from '../../../../typing';
 
@@ -32,8 +33,7 @@ const styles = () =>
 
 const IS_ADULT = 'isAdult';
 
-// FIXME:
-function mapStateToProps({ browsingHistory }: any, ownProps: any) {
+function mapStateToProps({ browsingHistory }: RootState, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 

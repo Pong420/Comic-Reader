@@ -29,9 +29,9 @@ export function RefetchComicGrid({ comicID, onFetch }: RefetchComicGridProps) {
                   intro,
                   details,
                   title,
-                  ...data
+                  ...gridData
                 }) => {
-                  onFetch(data);
+                  onFetch(gridData);
                 }
               );
             }

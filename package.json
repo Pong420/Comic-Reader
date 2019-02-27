@@ -263,7 +263,7 @@
     "express": "^4.16.4",
     "history": "^4.7.2",
     "react": "16.8.3",
-    "react-async": "^4.1.1",
+    "react-async": "^4.1.2",
     "react-content-loader": "^4.0.1",
     "react-dom": "16.8.3",
     "react-redux": "^6.0.0",

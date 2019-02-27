@@ -13,10 +13,12 @@ import { searchAPI } from '../../apis';
 import SearchResultActionCreator, {
   SearchResultsActions
 } from '../../actions/searchResult';
+import { RootState } from '../../reducers';
 import { SearchResultState } from '../../reducers/searchResult';
 
-// FIXME:
-function mapStateToProps({ searchResult }: any, ownProps: any) {
+const placeholders: SearchResults = new Array(20).fill({});
+
+function mapStateToProps({ searchResult }: RootState, ownProps: any) {
   return {
     ...searchResult,
     ...ownProps
@@ -27,12 +29,10 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(SearchResultActionCreator, dispatch);
 }
 
-const placeholders = new Array(20).fill({}) as SearchResults;
-
 //  TODO:
 // - Search fails handling
 
-const SearchComponent = ({
+function SearchComponent({
   page,
   keyword,
   searchResults,
@@ -41,11 +41,9 @@ const SearchComponent = ({
   setNoMoreResult,
   setSearchResults,
   addSearchResults
-}: SearchResultState & SearchResultsActions) => {
-  // FIXME:
-  // @ts-ignore
+}: SearchResultState & SearchResultsActions) {
   const { isLoading, run } = useAsync({
-    deferFn: ([params]: [SearchParam]) => searchRequest(params)
+    deferFn: ([params]: SearchParam[]) => searchRequest(params)
   });
 
   function searchRequest(params: SearchParam) {
@@ -123,7 +121,7 @@ const SearchComponent = ({
       </div>
     </Layout>
   );
-};
+}
 
 export const Search = connect(
   mapStateToProps,

@@ -10,25 +10,20 @@ import { ComicItemList } from '../../../typing';
 import LatestUpdateActionCreator, {
   LatestUpdateActions
 } from '../../actions/latestUpdate';
+import { RootState } from '../../reducers';
 import { LatestUpdateState } from '../../reducers/latestUpdate';
 
-// FIXME:
-function mapStateToProps({ latestUpdate }: any) {
-  return {
-    ...latestUpdate
-  };
+const placeholders: ComicItemList = new Array(42).fill({});
+
+function mapStateToProps({ latestUpdate }: RootState, ownProps: any) {
+  return { ...latestUpdate, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(LatestUpdateActionCreator, dispatch);
 }
 
-const placeholders = new Array(42).fill({}) as ComicItemList;
-
-export const Home = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function({
+function HomeComponent({
   page,
   comicList,
   addComics
@@ -68,4 +63,9 @@ export const Home = connect(
       </AutoSizer>
     </Layout>
   );
-});
+}
+
+export const Home = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeComponent);

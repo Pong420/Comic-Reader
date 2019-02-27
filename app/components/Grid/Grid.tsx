@@ -8,7 +8,7 @@ export interface GridPorps extends GridData {
   gridHeader?: ReactNode;
 }
 
-const PlaceHolder = () => {
+function PlaceHolder() {
   const width = 360;
   const height = 510;
 
@@ -23,7 +23,7 @@ const PlaceHolder = () => {
       <rect x="2" y="-36" rx="5" ry="5" width={width} height={height} />
     </ContentLoader>
   );
-};
+}
 
 export function Grid({
   comicID,

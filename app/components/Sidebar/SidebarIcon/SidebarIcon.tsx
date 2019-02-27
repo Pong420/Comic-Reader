@@ -37,27 +37,27 @@ const sidebarIconStyles = () => {
   });
 };
 
-export const SidebarIcon = withStyles(sidebarIconStyles)(
-  ({
-    Icon,
-    Component,
-    classes,
-    ...props
-  }: SidebarIconProps & WithStyles<typeof sidebarIconStyles>) => {
-    const { root, iconButton, icon } = classes;
+function SidebarIconComponent({
+  Icon,
+  Component,
+  classes,
+  ...props
+}: SidebarIconProps & WithStyles<typeof sidebarIconStyles>) {
+  const { root, iconButton, icon } = classes;
 
-    if (Icon) {
-      return (
-        <IconButton className={iconButton} {...props}>
-          <Icon className={icon} color="inherit" />
-        </IconButton>
-      );
-    }
-
-    if (Component) {
-      return <Component className={root} {...props} />;
-    }
-
-    return null;
+  if (Icon) {
+    return (
+      <IconButton className={iconButton} {...props}>
+        <Icon className={icon} color="inherit" />
+      </IconButton>
+    );
   }
-);
+
+  if (Component) {
+    return <Component className={root} {...props} />;
+  }
+
+  return null;
+}
+
+export const SidebarIcon = withStyles(sidebarIconStyles)(SidebarIconComponent);

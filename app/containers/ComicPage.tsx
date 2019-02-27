@@ -13,10 +13,8 @@ interface MatchParam {
 }
 
 export function ComicPage({ match }: RouteComponentProps<MatchParam>) {
-  // FIXME:
-  // @ts-ignore
   const { data, error, isLoading, reload, run } = useAsync<ComicData>({
-    deferFn: ([params]: [GetComicDataParam]) => getComicDataAPI(params)
+    deferFn: ([params]: GetComicDataParam[]) => getComicDataAPI(params)
   });
 
   useEffect(() => {

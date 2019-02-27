@@ -5,13 +5,13 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
+import { RootState } from '../../reducers';
 import { BrowsingHistoryState } from '../../reducers/browsingHistory';
 import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
 } from '../../actions/browsingHistory';
 
-// FIXME:
-function mapStateToProps({ browsingHistory }: any, ownProps: any) {
+function mapStateToProps({ browsingHistory }: RootState, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 
@@ -39,7 +39,7 @@ function BrowsingHistoryComponent({
                 return (
                   <RemovableGrid
                     {...comicData}
-                    onClose={removeBrowsingHistory}
+                    onRemove={removeBrowsingHistory}
                   />
                 );
               }
