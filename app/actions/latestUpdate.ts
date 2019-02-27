@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { ComicItemList } from '../../typing';
 
 export enum LatestUpdateKeys {
@@ -38,9 +39,9 @@ export interface AddComicsPayload {
 }
 
 export type LatestUpdateActions = {
-  setComics: (comicList: ComicItemList) => void;
-  addComics: (args: AddComicsPayload) => void;
-  setPageNumber: (page: number) => void;
+  setComics: typeof setComics;
+  addComics: typeof addComics;
+  setPageNumber: typeof setPageNumber;
 };
 
 export function setComics(comicList: ComicItemList): SetComicAction {
@@ -53,7 +54,7 @@ export function setComics(comicList: ComicItemList): SetComicAction {
 }
 
 export function addComics({ page, comicList, from, to }: AddComicsPayload) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(setPageNumber(page));
     dispatch({
       type: LatestUpdateKeys.ADD_COMICS,
@@ -75,4 +76,8 @@ export function setPageNumber(page: number): SetPageNoAction {
   };
 }
 
-export default { setComics, addComics, setPageNumber } as LatestUpdateActions;
+export default {
+  setComics,
+  addComics,
+  setPageNumber
+};

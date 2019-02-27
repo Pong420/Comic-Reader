@@ -6,7 +6,7 @@ import { Comic } from '../components/Comic';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { getComicDataAPI } from '../apis';
-import { ComicData } from '../../typing';
+import { ComicData, GetComicDataParam } from '../../typing';
 
 interface MatchParam {
   comicID: string;
@@ -14,10 +14,7 @@ interface MatchParam {
 
 export function ComicPage({ match }: RouteComponentProps<MatchParam>) {
   const { data, error, isLoading, reload, run } = useAsync<ComicData>({
-    deferFn: ([{ comicID }]: MatchParam[]) =>
-      getComicDataAPI({
-        comicID
-      })
+    deferFn: ([params]: GetComicDataParam[]) => getComicDataAPI(params)
   });
 
   useEffect(() => {

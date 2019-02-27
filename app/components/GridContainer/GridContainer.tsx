@@ -18,7 +18,7 @@ export interface GridContainerProps<T> {
   width: number;
   height: number;
   list: T[];
-  loadMore?: () => Promise<void>;
+  loadMore?: () => Promise<any>;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
 }
@@ -29,9 +29,9 @@ const scrollPosition = new Map<string, number>();
 const GridWithScrollHandler = withRouter(
   ({ location, ...props }: GridProps & RouteComponentProps) => {
     const [mounted, setMounted] = useState(false);
-    const gridRef = useRef(null);
+    const gridRef = useRef<Grid>(null);
     const key = location.pathname;
-    const scrollRef = useRef(scrollPosition.get(key));
+    const scrollRef = useRef<number>(scrollPosition.get(key) || 0);
 
     function onScroll({ scrollTop }: OnScrollParams) {
       if (mounted) {
@@ -40,8 +40,9 @@ const GridWithScrollHandler = withRouter(
     }
 
     useLayoutEffect(() => {
-      gridRef.current.scrollToPosition({
-        scrollTop: scrollRef.current
+      gridRef.current!.scrollToPosition({
+        scrollTop: scrollRef.current,
+        scrollLeft: 0
       });
 
       setMounted(true);
@@ -63,7 +64,7 @@ export function GridContainer<T>({
   onGridRender,
   noContentRenderer
 }: GridContainerProps<T>) {
-  const gridSizerRef = useRef(null);
+  const gridSizerRef = useRef<HTMLDivElement>(null);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
     [width, height]

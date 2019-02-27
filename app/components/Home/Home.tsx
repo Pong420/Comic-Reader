@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -10,26 +10,24 @@ import { ComicItemList } from '../../../typing';
 import LatestUpdateActionCreator, {
   LatestUpdateActions
 } from '../../actions/latestUpdate';
+import { RootState } from '../../reducers';
 import { LatestUpdateState } from '../../reducers/latestUpdate';
 
-export interface HomeProps extends LatestUpdateState, LatestUpdateActions {}
+const placeholders: ComicItemList = new Array(42).fill({});
 
-function mapStateToProps({ latestUpdate }) {
-  return {
-    ...latestUpdate
-  };
+function mapStateToProps({ latestUpdate }: RootState, ownProps: any) {
+  return { ...latestUpdate, ...ownProps };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(LatestUpdateActionCreator, dispatch);
 }
 
-const placeholders = new Array(42).fill({}) as ComicItemList;
-
-export const Home = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function({ page, comicList, addComics }: HomeProps) {
+function HomeComponent({
+  page,
+  comicList,
+  addComics
+}: LatestUpdateState & LatestUpdateActions) {
   const loadMoreLatestComic = () => {
     const nextPage = page + 1;
     const from = comicList.length;
@@ -65,4 +63,9 @@ export const Home = connect(
       </AutoSizer>
     </Layout>
   );
-});
+}
+
+export const Home = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeComponent);

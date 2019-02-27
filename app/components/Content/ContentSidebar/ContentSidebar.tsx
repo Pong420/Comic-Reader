@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import Previous from '@material-ui/icons/ArrowBack';
 import { Sidebar, SidebarIcon } from '../../Sidebar';
 import { PageNoButton } from '../PageNoButton';
+import { RootState } from '../../../reducers';
 import { ContentState } from '../../../reducers/content';
 
 interface MatchParams {
@@ -11,7 +12,7 @@ interface MatchParams {
   pageNo: string;
 }
 
-function mapStateToProps({ content }) {
+function mapStateToProps({ content }: RootState) {
   return {
     ...content
   };

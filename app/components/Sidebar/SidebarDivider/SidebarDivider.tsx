@@ -4,8 +4,6 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 
-export interface SidebarDividerProps extends WithStyles<typeof styles> {}
-
 const styles = () =>
   createStyles({
     divider: {
@@ -17,5 +15,7 @@ const styles = () =>
   });
 
 export const SidebarDivider = withStyles(styles)(
-  ({ classes }: SidebarDividerProps) => <Divider className={classes.divider} />
+  ({ classes }: WithStyles<typeof styles>) => (
+    <Divider className={classes.divider} />
+  )
 );

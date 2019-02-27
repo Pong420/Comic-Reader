@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetComicDataParam, Chapters } from '../../../../typing';
+import { GetComicDataParam, Chapters, ComicData } from '../../../../typing';
 
 const LZString = require('./utils/LZString');
 
@@ -103,5 +103,5 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     adultOnly,
     name: title[0],
     updateTime: $('.detail-list li > span span:nth-of-type(2)').text()
-  };
+  } as ComicData;
 }

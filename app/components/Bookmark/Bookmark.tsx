@@ -1,27 +1,29 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
-import { RemovableGrid } from '../../components/Grid';
+import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
+import { RootState } from '../../reducers';
 import { BookmarkState } from '../../reducers/bookmark';
 import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
 
-export interface BookmarkProps extends BookmarkState, BookmarkActions {}
+export interface BookmarkProps {}
 
-function mapStateToProps({ bookmark }, ownProps) {
+function mapStateToProps({ bookmark }: RootState, ownProps: any) {
   return { ...bookmark, ...ownProps };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
-export const Bookmark = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(({ bookmarks, removeBookmark }: BookmarkProps) => {
+function BookmarkComponent({
+  bookmarks,
+  setBookmark,
+  removeBookmark
+}: BookmarkProps & BookmarkState & BookmarkActions) {
   return (
     <Layout className="bookmark">
       <AutoSizer>
@@ -30,12 +32,33 @@ export const Bookmark = connect(
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={props => (
-              <RemovableGrid {...props[1]} onClose={removeBookmark} />
-            )}
+            onGridRender={([, { comicID, bookmarkItem }]) => {
+              if (bookmarkItem) {
+                return (
+                  <RemovableGrid {...bookmarkItem} onRemove={removeBookmark} />
+                );
+              }
+
+              return (
+                <RefetchComicGrid
+                  comicID={comicID}
+                  onFetch={bookmarkItem =>
+                    setBookmark({
+                      comicID,
+                      bookmarkItem
+                    })
+                  }
+                />
+              );
+            }}
           />
         )}
       </AutoSizer>
     </Layout>
   );
-});
+}
+
+export const Bookmark = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BookmarkComponent);

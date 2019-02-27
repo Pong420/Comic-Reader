@@ -36,7 +36,7 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow = null;
+let mainWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -111,24 +111,28 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  session.defaultSession.webRequest.onBeforeSendHeaders(
-    { urls: [] },
-    (details: HeaderDetails, callback) => {
-      if (/hamreus/.test(details.url)) {
-        details.requestHeaders.Referer = 'https://tw.manhuagui.com/';
-      }
+  if (session.defaultSession) {
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      { urls: [] },
+      (details_: OnBeforeSendHeadersDetails, callback) => {
+        const details = details_ as HeaderDetails;
 
-      if (/m\.manhuagui\.com/.test(details.url)) {
-        details.requestHeaders['User-Agent'] =
-          '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
-      }
+        if (/hamreus/.test(details.url)) {
+          details.requestHeaders.Referer = 'https://tw.manhuagui.com/';
+        }
 
-      callback({
-        cancel: false,
-        requestHeaders: details.requestHeaders
-      });
-    }
-  );
+        if (/m\.manhuagui\.com/.test(details.url)) {
+          details.requestHeaders['User-Agent'] =
+            '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
+        }
+
+        callback({
+          cancel: false,
+          requestHeaders: details.requestHeaders
+        });
+      }
+    );
+  }
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

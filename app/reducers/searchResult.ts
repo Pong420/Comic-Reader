@@ -21,7 +21,7 @@ export default function(state = initialState, action: SearchResultTypes) {
   switch (action.type) {
     case SearchResultKeys.ADD_SEARCH_RESULT:
       const total = state.searchResults.length;
-      const { from = total, to = from } = action.payload;
+      const { from = total, to = total } = action.payload;
 
       return {
         ...state,

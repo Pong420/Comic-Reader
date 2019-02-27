@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { SearchResults, SearchHistory, SearchHistoryItem } from '../../typing';
 
 export enum SearchResultKeys {
@@ -74,13 +75,13 @@ export interface AddSearchResultsPayload {
 }
 
 export type SearchResultsActions = {
-  setPageNumber: (page: number) => void;
-  setSearchResults: (searchResults: SearchResults) => void;
-  addSearchResults: (args: AddSearchResultsPayload) => void;
-  setKeyword: (keyword: string) => void;
-  setNoMoreResult: (noMoreResult: boolean) => void;
-  setSearchHistory: (searchHistory: SearchHistory) => void;
-  addSearchHistory: (searchHistoryItem: SearchHistoryItem) => void;
+  setPageNumber: typeof setPageNumber;
+  setSearchResults: typeof setSearchResults;
+  addSearchResults: typeof addSearchResults;
+  setKeyword: typeof setKeyword;
+  setNoMoreResult: typeof setNoMoreResult;
+  setSearchHistory: typeof setSearchHistory;
+  addSearchHistory: typeof addSearchHistory;
 };
 
 export function setPageNumber(page: number) {
@@ -93,7 +94,7 @@ export function setPageNumber(page: number) {
 }
 
 export function setSearchResults(searchResults: SearchResults) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(setPageNumber(1));
     dispatch({
       type: SearchResultKeys.SET_SEARCH_RESULT,
@@ -110,7 +111,7 @@ export function addSearchResults({
   from,
   to
 }: AddSearchResultsPayload) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(setPageNumber(page));
     dispatch({
       type: SearchResultKeys.ADD_SEARCH_RESULT,
@@ -167,4 +168,4 @@ export default {
   setNoMoreResult,
   setSearchHistory,
   addSearchHistory
-} as SearchResultsActions;
+};

@@ -12,7 +12,7 @@ interface SetTotalPageAction {
 export type ContentTypes = SetTotalPageAction;
 
 export type ContentActions = {
-  setTotoalPage: (totalPage: number) => SetTotalPageAction;
+  setTotoalPage: typeof setTotoalPage;
 };
 
 export function setTotoalPage(totalPage: number) {
@@ -26,4 +26,4 @@ export function setTotoalPage(totalPage: number) {
 
 export default {
   setTotoalPage
-} as ContentActions;
+};

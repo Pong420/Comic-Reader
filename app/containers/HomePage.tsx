@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { useAsync } from 'react-async';
@@ -9,27 +9,26 @@ import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { getLatestUpdateAPI } from '../apis';
 import { ComicItemList } from '../../typing';
-import LatestUpdateActions from '../actions/latestUpdate';
+import LatestUpdateActionCreators, {
+  LatestUpdateActions
+} from '../actions/latestUpdate';
+import { RootState } from '../reducers';
+import { LatestUpdateState } from '../reducers/latestUpdate';
 
-function mapStateToProps({ latestUpdate }) {
+function mapStateToProps({ latestUpdate }: RootState) {
   return {
     ...latestUpdate
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(LatestUpdateActions, dispatch);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(LatestUpdateActionCreators, dispatch);
 }
 
-interface Props extends RouteComponentProps {
-  comicList: ComicItemList;
-  setComics: (comicList: ComicItemList) => void;
-}
-
-export const HomePage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(({ comicList, setComics }: Props) => {
+const HomePageComponent = ({
+  comicList,
+  setComics
+}: LatestUpdateState & LatestUpdateActions & RouteComponentProps) => {
   const { error, isLoading, reload, run } = useAsync<ComicItemList>({
     deferFn() {
       return comicList.length
@@ -58,4 +57,9 @@ export const HomePage = connect(
   }
 
   return null;
-});
+};
+
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePageComponent);

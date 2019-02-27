@@ -5,7 +5,7 @@ import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
-export interface SidebarIconProps extends WithStyles<typeof sidebarIconStyles> {
+export interface SidebarIconProps {
   Icon?: ComponentType<SvgIconProps>;
   Component?: ComponentType<any>;
   [props: string]: any;
@@ -29,7 +29,7 @@ const sidebarIconStyles = () => {
   return createStyles({
     root,
     iconButton: {
-      ...root,
+      ...root
     },
     icon: {
       fontSize: 30
@@ -37,18 +37,27 @@ const sidebarIconStyles = () => {
   });
 };
 
-export const SidebarIcon = withStyles(sidebarIconStyles)(
-  ({ Icon, Component, classes, ...props }: SidebarIconProps) => {
-    const { root, iconButton, icon } = classes;
+function SidebarIconComponent({
+  Icon,
+  Component,
+  classes,
+  ...props
+}: SidebarIconProps & WithStyles<typeof sidebarIconStyles>) {
+  const { root, iconButton, icon } = classes;
 
-    if (Icon) {
-      return (
-        <IconButton className={iconButton} {...props}>
-          <Icon className={icon} color="inherit" />
-        </IconButton>
-      );
-    }
+  if (Icon) {
+    return (
+      <IconButton className={iconButton} {...props}>
+        <Icon className={icon} color="inherit" />
+      </IconButton>
+    );
+  }
 
+  if (Component) {
     return <Component className={root} {...props} />;
   }
-);
+
+  return null;
+}
+
+export const SidebarIcon = withStyles(sidebarIconStyles)(SidebarIconComponent);
