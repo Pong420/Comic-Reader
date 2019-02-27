@@ -4,7 +4,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
-export interface SearchHeaderProps extends WithStyles<typeof styles> {
+export interface SearchHeaderProps {
   value: string;
   onSearch: () => void;
   onInputChange: (keyword: string) => void;
@@ -25,7 +25,12 @@ const styles = (theme: Theme) => ({
 });
 
 export const SearchHeader = withStyles(styles)(
-  ({ classes, value, onSearch, onInputChange }: SearchHeaderProps) => {
+  ({
+    classes,
+    value,
+    onSearch,
+    onInputChange
+  }: SearchHeaderProps & WithStyles<typeof styles>) => {
     function onSubmit(evt: FormEvent<HTMLFormElement> | null) {
       evt && evt.preventDefault();
       onSearch();

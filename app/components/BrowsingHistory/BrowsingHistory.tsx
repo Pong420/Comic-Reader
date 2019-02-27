@@ -19,56 +19,52 @@ function mapActiontoProps(dispatch: Dispatch) {
   return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
 }
 
-export interface BrowsingHistoryProps
-  extends BrowsingHistoryState,
-    BrowsingHistoryActions {}
+function BrowsingHistoryComponent({
+  browsingHistory,
+  setBrowsingHistory,
+  removeBrowsingHistory
+}: BrowsingHistoryState & BrowsingHistoryActions) {
+  const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
+
+  return (
+    <Layout className="browsing-history">
+      <AutoSizer>
+        {({ width, height }) => (
+          <GridContainer
+            width={width}
+            height={height}
+            list={ReversedBrowsingHistory}
+            onGridRender={([_, { comicID, comicData }]) => {
+              if (comicData) {
+                return (
+                  <RemovableGrid
+                    {...comicData}
+                    onClose={removeBrowsingHistory}
+                  />
+                );
+              }
+
+              return (
+                <RefetchComicGrid
+                  comicID={comicID}
+                  onFetch={comicData =>
+                    setBrowsingHistory({
+                      comicID,
+                      comicData,
+                      chapterIDs: []
+                    })
+                  }
+                />
+              );
+            }}
+          />
+        )}
+      </AutoSizer>
+    </Layout>
+  );
+}
 
 export const BrowsingHistory = connect(
   mapStateToProps,
   mapActiontoProps
-)(
-  ({
-    browsingHistory,
-    setBrowsingHistory,
-    removeBrowsingHistory
-  }: BrowsingHistoryProps) => {
-    const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
-
-    return (
-      <Layout className="browsing-history">
-        <AutoSizer>
-          {({ width, height }) => (
-            <GridContainer
-              width={width}
-              height={height}
-              list={ReversedBrowsingHistory}
-              onGridRender={([_, { comicID, comicData }]) => {
-                if (comicData) {
-                  return (
-                    <RemovableGrid
-                      {...comicData}
-                      onClose={removeBrowsingHistory}
-                    />
-                  );
-                }
-
-                return (
-                  <RefetchComicGrid
-                    comicID={comicID}
-                    onFetch={comicData =>
-                      setBrowsingHistory({
-                        comicID,
-                        comicData,
-                        chapterIDs: []
-                      })
-                    }
-                  />
-                );
-              }}
-            />
-          )}
-        </AutoSizer>
-      </Layout>
-    );
-  }
-);
+)(BrowsingHistoryComponent);

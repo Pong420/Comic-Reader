@@ -13,36 +13,33 @@ export interface BookmarkBtnProps {
 
 // FIXME:
 function mapStateToProps({ bookmark }: any, ownProps: any) {
-  return {
-    ...bookmark,
-    ...ownProps
-  };
+  return { ...bookmark, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
+function BookmarkBtnComponent({
+  bookmarks,
+  comicID,
+  addBookmark,
+  removeBookmark
+}: BookmarkBtnProps & BookmarkState & BookmarkActions) {
+  const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
+  const bookmarked = mappedBookmarks.has(comicID);
+
+  return (
+    <SidebarIcon
+      Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
+      onClick={() =>
+        bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
+      }
+    />
+  );
+}
+
 export const BookmarkBtn = connect(
   mapStateToProps,
   mapDispatchToProps
-)(
-  ({
-    bookmarks,
-    comicID,
-    addBookmark,
-    removeBookmark
-  }: BookmarkBtnProps & BookmarkState & BookmarkActions) => {
-    const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
-    const bookmarked = mappedBookmarks.has(comicID);
-
-    return (
-      <SidebarIcon
-        Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
-        onClick={() =>
-          bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
-        }
-      />
-    );
-  }
-);
+)(BookmarkBtnComponent);

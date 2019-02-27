@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Search from '@material-ui/icons/SearchOutlined';
 import BackToHome from '@material-ui/icons/HomeRounded';
@@ -6,57 +6,49 @@ import HistoryIcon from '@material-ui/icons/HistoryRounded';
 import BookMarksIcon from '@material-ui/icons/BookMarks';
 import { SidebarIcon } from './SidebarIcon';
 import { SidebarDivider } from './SidebarDivider';
+import { useFullscreen } from '../../utils/useFullscreen';
 
-interface SidebarProps extends RouteComponentProps {
+interface SidebarProp {
   className: string;
   children?: ReactNode;
 }
 
 const macos = process.platform === 'darwin';
-const isFullscreen = () => window.outerHeight === screen.height;
 
-export const Sidebar = withRouter(
-  ({ className = '', children }: SidebarProps) => {
-    const [paddingTop, setPaddingTop] = useState(15);
+const SidebarComponent = ({
+  className = '',
+  children
+}: SidebarProp & RouteComponentProps) => {
+  const isFullscreen = useFullscreen(macos);
+  const paddingTop = isFullscreen ? 15 : 40;
 
-    useEffect(() => {
-      if (macos) {
-        const onResize = () => setPaddingTop(isFullscreen() ? 15 : 40);
+  return (
+    <div className={`sidebar ${className}`.trim()} style={{ paddingTop }}>
+      {macos && <div className="drag-area" />}
 
-        onResize();
+      <div className="sidebar-content">
+        <Link to="/">
+          <SidebarIcon Icon={BackToHome} />
+        </Link>
 
-        window.addEventListener('resize', onResize);
+        <Link to="/search">
+          <SidebarIcon Icon={Search} />
+        </Link>
 
-        return () => window.removeEventListener('resize', onResize);
-      }
-    }, []);
+        <Link to="/history">
+          <SidebarIcon Icon={HistoryIcon} />
+        </Link>
 
-    return (
-      <div className={`sidebar ${className}`.trim()} style={{ paddingTop }}>
-        {macos && <div className="drag-area" />}
+        <Link to="/bookmark">
+          <SidebarIcon Icon={BookMarksIcon} />
+        </Link>
 
-        <div className="sidebar-content">
-          <Link to="/">
-            <SidebarIcon Icon={BackToHome} />
-          </Link>
+        {!!children && <SidebarDivider />}
 
-          <Link to="/search">
-            <SidebarIcon Icon={Search} />
-          </Link>
-
-          <Link to="/history">
-            <SidebarIcon Icon={HistoryIcon} />
-          </Link>
-
-          <Link to="/bookmark">
-            <SidebarIcon Icon={BookMarksIcon} />
-          </Link>
-
-          {!!children && <SidebarDivider />}
-
-          {children}
-        </div>
+        {children}
       </div>
-    );
-  }
-);
+    </div>
+  );
+};
+
+export const Sidebar = withRouter(SidebarComponent);

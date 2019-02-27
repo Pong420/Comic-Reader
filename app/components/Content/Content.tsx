@@ -10,9 +10,7 @@ import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
 } from '../../actions/browsingHistory';
 
-export interface ContentProps
-  extends ContentData,
-    RouteComponentProps<MatchParam> {
+export interface ContentProps extends ContentData {
   pageNo: string;
 }
 
@@ -45,7 +43,9 @@ export const Content = withRouter(
       history,
       match,
       addBrowsingHistory
-    }: ContentProps & BrowsingHistoryActions) => {
+    }: ContentProps &
+      BrowsingHistoryActions &
+      RouteComponentProps<MatchParam>) => {
       const [dialogProps, setDialogProps] = useState<ContentDialogProps>({
         msg: '',
         open: false,

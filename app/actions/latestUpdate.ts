@@ -39,9 +39,9 @@ export interface AddComicsPayload {
 }
 
 export type LatestUpdateActions = {
-  setComics: (comicList: ComicItemList) => void;
-  addComics: (args: AddComicsPayload) => void;
-  setPageNumber: (page: number) => void;
+  setComics: typeof setComics;
+  addComics: typeof addComics;
+  setPageNumber: typeof setPageNumber;
 };
 
 export function setComics(comicList: ComicItemList): SetComicAction {
@@ -76,4 +76,8 @@ export function setPageNumber(page: number): SetPageNoAction {
   };
 }
 
-export default { setComics, addComics, setPageNumber } as LatestUpdateActions;
+export default {
+  setComics,
+  addComics,
+  setPageNumber
+};

@@ -43,16 +43,10 @@ export type BrowsingHistoryTypes =
   | RemoveBrowsingHistoryAction;
 
 export type BrowsingHistoryActions = {
-  setBrowsingHistory: (
-    ...args: ArgumentTypes<typeof setBrowsingHistory>
-  ) => void;
-  addBrowsingHistory: (
-    ...args: ArgumentTypes<typeof addBrowsingHistory>
-  ) => void;
-  removeBrowsingHistory: (
-    ...args: ArgumentTypes<typeof removeBrowsingHistory>
-  ) => void;
-  saveBrowsingHistory: () => void;
+  setBrowsingHistory: typeof setBrowsingHistory;
+  addBrowsingHistory: typeof addBrowsingHistory;
+  removeBrowsingHistory: typeof removeBrowsingHistory;
+  saveBrowsingHistory: typeof saveBrowsingHistory;
 };
 
 export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
@@ -124,4 +118,4 @@ export default {
   addBrowsingHistory,
   removeBrowsingHistory,
   saveBrowsingHistory
-} as BrowsingHistoryActions;
+};

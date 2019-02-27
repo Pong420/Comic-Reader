@@ -7,9 +7,8 @@ import bookmark from './bookmark';
 import browsingHistory from './browsingHistory';
 import content from './content';
 
-// FIXME:
 export default function createRootReducer(history: History) {
-  return combineReducers<any, any>({
+  return combineReducers({
     router: connectRouter(history),
     latestUpdate,
     searchResult,

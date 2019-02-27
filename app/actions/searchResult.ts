@@ -75,13 +75,13 @@ export interface AddSearchResultsPayload {
 }
 
 export type SearchResultsActions = {
-  setPageNumber: (page: number) => void;
-  setSearchResults: (searchResults: SearchResults) => void;
-  addSearchResults: (args: AddSearchResultsPayload) => void;
-  setKeyword: (keyword: string) => void;
-  setNoMoreResult: (noMoreResult: boolean) => void;
-  setSearchHistory: (searchHistory: SearchHistory) => void;
-  addSearchHistory: (searchHistoryItem: SearchHistoryItem) => void;
+  setPageNumber: typeof setPageNumber;
+  setSearchResults: typeof setSearchResults;
+  addSearchResults: typeof addSearchResults;
+  setKeyword: typeof setKeyword;
+  setNoMoreResult: typeof setNoMoreResult;
+  setSearchHistory: typeof setSearchHistory;
+  addSearchHistory: typeof addSearchHistory;
 };
 
 export function setPageNumber(page: number) {
@@ -168,4 +168,4 @@ export default {
   setNoMoreResult,
   setSearchHistory,
   addSearchHistory
-} as SearchResultsActions;
+};

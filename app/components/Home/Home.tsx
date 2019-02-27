@@ -12,8 +12,6 @@ import LatestUpdateActionCreator, {
 } from '../../actions/latestUpdate';
 import { LatestUpdateState } from '../../reducers/latestUpdate';
 
-export interface HomeProps extends LatestUpdateState, LatestUpdateActions {}
-
 // FIXME:
 function mapStateToProps({ latestUpdate }: any) {
   return {
@@ -30,7 +28,11 @@ const placeholders = new Array(42).fill({}) as ComicItemList;
 export const Home = connect(
   mapStateToProps,
   mapDispatchToProps
-)(function({ page, comicList, addComics }: HomeProps) {
+)(function({
+  page,
+  comicList,
+  addComics
+}: LatestUpdateState & LatestUpdateActions) {
   const loadMoreLatestComic = () => {
     const nextPage = page + 1;
     const from = comicList.length;

@@ -18,7 +18,7 @@ export interface GridContainerProps<T> {
   width: number;
   height: number;
   list: T[];
-  loadMore?: () => Promise<void>;
+  loadMore?: () => Promise<any>;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
 }

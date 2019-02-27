@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export interface PageNoButtonProps extends RouteComponentProps {
+export interface PageNoButtonProps {
   className: string;
   currentPageNo: string;
   totalPage: number;
@@ -13,7 +13,12 @@ export interface PageNoButtonProps extends RouteComponentProps {
 const ITEM_HEIGHT = 20;
 
 export const PageNoButton = withRouter(
-  ({ className, currentPageNo, totalPage, history }: PageNoButtonProps) => {
+  ({
+    className,
+    currentPageNo,
+    totalPage,
+    history
+  }: PageNoButtonProps & RouteComponentProps) => {
     const totalPageStr = String(totalPage);
     const pageNoStr = currentPageNo.padStart(totalPageStr.length, '0');
 

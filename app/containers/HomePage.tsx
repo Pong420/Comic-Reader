@@ -9,7 +9,10 @@ import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { getLatestUpdateAPI } from '../apis';
 import { ComicItemList } from '../../typing';
-import LatestUpdateActions from '../actions/latestUpdate';
+import LatestUpdateActionCreators, {
+  LatestUpdateActions
+} from '../actions/latestUpdate';
+import { LatestUpdateState } from '../reducers/latestUpdate';
 
 // FIXME:
 function mapStateToProps({ latestUpdate }: any) {
@@ -19,18 +22,13 @@ function mapStateToProps({ latestUpdate }: any) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(LatestUpdateActions, dispatch);
+  return bindActionCreators(LatestUpdateActionCreators, dispatch);
 }
 
-interface Props extends RouteComponentProps {
-  comicList: ComicItemList;
-  setComics: (comicList: ComicItemList) => void;
-}
-
-export const HomePage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(({ comicList, setComics }: Props) => {
+const HomePageComponent = ({
+  comicList,
+  setComics
+}: LatestUpdateState & LatestUpdateActions & RouteComponentProps) => {
   const { error, isLoading, reload, run } = useAsync<ComicItemList>({
     deferFn() {
       return comicList.length
@@ -59,4 +57,9 @@ export const HomePage = connect(
   }
 
   return null;
-});
+};
+
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePageComponent);

@@ -19,46 +19,46 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreator, dispatch);
 }
 
+function BookmarkComponent({
+  bookmarks,
+  setBookmark,
+  removeBookmark
+}: BookmarkProps & BookmarkState & BookmarkActions) {
+  return (
+    <Layout className="bookmark">
+      <AutoSizer>
+        {({ width, height }) => (
+          <GridContainer
+            width={width}
+            height={height}
+            list={bookmarks}
+            onGridRender={([, { comicID, bookmarkItem }]) => {
+              if (bookmarkItem) {
+                return (
+                  <RemovableGrid {...bookmarkItem} onClose={removeBookmark} />
+                );
+              }
+
+              return (
+                <RefetchComicGrid
+                  comicID={comicID}
+                  onFetch={bookmarkItem =>
+                    setBookmark({
+                      comicID,
+                      bookmarkItem
+                    })
+                  }
+                />
+              );
+            }}
+          />
+        )}
+      </AutoSizer>
+    </Layout>
+  );
+}
+
 export const Bookmark = connect(
   mapStateToProps,
   mapDispatchToProps
-)(
-  ({
-    bookmarks,
-    setBookmark,
-    removeBookmark
-  }: BookmarkProps & BookmarkState & BookmarkActions) => {
-    return (
-      <Layout className="bookmark">
-        <AutoSizer>
-          {({ width, height }) => (
-            <GridContainer
-              width={width}
-              height={height}
-              list={bookmarks}
-              onGridRender={([, { comicID, bookmarkItem }]) => {
-                if (bookmarkItem) {
-                  return (
-                    <RemovableGrid {...bookmarkItem} onClose={removeBookmark} />
-                  );
-                }
-
-                return (
-                  <RefetchComicGrid
-                    comicID={comicID}
-                    onFetch={bookmarkItem =>
-                      setBookmark({
-                        comicID,
-                        bookmarkItem
-                      })
-                    }
-                  />
-                );
-              }}
-            />
-          )}
-        </AutoSizer>
-      </Layout>
-    );
-  }
-);
+)(BookmarkComponent);

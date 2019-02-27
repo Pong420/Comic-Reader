@@ -42,10 +42,10 @@ export type BookmarkTypes =
   | RemoveBookmarkAction;
 
 export type BookmarkActions = {
-  setBookmark: (...args: ArgumentTypes<typeof setBookmark>) => void;
-  addBookmark: (...args: ArgumentTypes<typeof addBookmark>) => void;
-  removeBookmark: (...args: ArgumentTypes<typeof removeBookmark>) => void;
-  saveBookmark: () => void;
+  setBookmark: typeof setBookmark;
+  addBookmark: typeof addBookmark;
+  removeBookmark: typeof removeBookmark;
+  saveBookmark: typeof saveBookmark;
 };
 
 export function setBookmark(payload: BookMarkPayload) {
@@ -110,4 +110,4 @@ export default {
   addBookmark,
   removeBookmark,
   saveBookmark
-} as BookmarkActions;
+};
