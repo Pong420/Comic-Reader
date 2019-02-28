@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAsync } from 'react-async';
-import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/RefreshRounded';
 import { getComicDataAPI } from '../../../apis';
 import { GridData } from '../../../../typing';
@@ -15,30 +14,29 @@ export function RefetchComicGrid({ comicID, onFetch }: RefetchComicGridProps) {
     deferFn: () => getComicDataAPI({ comicID })
   });
 
+  function getComicData() {
+    if (!isLoading) {
+      run().then(
+        ({
+          adultOnly,
+          chapters,
+          finished,
+          intro,
+          details,
+          title,
+          ...gridData
+        }) => {
+          onFetch(gridData);
+        }
+      );
+    }
+  }
+
   return (
     <div className="grid refetch-comic-grid">
-      <div className="refetch-comic-grid-content">
-        <IconButton
-          onClick={() => {
-            if (!isLoading) {
-              run().then(
-                ({
-                  adultOnly,
-                  chapters,
-                  finished,
-                  intro,
-                  details,
-                  title,
-                  ...gridData
-                }) => {
-                  onFetch(gridData);
-                }
-              );
-            }
-          }}
-        >
-          <RefreshIcon color="primary" />
-        </IconButton>
+      <div className="hover-layer" onClick={getComicData}>
+        <RefreshIcon color="primary" />
+        <div style={{ marginTop: 10 }}>點擊重新獲取資料</div>
       </div>
     </div>
   );

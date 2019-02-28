@@ -66,7 +66,7 @@ export default function(state = initialState, action: BookmarkTypes) {
     case BookmarkKeys.REMOVE_ALL_BOOKMARK:
       return {
         ...state,
-        browsingHistory: []
+        bookmarks: []
       };
     case BookmarkKeys.TOGGLE_REMOVABLE:
       return {

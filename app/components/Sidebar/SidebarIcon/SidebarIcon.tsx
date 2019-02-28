@@ -1,14 +1,21 @@
-import React, { ComponentType } from 'react';
+import React, { ComponentType, ReactElement } from 'react';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
 export interface SidebarIconProps {
+  tooltip?: string;
   Icon?: ComponentType<SvgIconProps>;
   Component?: ComponentType<any>;
   [props: string]: any;
+}
+
+interface AddTooltipProps {
+  tooltip?: string;
+  children: ReactElement<any>;
 }
 
 const sidebarIconStyles = () => {
@@ -37,7 +44,25 @@ const sidebarIconStyles = () => {
   });
 };
 
+function WithTooltip({ tooltip, children }: AddTooltipProps) {
+  if (tooltip) {
+    return (
+      <Tooltip
+        title={tooltip}
+        placement="right"
+        disableTouchListener
+        disableFocusListener
+      >
+        {children}
+      </Tooltip>
+    );
+  }
+
+  return children;
+}
+
 function SidebarIconComponent({
+  tooltip,
   Icon,
   Component,
   classes,
@@ -48,7 +73,9 @@ function SidebarIconComponent({
   if (Icon) {
     return (
       <IconButton className={iconButton} {...props}>
-        <Icon className={icon} color="inherit" />
+        <WithTooltip tooltip={tooltip}>
+          <Icon className={icon} color="inherit" />
+        </WithTooltip>
       </IconButton>
     );
   }

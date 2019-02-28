@@ -24,17 +24,6 @@
     box-shadow: 2px 3px 10px #111;
   }
 
-  .grid-header {
-    @include absolute(0, null, 0);
-    @include dimen(100%);
-
-    background-image: linear-gradient(
-      0deg,
-      hsla(0, 0%, 9%, 0) 0,
-      rgba(0, 0, 0, 0.6) 100%
-    );
-  }
-
   .caption {
     @include dimen(100%);
     @include absolute($bottom: 0);
@@ -60,6 +49,24 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+    }
+  }
+
+  .hover-layer {
+    @include absolute(0, null, 0);
+    @include flex(center, center, column);
+    @include sq-dimen(100%);
+
+    background-color: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    color: #fff;
+    transition: 0.3s ease;
+    opacity: 0;
+  }
+
+  &:hover {
+    .hover-layer {
+      opacity: 1;
     }
   }
 }

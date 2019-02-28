@@ -16,7 +16,7 @@ export function RemovableGrid({
   return (
     <Grid {...gridProps} className="removable-grid">
       {removable && (
-        <div className="wrapper" onClick={() => onRemove(gridProps.comicID)}>
+        <div className="hover-layer" onClick={() => onRemove(gridProps.comicID)}>
           <DeleteIcon color="primary" />
           <div style={{ marginTop: 10 }}>點擊即可刪除紀錄</div>
         </div>

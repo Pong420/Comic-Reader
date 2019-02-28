@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
-import { ContentDialog, ContentDialogProps } from './ContentDialog';
+import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
 import { ContentData } from '../../../typing';
 import BrowsingHistoryActionCreator, {
   BrowsingHistoryActions
@@ -123,10 +123,10 @@ function ContentComponent({
           onKeyDown={onKeyDown}
         />
       </Layout>
-      <ContentDialog
+      <ConfirmDialog
         {...dialogProps}
         onClose={() =>
-          setDialogProps((prevState: ContentDialogProps) => ({
+          setDialogProps((prevState: ConfirmDialogProps) => ({
             ...prevState,
             open: false
           }))

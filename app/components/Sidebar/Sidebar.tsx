@@ -28,19 +28,19 @@ const SidebarComponent = ({
 
       <div className="sidebar-content">
         <Link to="/">
-          <SidebarIcon Icon={BackToHome} />
+          <SidebarIcon Icon={BackToHome} tooltip="首頁" />
         </Link>
 
         <Link to="/search">
-          <SidebarIcon Icon={Search} />
+          <SidebarIcon Icon={Search} tooltip="搜索" />
         </Link>
 
         <Link to="/history">
-          <SidebarIcon Icon={HistoryIcon} />
+          <SidebarIcon Icon={HistoryIcon} tooltip="瀏覽紀錄" />
         </Link>
 
         <Link to="/bookmark">
-          <SidebarIcon Icon={BookMarksIcon} />
+          <SidebarIcon Icon={BookMarksIcon} tooltip="收藏" />
         </Link>
 
         {!!children && <SidebarDivider />}

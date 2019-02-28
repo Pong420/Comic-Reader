@@ -30,6 +30,7 @@ export const ContentSidebar = connect(mapStateToProps)(
       <Sidebar className="content-page-sidebar">
         <SidebarIcon
           Icon={Previous}
+          tooltip="返回章節"
           onClick={() => history.push(`/comic/${match.params.comicID}`)}
         />
         <SidebarIcon Component={FlexSpacer} />
