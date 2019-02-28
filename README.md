@@ -1,6 +1,6 @@
 <img src="./resources/icons/128x128.png" align="right">
 
-## Desktop Comic Reader ( Beta )
+## Desktop Comic Reader
 
 An Electron based comic reader.
 
@@ -21,8 +21,6 @@ yarn
 ```
 
 ## Development
-
-:warning: The code may have breaking change after code review. Currently, I am not suggest to contribute.
 
 Start the app in the `dev` environment. **There is some issue on hot updates, you may need to refresh few time after edit**
 
@@ -87,10 +85,9 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
-- [ ] Code Review
 - [ ] New Features
   - Fit to page/with
-  - PrevNext Chapter Button
+  - Prev/Next Chapter Button
 - [ ] Error Handling
 
 ## Credit

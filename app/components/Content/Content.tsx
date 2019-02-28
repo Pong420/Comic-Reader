@@ -66,7 +66,7 @@ function ContentComponent({
 
     const newPageNo = Number(pageNo) + step;
 
-    if (newPageNo < 0) {
+    if (newPageNo < 1) {
       setDialogProps(prevState => ({
         ...prevState,
         msg:

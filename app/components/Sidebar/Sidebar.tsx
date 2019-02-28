@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Search from '@material-ui/icons/SearchOutlined';
 import BackToHome from '@material-ui/icons/HomeRounded';
 import HistoryIcon from '@material-ui/icons/HistoryRounded';
@@ -27,21 +27,13 @@ const SidebarComponent = ({
       {macos && <div className="drag-area" />}
 
       <div className="sidebar-content">
-        <Link to="/">
-          <SidebarIcon Icon={BackToHome} tooltip="首頁" />
-        </Link>
+        <SidebarIcon to="/" tooltip="首頁" Icon={BackToHome} />
 
-        <Link to="/search">
-          <SidebarIcon Icon={Search} tooltip="搜索" />
-        </Link>
+        <SidebarIcon to="/search" tooltip="搜索" Icon={Search} />
 
-        <Link to="/history">
-          <SidebarIcon Icon={HistoryIcon} tooltip="瀏覽紀錄" />
-        </Link>
+        <SidebarIcon to="/history" tooltip="瀏覽紀錄" Icon={HistoryIcon} />
 
-        <Link to="/bookmark">
-          <SidebarIcon Icon={BookMarksIcon} tooltip="收藏" />
-        </Link>
+        <SidebarIcon to="/bookmark" tooltip="收藏" Icon={BookMarksIcon} />
 
         {!!children && <SidebarDivider />}
 

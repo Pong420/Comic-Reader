@@ -22,16 +22,16 @@ export function SidebarWithRemoveFn({
     <Sidebar className="sidebar-with-remove-fn">
       <SidebarIcon
         Icon={on ? DeleteIcon : DeleteOutlineIcon}
+        tooltip={on ? '關閉刪除模式' : '開啟刪除模式'}
         onClick={() => {
           setOnOff(!on);
           onToggleOnOff(!on);
         }}
-        tooltip={on ? '關閉刪除模式' : '開啟刪除模式'}
       />
       <SidebarIcon
         Icon={DeleteForever}
-        onClick={() => setDialogOpen(true)}
         tooltip="刪除所有紀錄"
+        onClick={() => setDialogOpen(true)}
       />
       <ConfirmDialog
         open={openDialog}
