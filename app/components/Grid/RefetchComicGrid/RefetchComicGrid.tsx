@@ -34,7 +34,7 @@ export function RefetchComicGrid({ comicID, onFetch }: RefetchComicGridProps) {
 
   return (
     <div className="grid refetch-comic-grid">
-      <div className="hover-layer" onClick={getComicData}>
+      <div className="layer" onClick={getComicData}>
         <RefreshIcon color="primary" />
         <div style={{ marginTop: 10 }}>點擊重新獲取資料</div>
       </div>

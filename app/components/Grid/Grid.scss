@@ -52,7 +52,7 @@
     }
   }
 
-  .hover-layer {
+  .layer {
     @include absolute(0, null, 0);
     @include flex(center, center, column);
     @include sq-dimen(100%);
@@ -60,12 +60,15 @@
     background-color: rgba(0, 0, 0, 0.7);
     cursor: pointer;
     color: #fff;
-    transition: 0.3s ease;
-    opacity: 0;
+
+    &.hover {
+      transition: 0.3s ease;
+      opacity: 0;
+    }
   }
 
   &:hover {
-    .hover-layer {
+    .layer.hover {
       opacity: 1;
     }
   }

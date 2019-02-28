@@ -7,15 +7,16 @@ import { SidebarIcon } from '../SidebarIcon';
 import { ConfirmDialog } from '../../ConfirmDialog';
 
 interface SidebarWithRemoveFnProps {
+  on: boolean;
   onToggleOnOff: (on: boolean) => void;
   onRemoveAll: () => void;
 }
 
 export function SidebarWithRemoveFn({
+  on,
   onToggleOnOff,
   onRemoveAll
 }: SidebarWithRemoveFnProps) {
-  const [on, setOnOff] = useState(false);
   const [openDialog, setDialogOpen] = useState(false);
 
   return (
@@ -24,7 +25,6 @@ export function SidebarWithRemoveFn({
         Icon={on ? DeleteIcon : DeleteOutlineIcon}
         tooltip={on ? '關閉刪除模式' : '開啟刪除模式'}
         onClick={() => {
-          setOnOff(!on);
           onToggleOnOff(!on);
         }}
       />

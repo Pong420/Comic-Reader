@@ -56,7 +56,7 @@ const routes: CustomRouteProps[] = [
 export default () => (
   <App>
     <TitleBar />
-    <main>
+    <main className={process.platform}>
       {routes.map(({ sidebar, ...props }, index) => (
         <Route {...props} key={index} component={sidebar} />
       ))}

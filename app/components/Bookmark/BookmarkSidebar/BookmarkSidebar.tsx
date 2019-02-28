@@ -17,12 +17,14 @@ function mapActiontoProps(dispatch: Dispatch) {
 }
 
 export function BookmarkSidebarComponent({
+  removable,
   toogleRemovable,
   removeAllBookmark
 }: BookmarkState & BookmarkActions) {
   return (
     <SidebarWithRemoveFn
-      onToggleOnOff={on => toogleRemovable(on)}
+      on={removable}
+      onToggleOnOff={toogleRemovable}
       onRemoveAll={removeAllBookmark}
     />
   );

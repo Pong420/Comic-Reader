@@ -17,12 +17,14 @@ function mapActiontoProps(dispatch: Dispatch) {
 }
 
 export function BrowsingHistorySidebarComponent({
+  removable,
   toogleRemovable,
   removeAllBrowsingHistory
 }: BrowsingHistoryState & BrowsingHistoryActions) {
   return (
     <SidebarWithRemoveFn
-      onToggleOnOff={on => toogleRemovable(on)}
+      on={removable}
+      onToggleOnOff={toogleRemovable}
       onRemoveAll={removeAllBrowsingHistory}
     />
   );

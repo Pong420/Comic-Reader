@@ -20,7 +20,7 @@ const SidebarComponent = ({
   children
 }: SidebarProp & RouteComponentProps) => {
   const isFullscreen = useFullscreen(macos);
-  const paddingTop = isFullscreen ? 15 : 40;
+  const paddingTop = !macos || isFullscreen ? 15 : 40;
 
   return (
     <div className={`sidebar ${className}`.trim()} style={{ paddingTop }}>

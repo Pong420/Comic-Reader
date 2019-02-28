@@ -7,9 +7,9 @@ export async function getComicData({ comicID }: GetComicDataParam) {
   const { data: $ } = await api.get(`/comic/${comicID}/`);
 
   const cover = $('.hcover img').attr('src');
-  const latest = $('.hcover .text').text();
+  const latest = $('.hcover .text').text().trim();
   const finished = !$('.hcover .serial').length;
-  const intro = $('.book-intro #intro-all').text();
+  const intro = $('.book-intro #intro-all').text().trim();
   const title = $('.book-title')
     .children()
     .map((index: number, c: CheerioElement) => $(c).text())

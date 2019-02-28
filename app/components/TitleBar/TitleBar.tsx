@@ -5,7 +5,7 @@ const WindowTittleBar = lazy(() => import('./WindowTitleBar'));
 export function TitleBar() {
   if (process.platform === 'win32') {
     return (
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="window-title-bar-placeholder"></div>}>
         <WindowTittleBar />
       </Suspense>
     );

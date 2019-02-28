@@ -13,6 +13,9 @@ body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  // For window os, padding-right is added while MUI dialog opened.
+  padding-right: 0 !important;
 }
 
 img {
@@ -36,6 +39,10 @@ a {
   @include dimen(100%, 100vh);
   @include flex($flex-direction: column);
 
+  > :nth-child(1) {
+    flex: 0 0 auto;
+  }
+
   main {
     flex: 1 1 auto;
   }
@@ -50,5 +57,11 @@ main {
 
   .layout {
     flex: 1 1 auto;
+  }
+
+  &.win32 {
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

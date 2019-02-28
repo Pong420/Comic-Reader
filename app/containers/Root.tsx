@@ -16,7 +16,8 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    fontFamily: "Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif"
   },
   overrides: {
     MuiSvgIcon: {
