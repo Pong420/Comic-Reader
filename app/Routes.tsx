@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react';
 import { Switch, Route, Redirect, RouteProps } from 'react-router';
 import App from './containers/App';
+import { TitleBar } from './components/TitleBar';
 import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';
 import { ContentPage } from './containers/ContentPage';
@@ -54,14 +55,17 @@ const routes: CustomRouteProps[] = [
 
 export default () => (
   <App>
-    {routes.map(({ sidebar, ...props }, index) => (
-      <Route {...props} key={index} component={sidebar} />
-    ))}
-    <Switch>
-      {routes.map(({ main, ...props }, index) => (
-        <Route {...props} key={index} component={main} />
+    <TitleBar />
+    <main>
+      {routes.map(({ sidebar, ...props }, index) => (
+        <Route {...props} key={index} component={sidebar} />
       ))}
-      <Redirect to="/" />
-    </Switch>
+      <Switch>
+        {routes.map(({ main, ...props }, index) => (
+          <Route {...props} key={index} component={main} />
+        ))}
+        <Redirect to="/" />
+      </Switch>
+    </main>
   </App>
 );

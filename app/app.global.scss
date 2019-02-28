@@ -4,13 +4,6 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#root,
-main {
-  min-height: 100vh;
-}
-
 body {
   background: $primary-color;
   font-size: 14px;
@@ -31,25 +24,24 @@ a {
   color: inherit;
 }
 
-.drag-area {
-  /* stylelint-disable */
-  -webkit-app-region: drag;
-}
-
-body {
-  > .drag-area {
-    @include absolute(0, null, 0);
-
-    width: 100%;
-    min-height: 1.5em;
-  }
-}
-
 [hidden] {
   display: none !important;
 }
 
+.app-region {
+  @include app-region;
+}
+
 #root {
+  @include dimen(100%, 100vh);
+  @include flex($flex-direction: column);
+
+  main {
+    flex: 1 1 auto;
+  }
+}
+
+main {
   @include flex();
 
   .sidebar {

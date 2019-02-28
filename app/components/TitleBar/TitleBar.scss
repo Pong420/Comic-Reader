@@ -1,0 +1,7 @@
+.title-bar {
+  @include absolute(0, null, 0);
+  @include app-region;
+
+  width: 100%;
+  min-height: 20px;
+}

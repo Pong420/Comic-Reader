@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ESNext",
+    "target": "esNext",
     "baseUrl": "./",
     "rootDir": "./",
     "jsx": "react",
-    "module": "es2015",
+    "module": "esNext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "pretty": true,

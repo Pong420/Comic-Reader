@@ -6,7 +6,7 @@
   border-right: 1px solid #555;
   z-index: 1;
 
-  .drag-area {
+  .app-region {
     @include absolute(0, null, 0);
     @include sq-dimen(100%);
   }

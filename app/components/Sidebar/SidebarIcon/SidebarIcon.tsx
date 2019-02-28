@@ -2,7 +2,6 @@ import React, { ComponentType, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
-import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
@@ -28,8 +27,8 @@ interface WithNavLinkProps {
 }
 
 const sidebarIconStyles = () => {
-  const active = {
-    color: grey[50]
+  const white = {
+    color: '#fff'
   };
 
   const root = {
@@ -37,17 +36,17 @@ const sidebarIconStyles = () => {
     minWidth: 50,
     height: 50,
     padding: 0,
-    color: grey.A200,
+    color: '#aaa',
     '&:hover': {
-      ...active,
-      '& $icon': active
+      ...white,
+      '& $icon': white
     }
   };
 
   return createStyles({
     root,
     linkActive: {
-      '& $icon': active
+      '& $icon': white
     },
     iconButton: {
       ...root

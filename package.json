@@ -265,6 +265,7 @@
     "react": "16.8.3",
     "react-async": "^4.1.2",
     "react-content-loader": "^4.0.1",
+    "react-desktop": "^0.3.9",
     "react-dom": "16.8.3",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",

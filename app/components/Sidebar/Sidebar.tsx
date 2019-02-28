@@ -24,7 +24,7 @@ const SidebarComponent = ({
 
   return (
     <div className={`sidebar ${className}`.trim()} style={{ paddingTop }}>
-      {macos && <div className="drag-area" />}
+      {macos && <div className="app-region" />}
 
       <div className="sidebar-content">
         <SidebarIcon to="/" tooltip="首頁" Icon={BackToHome} />
