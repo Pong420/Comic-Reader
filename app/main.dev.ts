@@ -64,15 +64,7 @@ const installExtensions = async () => {
  * Add event listeners...
  */
 
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('ready', async () => {
+async function createWindow() {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
@@ -137,4 +129,20 @@ app.on('ready', async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+}
+
+app.on('ready', createWindow);
+
+app.on('window-all-closed', () => {
+  // Respect the OSX convention of having the application in memory even
+  // after all windows have been closed
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow();
+  }
 });
