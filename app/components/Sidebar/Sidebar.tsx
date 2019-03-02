@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Search from '@material-ui/icons/SearchOutlined';
 import BackToHome from '@material-ui/icons/HomeRounded';
 import HistoryIcon from '@material-ui/icons/HistoryRounded';
-import BookMarksIcon from '@material-ui/icons/BookMarks';
+import BookMarksIcon from '@material-ui/icons/Bookmarks';
 import { SidebarIcon } from './SidebarIcon';
 import { SidebarDivider } from './SidebarDivider';
 import { useFullscreen } from '../../utils/useFullscreen';
