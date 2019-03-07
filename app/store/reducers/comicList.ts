@@ -23,10 +23,18 @@ const initialState: ComicListState = {
 
 export default function(state = initialState, action: ComicListActions) {
   switch (action.type) {
-    case ComicListTypes.SET_COMICS_LIST:
+    case ComicListTypes.ADD_COMICS_LIST:
+    case ComicListTypes.ADD_COMICS_LIST_PLACE_HOLDER:
+      const total = state.comicList.length;
+      const { from = total, to = total } = action.payload;
+
       return {
         ...state,
-        comicList: action.payload
+        comicList: [
+          ...state.comicList.slice(0, from),
+          ...action.payload.comicList,
+          ...state.comicList.slice(to, total)
+        ]
       };
 
     default:
