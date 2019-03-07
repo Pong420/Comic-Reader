@@ -1,22 +1,24 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createEpicMiddleware } from 'redux-observable';
 import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
-import createRootReducer from '../reducers';
+import rootEpic from './epics';
+import createRootReducer from './reducers';
 import comicListActions from '../actions/comicList';
 
 const history = createHashHistory();
 
 const rootReducer = createRootReducer(history);
 
+const epicMiddleware = createEpicMiddleware();
+
 const configureStore = (initialState?: any) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
 
-  // Thunk Middleware
-  middleware.push(thunk);
+  middleware.push(epicMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
@@ -61,6 +63,8 @@ const configureStore = (initialState?: any) => {
       () => store.replaceReducer(require('../reducers').default)
     );
   }
+
+  epicMiddleware.run(rootEpic);
 
   return store;
 };
