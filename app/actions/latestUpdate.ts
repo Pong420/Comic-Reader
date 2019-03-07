@@ -4,7 +4,9 @@ import { ComicItemList } from '../../typing';
 export enum LatestUpdateKeys {
   SET_COMICS = 'SET_COMICS',
   ADD_COMICS = 'ADD_COMICS',
-  SET_PAGE_NUMBER = 'SET_PAGE_NUMBER'
+  SET_PAGE_NUMBER = 'SET_PAGE_NUMBER',
+  SET_FILTER = 'SET_FILTER',
+  SET_NO_MORE_COMIC_RESULT = 'SET_NO_MORE_COMIC_RESULT'
 }
 
 interface SetComicAction {
@@ -26,10 +28,22 @@ interface SetPageNoAction {
   };
 }
 
+interface SetFilterAction {
+  type: LatestUpdateKeys.SET_FILTER;
+  payload: string[];
+}
+
+interface SetNoMoreComicResultAction {
+  type: LatestUpdateKeys.SET_NO_MORE_COMIC_RESULT;
+  payload: boolean;
+}
+
 export type LatestUpdateTypes =
   | SetComicAction
   | AddComicAction
-  | SetPageNoAction;
+  | SetPageNoAction
+  | SetFilterAction
+  | SetNoMoreComicResultAction;
 
 export interface AddComicsPayload {
   comicList: ComicItemList;
@@ -42,6 +56,8 @@ export type LatestUpdateActions = {
   setComics: typeof setComics;
   addComics: typeof addComics;
   setPageNumber: typeof setPageNumber;
+  setFilter: typeof setFilter;
+  setNoMoreComicResult: typeof setNoMoreComicResult;
 };
 
 export function setComics(comicList: ComicItemList): SetComicAction {
@@ -76,8 +92,26 @@ export function setPageNumber(page: number): SetPageNoAction {
   };
 }
 
+export function setFilter(payload: string[]): SetFilterAction {
+  return {
+    type: LatestUpdateKeys.SET_FILTER,
+    payload
+  };
+}
+
+export function setNoMoreComicResult(
+  payload: boolean
+): SetNoMoreComicResultAction {
+  return {
+    type: LatestUpdateKeys.SET_NO_MORE_COMIC_RESULT,
+    payload
+  };
+}
+
 export default {
   setComics,
   addComics,
-  setPageNumber
+  setPageNumber,
+  setFilter,
+  setNoMoreComicResult
 };

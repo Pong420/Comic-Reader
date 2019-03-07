@@ -19,6 +19,7 @@ export interface GridContainerProps<T> {
   height: number;
   list: T[];
   loadMore?: () => Promise<any>;
+  resetScrollPostion?: boolean;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
 }
@@ -27,7 +28,11 @@ const spacer = 15;
 const scrollPosition = new Map<string, number>();
 
 const GridWithScrollHandler = withRouter(
-  ({ location, ...props }: GridProps & RouteComponentProps) => {
+  ({
+    location,
+    resetScrollPostion = false,
+    ...props
+  }: GridProps & RouteComponentProps & { resetScrollPostion?: boolean }) => {
     const [mounted, setMounted] = useState(false);
     const gridRef = useRef<Grid>(null);
     const key = location.pathname;
@@ -40,10 +45,12 @@ const GridWithScrollHandler = withRouter(
     }
 
     useLayoutEffect(() => {
-      gridRef.current!.scrollToPosition({
-        scrollTop: scrollRef.current,
-        scrollLeft: 0
-      });
+      if (!resetScrollPostion) {
+        gridRef.current!.scrollToPosition({
+          scrollTop: scrollRef.current,
+          scrollLeft: 0
+        });
+      }
 
       setMounted(true);
 
@@ -62,7 +69,8 @@ export function GridContainer<T>({
   list,
   loadMore,
   onGridRender,
-  noContentRenderer
+  noContentRenderer,
+  resetScrollPostion
 }: GridContainerProps<T>) {
   const gridSizerRef = useRef<HTMLDivElement>(null);
   const { columnCount, columnWidth } = useMemo(
@@ -107,6 +115,7 @@ export function GridContainer<T>({
               loadMore && loadMore();
             }
           }}
+          resetScrollPostion={resetScrollPostion}
         />
       )}
       <div className="grid-sizer-container" style={{ gridGap: `${spacer}px` }}>

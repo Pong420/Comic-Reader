@@ -75,6 +75,7 @@ function WithTooltip({ tooltip, children }: WithTooltipProps) {
             }
           }
         }}
+        disableFocusListener
       >
         {children}
       </Tooltip>

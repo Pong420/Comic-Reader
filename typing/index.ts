@@ -1,5 +1,6 @@
 export interface GetLatestUpdateParam {
   page?: number;
+  filter?: string[];
 }
 
 export interface GetComicDataParam {
@@ -84,3 +85,10 @@ export type SearchHistoryItem = string;
 export type BookmarkItem = GridData | null;
 
 export type BrowsingHistoryItem = GridData | null;
+
+export type FilterData = [string, FilterElement[]][];
+
+export interface FilterElement {
+  label: string;
+  val: string;
+}

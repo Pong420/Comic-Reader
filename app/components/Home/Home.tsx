@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -26,27 +26,43 @@ function mapDispatchToProps(dispatch: Dispatch) {
 function HomeComponent({
   page,
   comicList,
-  addComics
+  filter,
+  noMoreComicResults,
+  addComics,
+  setNoMoreComicResult
 }: LatestUpdateState & LatestUpdateActions) {
-  const loadMoreLatestComic = () => {
-    const nextPage = page + 1;
-    const from = comicList.length;
-    const to = comicList.length + placeholders.length;
+  const loadMoreLatestComic = (pageNo = page) => {
+    if (!noMoreComicResults) {
+      const nextPage = pageNo + 1;
+      const from = comicList.length;
+      const to = comicList.length + placeholders.length;
 
-    addComics({
-      comicList: placeholders.slice(0),
-      page: nextPage
-    });
-
-    return getLatestUpdateAPI({ page: nextPage }).then(comicList =>
       addComics({
-        comicList,
+        comicList: placeholders.slice(0),
+        page: nextPage
+      });
+
+      return getLatestUpdateAPI({
         page: nextPage,
-        from,
-        to
-      })
-    );
+        filter
+      }).then(comicList => {
+        setNoMoreComicResult(comicList.length < placeholders.length);
+
+        addComics({
+          comicList,
+          page: nextPage,
+          from,
+          to
+        });
+      });
+    }
+
+    return Promise.resolve();
   };
+
+  useEffect(() => {
+    !comicList.length && loadMoreLatestComic(0);
+  }, []);
 
   return (
     <Layout className="home">
@@ -58,6 +74,7 @@ function HomeComponent({
             list={comicList}
             onGridRender={props => <Grid {...props} />}
             loadMore={loadMoreLatestComic}
+            resetScrollPostion={page === 1}
           />
         )}
       </AutoSizer>
