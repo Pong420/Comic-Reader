@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -31,9 +31,9 @@ function HomeComponent({
   addComics,
   setNoMoreComicResult
 }: LatestUpdateState & LatestUpdateActions) {
-  const loadMoreLatestComic = () => {
+  const loadMoreLatestComic = (pageNo = page) => {
     if (!noMoreComicResults) {
-      const nextPage = page + 1;
+      const nextPage = pageNo + 1;
       const from = comicList.length;
       const to = comicList.length + placeholders.length;
 
@@ -46,7 +46,7 @@ function HomeComponent({
         page: nextPage,
         filter
       }).then(comicList => {
-        setNoMoreComicResult(comicList.length < 42);
+        setNoMoreComicResult(comicList.length < placeholders.length);
 
         addComics({
           comicList,
@@ -59,6 +59,10 @@ function HomeComponent({
 
     return Promise.resolve();
   };
+
+  useEffect(() => {
+    !comicList.length && loadMoreLatestComic(0);
+  }, []);
 
   return (
     <Layout className="home">
