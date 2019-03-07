@@ -1,5 +1,6 @@
-export interface GetLatestUpdateParam {
+export interface GetComicListParam {
   page?: number;
+  type?: string;
   filter?: string[];
 }
 

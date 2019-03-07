@@ -1,5 +1,5 @@
 import {
-  GetLatestUpdateParam,
+  GetComicListParam,
   ComicItemList,
   GetComicDataParam,
   GetContentDataParam,
@@ -8,21 +8,19 @@ import {
 } from '../../typing';
 
 import {
-  getLatestUpdate,
+  getComicList,
   getComicData,
   getContentData,
   search
 } from './source/IKanman';
 
-let getLatestUpdateQueue = Promise.resolve<ComicItemList>([]);
+let getComicListQueue = Promise.resolve<ComicItemList>([]);
 let getSearchResultQueue = Promise.resolve<SearchResults>([]);
 
-export function getLatestUpdateAPI(params?: GetLatestUpdateParam) {
-  getLatestUpdateQueue = getLatestUpdateQueue.then(() =>
-    getLatestUpdate(params || {})
-  );
+export function getComicListAPI(params?: GetComicListParam) {
+  getComicListQueue = getComicListQueue.then(() => getComicList(params || {}));
 
-  return getLatestUpdateQueue;
+  return getComicListQueue;
 }
 
 export function getComicDataAPI(params: GetComicDataParam) {

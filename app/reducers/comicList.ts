@@ -1,4 +1,4 @@
-import { LatestUpdateKeys, LatestUpdateTypes } from '../actions/latestUpdate';
+import { ComicListKeys, ComicListTypes } from '../actions/comicList';
 import { ComicItemList } from '../../typing';
 
 const FILTER_STORAGE_KEY = 'filter';
@@ -7,29 +7,29 @@ const filter = JSON.parse(
     JSON.stringify(new Array(6).fill(''))
 );
 
-export interface LatestUpdateState {
+export interface ComicListState {
   comicList: ComicItemList;
   filter: string[];
   noMoreComicResults: boolean;
   page: number;
 }
 
-const initialState: LatestUpdateState = {
+const initialState: ComicListState = {
   comicList: [],
   filter,
   noMoreComicResults: false,
   page: 1
 };
 
-export default function(state = initialState, action: LatestUpdateTypes) {
+export default function(state = initialState, action: ComicListTypes) {
   switch (action.type) {
-    case LatestUpdateKeys.SET_COMICS:
+    case ComicListKeys.SET_COMICS:
       return {
         ...state,
         comicList: action.payload.comicList
       };
 
-    case LatestUpdateKeys.ADD_COMICS:
+    case ComicListKeys.ADD_COMICS:
       const total = state.comicList.length;
       const { from = total, to = total } = action.payload;
 
@@ -42,13 +42,13 @@ export default function(state = initialState, action: LatestUpdateTypes) {
         ]
       };
 
-    case LatestUpdateKeys.SET_PAGE_NUMBER:
+    case ComicListKeys.SET_PAGE_NUMBER:
       return {
         ...state,
         page: action.payload.page
       };
 
-    case LatestUpdateKeys.SET_FILTER:
+    case ComicListKeys.SET_FILTER:
       localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(action.payload));
 
       return {
@@ -56,7 +56,7 @@ export default function(state = initialState, action: LatestUpdateTypes) {
         filter: action.payload
       };
 
-    case LatestUpdateKeys.SET_NO_MORE_COMIC_RESULT:
+    case ComicListKeys.SET_NO_MORE_COMIC_RESULT:
       return {
         ...state,
         noMoreComicResults: action.payload

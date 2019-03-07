@@ -1,10 +1,7 @@
 import { api } from './api';
-import { GetLatestUpdateParam } from '../../../../typing/index';
+import { GetComicListParam } from '../../../../typing/index';
 
-export async function getLatestUpdate({
-  page = 1,
-  filter
-}: GetLatestUpdateParam) {
+export async function getComicList({ page = 1, filter }: GetComicListParam) {
   const page_ = page === 1 ? '' : `_p${page}`;
   const filterPath = getFilterPath(filter);
   const { data: $ } = await api.get(`/list/${filterPath}update${page_}.html`);

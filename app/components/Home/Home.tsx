@@ -5,22 +5,22 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
-import { getLatestUpdateAPI } from '../../apis';
+import { getComicListAPI } from '../../apis';
 import { ComicItemList } from '../../../typing';
-import LatestUpdateActionCreator, {
-  LatestUpdateActions
-} from '../../actions/latestUpdate';
+import ComicListActionCreator, {
+  ComicListActions
+} from '../../actions/comicList';
 import { RootState } from '../../reducers';
-import { LatestUpdateState } from '../../reducers/latestUpdate';
+import { ComicListState } from '../../reducers/comicList';
 
 const placeholders: ComicItemList = new Array(42).fill({});
 
-function mapStateToProps({ latestUpdate }: RootState, ownProps: any) {
-  return { ...latestUpdate, ...ownProps };
+function mapStateToProps({ comicList }: RootState, ownProps: any) {
+  return { ...comicList, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(LatestUpdateActionCreator, dispatch);
+  return bindActionCreators(ComicListActionCreator, dispatch);
 }
 
 function HomeComponent({
@@ -30,7 +30,7 @@ function HomeComponent({
   noMoreComicResults,
   addComics,
   setNoMoreComicResult
-}: LatestUpdateState & LatestUpdateActions) {
+}: ComicListState & ComicListActions) {
   const loadMoreLatestComic = (pageNo = page) => {
     if (!noMoreComicResults) {
       const nextPage = pageNo + 1;
@@ -42,7 +42,7 @@ function HomeComponent({
         page: nextPage
       });
 
-      return getLatestUpdateAPI({
+      return getComicListAPI({
         page: nextPage,
         filter
       }).then(comicList => {

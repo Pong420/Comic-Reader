@@ -273,7 +273,9 @@
     "react-use": "^5.5.4",
     "react-virtualized": "^9.21.0",
     "redux": "^4.0.1",
+    "redux-observable": "^1.0.0",
     "redux-thunk": "^2.3.0",
+    "rxjs": "^6.4.0",
     "source-map-support": "^0.5.10"
   },
   "devEngines": {

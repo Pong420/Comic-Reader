@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { ComicItemList } from '../../typing';
 
-export enum LatestUpdateKeys {
+export enum ComicListKeys {
   SET_COMICS = 'SET_COMICS',
   ADD_COMICS = 'ADD_COMICS',
   SET_PAGE_NUMBER = 'SET_PAGE_NUMBER',
@@ -10,35 +10,35 @@ export enum LatestUpdateKeys {
 }
 
 interface SetComicAction {
-  type: LatestUpdateKeys.SET_COMICS;
+  type: ComicListKeys.SET_COMICS;
   payload: {
     comicList: ComicItemList;
   };
 }
 
 interface AddComicAction {
-  type: LatestUpdateKeys.ADD_COMICS;
+  type: ComicListKeys.ADD_COMICS;
   payload: AddComicsPayload;
 }
 
 interface SetPageNoAction {
-  type: LatestUpdateKeys.SET_PAGE_NUMBER;
+  type: ComicListKeys.SET_PAGE_NUMBER;
   payload: {
     page: number;
   };
 }
 
 interface SetFilterAction {
-  type: LatestUpdateKeys.SET_FILTER;
+  type: ComicListKeys.SET_FILTER;
   payload: string[];
 }
 
 interface SetNoMoreComicResultAction {
-  type: LatestUpdateKeys.SET_NO_MORE_COMIC_RESULT;
+  type: ComicListKeys.SET_NO_MORE_COMIC_RESULT;
   payload: boolean;
 }
 
-export type LatestUpdateTypes =
+export type ComicListTypes =
   | SetComicAction
   | AddComicAction
   | SetPageNoAction
@@ -52,7 +52,7 @@ export interface AddComicsPayload {
   to?: number;
 }
 
-export type LatestUpdateActions = {
+export type ComicListActions = {
   setComics: typeof setComics;
   addComics: typeof addComics;
   setPageNumber: typeof setPageNumber;
@@ -62,7 +62,7 @@ export type LatestUpdateActions = {
 
 export function setComics(comicList: ComicItemList): SetComicAction {
   return {
-    type: LatestUpdateKeys.SET_COMICS,
+    type: ComicListKeys.SET_COMICS,
     payload: {
       comicList
     }
@@ -73,7 +73,7 @@ export function addComics({ page, comicList, from, to }: AddComicsPayload) {
   return (dispatch: Dispatch) => {
     dispatch(setPageNumber(page));
     dispatch({
-      type: LatestUpdateKeys.ADD_COMICS,
+      type: ComicListKeys.ADD_COMICS,
       payload: {
         comicList,
         from,
@@ -85,7 +85,7 @@ export function addComics({ page, comicList, from, to }: AddComicsPayload) {
 
 export function setPageNumber(page: number): SetPageNoAction {
   return {
-    type: LatestUpdateKeys.SET_PAGE_NUMBER,
+    type: ComicListKeys.SET_PAGE_NUMBER,
     payload: {
       page
     }
@@ -94,7 +94,7 @@ export function setPageNumber(page: number): SetPageNoAction {
 
 export function setFilter(payload: string[]): SetFilterAction {
   return {
-    type: LatestUpdateKeys.SET_FILTER,
+    type: ComicListKeys.SET_FILTER,
     payload
   };
 }
@@ -103,7 +103,7 @@ export function setNoMoreComicResult(
   payload: boolean
 ): SetNoMoreComicResultAction {
   return {
-    type: LatestUpdateKeys.SET_NO_MORE_COMIC_RESULT,
+    type: ComicListKeys.SET_NO_MORE_COMIC_RESULT,
     payload
   };
 }
