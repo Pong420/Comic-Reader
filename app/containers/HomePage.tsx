@@ -27,13 +27,22 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 const HomePageComponent = ({
   comicList,
-  setComics
+  filter,
+  setComics,
+  setNoMoreComicResult
 }: LatestUpdateState & LatestUpdateActions & RouteComponentProps) => {
   const { error, isLoading, reload, run } = useAsync<ComicItemList>({
     deferFn() {
       return comicList.length
         ? Promise.resolve(comicList)
-        : getLatestUpdateAPI();
+        : getLatestUpdateAPI({
+            page: 1,
+            filter
+          }).then(data => {
+            setNoMoreComicResult(data.length < 42);
+
+            return data;
+          });
     },
     onResolve(data) {
       setComics(data);

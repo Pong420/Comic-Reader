@@ -17,12 +17,17 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
-    fontFamily: "Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif"
+    fontFamily: 'Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif'
   },
   overrides: {
     MuiSvgIcon: {
       colorPrimary: {
         color: '#fff'
+      }
+    },
+    MuiDialog: {
+      paper: {
+        backgroundColor: '#2a2a2a'
       }
     }
   }

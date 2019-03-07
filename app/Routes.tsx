@@ -8,7 +8,9 @@ import { ContentPage } from './containers/ContentPage';
 import { SearchPage } from './containers/SearchPage';
 import { BrowsingHistoryPage } from './containers/BrowsingHistoryPage';
 import { BookmarkPage } from './containers/BookmarkPage';
+import { FilterPage } from './containers/FilterPage';
 import { Sidebar } from './components/Sidebar';
+import { HomeSidebar } from './components/Home/HomeSidebar';
 import { ComicSidebar } from './components/Comic/ComicSidebar';
 import { ContentSidebar } from './components/Content/ContentSidebar';
 import { BrowsingHistorySidebar } from './components/BrowsingHistory/BrowsingHistorySidebar';
@@ -16,7 +18,7 @@ import { BookmarkSidebar } from './components/Bookmark/BookmarkSidebar';
 
 interface CustomRouteProps extends RouteProps {
   main: ComponentType<any>;
-  sidebar: ComponentType<any>;
+  sidebar?: ComponentType<any>;
 }
 
 const routes: CustomRouteProps[] = [
@@ -24,7 +26,7 @@ const routes: CustomRouteProps[] = [
     path: '/',
     exact: true,
     main: HomePage,
-    sidebar: Sidebar
+    sidebar: HomeSidebar
   },
   {
     path: '/comic/:comicID',
@@ -38,8 +40,7 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: '/search',
-    main: SearchPage,
-    sidebar: Sidebar
+    main: SearchPage
   },
   {
     path: '/history',
@@ -50,6 +51,10 @@ const routes: CustomRouteProps[] = [
     path: '/bookmark',
     main: BookmarkPage,
     sidebar: BookmarkSidebar
+  },
+  {
+    path: '/filter',
+    main: FilterPage
   }
 ];
 
@@ -57,7 +62,7 @@ export default () => (
   <App>
     <TitleBar />
     <main className={process.platform}>
-      {routes.map(({ sidebar, ...props }, index) => (
+      {routes.map(({ sidebar = Sidebar, ...props }, index) => (
         <Route {...props} key={index} component={sidebar} />
       ))}
       <Switch>

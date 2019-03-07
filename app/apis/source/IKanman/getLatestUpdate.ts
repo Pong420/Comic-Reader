@@ -1,9 +1,13 @@
 import { api } from './api';
 import { GetLatestUpdateParam } from '../../../../typing/index';
 
-export async function getLatestUpdate({ page = 1 }: GetLatestUpdateParam) {
+export async function getLatestUpdate({
+  page = 1,
+  filter
+}: GetLatestUpdateParam) {
   const page_ = page === 1 ? '' : `_p${page}`;
-  const { data: $ } = await api.get(`/list/update${page_}.html`);
+  const filterPath = getFilterPath(filter);
+  const { data: $ } = await api.get(`/list/${filterPath}update${page_}.html`);
 
   const comicList = $('#contList li')
     .map((index: number, item: CheerioElement) => {
@@ -28,4 +32,9 @@ export async function getLatestUpdate({ page = 1 }: GetLatestUpdateParam) {
     .toArray();
 
   return comicList;
+}
+
+function getFilterPath(arr: string[] | undefined = []) {
+  const fitler = arr.filter(Boolean);
+  return fitler.length ? `${fitler.join('_')}/` : '';
 }

@@ -9,9 +9,6 @@ import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 const styles = (theme: Theme) =>
   createStyles({
-    paper: {
-      backgroundColor: theme.palette.primary.main
-    },
     title: {
       color: '#fff'
     },
@@ -35,7 +32,7 @@ function ConfirmDialogComponent({
   classes
 }: ConfirmDialogProps & WithStyles<typeof styles>) {
   return (
-    <Dialog open={open} onClose={onClose} classes={{ paper: classes.paper }}>
+    <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText classes={{ root: classes.content }}>
           {msg}
