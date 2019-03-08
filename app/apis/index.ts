@@ -4,7 +4,8 @@ import {
   GetComicDataParam,
   GetContentDataParam,
   GetSearchResultsParam,
-  SearchResults
+  SearchResults,
+  GridData
 } from '../../typing';
 
 import {
@@ -21,6 +22,13 @@ export function getComicListAPI(params: GetComicListParam) {
   getComicListQueue = getComicListQueue.then(() => getComicList(params));
 
   return getComicListQueue;
+}
+
+export function getGridDataAPI(params: GetComicDataParam) {
+  return getComicData(params).then(
+    ({ adultOnly, chapters, finished, intro, details, title, ...gridData }) =>
+      gridData as GridData
+  );
 }
 
 export function getComicDataAPI(params: GetComicDataParam) {

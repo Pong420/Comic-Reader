@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { SidebarWithRemoveFn } from '../../Sidebar/SidebarWithRemoveFn';
 import {
   RootState,
   BrowsingHistoryState,
-  BrowsingHistoryActions,
   BrowsingHistoryActionCreators
 } from '../../../store';
 
@@ -21,7 +20,7 @@ export function BrowsingHistorySidebarComponent({
   removable,
   removeAllBrowsingHistory,
   toggleBrowsingHistoryRemovable
-}: BrowsingHistoryState & ActionCreatorsMapObject<BrowsingHistoryActions>) {
+}: BrowsingHistoryState & typeof BrowsingHistoryActionCreators) {
   return (
     <SidebarWithRemoveFn
       on={removable}

@@ -5,9 +5,7 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
-import { RootState } from '../../reducers';
-import { BookmarkState } from '../../reducers/bookmark';
-import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
+import { RootState, BookmarkState, BookmarkActionCreators } from '../../store';
 
 export interface BookmarkProps {}
 
@@ -16,15 +14,15 @@ function mapStateToProps({ bookmark }: RootState, ownProps: any) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(BookmarkActionCreator, dispatch);
+  return bindActionCreators(BookmarkActionCreators, dispatch);
 }
 
 function BookmarkComponent({
   bookmarks,
   removable,
-  setBookmark,
+  refetchBookmark,
   removeBookmark
-}: BookmarkProps & BookmarkState & BookmarkActions) {
+}: BookmarkProps & BookmarkState & typeof BookmarkActionCreators) {
   return (
     <Layout className="bookmark">
       <AutoSizer>
@@ -33,11 +31,11 @@ function BookmarkComponent({
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={([, { comicID, bookmarkItem }]) => {
-              if (bookmarkItem) {
+            onGridRender={([, { comicID, gridData }]) => {
+              if (gridData) {
                 return (
                   <RemovableGrid
-                    {...bookmarkItem}
+                    {...gridData}
                     removable={removable}
                     onRemove={removeBookmark}
                   />
@@ -45,15 +43,7 @@ function BookmarkComponent({
               }
 
               return (
-                <RefetchComicGrid
-                  comicID={comicID}
-                  onFetch={bookmarkItem =>
-                    setBookmark({
-                      comicID,
-                      bookmarkItem
-                    })
-                  }
-                />
+                <RefetchComicGrid onFetch={() => refetchBookmark(comicID)} />
               );
             }}
           />

@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import BookMarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { SidebarIcon } from '../Sidebar/SidebarIcon';
-import BookmarkActionCreator, { BookmarkActions } from '../../actions/bookmark';
-import { RootState } from '../../reducers';
-import { BookmarkState } from '../../reducers/bookmark';
+import { RootState, BookmarkState, BookmarkActionCreators } from '../../store';
 
 export interface BookmarkBtnProps {
   comicID: string;
@@ -17,7 +15,7 @@ function mapStateToProps({ bookmark }: RootState, ownProps: any) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(BookmarkActionCreator, dispatch);
+  return bindActionCreators(BookmarkActionCreators, dispatch);
 }
 
 function BookmarkBtnComponent({
@@ -25,7 +23,7 @@ function BookmarkBtnComponent({
   comicID,
   addBookmark,
   removeBookmark
-}: BookmarkBtnProps & BookmarkState & BookmarkActions) {
+}: BookmarkBtnProps & BookmarkState & typeof BookmarkActionCreators) {
   const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
   const bookmarked = mappedBookmarks.has(comicID);
 

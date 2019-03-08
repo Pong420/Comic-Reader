@@ -8,7 +8,7 @@ import {
 } from '../actions/browsingHistory';
 import { writeFileSync } from '../../utils/writeFileSync';
 
-export const browingHistoryDirectory = path.join(
+export const browsingHistoryDirectory = path.join(
   remote.app.getPath('userData'),
   'comic-reader',
   'browsingHistory.json'
@@ -21,8 +21,8 @@ export interface BrowsingHistoryState {
   removable: boolean;
 }
 
-const initialBrowsingHistory = (fs.existsSync(browingHistoryDirectory)
-  ? JSON.parse(fs.readFileSync(browingHistoryDirectory, 'utf8'))
+const initialBrowsingHistory = (fs.existsSync(browsingHistoryDirectory)
+  ? JSON.parse(fs.readFileSync(browsingHistoryDirectory, 'utf8'))
   : []) as BrowsingHistory;
 
 const initialState: BrowsingHistoryState = {
@@ -34,7 +34,7 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
   const mappedBrowsingHistorys = new Map(state.browsingHistory.slice(0));
 
   switch (action.type) {
-    case BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY:
+    case BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS:
       mappedBrowsingHistorys.delete(action.payload.comicID);
 
       return {
@@ -58,7 +58,7 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
         browsingHistory: []
       };
 
-    case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY:
+    case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS:
       mappedBrowsingHistorys.set(action.payload.comicID, action.payload);
 
       return {
@@ -75,7 +75,7 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
       };
 
     case BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY:
-      writeFileSync(browingHistoryDirectory, state.browsingHistory);
+      writeFileSync(browsingHistoryDirectory, state.browsingHistory);
 
       return state;
 

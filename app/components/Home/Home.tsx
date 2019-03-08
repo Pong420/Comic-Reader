@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -8,7 +8,6 @@ import { Grid } from '../Grid';
 import {
   RootState,
   ComicListState,
-  ComicListActions,
   ComicListActionCreators
 } from '../../store';
 
@@ -27,7 +26,7 @@ function HomeComponent({
   noMoreComicResults,
   getComicList,
   cancelGetComicList
-}: ComicListState & ActionCreatorsMapObject<ComicListActions>) {
+}: ComicListState & typeof ComicListActionCreators) {
   const request = () => {
     getComicList({
       page,

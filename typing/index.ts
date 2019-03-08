@@ -4,6 +4,10 @@ export interface GetComicListParam {
   filter?: string[];
 }
 
+export interface GetGridDataParam {
+  comicID: string;
+}
+
 export interface GetComicDataParam {
   comicID: string;
 }

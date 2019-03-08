@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -9,7 +9,6 @@ import { SearchHeader } from './SearchHeader';
 import {
   RootState,
   SearchResultsState,
-  SearchActions,
   SearchActionCreators
 } from '../../store';
 
@@ -30,7 +29,7 @@ function SearchComponent({
   cleanSearchResults,
   cancelGetSearchResults,
   saveSearchKeyword
-}: SearchResultsState & ActionCreatorsMapObject<SearchActions>) {
+}: SearchResultsState & typeof SearchActionCreators) {
   const [keyword, setKeyword] = useState(cachedKeyword);
 
   function request(pageNo: number = page) {

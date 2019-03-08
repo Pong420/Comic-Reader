@@ -2,29 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { SidebarWithRemoveFn } from '../../Sidebar/SidebarWithRemoveFn';
-import { RootState } from '../../../reducers';
-import { BookmarkState } from '../../../reducers/bookmark';
-import BookmarkActionCreator, {
-  BookmarkActions
-} from '../../../actions/bookmark';
+import {
+  RootState,
+  BookmarkState,
+  BookmarkActionCreators
+} from '../../../store';
 
 function mapStateToProps({ bookmark }: RootState, ownProps: any) {
   return { ...bookmark, ...ownProps };
 }
 
 function mapActiontoProps(dispatch: Dispatch) {
-  return bindActionCreators(BookmarkActionCreator, dispatch);
+  return bindActionCreators(BookmarkActionCreators, dispatch);
 }
 
 export function BookmarkSidebarComponent({
   removable,
-  toogleRemovable,
+  toggleBookmarkRemovable,
   removeAllBookmark
-}: BookmarkState & BookmarkActions) {
+}: BookmarkState & typeof BookmarkActionCreators) {
   return (
     <SidebarWithRemoveFn
       on={removable}
-      onToggleOnOff={toogleRemovable}
+      onToggleOnOff={toggleBookmarkRemovable}
       onRemoveAll={removeAllBookmark}
     />
   );

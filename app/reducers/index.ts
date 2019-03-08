@@ -3,14 +3,14 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import comicList, { ComicListState } from './comicList';
 import searchResult, { SearchResultState } from './searchResult';
-import bookmark, { BookmarkState } from './bookmark';
+// import bookmark, { BookmarkState } from './bookmark';
 // import browsingHistory, { BrowsingHistoryState } from './browsingHistory';
 import content, { ContentState } from './content';
 
 export interface RootState {
   comicList: ComicListState;
   searchResult: SearchResultState;
-  bookmark: BookmarkState;
+  // bookmark: BookmarkState;
   // browsingHistory: BrowsingHistoryState;
   content: ContentState;
 }
@@ -20,7 +20,7 @@ export default function createRootReducer(history: History) {
     router: connectRouter(history),
     comicList,
     searchResult,
-    bookmark,
+    // bookmark,
     // browsingHistory,
     content
   });
