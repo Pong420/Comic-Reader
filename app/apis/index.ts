@@ -17,8 +17,8 @@ import {
 let getComicListQueue = Promise.resolve<ComicItemList>([]);
 let getSearchResultQueue = Promise.resolve<SearchResults>([]);
 
-export function getComicListAPI(params?: GetComicListParam) {
-  getComicListQueue = getComicListQueue.then(() => getComicList(params || {}));
+export function getComicListAPI(params: GetComicListParam) {
+  getComicListQueue = getComicListQueue.then(() => getComicList(params));
 
   return getComicListQueue;
 }

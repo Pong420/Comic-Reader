@@ -1,5 +1,5 @@
 export interface GetComicListParam {
-  page?: number;
+  page: number;
   type?: string;
   filter?: string[];
 }

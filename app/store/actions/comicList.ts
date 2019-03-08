@@ -4,19 +4,14 @@ import { ComicItemList, GetComicListParam } from '../../../typing';
 
 export enum ComicListTypes {
   GET_COMICS_LIST = 'GET_COMICS_LIST',
-  GET_COMICS_LIST_FAILED = 'GET_COMICS_LIST_FAILED',
+  GET_COMICS_LIST_SUCCESS = 'GET_COMICS_LIST_SUCCESS',
+  GET_COMICS_LIST_FAIL = 'GET_COMICS_LIST_FAIL',
   GET_COMICS_LIST_CANCELED = 'GET_COMICS_LIST_CANCELED',
-  SET_COMICS_LIST = 'SET_COMICS_LIST',
-  ADD_COMICS_LIST = 'ADD_COMICS_LIST',
-  ADD_COMICS_LIST_PLACE_HOLDER = 'ADD_COMICS_LIST_PLACE_HOLDER',
-  SET_PAGE_NUMBER = 'SET_PAGE_NUMBER',
-  SET_FILTER = 'SET_FILTER',
-  SET_NO_MORE_COMIC_RESULT = 'SET_NO_MORE_COMIC_RESULT'
+  SET_FILTER = 'SET_FILTER'
 }
 
-export interface AddComicsPayload {
+export interface GetComicListSuccessPayload {
   comicList: ComicItemList;
-  page?: number;
   from?: number;
   to?: number;
 }
@@ -26,8 +21,13 @@ export interface GetComicList extends Action {
   payload: GetComicListParam;
 }
 
+export interface GetComicListSuccess extends Action {
+  type: ComicListTypes.GET_COMICS_LIST_SUCCESS;
+  payload: GetComicListSuccessPayload;
+}
+
 export interface GetComicListFailed extends Action {
-  type: ComicListTypes.GET_COMICS_LIST_FAILED;
+  type: ComicListTypes.GET_COMICS_LIST_FAIL;
   payload: AxiosError;
 }
 
@@ -35,22 +35,17 @@ export interface GetComicListCanceled extends Action {
   type: ComicListTypes.GET_COMICS_LIST_CANCELED;
 }
 
-export interface AddComicList extends Action {
-  type: ComicListTypes.ADD_COMICS_LIST;
-  payload: AddComicsPayload;
-}
-
-export interface AddComicListPlaceHolder extends Action {
-  type: ComicListTypes.ADD_COMICS_LIST_PLACE_HOLDER;
-  payload: AddComicsPayload;
+export interface SetFilter extends Action {
+  type: ComicListTypes.SET_FILTER;
+  payload: string[];
 }
 
 export type ComicListActions =
   | GetComicList
+  | GetComicListSuccess
   | GetComicListFailed
   | GetComicListCanceled
-  | AddComicList
-  | AddComicListPlaceHolder;
+  | SetFilter;
 
 export function getComicList(payload: GetComicListParam): GetComicList {
   return {
@@ -59,14 +54,31 @@ export function getComicList(payload: GetComicListParam): GetComicList {
   };
 }
 
-export function addComics(payload: AddComicsPayload): AddComicList {
+export function getComicsListSuccess(
+  payload: GetComicListSuccessPayload
+): GetComicListSuccess {
   return {
-    type: ComicListTypes.ADD_COMICS_LIST,
+    type: ComicListTypes.GET_COMICS_LIST_SUCCESS,
     payload
+  };
+}
+
+export function setFilter(payload: string[]): SetFilter {
+  return {
+    type: ComicListTypes.SET_FILTER,
+    payload
+  };
+}
+
+export function cancelGetComicList(): GetComicListCanceled {
+  return {
+    type: ComicListTypes.GET_COMICS_LIST_CANCELED
   };
 }
 
 export const ComicListActionCreators = {
   getComicList,
-  addComics
+  getComicsListSuccess,
+  setFilter,
+  cancelGetComicList
 };

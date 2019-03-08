@@ -20,13 +20,25 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 function HomeComponent({
+  page,
+  filter,
   comicList,
-  getComicList
+  getComicList,
+  cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
-  useEffect(() => {
+  const request = () => {
     getComicList({
-      page: 1
+      page,
+      filter
     });
+  };
+
+  useEffect(() => {
+    request();
+
+    return () => {
+      cancelGetComicList();
+    };
   }, []);
 
   return (
@@ -37,6 +49,7 @@ function HomeComponent({
             width={width}
             height={height}
             list={comicList}
+            loadMore={request}
             onGridRender={props => <Grid {...props} />}
           />
         )}

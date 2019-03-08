@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import { Layout } from '../Layout';
-import filterData from '../../filter.json';
 import { FilterData } from '../../../typing';
-import comicListActionsCreators, {
-  ComicListActions
-} from '../../actions/comicList';
-import { RootState } from '../../reducers';
-import { ComicListState } from '../../reducers/comicList';
+import {
+  ComicListActionCreators,
+  RootState,
+  ComicListState
+} from '../../store';
+import filterData from '../../filter.json';
 
 interface FilterItemProps {
   label: string;
@@ -24,7 +24,7 @@ function mapStateToProps({ comicList }: RootState, ownProps: any) {
 }
 
 function mapDispathToProps(dispath: Dispatch) {
-  return bindActionCreators(comicListActionsCreators, dispath);
+  return bindActionCreators(ComicListActionCreators, dispath);
 }
 
 function FilterItem({ label, selected, onClick }: FilterItemProps) {
@@ -54,7 +54,7 @@ function FilterHeader() {
 function FilterComponent({
   filter,
   setFilter
-}: ComicListState & ComicListActions) {
+}: ComicListState & typeof ComicListActionCreators) {
   return (
     <Layout className="filter">
       <FilterHeader />

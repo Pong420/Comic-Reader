@@ -7,27 +7,32 @@ import {
   ComicListActions,
   ComicListTypes,
   GetComicList,
-  addComics
+  getComicsListSuccess
 } from '../actions/comicList';
 import { ComicItemList } from '../../../typing';
 
 const placeholders: ComicItemList = new Array(42).fill({});
+const { length } = placeholders;
 
-const getComicListEpic: Epic<ComicListActions, ComicListActions> = action$ =>
+// TODO:
+// Remove delay
+// Handle error
+const getComicListEpic: Epic<ComicListActions> = action$ =>
   action$.pipe(
     ofType<ComicListActions, GetComicList>(ComicListTypes.GET_COMICS_LIST),
     mergeMap(action =>
       from(getComicListAPI(action.payload)).pipe(
         delay(5000),
         map(comicList =>
-          addComics({
+          getComicsListSuccess({
             comicList,
-            page: 1
+            from: (action.payload.page - 1) * length,
+            to: action.payload.page * length
           })
         ),
         catchError((error: AxiosError) =>
           of<ComicListActions>({
-            type: ComicListTypes.GET_COMICS_LIST_FAILED,
+            type: ComicListTypes.GET_COMICS_LIST_FAIL,
             payload: error
           })
         ),
@@ -36,17 +41,4 @@ const getComicListEpic: Epic<ComicListActions, ComicListActions> = action$ =>
     )
   );
 
-const placeholderEpic: Epic<ComicListActions, ComicListActions> = action$ =>
-  action$.pipe(
-    ofType<ComicListActions, GetComicList>(ComicListTypes.GET_COMICS_LIST),
-    mergeMap(() =>
-      of<ComicListActions>({
-        type: ComicListTypes.ADD_COMICS_LIST_PLACE_HOLDER,
-        payload: {
-          comicList: placeholders
-        }
-      })
-    )
-  );
-
-export default [getComicListEpic, placeholderEpic];
+export default [getComicListEpic];

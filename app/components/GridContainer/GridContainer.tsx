@@ -18,7 +18,7 @@ export interface GridContainerProps<T> {
   width: number;
   height: number;
   list: T[];
-  loadMore?: () => Promise<any>;
+  loadMore?: () => void;
   resetScrollPostion?: boolean;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
