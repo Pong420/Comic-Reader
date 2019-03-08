@@ -1,7 +1,6 @@
 import { ComicListTypes, ComicListActions } from '../actions/comicList';
 import { ComicItemList } from '../../../typing';
 
-const placeholders: ComicItemList = new Array(42).fill({});
 const FILTER_STORAGE_KEY = 'filter';
 const filter = JSON.parse(
   localStorage.getItem(FILTER_STORAGE_KEY) ||
@@ -22,13 +21,15 @@ const initialState: ComicListState = {
   page: 1
 };
 
+export const comistListPlaceholders: ComicItemList = new Array(42).fill({});
+
 export default function(state = initialState, action: ComicListActions) {
   switch (action.type) {
     case ComicListTypes.GET_COMICS_LIST:
       return {
         ...state,
         page: state.page + 1,
-        comicList: [...state.comicList, ...placeholders]
+        comicList: [...state.comicList, ...comistListPlaceholders]
       };
 
     case ComicListTypes.GET_COMICS_LIST_SUCCESS:
@@ -37,7 +38,7 @@ export default function(state = initialState, action: ComicListActions) {
 
       return {
         ...state,
-        noMoreComicResults: comicList.length < placeholders.length,
+        noMoreComicResults: comicList.length < comistListPlaceholders.length,
         comicList: [
           ...state.comicList.slice(0, from),
           ...comicList,
@@ -53,12 +54,13 @@ export default function(state = initialState, action: ComicListActions) {
         filter: action.payload
       };
 
+    // TODO: review
     case ComicListTypes.GET_COMICS_LIST_CANCELED:
       const validComiclist = state.comicList.filter(v => Object.keys(v).length);
-      console.log(validComiclist);
+
       return {
         ...state,
-        page: validComiclist.length / placeholders.length + 1,
+        page: validComiclist.length / comistListPlaceholders.length + 1,
         comicList: validComiclist
       };
 

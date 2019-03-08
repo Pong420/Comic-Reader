@@ -3,7 +3,7 @@ import {
   ComicItemList,
   GetComicDataParam,
   GetContentDataParam,
-  SearchParam,
+  GetSearchResultsParam,
   SearchResults
 } from '../../typing';
 
@@ -31,7 +31,7 @@ export function getContentDataAPI(params: GetContentDataParam) {
   return getContentData(params);
 }
 
-export function searchAPI(params: SearchParam) {
+export function getSearchResultsAPI(params: GetSearchResultsParam) {
   getSearchResultQueue = getSearchResultQueue.then(() => search(params));
 
   return getSearchResultQueue;

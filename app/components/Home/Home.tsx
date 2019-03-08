@@ -23,6 +23,7 @@ function HomeComponent({
   page,
   filter,
   comicList,
+  noMoreComicResults,
   getComicList,
   cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
@@ -49,7 +50,7 @@ function HomeComponent({
             width={width}
             height={height}
             list={comicList}
-            loadMore={request}
+            loadMore={() => !noMoreComicResults && request()}
             onGridRender={props => <Grid {...props} />}
           />
         )}

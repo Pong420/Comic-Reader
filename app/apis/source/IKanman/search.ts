@@ -1,11 +1,11 @@
 import { createAxiosInstance } from '../../createAxiosInstance';
-import { SearchParam } from '../../../../typing';
+import { GetSearchResultsParam } from '../../../../typing';
 
 const api = createAxiosInstance({
   baseURL: 'https://m.manhuagui.com'
 });
 
-export async function search({ keyword, page = 1 }: SearchParam) {
+export async function search({ keyword, page = 1 }: GetSearchResultsParam) {
   try {
     const { data: $ } = await api.get(
       `/s/${encodeURIComponent(keyword)}.html?page=${page}&ajax=1`

@@ -13,6 +13,11 @@ export interface GetContentDataParam {
   chapterID?: string;
 }
 
+export interface GetSearchResultsParam {
+  keyword: string;
+  page: number;
+}
+
 export interface GridData {
   comicID: string;
   cover: string;
@@ -65,11 +70,6 @@ export interface ContentData {
   images: string[];
   prevId?: number | undefined;
   nextId?: number | undefined;
-}
-
-export interface SearchParam {
-  keyword: string;
-  page?: number;
 }
 
 export type SearchResults = SearchResultItem[];

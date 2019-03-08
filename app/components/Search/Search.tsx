@@ -1,93 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
-import { useAsync } from 'react-async';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
-import { LoadingSpinner } from '../Loading/LoadingSpinner';
 import { SearchHeader } from './SearchHeader';
-import { SearchResults, SearchParam } from '../../../typing';
-import { searchAPI } from '../../apis';
-import SearchResultActionCreator, {
-  SearchResultsActions
-} from '../../actions/searchResult';
-import { RootState } from '../../reducers';
-import { SearchResultState } from '../../reducers/searchResult';
+import {
+  SearchActionCreators,
+  RootState,
+  SearchResultsState
+} from '../../store';
 
-const placeholders: SearchResults = new Array(20).fill({});
-
-function mapStateToProps({ searchResult }: RootState, ownProps: any) {
-  return {
-    ...searchResult,
-    ...ownProps
-  };
+function mapStateToProps({ search }: RootState, ownProps: any) {
+  return { ...search, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(SearchResultActionCreator, dispatch);
+  return bindActionCreators(SearchActionCreators, dispatch);
 }
-
-//  TODO:
-// - Search fails handling
 
 function SearchComponent({
   page,
-  keyword,
+  cachedKeyword,
   searchResults,
-  noMoreResult,
-  setKeyword,
-  setNoMoreResult,
-  setSearchResults,
-  addSearchResults
-}: SearchResultState & SearchResultsActions) {
-  const { isLoading, run } = useAsync({
-    deferFn: ([params]: SearchParam[]) => searchRequest(params)
-  });
+  noMoreSearchResults,
+  getSearchResults,
+  cleanSearchResults,
+  cancelGetSearchResults,
+  saveSearchKeyword
+}: SearchResultsState & typeof SearchActionCreators) {
+  const [keyword, setKeyword] = useState(cachedKeyword);
 
-  function searchRequest(params: SearchParam) {
-    return searchAPI(params).then(data => {
-      setNoMoreResult(data.length < 20);
-
-      return data;
-    });
+  function request(pageNo: number = page) {
+    if (keyword.trim()) {
+      getSearchResults({
+        keyword,
+        page: pageNo
+      });
+    }
   }
 
   function onSearch() {
-    if (keyword.trim()) {
-      setSearchResults([]);
-
-      run({
-        keyword
-      }).then((data: SearchResults) => {
-        setSearchResults(data);
-      });
-    }
-  }
-
-  function loadMoreResult() {
-    if (!noMoreResult) {
-      const nextPage = page + 1;
-      const from = searchResults.length;
-      const to = searchResults.length + placeholders.length;
-
-      addSearchResults({
-        searchResults: placeholders.slice(0),
-        page: nextPage
-      });
-
-      return searchRequest({ keyword, page: nextPage }).then(searchResults => {
-        addSearchResults({
-          searchResults,
-          page: nextPage,
-          from,
-          to
-        });
-      });
-    }
-
-    return Promise.resolve();
+    cleanSearchResults();
+    cancelGetSearchResults();
+    saveSearchKeyword(keyword);
+    request(1);
   }
 
   return (
@@ -98,26 +56,20 @@ function SearchComponent({
         onInputChange={(keyword: string) => setKeyword(keyword)}
       />
       <div className="search-results">
-        {isLoading ? (
-          <div className="wrapper">
-            <LoadingSpinner />
-          </div>
-        ) : (
-          <AutoSizer>
-            {({ width, height }) => (
-              <GridContainer
-                width={width}
-                height={height}
-                list={searchResults}
-                onGridRender={props => <Grid {...props} />}
-                loadMore={loadMoreResult}
-                noContentRenderer={() =>
-                  noMoreResult && <div className="wrapper">搵唔到</div>
-                }
-              />
-            )}
-          </AutoSizer>
-        )}
+        <AutoSizer>
+          {({ width, height }) => (
+            <GridContainer
+              width={width}
+              height={height}
+              list={searchResults}
+              onGridRender={props => <Grid {...props} />}
+              loadMore={() => !noMoreSearchResults && request()}
+              noContentRenderer={() =>
+                noMoreSearchResults && <div className="wrapper">搵唔到</div>
+              }
+            />
+          )}
+        </AutoSizer>
       </div>
     </Layout>
   );
