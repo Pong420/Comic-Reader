@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
@@ -7,9 +7,10 @@ import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
 import { SearchHeader } from './SearchHeader';
 import {
-  SearchActionCreators,
   RootState,
-  SearchResultsState
+  SearchResultsState,
+  SearchActions,
+  SearchActionCreators
 } from '../../store';
 
 function mapStateToProps({ search }: RootState, ownProps: any) {
@@ -29,7 +30,7 @@ function SearchComponent({
   cleanSearchResults,
   cancelGetSearchResults,
   saveSearchKeyword
-}: SearchResultsState & typeof SearchActionCreators) {
+}: SearchResultsState & ActionCreatorsMapObject<SearchActions>) {
   const [keyword, setKeyword] = useState(cachedKeyword);
 
   function request(pageNo: number = page) {

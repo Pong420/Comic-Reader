@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { getComicListAPI } from '../../apis';
 import {
   ComicListActions,
-  ComicListTypes,
+  ComicListActionTypes,
   GetComicList,
   getComicsListSuccess
 } from '../actions/comicList';
@@ -17,7 +17,7 @@ const { length } = comistListPlaceholders;
 // Handle error
 const getComicListEpic: Epic<ComicListActions> = action$ =>
   action$.pipe(
-    ofType<ComicListActions, GetComicList>(ComicListTypes.GET_COMICS_LIST),
+    ofType<ComicListActions, GetComicList>(ComicListActionTypes.GET_COMICS_LIST),
     mergeMap(action =>
       from(getComicListAPI(action.payload)).pipe(
         map(comicList =>
@@ -29,11 +29,11 @@ const getComicListEpic: Epic<ComicListActions> = action$ =>
         ),
         catchError((error: AxiosError) =>
           of<ComicListActions>({
-            type: ComicListTypes.GET_COMICS_LIST_FAIL,
+            type: ComicListActionTypes.GET_COMICS_LIST_FAIL,
             payload: error
           })
         ),
-        takeUntil(action$.pipe(ofType(ComicListTypes.GET_COMICS_LIST_CANCELED)))
+        takeUntil(action$.pipe(ofType(ComicListActionTypes.GET_COMICS_LIST_CANCELED)))
       )
     )
   );

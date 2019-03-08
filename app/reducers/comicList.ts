@@ -1,4 +1,4 @@
-import { ComicListKeys, ComicListTypes } from '../actions/comicList';
+import { ComicListKeys, ComicListActionTypes } from '../actions/comicList';
 import { ComicItemList } from '../../typing';
 
 const FILTER_STORAGE_KEY = 'filter';
@@ -21,7 +21,7 @@ const initialState: ComicListState = {
   page: 1
 };
 
-export default function(state = initialState, action: ComicListTypes) {
+export default function(state = initialState, action: ComicListActionTypes) {
   switch (action.type) {
     case ComicListKeys.SET_COMICS:
       return {

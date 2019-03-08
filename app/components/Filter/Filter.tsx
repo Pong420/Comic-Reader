@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators, Dispatch, ActionCreatorsMapObject } from 'redux';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import { Layout } from '../Layout';
 import { FilterData } from '../../../typing';
 import {
-  ComicListActionCreators,
   RootState,
-  ComicListState
+  ComicListState,
+  ComicListActions,
+  ComicListActionCreators
 } from '../../store';
 import filterData from '../../filter.json';
 
@@ -54,7 +55,7 @@ function FilterHeader() {
 function FilterComponent({
   filter,
   setFilter
-}: ComicListState & typeof ComicListActionCreators) {
+}: ComicListState & ActionCreatorsMapObject<ComicListActions>) {
   return (
     <Layout className="filter">
       <FilterHeader />

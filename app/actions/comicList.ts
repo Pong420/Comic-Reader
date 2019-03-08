@@ -38,7 +38,7 @@ interface SetNoMoreComicResultAction {
   payload: boolean;
 }
 
-export type ComicListTypes =
+export type ComicListActionTypes =
   | SetComicAction
   | AddComicAction
   | SetPageNoAction
