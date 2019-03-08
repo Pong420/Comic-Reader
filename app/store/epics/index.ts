@@ -1,5 +1,10 @@
 import { combineEpics } from 'redux-observable';
+import browsingHistoryEpic from './browsingHistory';
 import comicListEpic from './comicList';
 import searchEpic from './search';
 
-export default combineEpics(...comicListEpic, ...searchEpic);
+export default combineEpics(
+  ...browsingHistoryEpic,
+  ...comicListEpic,
+  ...searchEpic
+);

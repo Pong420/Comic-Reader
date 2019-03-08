@@ -7,8 +7,7 @@ import red from '@material-ui/core/colors/red';
 import NewIcon from '@material-ui/icons/FiberNewOutlined';
 import WarningIcon from '@material-ui/icons/WarningRounded';
 import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
-import { RootState } from '../../../reducers';
-import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
+import { RootState, BrowsingHistoryState } from '../../../store';
 import { Chapters, ChapterList } from '../../../../typing';
 
 export interface ChapterProps {

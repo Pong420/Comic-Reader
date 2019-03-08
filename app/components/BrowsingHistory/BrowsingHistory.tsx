@@ -5,26 +5,26 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
-import { RootState } from '../../reducers';
-import { BrowsingHistoryState } from '../../reducers/browsingHistory';
-import BrowsingHistoryActionCreator, {
-  BrowsingHistoryActions
-} from '../../actions/browsingHistory';
+import {
+  RootState,
+  BrowsingHistoryState,
+  BrowsingHistoryActionCreators
+} from '../../store';
 
 function mapStateToProps({ browsingHistory }: RootState, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 
 function mapActiontoProps(dispatch: Dispatch) {
-  return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
+  return bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 }
 
 function BrowsingHistoryComponent({
   browsingHistory,
   removable,
-  setBrowsingHistory,
+  refetchBrowsingHistory,
   removeBrowsingHistory
-}: BrowsingHistoryState & BrowsingHistoryActions) {
+}: BrowsingHistoryState & typeof BrowsingHistoryActionCreators) {
   const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
 
   return (
@@ -50,7 +50,7 @@ function BrowsingHistoryComponent({
                 <RefetchComicGrid
                   comicID={comicID}
                   onFetch={comicData =>
-                    setBrowsingHistory({
+                    refetchBrowsingHistory({
                       comicID,
                       comicData,
                       chapterIDs: []

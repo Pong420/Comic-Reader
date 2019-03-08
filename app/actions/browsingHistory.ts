@@ -11,7 +11,7 @@ export enum BrowsingHistoryKeys {
   TOGGLE_REMOVABLE = 'TOGGLE_BROWSING_HISTORY_REMOVABLE'
 }
 
-export interface BrowsingHistoryPayload {
+export interface AddBrowsingHistoryPayload {
   comicID: string;
   chapterIDs: string[];
   comicData?: BrowsingHistoryItem;
@@ -19,12 +19,12 @@ export interface BrowsingHistoryPayload {
 
 interface SetBrowsingHistoryAction {
   type: BrowsingHistoryKeys.SET_BROWSING_HISTORY;
-  payload: BrowsingHistoryPayload;
+  payload: AddBrowsingHistoryPayload;
 }
 
 interface AddBrowsingHistoryAction {
   type: BrowsingHistoryKeys.ADD_BROWSING_HISTORY;
-  payload: BrowsingHistoryPayload;
+  payload: AddBrowsingHistoryPayload;
 }
 
 interface RemoveBrowsingHistoryAction {
@@ -66,7 +66,7 @@ export type BrowsingHistoryActions = {
   removeAllBrowsingHistory: typeof removeAllBrowsingHistory;
 };
 
-export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
+export function setBrowsingHistory(payload: AddBrowsingHistoryPayload) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: BrowsingHistoryKeys.SET_BROWSING_HISTORY,
@@ -77,7 +77,7 @@ export function setBrowsingHistory(payload: BrowsingHistoryPayload) {
   };
 }
 
-function addBrowsingHistory_(payload: BrowsingHistoryPayload) {
+function addBrowsingHistory_(payload: AddBrowsingHistoryPayload) {
   return {
     type: BrowsingHistoryKeys.ADD_BROWSING_HISTORY,
     payload
