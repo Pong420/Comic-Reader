@@ -256,7 +256,6 @@
     "chinese-conv": "^1.0.1",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
-    "devtron": "^1.4.0",
     "electron-debug": "^2.1.0",
     "electron-log": "^3.0.1",
     "electron-updater": "^4.0.6",

@@ -13,8 +13,8 @@ export interface GetComicDataParam {
 }
 
 export interface GetContentDataParam {
-  comicID?: string;
-  chapterID?: string;
+  comicID: string;
+  chapterID: string;
 }
 
 export interface GetSearchResultsParam {
@@ -74,6 +74,13 @@ export interface ContentData {
   images: string[];
   prevId?: number | undefined;
   nextId?: number | undefined;
+}
+
+export interface ImageDetail {
+  src: string;
+  index: number;
+  loaded: boolean;
+  error: boolean;
 }
 
 export type SearchResults = SearchResultItem[];

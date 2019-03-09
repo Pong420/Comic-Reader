@@ -8,6 +8,9 @@ import { Error } from '../components/Error';
 import { getComicDataAPI } from '../apis';
 import { ComicData, GetComicDataParam } from '../../typing';
 
+// TODO:
+// remove useAsync
+
 interface MatchParam {
   comicID: string;
 }

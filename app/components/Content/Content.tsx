@@ -5,14 +5,15 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
-import { ContentData } from '../../../typing';
-import BrowsingHistoryActionCreator, {
-  BrowsingHistoryActions
-} from '../../actions/browsingHistory';
+import {
+  RootState,
+  ContentState,
+  BrowsingHistoryActionCreators
+} from '../../store';
 
-export interface ContentProps extends ContentData {
-  pageNo: string;
-}
+// export interface ContentProps {
+//   pageNo: string;
+// }
 
 interface MatchParam {
   comicID: string;
@@ -20,14 +21,15 @@ interface MatchParam {
   pageNo: string;
 }
 
-function mapStateToProps(_: any, ownProps: any) {
+function mapStateToProps({ content }: RootState, ownProps: any) {
   return {
+    ...content,
     ...ownProps
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
+  return bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 }
 
 const initialContentDialogProps = {
@@ -38,15 +40,16 @@ const initialContentDialogProps = {
 };
 
 function ContentComponent({
-  images = [],
-  pageNo,
+  images,
   prevId,
   nextId,
   history,
   match,
   addBrowsingHistory
-}: ContentProps & BrowsingHistoryActions & RouteComponentProps<MatchParam>) {
-  const { comicID, chapterID } = match.params;
+}: ContentState &
+  typeof BrowsingHistoryActionCreators &
+  RouteComponentProps<MatchParam>) {
+  const { pageNo, comicID } = match.params;
   const [dialogProps, setDialogProps] = useState(initialContentDialogProps);
 
   const prevChapter = () => changeChapter(prevId);
@@ -105,7 +108,8 @@ function ContentComponent({
   }
 
   useEffect(() => {
-    addBrowsingHistory(comicID, chapterID);
+    // FIXME:
+    addBrowsingHistory(comicID);
   }, []);
 
   return (
@@ -117,11 +121,7 @@ function ContentComponent({
           onContextMenu: prevPage
         }}
       >
-        <Images
-          images={images}
-          activeIndex={Number(pageNo) - 1}
-          onKeyDown={onKeyDown}
-        />
+        <Images activeIndex={Number(pageNo) - 1} onKeyDown={onKeyDown} />
       </Layout>
       <ConfirmDialog
         {...dialogProps}

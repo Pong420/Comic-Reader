@@ -5,7 +5,6 @@ import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import rootEpic from './epics';
 import createRootReducer from './reducers';
-import comicListActions from '../actions/comicList';
 
 const history = createHashHistory();
 
@@ -37,7 +36,6 @@ const configureStore = (initialState?: any) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...comicListActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
@@ -59,8 +57,8 @@ const configureStore = (initialState?: any) => {
 
   if ((module as any).hot) {
     (module as any).hot.accept(
-      '../reducers', // eslint-disable-next-line global-require
-      () => store.replaceReducer(require('../reducers').default)
+      './reducers', // eslint-disable-next-line global-require
+      () => store.replaceReducer(require('./reducers').default)
     );
   }
 
