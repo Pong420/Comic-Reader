@@ -40,9 +40,9 @@ function ComicChaptersComponent({
   comicID,
   adultOnly,
   chapters = {},
-  classes,
-  // browsingHistory
-}: ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
+  classes
+}: // browsingHistory
+ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
   const chaptersEntries = Object.entries(chapters).sort(
     ([, l1], [, l2]) => l2.length - l1.length
   );
