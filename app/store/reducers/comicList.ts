@@ -1,5 +1,5 @@
 import { ComicListActionTypes, ComicListActions } from '../actions/comicList';
-import { ComicItemList } from '../../../typing';
+import { ComicItemList, ApiError } from '../../../typing';
 
 const FILTER_STORAGE_KEY = 'filter';
 const filter = JSON.parse(
@@ -12,13 +12,15 @@ export interface ComicListState {
   filter: string[];
   noMoreComicResults: boolean;
   page: number;
+  error: ApiError | null;
 }
 
 const initialState: ComicListState = {
   comicList: [],
   filter,
   noMoreComicResults: false,
-  page: 1
+  page: 1,
+  error: null
 };
 
 export const comistListPlaceholders: ComicItemList = new Array(42).fill({});
@@ -54,14 +56,20 @@ export default function(state = initialState, action: ComicListActions) {
         filter: action.payload
       };
 
-    // TODO: review
     case ComicListActionTypes.GET_COMICS_LIST_CANCELED:
       const validComiclist = state.comicList.filter(v => Object.keys(v).length);
 
       return {
         ...state,
-        page: validComiclist.length / comistListPlaceholders.length + 1,
+        page:
+          Math.floor(validComiclist.length / comistListPlaceholders.length) + 1,
         comicList: validComiclist
+      };
+
+    case ComicListActionTypes.GET_COMICS_LIST_FAIL:
+      return {
+        ...state,
+        error: action.payload
       };
 
     default:

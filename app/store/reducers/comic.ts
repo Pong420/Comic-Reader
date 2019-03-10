@@ -1,11 +1,10 @@
-import { AxiosError } from 'axios';
 import { ComicActions, ComicActionTypes } from '../actions/comic';
-import { ComicData } from '../../../typing';
+import { ComicData, ApiError } from '../../../typing';
 
 export interface ComicState {
   comicData: ComicData;
   loading: boolean;
-  error: AxiosError | null;
+  error: ApiError | null;
 }
 
 const initialState: ComicState = {

@@ -19,7 +19,8 @@ let getComicListQueue = Promise.resolve<ComicItemList>([]);
 let getSearchResultQueue = Promise.resolve<SearchResults>([]);
 
 export function getComicListAPI(params: GetComicListParam) {
-  getComicListQueue = getComicListQueue.then(() => getComicList(params));
+  const next = () => getComicList(params);
+  getComicListQueue = getComicListQueue.then(next).catch(next);
 
   return getComicListQueue;
 }
@@ -40,9 +41,8 @@ export async function getContentDataAPI(params: GetContentDataParam) {
 }
 
 export function getSearchResultsAPI(params: GetSearchResultsParam) {
-  getSearchResultQueue = getSearchResultQueue.then(() =>
-    getSearchResults(params)
-  );
+  const next = () => getSearchResults(params);
+  getSearchResultQueue = getSearchResultQueue.then(next).catch(next);
 
   return getSearchResultQueue;
 }

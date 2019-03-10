@@ -1,7 +1,6 @@
 import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, mergeMap } from 'rxjs/operators';
+import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
-import { AxiosError } from 'axios';
 import { getComicListAPI } from '../../apis';
 import {
   ComicListActions,
@@ -10,6 +9,7 @@ import {
   getComicsListSuccess
 } from '../actions/comicList';
 import { comistListPlaceholders } from '../reducers/comicList';
+import { ApiError } from '../../../typing';
 
 const { length } = comistListPlaceholders;
 
@@ -17,8 +17,10 @@ const { length } = comistListPlaceholders;
 // Handle error
 const getComicListEpic: Epic<ComicListActions> = action$ =>
   action$.pipe(
-    ofType<ComicListActions, GetComicList>(ComicListActionTypes.GET_COMICS_LIST),
-    mergeMap(action =>
+    ofType<ComicListActions, GetComicList>(
+      ComicListActionTypes.GET_COMICS_LIST
+    ),
+    concatMap(action =>
       from(getComicListAPI(action.payload)).pipe(
         map(comicList =>
           getComicsListSuccess({
@@ -27,13 +29,15 @@ const getComicListEpic: Epic<ComicListActions> = action$ =>
             to: action.payload.page * length
           })
         ),
-        catchError((error: AxiosError) =>
+        catchError((error: ApiError) =>
           of<ComicListActions>({
             type: ComicListActionTypes.GET_COMICS_LIST_FAIL,
             payload: error
           })
         ),
-        takeUntil(action$.pipe(ofType(ComicListActionTypes.GET_COMICS_LIST_CANCELED)))
+        takeUntil(
+          action$.pipe(ofType(ComicListActionTypes.GET_COMICS_LIST_CANCELED))
+        )
       )
     )
   );

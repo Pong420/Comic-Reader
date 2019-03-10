@@ -1,6 +1,5 @@
 import { Action } from 'redux';
-import { AxiosError } from 'axios';
-import { ComicItemList, GetComicListParam } from '../../../typing';
+import { ComicItemList, GetComicListParam, ApiError } from '../../../typing';
 
 export enum ComicListActionTypes {
   GET_COMICS_LIST = 'GET_COMICS_LIST',
@@ -28,7 +27,7 @@ export interface GetComicListSuccess extends Action {
 
 export interface GetComicListFailed extends Action {
   type: ComicListActionTypes.GET_COMICS_LIST_FAIL;
-  payload: AxiosError;
+  payload: ApiError;
 }
 
 export interface GetComicListCanceled extends Action {

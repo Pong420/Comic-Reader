@@ -1,7 +1,6 @@
 import { from, of } from 'rxjs';
 import { map, catchError, takeUntil, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
-import { AxiosError } from 'axios';
 import { getContentDataAPI } from '../../apis';
 import {
   ContentActions,
@@ -9,6 +8,7 @@ import {
   GetContent,
   getContentSuccess
 } from '../actions/content';
+import { ApiError } from '../../../typing';
 
 // TODO:
 // Handle error
@@ -19,7 +19,7 @@ const getContentEpic: Epic<ContentActions> = action$ =>
     mergeMap(action =>
       from(getContentDataAPI(action.payload)).pipe(
         map(getContentSuccess),
-        catchError((error: AxiosError) =>
+        catchError((error: ApiError) =>
           of<ContentActions>({
             type: ContentActionTypes.GET_CONTENT_FAIL,
             payload: error

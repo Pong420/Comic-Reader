@@ -1,6 +1,9 @@
 import { Action } from 'redux';
-import { AxiosError } from 'axios';
-import { SearchResults, GetSearchResultsParam } from '../../../typing';
+import {
+  SearchResults,
+  GetSearchResultsParam,
+  ApiError
+} from '../../../typing';
 
 export enum SearchActionTypes {
   GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS',
@@ -28,7 +31,7 @@ export interface GetSearchResultsSuccess extends Action {
 
 export interface GetSearchResultsFailed extends Action {
   type: SearchActionTypes.GET_SEARCH_RESULTS_FAIL;
-  payload: AxiosError;
+  payload: ApiError;
 }
 
 export interface GetSearchResultsCanceled extends Action {
