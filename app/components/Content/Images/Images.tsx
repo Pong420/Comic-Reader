@@ -1,9 +1,9 @@
-import React, { KeyboardEvent, useEffect, useRef } from 'react';
+import React, { KeyboardEvent, useLayoutEffect, useRef } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RootState, ImagesState, ImageActionCreators } from '../../../store';
 
-export interface ImageProsp {
+export interface ImageProps {
   activeIndex: number;
   onKeyDown: (evt: KeyboardEvent<HTMLDivElement>) => void;
 }
@@ -16,20 +16,26 @@ function mapDispathToProps(dispath: Dispatch) {
   return bindActionCreators(ImageActionCreators, dispath);
 }
 
+const NO_OF_IMAGES_PRELOAD = 5;
+
 export function ImagesComponent({
   onKeyDown,
   activeIndex,
   imagesDetail,
   preloadImage,
   stopPreloadImage
-}: ImageProsp & ImagesState & typeof ImageActionCreators) {
+}: ImageProps & ImagesState & typeof ImageActionCreators) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (imagesDetail[activeIndex]) {
       scrollRef.current!.scrollTop = 0;
 
-      preloadImage(imagesDetail, activeIndex);
+      const imagesForPreload = imagesDetail
+        .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
+        .filter(({ loaded, error }) => !loaded && !error);
+
+      imagesForPreload.length && preloadImage(imagesForPreload, 0);
 
       return () => {
         stopPreloadImage();

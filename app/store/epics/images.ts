@@ -10,8 +10,10 @@ import {
 } from '../actions/images';
 import { ImageDetail } from '../../../typing';
 
-// TODO: remove delay
 async function loadImage(details: ImageDetail) {
+  const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
+  await delay(5000);
+
   return new Promise<ImageDetail>((resolve, reject) => {
     const imgEl = new Image();
 
@@ -36,11 +38,15 @@ const preloadImageEpic: Epic<ImageActions> = action$ =>
     ofType<ImageActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGE),
     mergeMap(action => {
       const { imagesDetail, startIndex } = action.payload;
-      const nextIndex = startIndex + 1;
-      const hasNext = !!imagesDetail[nextIndex];
 
       return from(loadImage(imagesDetail[startIndex])).pipe(
         mergeMap(detail => {
+          imagesDetail[startIndex] = detail;
+
+          const nextIndex = imagesDetail.findIndex(
+            ({ loaded, error }) => !loaded && !error
+          );
+          const hasNext = !!imagesDetail[nextIndex];
           const res: any[] = [loadImageSuccess(detail)];
           hasNext && res.push(preloadImage(imagesDetail, nextIndex));
           return of(...res);
