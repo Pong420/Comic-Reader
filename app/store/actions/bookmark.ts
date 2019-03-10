@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { BookmarkItem } from '../../../typing';
+import { GridData } from '../../../typing';
 
 export enum BookmarkActionTypes {
   ADD_BOOKMARK = 'ADD_BOOKMARK',
@@ -12,11 +12,6 @@ export enum BookmarkActionTypes {
   SAVE_BOOKMARK = 'SAVE_BOOKMARK'
 }
 
-export interface AddBookmarkPayload {
-  gridData: BookmarkItem;
-  comicID: string;
-}
-
 export interface AddBookmark extends Action {
   type: BookmarkActionTypes.ADD_BOOKMARK;
   payload: string;
@@ -24,7 +19,7 @@ export interface AddBookmark extends Action {
 
 export interface AddBookmarkSuccess extends Action {
   type: BookmarkActionTypes.ADD_BOOKMARK_SUCCESS;
-  payload: AddBookmarkPayload;
+  payload: GridData;
 }
 
 export interface RemoveBookmark extends Action {
@@ -43,7 +38,7 @@ export interface RefetchBookmark extends Action {
 
 export interface RefetchBookmarkSuccess extends Action {
   type: BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS;
-  payload: AddBookmarkPayload;
+  payload: GridData;
 }
 
 export interface ToggleBookmarkRemovable extends Action {

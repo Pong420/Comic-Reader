@@ -49,7 +49,7 @@ function ContentComponent({
 }: ContentState &
   typeof BrowsingHistoryActionCreators &
   RouteComponentProps<MatchParam>) {
-  const { pageNo, comicID } = match.params;
+  const { pageNo, comicID, chapterID } = match.params;
   const [dialogProps, setDialogProps] = useState(initialContentDialogProps);
 
   const prevChapter = () => changeChapter(prevId);
@@ -108,8 +108,10 @@ function ContentComponent({
   }
 
   useEffect(() => {
-    // FIXME:
-    addBrowsingHistory(comicID);
+    addBrowsingHistory({
+      comicID,
+      chapterID
+    });
   }, []);
 
   return (

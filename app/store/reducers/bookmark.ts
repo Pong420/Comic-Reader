@@ -1,11 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
-import {
-  BookmarkActions,
-  BookmarkActionTypes,
-  AddBookmarkPayload
-} from '../actions/bookmark';
+import { BookmarkItem } from 'typing';
+import { BookmarkActions, BookmarkActionTypes } from '../actions/bookmark';
 import { writeFileSync } from '../../utils/writeFileSync';
 
 export const bookmarkDirectory = path.join(
@@ -14,16 +11,21 @@ export const bookmarkDirectory = path.join(
   'bookmark.json'
 );
 
-type Bookmark = [string, AddBookmarkPayload][];
+interface BookmarksMapVal {
+  comicID: string;
+  bookmarkItem: BookmarkItem;
+}
+
+type BookmarksMap = [string, BookmarksMapVal][];
 
 export interface BookmarkState {
-  bookmarks: Bookmark;
+  bookmarks: BookmarksMap;
   removable: boolean;
 }
 
 const initialBookmark = (fs.existsSync(bookmarkDirectory)
   ? JSON.parse(fs.readFileSync(bookmarkDirectory, 'utf8'))
-  : []) as Bookmark;
+  : []) as BookmarksMap;
 
 const initialState: BookmarkState = {
   bookmarks: initialBookmark,
@@ -35,12 +37,16 @@ export default function(state = initialState, action: BookmarkActions) {
 
   switch (action.type) {
     case BookmarkActionTypes.ADD_BOOKMARK_SUCCESS:
-      mappedBookmarks.delete(action.payload.comicID);
+    case BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS:
+      const gridData = action.payload;
 
       return {
         ...state,
         bookmarks: [
-          ...mappedBookmarks.set(action.payload.comicID, action.payload)
+          ...mappedBookmarks.set(gridData.comicID, {
+            comicID: gridData.comicID,
+            bookmarkItem: gridData
+          })
         ]
       };
 
@@ -56,16 +62,6 @@ export default function(state = initialState, action: BookmarkActions) {
       return {
         ...state,
         bookmarks: []
-      };
-
-    case BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS:
-      mappedBookmarks.set(action.payload.comicID, action.payload);
-
-      return {
-        ...state,
-        bookmarks: [
-          ...mappedBookmarks.set(action.payload.comicID, action.payload)
-        ]
       };
 
     case BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE:

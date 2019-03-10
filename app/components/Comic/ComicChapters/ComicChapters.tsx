@@ -40,9 +40,9 @@ function ComicChaptersComponent({
   comicID,
   adultOnly,
   chapters = {},
-  classes
-}: // browsingHistory
-ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
+  classes,
+  browsingHistory
+}: ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
   const chaptersEntries = Object.entries(chapters).sort(
     ([, l1], [, l2]) => l2.length - l1.length
   );
@@ -51,7 +51,7 @@ ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
     adultOnly ? localStorage.getItem(IS_ADULT) === '1' : true
   );
 
-  // const mappedBrowsingHistory = new Map(browsingHistory);
+  const mappedBrowsingHistory = new Map(browsingHistory);
 
   const ChapterType = () => (
     <div className="chapter-types">
@@ -70,13 +70,12 @@ ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
     </div>
   );
 
-  const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
+  const ChapterList = ({ 1: chapterList = [] }: [string, ChapterList]) => (
     <div className="chapters-list">
       {chapterList.map(({ chapterID, title, isNew }) => {
-        // const record = mappedBrowsingHistory.get(comicID);
-        // const chapterIDs = record ? record.chapterIDs : [];
-        const lastVisitChapter = false;
-        // const lastVisitChapter = chapterIDs.includes(chapterID);
+        const histroy = mappedBrowsingHistory.get(comicID);
+        const chapterIDs = histroy ? histroy.chapterIDs : [];
+        const lastVisitChapter = chapterIDs.includes(chapterID);
         const Icon = lastVisitChapter ? LastVisitIcon : isNew ? NewIcon : null;
 
         return (
@@ -113,7 +112,7 @@ ChapterProps & BrowsingHistoryState & WithStyles<typeof styles>) {
       {showChapters ? (
         <>
           <ChapterType />
-          <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
+          <ChapterList {...chaptersEntries[currentChapter]} />
         </>
       ) : (
         <Warning />

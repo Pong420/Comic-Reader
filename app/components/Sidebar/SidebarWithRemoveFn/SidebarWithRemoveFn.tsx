@@ -36,7 +36,7 @@ export function SidebarWithRemoveFn({
       <ConfirmDialog
         open={openDialog}
         msg="確定要刪除所有紀錄嗎？"
-        onConfirm={() => onRemoveAll}
+        onConfirm={onRemoveAll}
         onClose={() => {
           setDialogOpen(false);
         }}

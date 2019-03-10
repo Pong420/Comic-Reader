@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { BrowsingHistoryItem } from '../../../typing';
+import { GridData } from '../../../typing';
 
 export enum BrowsingHistoryActionTypes {
   ADD_BROWSING_HISTORY = 'ADD_BROWSING_HISTORY',
@@ -12,20 +12,23 @@ export enum BrowsingHistoryActionTypes {
   SAVE_BROWSING_HISTORY = 'SAVE_BROWSING_HISTORY'
 }
 
-export interface AddBrowsingHistoryPayload {
-  gridData?: BrowsingHistoryItem;
-  chapterIDs: string[];
+export interface BrowsingHistoryPayload {
   comicID: string;
+  chapterID: string;
+}
+
+export interface BrowsingHistorySuccessPayload extends BrowsingHistoryPayload {
+  gridData: GridData;
 }
 
 export interface AddBrowsingHistory extends Action {
   type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY;
-  payload: string;
+  payload: BrowsingHistoryPayload;
 }
 
 export interface AddBrowsingHistorySuccess extends Action {
   type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS;
-  payload: AddBrowsingHistoryPayload;
+  payload: BrowsingHistorySuccessPayload;
 }
 
 export interface RemoveBrowsingHistory extends Action {
@@ -39,12 +42,12 @@ export interface RemoveAllBrowsingHistory extends Action {
 
 export interface RefetchBrowsingHistory extends Action {
   type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY;
-  payload: string;
+  payload: BrowsingHistoryPayload;
 }
 
 export interface RefetchBrowsingHistorySuccess extends Action {
   type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS;
-  payload: AddBrowsingHistoryPayload;
+  payload: BrowsingHistorySuccessPayload;
 }
 
 export interface ToggleBrowsingHistoryRemovable extends Action {
@@ -66,10 +69,12 @@ export type BrowsingHistoryActions =
   | ToggleBrowsingHistoryRemovable
   | SaveBrowsingHistory;
 
-export function addBrowsingHistory(comicID: string): AddBrowsingHistory {
+export function addBrowsingHistory(
+  payload: BrowsingHistoryPayload
+): AddBrowsingHistory {
   return {
     type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY,
-    payload: comicID
+    payload
   };
 }
 
@@ -87,11 +92,11 @@ export function removeAllBrowsingHistory(): RemoveAllBrowsingHistory {
 }
 
 export function refetchBrowsingHistory(
-  comicID: string
+  payload: BrowsingHistoryPayload
 ): RefetchBrowsingHistory {
   return {
     type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY,
-    payload: comicID
+    payload
   };
 }
 

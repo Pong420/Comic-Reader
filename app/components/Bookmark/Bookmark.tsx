@@ -31,11 +31,11 @@ function BookmarkComponent({
             width={width}
             height={height}
             list={bookmarks}
-            onGridRender={([, { comicID, gridData }]) => {
-              if (gridData) {
+            onGridRender={([, { comicID, bookmarkItem }]) => {
+              if (bookmarkItem) {
                 return (
                   <RemovableGrid
-                    {...gridData}
+                    {...bookmarkItem}
                     removable={removable}
                     onRemove={removeBookmark}
                   />

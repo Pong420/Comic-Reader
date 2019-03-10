@@ -35,11 +35,11 @@ function BrowsingHistoryComponent({
             width={width}
             height={height}
             list={ReversedBrowsingHistory}
-            onGridRender={([_, { comicID, gridData }]) => {
-              if (gridData) {
+            onGridRender={([_, { comicID, browsingHistoryItem }]) => {
+              if (browsingHistoryItem) {
                 return (
                   <RemovableGrid
-                    {...gridData}
+                    {...browsingHistoryItem}
                     removable={removable}
                     onRemove={removeBrowsingHistory}
                   />
@@ -48,7 +48,12 @@ function BrowsingHistoryComponent({
 
               return (
                 <RefetchComicGrid
-                  onFetch={() => refetchBrowsingHistory(comicID)}
+                  onFetch={() =>
+                    refetchBrowsingHistory({
+                      comicID,
+                      chapterID: ''
+                    })
+                  }
                 />
               );
             }}

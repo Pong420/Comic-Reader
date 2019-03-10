@@ -3,10 +3,10 @@ import path from 'path';
 import { remote } from 'electron';
 import {
   BrowsingHistoryActions,
-  BrowsingHistoryActionTypes,
-  AddBrowsingHistoryPayload
+  BrowsingHistoryActionTypes
 } from '../actions/browsingHistory';
 import { writeFileSync } from '../../utils/writeFileSync';
+import { BrowsingHistoryItem } from '../../../typing';
 
 export const browsingHistoryDirectory = path.join(
   remote.app.getPath('userData'),
@@ -14,16 +14,22 @@ export const browsingHistoryDirectory = path.join(
   'browsingHistory.json'
 );
 
-type BrowsingHistory = [string, AddBrowsingHistoryPayload][];
+interface BrowsingHistoryMapVal {
+  comicID: string;
+  chapterIDs: string[];
+  browsingHistoryItem: BrowsingHistoryItem;
+}
+
+type BrowsingHistoryMap = [string, BrowsingHistoryMapVal][];
 
 export interface BrowsingHistoryState {
-  browsingHistory: BrowsingHistory;
+  browsingHistory: BrowsingHistoryMap;
   removable: boolean;
 }
 
 const initialBrowsingHistory = (fs.existsSync(browsingHistoryDirectory)
   ? JSON.parse(fs.readFileSync(browsingHistoryDirectory, 'utf8'))
-  : []) as BrowsingHistory;
+  : []) as BrowsingHistoryMap;
 
 const initialState: BrowsingHistoryState = {
   browsingHistory: initialBrowsingHistory,
@@ -37,10 +43,17 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
     case BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS:
       mappedBrowsingHistorys.delete(action.payload.comicID);
 
+    case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS:
+      const { gridData, comicID, chapterID } = action.payload;
+
       return {
         ...state,
         browsingHistory: [
-          ...mappedBrowsingHistorys.set(action.payload.comicID, action.payload)
+          ...mappedBrowsingHistorys.set(gridData.comicID, {
+            chapterIDs: [chapterID],
+            browsingHistoryItem: gridData,
+            comicID
+          })
         ]
       };
 
@@ -56,16 +69,6 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
       return {
         ...state,
         browsingHistory: []
-      };
-
-    case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS:
-      mappedBrowsingHistorys.set(action.payload.comicID, action.payload);
-
-      return {
-        ...state,
-        browsingHistory: [
-          ...mappedBrowsingHistorys.set(action.payload.comicID, action.payload)
-        ]
       };
 
     case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE:

@@ -1,16 +1,64 @@
+import { from } from 'rxjs';
+import { map, mergeMap, mapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
-import { mapTo } from 'rxjs/operators';
 import {
   BrowsingHistoryActions,
-  BrowsingHistoryActionTypes
+  BrowsingHistoryActionTypes,
+  AddBrowsingHistory,
+  AddBrowsingHistorySuccess,
+  RefetchBrowsingHistory,
+  RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
-import { createGridDataEpic } from './gridData';
+import { getGridDataAPI } from '../../apis';
 
-const refetchBookmarkEpic = createGridDataEpic(
-  BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY,
-  BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
-  ''
-);
+const getGridData$ = (comicID: string) =>
+  from(
+    getGridDataAPI({
+      comicID
+    })
+  );
+
+const addBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
+  action$.pipe(
+    ofType<BrowsingHistoryActions, AddBrowsingHistory>(
+      BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY
+    ),
+    mergeMap(action =>
+      getGridData$(action.payload.comicID).pipe(
+        map(
+          gridData =>
+            ({
+              type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
+              payload: {
+                gridData,
+                ...action.payload
+              }
+            } as AddBrowsingHistorySuccess)
+        )
+      )
+    )
+  );
+
+const refetchBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
+  action$.pipe(
+    ofType<BrowsingHistoryActions, RefetchBrowsingHistory>(
+      BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
+    ),
+    mergeMap(action =>
+      getGridData$(action.payload.comicID).pipe(
+        map(
+          gridData =>
+            ({
+              type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
+              payload: {
+                gridData,
+                ...action.payload
+              }
+            } as RefetchBrowsingHistorySuccess)
+        )
+      )
+    )
+  );
 
 const saveBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
   action$.pipe(
@@ -25,4 +73,8 @@ const saveBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
     })
   );
 
-export default [refetchBookmarkEpic, saveBrowsingHistoryEpic];
+export default [
+  addBrowsingHistoryEpic,
+  refetchBrowsingHistoryEpic,
+  saveBrowsingHistoryEpic
+];
