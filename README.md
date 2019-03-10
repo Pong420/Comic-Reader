@@ -85,14 +85,13 @@ DEBUG_PROD=true yarn package
 
 ## TODO
 
-- [ ] New Features
-  - Fit to page/with
-  - Prev/Next Chapter Button
-- [ ] Error Handling
+- [ ] Backlist
+- [ ] Allow image fit to page/with
+- [ ] Prev/Next Chapter Button
 
 ## Credit
 
-- [ComicBunch Icon by ncrow](https://www.deviantart.com/ncrow/art/ComicBunch-Icon-189969026)
+- [App Icon created by ncrow](https://www.deviantart.com/ncrow/art/ComicBunch-Icon-189969026)
 
 ## License
 
