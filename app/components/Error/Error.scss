@@ -5,8 +5,11 @@
     color: #fff;
     font-size: 16px;
 
-    div:not(:first-child) {
-      margin-top: 5px;
+    .error-status-text {
+      background: #444;
+      border-radius: 10px;
+      margin-top: 10px;
+      padding: 10px 15px;
     }
   }
 }

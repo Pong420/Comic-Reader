@@ -1,3 +1,14 @@
+import { AxiosError } from 'axios';
+
+export interface CustomApiError {
+  response: {
+    status: string | number;
+    statusText: string;
+  };
+}
+
+export type ApiError = AxiosError | CustomApiError;
+
 export interface GetComicListParam {
   page: number;
   type?: string;

@@ -1,6 +1,5 @@
-import { AxiosError } from 'axios';
 import { Action } from 'redux';
-import { GetContentDataParam, ContentData } from '../../../typing';
+import { GetContentDataParam, ContentData, ApiError } from '../../../typing';
 
 export enum ContentActionTypes {
   GET_CONTENT = 'GET_CONTENT',
@@ -21,7 +20,7 @@ export interface GetContentSuccess extends Action {
 
 export interface GetContentFail extends Action {
   type: ContentActionTypes.GET_CONTENT_FAIL;
-  payload: AxiosError;
+  payload: ApiError;
 }
 
 export type ContentActions = GetContent | GetContentSuccess | GetContentFail;

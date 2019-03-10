@@ -1,23 +1,28 @@
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicChapters } from './ComicChapters';
 import { useRestoreScrollPostion } from '../../utils/useRestoreScrollPostion';
-import { ComicData } from '../../../typing';
+import { RootState, ComicState } from '../../store';
 
-export function Comic({
-  adultOnly,
-  chapters,
-  comicID,
-  ...comicHeaderProps
-}: ComicData) {
+function mapStateToProps({ comic }: RootState, ownProps: any) {
+  return { ...comic, ...ownProps };
+}
+
+function ComicComponent({ comicData, loading, error }: ComicState) {
   const contentElRef = useRef<HTMLDivElement>(null);
+  const { adultOnly, chapters, comicID, ...comicHeaderProps } = comicData;
 
-  // FIXME: save chapter type
   useRestoreScrollPostion(contentElRef, comicID);
 
   return (
-    <Layout className="comic" ref={contentElRef}>
+    <Layout
+      className="comic"
+      ref={contentElRef}
+      loading={loading}
+      error={error}
+    >
       <ComicHeader {...comicHeaderProps} />
       <ComicChapters
         comicID={comicID}
@@ -27,3 +32,5 @@ export function Comic({
     </Layout>
   );
 }
+
+export const Comic = connect(mapStateToProps)(ComicComponent);

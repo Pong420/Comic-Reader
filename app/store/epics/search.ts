@@ -13,8 +13,6 @@ import { searchResultPlaceholders } from '../reducers/search';
 
 const { length } = searchResultPlaceholders;
 
-// TODO:
-// Handle error
 const getSearchResultsEpic: Epic<SearchActions> = action$ =>
   action$.pipe(
     ofType<SearchActions, GetSearchResults>(

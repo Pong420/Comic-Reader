@@ -27,13 +27,14 @@ function SearchComponent({
   noMoreSearchResults,
   getSearchResults,
   cleanSearchResults,
-  cancelGetSearchResults,
-  saveSearchKeyword
+  cancelGetSearchResults
 }: SearchResultsState & typeof SearchActionCreators) {
   const [keyword, setKeyword] = useState(cachedKeyword);
 
+  console.log(page);
+
   function request(pageNo: number = page) {
-    if (keyword.trim()) {
+    if (keyword) {
       getSearchResults({
         keyword,
         page: pageNo
@@ -42,10 +43,11 @@ function SearchComponent({
   }
 
   function onSearch() {
-    cleanSearchResults();
-    cancelGetSearchResults();
-    saveSearchKeyword(keyword);
-    request(1);
+    if (keyword !== cachedKeyword) {
+      cleanSearchResults();
+      cancelGetSearchResults();
+      request(1);
+    }
   }
 
   return (
@@ -53,7 +55,7 @@ function SearchComponent({
       <SearchHeader
         value={keyword}
         onSearch={onSearch}
-        onInputChange={(keyword: string) => setKeyword(keyword)}
+        onInputChange={(keyword: string) => setKeyword(keyword.trim())}
       />
       <div className="search-results">
         <AutoSizer>

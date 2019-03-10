@@ -1,9 +1,9 @@
 import React from 'react';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
-import Warning from '@material-ui/icons/WarningRounded';
-import { AxiosError } from 'axios';
+import WarningIcon from '@material-ui/icons/WarningRounded';
 import { Layout } from '../Layout';
+import { ApiError } from '../../../typing';
 
 export interface ErrorProps {
   reload?: () => void;
@@ -12,7 +12,7 @@ export interface ErrorProps {
 const styles = () =>
   createStyles({
     warning: {
-      fontSize: 60
+      fontSize: 100
     }
   });
 
@@ -22,17 +22,16 @@ const styles = () =>
 function ErrorComponent({
   classes,
   response
-}: ErrorProps & AxiosError & WithStyles<typeof styles>) {
-  const { status, statusText } = response || {
-    status: 0,
-    statusText: '出現錯誤'
+}: ErrorProps & ApiError & WithStyles<typeof styles>) {
+  const defaultStatusText = '出現錯誤';
+  const { statusText } = response || {
+    statusText: defaultStatusText
   };
 
   return (
     <Layout className="error">
-      <Warning className={classes.warning} />
-      <div className="error-status">{status}</div>
-      <div className="error-status-text">{statusText}</div>
+      <WarningIcon className={classes.warning} color="secondary" />
+      <div className="error-status-text">{statusText || defaultStatusText}</div>
     </Layout>
   );
 }

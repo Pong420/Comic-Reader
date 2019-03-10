@@ -5,7 +5,10 @@ const api = createAxiosInstance({
   baseURL: 'https://m.manhuagui.com'
 });
 
-export async function search({ keyword, page = 1 }: GetSearchResultsParam) {
+export async function getSearchResults({
+  keyword,
+  page = 1
+}: GetSearchResultsParam) {
   try {
     const { data: $ } = await api.get(
       `/s/${encodeURIComponent(keyword)}.html?page=${page}&ajax=1`
@@ -53,7 +56,7 @@ export async function search({ keyword, page = 1 }: GetSearchResultsParam) {
       })
       .toArray();
 
-    return searchResult;
+    return searchResult || [];
   } catch (err) {
     console.log(err);
     return [];

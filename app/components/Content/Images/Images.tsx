@@ -28,9 +28,10 @@ export function ImagesComponent({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (imagesDetail[activeIndex]) {
-      scrollRef.current!.scrollTop = 0;
+    scrollRef.current!.scrollTop = 0;
+    scrollRef.current!.focus();
 
+    if (imagesDetail[activeIndex]) {
       const imagesForPreload = imagesDetail
         .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
         .filter(({ loaded, error }) => !loaded && !error);
@@ -41,7 +42,7 @@ export function ImagesComponent({
         stopPreloadImage();
       };
     }
-  }, [imagesDetail.length, activeIndex]);
+  }, [, activeIndex]);
 
   return (
     <div className="images" tabIndex={0} onKeyDown={onKeyDown} ref={scrollRef}>

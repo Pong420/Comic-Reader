@@ -1,11 +1,10 @@
-import { AxiosError } from 'axios';
 import { ComicActions, ComicActionTypes } from '../actions/comic';
-import { ComicData } from '../../../typing';
+import { ComicData, ApiError } from '../../../typing';
 
 export interface ComicState {
   comicData: ComicData;
   loading: boolean;
-  error: AxiosError | null;
+  error: ApiError | null;
 }
 
 const initialState: ComicState = {
@@ -27,6 +26,12 @@ export default function(state = initialState, action: ComicActions) {
         ...state,
         comicData: action.payload,
         loading: false
+      };
+
+    case ComicActionTypes.GET_COMIC_FAIL:
+      return {
+        ...state,
+        error: action.payload
       };
 
     case ComicActionTypes.RESET_COMIC_STATE:

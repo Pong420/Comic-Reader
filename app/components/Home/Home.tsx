@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 function HomeComponent({
   page,
+  error,
   filter,
   comicList,
   noMoreComicResults,
@@ -43,7 +44,7 @@ function HomeComponent({
   }, []);
 
   return (
-    <Layout className="home">
+    <Layout className="home" error={error}>
       <AutoSizer>
         {({ width, height }) => (
           <GridContainer
