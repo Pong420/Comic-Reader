@@ -1,4 +1,4 @@
-import React, { ReactNode, DOMAttributes } from 'react';
+import React, { ReactNode, DOMAttributes, forwardRef, Ref } from 'react';
 
 export interface LayoutProps {
   className?: string;
@@ -6,17 +6,17 @@ export interface LayoutProps {
   children?: ReactNode;
 }
 
-export function Layout({
-  className = '',
-  children,
-  contentProps,
-  ...props
-}: LayoutProps) {
+function LayoutComponent(
+  { className = '', children, contentProps, ...props }: LayoutProps,
+  ref: Ref<HTMLDivElement>
+) {
   return (
     <div className={`layout ${className}`} {...props}>
-      <div className="content" {...contentProps}>
+      <div className="content" {...contentProps} ref={ref}>
         {children}
       </div>
     </div>
   );
 }
+
+export const Layout = forwardRef(LayoutComponent);
