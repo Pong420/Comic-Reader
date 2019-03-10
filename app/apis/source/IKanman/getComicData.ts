@@ -1,6 +1,7 @@
 import { api } from './api';
 import { GetComicDataParam, Chapters, ComicData } from '../../../../typing';
 
+const chineseConv = require('chinese-conv');
 const LZString = require('./utils/LZString');
 
 export async function getComicData({ comicID }: GetComicDataParam) {
@@ -47,7 +48,7 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     })
     .toArray();
 
-  if (adultOnly) {
+  if (adultOnly || $('.warning-bar')) {
     try {
       $('#erroraudit_show').replaceWith(
         $(LZString.decompressFromBase64($('#__VIEWSTATE').attr('value')))
@@ -80,14 +81,16 @@ export async function getComicData({ comicID }: GetComicDataParam) {
           ];
         }
 
-        chapters[$(child).text()] = arr.map(chapter => {
+        const chapterType = chineseConv.tify($(child).text());
+
+        chapters[chapterType] = arr.map(chapter => {
           const $aTag = $(chapter).find('a');
 
           return {
             chapterID: $aTag
               .attr('href')
               .replace(/.*\/(?=[^\/].*$)|.html/g, ''),
-            title: $aTag.attr('title'),
+            title: chineseConv.tify($aTag.attr('title')),
             p: $aTag.find('i').text(),
             isNew: !!$(chapter).find('.new').length
           };
