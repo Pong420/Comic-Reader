@@ -22,12 +22,12 @@ function LayoutComponent(
   }: LayoutProps,
   ref: Ref<HTMLDivElement>
 ) {
-  if (loading) {
-    return <Loading />;
-  }
-
   if (error) {
     return <Error {...error} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

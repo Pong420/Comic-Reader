@@ -28,6 +28,12 @@ export default function(state = initialState, action: ComicActions) {
         loading: false
       };
 
+    case ComicActionTypes.GET_COMIC_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
+
     case ComicActionTypes.RESET_COMIC_STATE:
       return {
         ...initialState
