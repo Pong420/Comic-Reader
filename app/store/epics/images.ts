@@ -11,9 +11,6 @@ import {
 import { ImageDetail } from '../../../typing';
 
 async function loadImage(details: ImageDetail) {
-  const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
-  await delay(5000);
-
   return new Promise<ImageDetail>((resolve, reject) => {
     const imgEl = new Image();
 

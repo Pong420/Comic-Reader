@@ -31,11 +31,11 @@ export function getGridDataAPI(params: GetComicDataParam) {
   );
 }
 
-export function getComicDataAPI(params: GetComicDataParam) {
+export async function getComicDataAPI(params: GetComicDataParam) {
   return getComicData(params);
 }
 
-export function getContentDataAPI(params: GetContentDataParam) {
+export async function getContentDataAPI(params: GetContentDataParam) {
   return getContentData(params);
 }
 

@@ -3,15 +3,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Comic } from '../components/Comic';
-import { Loading } from '../components/Loading';
-import { RootState, ComicState, ComicActionCreators } from '../store';
+import { ComicActionCreators } from '../store';
 
 interface MatchParam {
   comicID: string;
-}
-
-function mapStateToProps({ comic }: RootState, ownProps: any) {
-  return { ...comic, ...ownProps };
 }
 
 function mapDispathToProps(dispatch: Dispatch) {
@@ -20,27 +15,16 @@ function mapDispathToProps(dispatch: Dispatch) {
 
 export function ComicPageComponemt({
   match,
-  comicData,
-  loading,
-  getComic,
-  resetComicState
-}: RouteComponentProps<MatchParam> & ComicState & typeof ComicActionCreators) {
+  getComic
+}: RouteComponentProps<MatchParam> & typeof ComicActionCreators) {
   useEffect(() => {
     getComic(match.params);
-
-    return () => {
-      resetComicState();
-    };
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return <Comic {...comicData} />;
+  return <Comic />;
 }
 
 export const ComicPage = connect(
-  mapStateToProps,
+  null,
   mapDispathToProps
 )(ComicPageComponemt);

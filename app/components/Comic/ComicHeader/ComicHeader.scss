@@ -49,6 +49,7 @@
 
 .comic-cover {
   min-width: 190px;
+  background: #333;
 
   div {
     @include dimen(100%, 0);

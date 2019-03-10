@@ -11,10 +11,6 @@ import {
   BrowsingHistoryActionCreators
 } from '../../store';
 
-// export interface ContentProps {
-//   pageNo: string;
-// }
-
 interface MatchParam {
   comicID: string;
   chapterID: string;
@@ -40,6 +36,7 @@ const initialContentDialogProps = {
 };
 
 function ContentComponent({
+  loading,
   images,
   prevId,
   nextId,
@@ -122,6 +119,7 @@ function ContentComponent({
           onClick: nextPage,
           onContextMenu: prevPage
         }}
+        loading={loading}
       >
         <Images activeIndex={Number(pageNo) - 1} onKeyDown={onKeyDown} />
       </Layout>
