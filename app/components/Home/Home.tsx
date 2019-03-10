@@ -29,10 +29,12 @@ function HomeComponent({
   cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
   const request = () => {
-    getComicList({
-      page,
-      filter
-    });
+    if (!noMoreComicResults) {
+      getComicList({
+        page,
+        filter
+      });
+    }
   };
 
   useEffect(() => {
@@ -51,7 +53,7 @@ function HomeComponent({
             width={width}
             height={height}
             list={comicList}
-            loadMore={() => !noMoreComicResults && request()}
+            loadMore={request}
             onGridRender={props => <Grid {...props} />}
           />
         )}

@@ -1,18 +1,7 @@
-import React, {
-  ReactNode,
-  useMemo,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
-import {
-  Grid,
-  GridCellProps,
-  OnScrollParams,
-  GridProps
-} from 'react-virtualized';
+import React, { ReactNode, useMemo, useRef, Ref, forwardRef } from 'react';
+import { Grid, GridCellProps } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
+import { GridWithScrollRestoration } from './GridWithScrollRestoration';
 
 export interface GridContainerProps<T> {
   width: number;
@@ -25,53 +14,20 @@ export interface GridContainerProps<T> {
 }
 
 const spacer = 15;
-const scrollPosition = new Map<string, number>();
 
-const GridWithScrollHandler = withRouter(
-  ({
-    location,
-    resetScrollPostion = false,
-    ...props
-  }: GridProps & RouteComponentProps & { resetScrollPostion?: boolean }) => {
-    const [mounted, setMounted] = useState(false);
-    const gridRef = useRef<Grid>(null);
-    const key = location.pathname;
-    const scrollRef = useRef<number>(scrollPosition.get(key) || 0);
-
-    function onScroll({ scrollTop }: OnScrollParams) {
-      if (mounted) {
-        scrollRef.current = scrollTop;
-      }
-    }
-
-    useLayoutEffect(() => {
-      if (!resetScrollPostion) {
-        gridRef.current!.scrollToPosition({
-          scrollTop: scrollRef.current,
-          scrollLeft: 0
-        });
-      }
-
-      setMounted(true);
-
-      return () => {
-        scrollPosition.set(key, scrollRef.current);
-      };
-    }, []);
-
-    return <Grid {...props} ref={gridRef} onScroll={onScroll} />;
-  }
-);
-
-export function GridContainer<T>({
-  width,
-  height,
-  list,
-  loadMore,
-  onGridRender,
-  noContentRenderer,
-  resetScrollPostion
-}: GridContainerProps<T>) {
+// FIXME: typing
+export function GridContainerComponent<T extends any>(
+  {
+    width,
+    height,
+    list,
+    loadMore,
+    onGridRender,
+    noContentRenderer,
+    resetScrollPostion
+  }: GridContainerProps<T>,
+  ref: Ref<Grid>
+) {
   const gridSizerRef = useRef<HTMLDivElement>(null);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
@@ -97,7 +53,7 @@ export function GridContainer<T>({
   return (
     <>
       {columnCount && columnWidth && (
-        <GridWithScrollHandler
+        <GridWithScrollRestoration
           className="grid-container"
           columnCount={columnCount}
           columnWidth={columnWidth + spacer}
@@ -116,6 +72,7 @@ export function GridContainer<T>({
             }
           }}
           resetScrollPostion={resetScrollPostion}
+          ref={ref}
         />
       )}
       <div className="grid-sizer-container" style={{ gridGap: `${spacer}px` }}>
@@ -124,6 +81,8 @@ export function GridContainer<T>({
     </>
   );
 }
+
+export const GridContainer = forwardRef(GridContainerComponent);
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const columnWidth = el ? el.offsetWidth : 0;

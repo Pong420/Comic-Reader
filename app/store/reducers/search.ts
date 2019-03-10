@@ -29,12 +29,7 @@ export default function(state = initialState, action: SearchActions) {
 
     case SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS:
       const total = state.searchResults.length;
-      let { from, to, searchResults } = action.payload;
-
-      if (state.noMoreSearchResults) {
-        from = state.searchResults.filter(v => Object.keys(v).length).length;
-        to = total;
-      }
+      const { from, to, searchResults } = action.payload;
 
       return {
         ...state,

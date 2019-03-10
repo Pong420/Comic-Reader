@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { AutoSizer } from 'react-virtualized';
+import { AutoSizer, Grid as RVGrid } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
@@ -30,8 +30,7 @@ function SearchComponent({
   cancelGetSearchResults
 }: SearchResultsState & typeof SearchActionCreators) {
   const [keyword, setKeyword] = useState(cachedKeyword);
-
-  console.log(page);
+  const rvGridRef = useRef<RVGrid>(null);
 
   function request(pageNo: number = page) {
     if (keyword) {
@@ -44,6 +43,11 @@ function SearchComponent({
 
   function onSearch() {
     if (keyword !== cachedKeyword) {
+      rvGridRef.current!.scrollToPosition({
+        scrollTop: 0,
+        scrollLeft: 0
+      });
+
       cleanSearchResults();
       cancelGetSearchResults();
       request(1);
@@ -69,6 +73,7 @@ function SearchComponent({
               noContentRenderer={() =>
                 noMoreSearchResults && <div className="wrapper">搵唔到</div>
               }
+              ref={rvGridRef}
             />
           )}
         </AutoSizer>
