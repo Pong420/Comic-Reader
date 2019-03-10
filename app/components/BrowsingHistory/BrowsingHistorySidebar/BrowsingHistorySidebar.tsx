@@ -2,29 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { SidebarWithRemoveFn } from '../../Sidebar/SidebarWithRemoveFn';
-import { RootState } from '../../../reducers';
-import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
-import BrowsingHistoryActionCreator, {
-  BrowsingHistoryActions
-} from '../../../actions/browsingHistory';
+import {
+  RootState,
+  BrowsingHistoryState,
+  BrowsingHistoryActionCreators
+} from '../../../store';
 
 function mapStateToProps({ browsingHistory }: RootState, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
 
 function mapActiontoProps(dispatch: Dispatch) {
-  return bindActionCreators(BrowsingHistoryActionCreator, dispatch);
+  return bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 }
 
 export function BrowsingHistorySidebarComponent({
   removable,
-  toogleRemovable,
-  removeAllBrowsingHistory
-}: BrowsingHistoryState & BrowsingHistoryActions) {
+  removeAllBrowsingHistory,
+  toggleBrowsingHistoryRemovable
+}: BrowsingHistoryState & typeof BrowsingHistoryActionCreators) {
   return (
     <SidebarWithRemoveFn
       on={removable}
-      onToggleOnOff={toogleRemovable}
+      onToggleOnOff={toggleBrowsingHistoryRemovable}
       onRemoveAll={removeAllBrowsingHistory}
     />
   );

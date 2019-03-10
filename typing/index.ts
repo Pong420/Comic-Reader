@@ -1,6 +1,11 @@
-export interface GetLatestUpdateParam {
-  page?: number;
+export interface GetComicListParam {
+  page: number;
+  type?: string;
   filter?: string[];
+}
+
+export interface GetGridDataParam {
+  comicID: string;
 }
 
 export interface GetComicDataParam {
@@ -8,8 +13,13 @@ export interface GetComicDataParam {
 }
 
 export interface GetContentDataParam {
-  comicID?: string;
-  chapterID?: string;
+  comicID: string;
+  chapterID: string;
+}
+
+export interface GetSearchResultsParam {
+  keyword: string;
+  page: number;
 }
 
 export interface GridData {
@@ -66,9 +76,11 @@ export interface ContentData {
   nextId?: number | undefined;
 }
 
-export interface SearchParam {
-  keyword: string;
-  page?: number;
+export interface ImageDetail {
+  src: string;
+  index: number;
+  loaded: boolean;
+  error: boolean;
 }
 
 export type SearchResults = SearchResultItem[];

@@ -7,8 +7,7 @@ import red from '@material-ui/core/colors/red';
 import NewIcon from '@material-ui/icons/FiberNewOutlined';
 import WarningIcon from '@material-ui/icons/WarningRounded';
 import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
-import { RootState } from '../../../reducers';
-import { BrowsingHistoryState } from '../../../reducers/browsingHistory';
+import { RootState, BrowsingHistoryState } from '../../../store';
 import { Chapters, ChapterList } from '../../../../typing';
 
 export interface ChapterProps {
@@ -33,6 +32,8 @@ const styles = () =>
 
 const IS_ADULT = 'isAdult';
 
+const chapterTypeMap = new Map<string, number>();
+
 function mapStateToProps({ browsingHistory }: RootState, ownProps: any) {
   return { ...browsingHistory, ...ownProps };
 }
@@ -47,35 +48,41 @@ function ComicChaptersComponent({
   const chaptersEntries = Object.entries(chapters).sort(
     ([, l1], [, l2]) => l2.length - l1.length
   );
-  const [currentChapter, setCurrentChapter] = useState(0);
+  const [currentChapter, setCurrentChapter] = useState(
+    chapterTypeMap.get(comicID) || 0
+  );
   const [showChapters, setShowChapters] = useState(
     adultOnly ? localStorage.getItem(IS_ADULT) === '1' : true
   );
-
   const mappedBrowsingHistory = new Map(browsingHistory);
+  const histroy = mappedBrowsingHistory.get(comicID);
 
-  const ChapterType = () => (
-    <div className="chapter-types">
-      {chaptersEntries.map(([chapterType], index: number) => {
-        const active = currentChapter === index ? 'active' : '';
-        return (
-          <div
-            key={index}
-            className={`type ${active}`}
-            onClick={() => setCurrentChapter(index)}
-          >
-            <div className="label">{chapterType}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
+  const ChapterType = () => {
+    return (
+      <div className="chapter-types">
+        {chaptersEntries.map(([chapterType], index: number) => {
+          const active = currentChapter === index ? 'active' : '';
+          return (
+            <div
+              key={index}
+              className={`type ${active}`}
+              onClick={() => {
+                setCurrentChapter(index);
+                chapterTypeMap.set(comicID, index);
+              }}
+            >
+              <div className="label">{chapterType}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
-  const ChapterList = ({ chapterList }: { chapterList: ChapterList }) => (
+  const ChapterList = ({ 1: chapterList = [] }: [string, ChapterList]) => (
     <div className="chapters-list">
       {chapterList.map(({ chapterID, title, isNew }) => {
-        const record = mappedBrowsingHistory.get(comicID);
-        const chapterIDs = record ? record.chapterIDs : [];
+        const chapterIDs = histroy ? histroy.chapterIDs : [];
         const lastVisitChapter = chapterIDs.includes(chapterID);
         const Icon = lastVisitChapter ? LastVisitIcon : isNew ? NewIcon : null;
 
@@ -113,7 +120,7 @@ function ComicChaptersComponent({
       {showChapters ? (
         <>
           <ChapterType />
-          <ChapterList chapterList={chaptersEntries[currentChapter][1]} />
+          <ChapterList {...chaptersEntries[currentChapter]} />
         </>
       ) : (
         <Warning />

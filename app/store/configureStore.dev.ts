@@ -1,22 +1,23 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createEpicMiddleware } from 'redux-observable';
 import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
-import createRootReducer from '../reducers';
-import latestUpdateActions from '../actions/latestUpdate';
+import rootEpic from './epics';
+import createRootReducer from './reducers';
 
 const history = createHashHistory();
 
 const rootReducer = createRootReducer(history);
+
+const epicMiddleware = createEpicMiddleware();
 
 const configureStore = (initialState?: any) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
 
-  // Thunk Middleware
-  middleware.push(thunk);
+  middleware.push(epicMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
@@ -35,7 +36,6 @@ const configureStore = (initialState?: any) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...latestUpdateActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
@@ -57,10 +57,12 @@ const configureStore = (initialState?: any) => {
 
   if ((module as any).hot) {
     (module as any).hot.accept(
-      '../reducers', // eslint-disable-next-line global-require
-      () => store.replaceReducer(require('../reducers').default)
+      './reducers', // eslint-disable-next-line global-require
+      () => store.replaceReducer(require('./reducers').default)
     );
   }
+
+  epicMiddleware.run(rootEpic);
 
   return store;
 };

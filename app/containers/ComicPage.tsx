@@ -1,37 +1,46 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useAsync } from 'react-async';
-import { AxiosError } from 'axios';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import { Comic } from '../components/Comic';
 import { Loading } from '../components/Loading';
-import { Error } from '../components/Error';
-import { getComicDataAPI } from '../apis';
-import { ComicData, GetComicDataParam } from '../../typing';
+import { RootState, ComicState, ComicActionCreators } from '../store';
 
 interface MatchParam {
   comicID: string;
 }
 
-export function ComicPage({ match }: RouteComponentProps<MatchParam>) {
-  const { data, error, isLoading, reload, run } = useAsync<ComicData>({
-    deferFn: ([params]: GetComicDataParam[]) => getComicDataAPI(params)
-  });
+function mapStateToProps({ comic }: RootState, ownProps: any) {
+  return { ...comic, ...ownProps };
+}
 
+function mapDispathToProps(dispatch: Dispatch) {
+  return bindActionCreators(ComicActionCreators, dispatch);
+}
+
+export function ComicPageComponemt({
+  match,
+  comicData,
+  loading,
+  getComic,
+  resetComicState
+}: RouteComponentProps<MatchParam> & ComicState & typeof ComicActionCreators) {
   useEffect(() => {
-    run(match.params);
+    getComic(match.params);
+
+    return () => {
+      resetComicState();
+    };
   }, []);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (error) {
-    return <Error {...error as AxiosError} reload={reload} />;
-  }
-
-  if (data) {
-    return <Comic {...data} />;
-  }
-
-  return null;
+  return <Comic {...comicData} />;
 }
+
+export const ComicPage = connect(
+  mapStateToProps,
+  mapDispathToProps
+)(ComicPageComponemt);

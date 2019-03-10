@@ -14,8 +14,6 @@ import {
   session,
   OnBeforeSendHeadersDetails
 } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 import MenuBuilder from './menu';
 
 interface RequestHeaders {
@@ -26,14 +24,6 @@ interface RequestHeaders {
 
 interface HeaderDetails extends OnBeforeSendHeadersDetails {
   requestHeaders: RequestHeaders;
-}
-
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
 }
 
 let mainWindow: BrowserWindow | null = null;
@@ -125,10 +115,6 @@ async function createWindow() {
       }
     );
   }
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
 }
 
 app.on('ready', createWindow);

@@ -33,7 +33,6 @@ const sidebarIconStyles = () => {
 
   const root = {
     width: 50,
-    minWidth: 50,
     height: 50,
     padding: 0,
     color: '#aaa',

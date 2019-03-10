@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import { Layout } from '../Layout';
-import filterData from '../../filter.json';
 import { FilterData } from '../../../typing';
-import latestUpdateActionsCreators, {
-  LatestUpdateActions
-} from '../../actions/latestUpdate';
-import { RootState } from '../../reducers';
-import { LatestUpdateState } from '../../reducers/latestUpdate';
+import {
+  RootState,
+  ComicListState,
+  ComicListActionCreators
+} from '../../store';
+import filterData from '../../filter.json';
 
 interface FilterItemProps {
   label: string;
@@ -19,12 +19,12 @@ interface FilterItemProps {
   onClick: () => void;
 }
 
-function mapStateToProps({ latestUpdate }: RootState, ownProps: any) {
-  return { ...latestUpdate, ...ownProps };
+function mapStateToProps({ comicList }: RootState, ownProps: any) {
+  return { ...comicList, ...ownProps };
 }
 
 function mapDispathToProps(dispath: Dispatch) {
-  return bindActionCreators(latestUpdateActionsCreators, dispath);
+  return bindActionCreators(ComicListActionCreators, dispath);
 }
 
 function FilterItem({ label, selected, onClick }: FilterItemProps) {
@@ -54,7 +54,7 @@ function FilterHeader() {
 function FilterComponent({
   filter,
   setFilter
-}: LatestUpdateState & LatestUpdateActions) {
+}: ComicListState & typeof ComicListActionCreators) {
   return (
     <Layout className="filter">
       <FilterHeader />

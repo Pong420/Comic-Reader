@@ -5,63 +5,41 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { Grid } from '../Grid';
-import { getLatestUpdateAPI } from '../../apis';
-import { ComicItemList } from '../../../typing';
-import LatestUpdateActionCreator, {
-  LatestUpdateActions
-} from '../../actions/latestUpdate';
-import { RootState } from '../../reducers';
-import { LatestUpdateState } from '../../reducers/latestUpdate';
+import {
+  RootState,
+  ComicListState,
+  ComicListActionCreators
+} from '../../store';
 
-const placeholders: ComicItemList = new Array(42).fill({});
-
-function mapStateToProps({ latestUpdate }: RootState, ownProps: any) {
-  return { ...latestUpdate, ...ownProps };
+function mapStateToProps({ comicList }: RootState, ownProps: any) {
+  return { ...comicList, ...ownProps };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(LatestUpdateActionCreator, dispatch);
+  return bindActionCreators(ComicListActionCreators, dispatch);
 }
 
 function HomeComponent({
   page,
-  comicList,
   filter,
+  comicList,
   noMoreComicResults,
-  addComics,
-  setNoMoreComicResult
-}: LatestUpdateState & LatestUpdateActions) {
-  const loadMoreLatestComic = (pageNo = page) => {
-    if (!noMoreComicResults) {
-      const nextPage = pageNo + 1;
-      const from = comicList.length;
-      const to = comicList.length + placeholders.length;
-
-      addComics({
-        comicList: placeholders.slice(0),
-        page: nextPage
-      });
-
-      return getLatestUpdateAPI({
-        page: nextPage,
-        filter
-      }).then(comicList => {
-        setNoMoreComicResult(comicList.length < placeholders.length);
-
-        addComics({
-          comicList,
-          page: nextPage,
-          from,
-          to
-        });
-      });
-    }
-
-    return Promise.resolve();
+  getComicList,
+  cancelGetComicList
+}: ComicListState & typeof ComicListActionCreators) {
+  const request = () => {
+    getComicList({
+      page,
+      filter
+    });
   };
 
   useEffect(() => {
-    !comicList.length && loadMoreLatestComic(0);
+    request();
+
+    return () => {
+      cancelGetComicList();
+    };
   }, []);
 
   return (
@@ -72,9 +50,8 @@ function HomeComponent({
             width={width}
             height={height}
             list={comicList}
+            loadMore={() => !noMoreComicResults && request()}
             onGridRender={props => <Grid {...props} />}
-            loadMore={loadMoreLatestComic}
-            resetScrollPostion={page === 1}
           />
         )}
       </AutoSizer>
