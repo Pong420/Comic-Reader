@@ -22,13 +22,19 @@ export default function(state = initialState, action: SearchActions) {
     case SearchActionTypes.GET_SEARCH_RESULTS:
       return {
         ...state,
+        cachedKeyword: action.payload.keyword,
         page: state.page + 1,
         searchResults: [...state.searchResults, ...searchResultPlaceholders]
       };
 
     case SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS:
       const total = state.searchResults.length;
-      const { from = total, to = total, searchResults } = action.payload;
+      let { from, to, searchResults } = action.payload;
+
+      if (state.noMoreSearchResults) {
+        from = state.searchResults.filter(v => Object.keys(v).length).length;
+        to = total;
+      }
 
       return {
         ...state,
@@ -43,22 +49,10 @@ export default function(state = initialState, action: SearchActions) {
 
     case SearchActionTypes.CLEAN_SEARCH_RESULTS:
       return {
-        ...state,
-        ...clearSearchResult()
-      };
-
-    case SearchActionTypes.SAVE_SEARCH_KEYWORD:
-      return {
-        ...state,
-        cachedKeyword: action.payload
+        ...initialState
       };
 
     default:
       return state;
   }
-}
-
-function clearSearchResult() {
-  const { cachedKeyword, ...other } = initialState;
-  return other;
 }

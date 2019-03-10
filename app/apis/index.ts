@@ -12,7 +12,7 @@ import {
   getComicList,
   getComicData,
   getContentData,
-  search
+  getSearchResults
 } from './source/IKanman';
 
 let getComicListQueue = Promise.resolve<ComicItemList>([]);
@@ -40,7 +40,9 @@ export async function getContentDataAPI(params: GetContentDataParam) {
 }
 
 export function getSearchResultsAPI(params: GetSearchResultsParam) {
-  getSearchResultQueue = getSearchResultQueue.then(() => search(params));
+  getSearchResultQueue = getSearchResultQueue.then(() =>
+    getSearchResults(params)
+  );
 
   return getSearchResultQueue;
 }
