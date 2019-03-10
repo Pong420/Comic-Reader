@@ -13,8 +13,6 @@ import { ApiError } from '../../../typing';
 
 const { length } = comistListPlaceholders;
 
-// TODO:
-// Handle error
 const getComicListEpic: Epic<ComicListActions> = action$ =>
   action$.pipe(
     ofType<ComicListActions, GetComicList>(

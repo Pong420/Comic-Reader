@@ -1,12 +1,14 @@
 import { ContentActions, ContentActionTypes } from '../actions/content';
-import { ContentData } from '../../../typing';
+import { ContentData, ApiError } from '../../../typing';
 
 export interface ContentState extends ContentData {
   loading: boolean;
+  error: ApiError | null;
   totalPage: number;
 }
 
 const initialState: ContentState = {
+  error: null,
   loading: true,
   images: [],
   prevId: 0,
@@ -28,6 +30,12 @@ export default function(state = initialState, action: ContentActions) {
         ...action.payload,
         loading: false,
         totalPage: action.payload.images.length
+      };
+
+    case ContentActionTypes.GET_CONTENT_FAIL:
+      return {
+        ...state,
+        error: action.payload
       };
 
     default:

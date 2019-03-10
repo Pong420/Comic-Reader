@@ -36,6 +36,7 @@ const initialContentDialogProps = {
 };
 
 function ContentComponent({
+  error,
   loading,
   images,
   prevId,
@@ -120,6 +121,7 @@ function ContentComponent({
           onContextMenu: prevPage
         }}
         loading={loading}
+        error={error}
       >
         <Images activeIndex={Number(pageNo) - 1} onKeyDown={onKeyDown} />
       </Layout>

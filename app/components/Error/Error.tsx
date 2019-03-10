@@ -23,14 +23,15 @@ function ErrorComponent({
   classes,
   response
 }: ErrorProps & ApiError & WithStyles<typeof styles>) {
+  const defaultStatusText = '出現錯誤';
   const { statusText } = response || {
-    statusText: '出現錯誤'
+    statusText: defaultStatusText
   };
 
   return (
     <Layout className="error">
       <WarningIcon className={classes.warning} color="secondary" />
-      <div className="error-status-text">{statusText}</div>
+      <div className="error-status-text">{statusText || defaultStatusText}</div>
     </Layout>
   );
 }

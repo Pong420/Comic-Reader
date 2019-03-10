@@ -10,9 +10,6 @@ import {
 } from '../actions/comic';
 import { ApiError } from '../../../typing';
 
-// TODO:
-// Handle error
-
 const getComicEpic: Epic<ComicActions> = action$ =>
   action$.pipe(
     ofType<ComicActions, GetComic>(ComicActionTypes.GET_COMIC),

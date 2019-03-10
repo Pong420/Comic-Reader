@@ -10,9 +10,6 @@ import {
 } from '../actions/content';
 import { ApiError } from '../../../typing';
 
-// TODO:
-// Handle error
-
 const getContentEpic: Epic<ContentActions> = action$ =>
   action$.pipe(
     ofType<ContentActions, GetContent>(ContentActionTypes.GET_CONTENT),
