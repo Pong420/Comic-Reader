@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicChapters } from './ComicChapters';
-import { useRestoreScrollPostion } from '../../utils/useRestoreScrollPostion';
+import { useRestoreScrollPosition } from '../../utils/useRestoreScrollPosition';
 import { RootState, ComicState } from '../../store';
 
 function mapStateToProps({ comic }: RootState, ownProps: any) {
@@ -14,7 +14,7 @@ function ComicComponent({ comicData, loading, error }: ComicState) {
   const contentElRef = useRef<HTMLDivElement>(null);
   const { adultOnly, chapters, comicID, ...comicHeaderProps } = comicData;
 
-  useRestoreScrollPostion(contentElRef, comicID);
+  useRestoreScrollPosition(contentElRef, comicID);
 
   return (
     <Layout

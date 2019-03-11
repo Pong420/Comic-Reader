@@ -2,7 +2,7 @@ import { useLayoutEffect, RefObject } from 'react';
 
 const scrollPositionMap = new Map<string, number>();
 
-export function useRestoreScrollPostion(
+export function useRestoreScrollPosition(
   ref: RefObject<HTMLElement>,
   key: string
 ) {

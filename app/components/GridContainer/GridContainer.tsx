@@ -8,7 +8,6 @@ export interface GridContainerProps<T> {
   height: number;
   list: T[];
   loadMore?: () => void;
-  resetScrollPostion?: boolean;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
 }
@@ -23,8 +22,7 @@ export function GridContainerComponent<T extends any>(
     list,
     loadMore,
     onGridRender,
-    noContentRenderer,
-    resetScrollPostion
+    noContentRenderer
   }: GridContainerProps<T>,
   ref: Ref<Grid>
 ) {
@@ -71,7 +69,6 @@ export function GridContainerComponent<T extends any>(
               loadMore && loadMore();
             }
           }}
-          resetScrollPostion={resetScrollPostion}
           ref={ref}
         />
       )}
