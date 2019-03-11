@@ -29,20 +29,20 @@ function HomeComponent({
   cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
   const request = () => {
-    if (!noMoreComicResults) {
-      getComicList({
-        page,
-        filter
-      });
-    }
+    getComicList({
+      page,
+      filter
+    });
   };
 
   useEffect(() => {
-    request();
+    if (!comicList.length) {
+      request();
 
-    return () => {
-      cancelGetComicList();
-    };
+      return () => {
+        cancelGetComicList();
+      };
+    }
   }, []);
 
   return (
@@ -53,7 +53,7 @@ function HomeComponent({
             width={width}
             height={height}
             list={comicList}
-            loadMore={request}
+            loadMore={() => !noMoreComicResults && request()}
             onGridRender={props => <Grid {...props} />}
           />
         )}
