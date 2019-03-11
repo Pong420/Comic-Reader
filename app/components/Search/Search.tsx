@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { AutoSizer, Grid as RVGrid } from 'react-virtualized';
+import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
-import { GridContainer } from '../GridContainer';
+import { GridContainer, CustomGridRef } from '../GridContainer';
 import { Grid } from '../Grid';
 import { SearchHeader } from './SearchHeader';
 import {
@@ -30,7 +30,7 @@ function SearchComponent({
   cancelGetSearchResults
 }: SearchResultsState & typeof SearchActionCreators) {
   const [keyword, setKeyword] = useState(cachedKeyword);
-  const rvGridRef = useRef<RVGrid>(null);
+  const rvGridRef = useRef<CustomGridRef>(null);
 
   function request(pageNo: number = page) {
     if (keyword) {
@@ -43,7 +43,7 @@ function SearchComponent({
 
   function onSearch() {
     if (keyword !== cachedKeyword) {
-      rvGridRef.current!.scrollToPosition({
+      rvGridRef.current!.getGridRef()!.scrollToPosition({
         scrollTop: 0,
         scrollLeft: 0
       });

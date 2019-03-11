@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
-import { GridContainer } from '../GridContainer';
+import { GridContainer, CustomGridRef } from '../GridContainer';
 import { Grid } from '../Grid';
 import {
   RootState,
@@ -28,6 +28,7 @@ function HomeComponent({
   getComicList,
   cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
+  const gridRef = useRef<CustomGridRef>(null);
   const request = () => {
     getComicList({
       page,
@@ -35,8 +36,10 @@ function HomeComponent({
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!comicList.length) {
+      gridRef.current!.scrollTop(0);
+
       request();
 
       return () => {
@@ -55,6 +58,7 @@ function HomeComponent({
             list={comicList}
             loadMore={() => !noMoreComicResults && request()}
             onGridRender={props => <Grid {...props} />}
+            ref={gridRef}
           />
         )}
       </AutoSizer>

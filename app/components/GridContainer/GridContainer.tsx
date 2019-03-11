@@ -1,7 +1,15 @@
-import React, { ReactNode, useMemo, useRef, Ref, forwardRef } from 'react';
-import { Grid, GridCellProps } from 'react-virtualized';
+import React, {
+  ReactNode,
+  RefObject,
+  forwardRef,
+  useMemo,
+  useRef,
+  useImperativeHandle,
+  useEffect
+} from 'react';
+import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
-import { GridWithScrollRestoration } from './GridWithScrollRestoration';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 export interface GridContainerProps<T> {
   width: number;
@@ -12,26 +20,44 @@ export interface GridContainerProps<T> {
   noContentRenderer?: () => ReactNode;
 }
 
+export interface CustomGridRef {
+  getGridRef(): Grid | null;
+  scrollTop(val?: number): void;
+}
+
+type Props<T> = GridContainerProps<T> & {
+  forwardedRef?: RefObject<CustomGridRef>;
+};
+
 const spacer = 15;
+const scrollPosition = new Map<string, number>();
 
 // FIXME: typing
-export function GridContainerComponent<T extends any>(
-  {
-    width,
-    height,
-    list,
-    loadMore,
-    onGridRender,
-    noContentRenderer
-  }: GridContainerProps<T>,
-  ref: Ref<Grid>
-) {
+export function BaseComponent<T extends any>({
+  width,
+  height,
+  list,
+  loadMore,
+  onGridRender,
+  noContentRenderer,
+  forwardedRef,
+  location
+}: Props<T> & RouteComponentProps) {
+  const key = location.pathname;
+  const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
+  const scrollTopRef = useRef<number>(scrollPosition.get(key) || 0);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
     [width, height]
   );
   const rowCount = Math.ceil(list.length / columnCount);
+
+  function onScroll({ scrollTop }: OnScrollParams) {
+    if (scrollTop) {
+      scrollTopRef.current = scrollTop;
+    }
+  }
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
     const index = rowIndex * columnCount + columnIndex;
@@ -48,30 +74,53 @@ export function GridContainerComponent<T extends any>(
     );
   }
 
+  useImperativeHandle(forwardedRef, () => ({
+    getGridRef() {
+      return gridRef.current;
+    },
+    scrollTop(val: number) {
+      if (typeof val !== 'undefined') {
+        scrollTopRef.current = val;
+        scrollPosition.set(key, val);
+      } else {
+        return scrollTopRef.current;
+      }
+    }
+  }));
+
+  useEffect(() => {
+    gridRef.current!.scrollToPosition({
+      scrollTop: scrollTopRef.current,
+      scrollLeft: 0
+    });
+
+    return () => {
+      scrollPosition.set(key, scrollTopRef.current);
+    };
+  }, []);
+
   return (
     <>
-      {columnCount && columnWidth && (
-        <GridWithScrollRestoration
-          className="grid-container"
-          columnCount={columnCount}
-          columnWidth={columnWidth + spacer}
-          rowCount={rowCount}
-          rowHeight={columnWidth / 0.75 + spacer}
-          height={height}
-          width={width}
-          cellRenderer={cellRenderer}
-          style={{ padding: `${spacer}px`, outline: 0 }}
-          overscanRowCount={1}
-          noContentRenderer={noContentRenderer}
-          scrollToAlignment="center"
-          onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
-            if (rowStopIndex - rowCount >= -1) {
-              loadMore && loadMore();
-            }
-          }}
-          ref={ref}
-        />
-      )}
+      <Grid
+        className="grid-container"
+        columnCount={columnCount}
+        columnWidth={columnWidth + spacer}
+        rowCount={rowCount}
+        rowHeight={columnWidth / 0.75 + spacer}
+        height={height}
+        width={width}
+        style={{ padding: `${spacer}px`, outline: 0 }}
+        cellRenderer={cellRenderer}
+        noContentRenderer={noContentRenderer}
+        overscanRowCount={1}
+        onScroll={onScroll}
+        onSectionRendered={({ rowStopIndex }: OnSectionRenderedParams) => {
+          if (rowStopIndex - rowCount >= -1) {
+            loadMore && loadMore();
+          }
+        }}
+        ref={gridRef}
+      />
       <div className="grid-sizer-container" style={{ gridGap: `${spacer}px` }}>
         <div ref={gridSizerRef} />
       </div>
@@ -79,7 +128,16 @@ export function GridContainerComponent<T extends any>(
   );
 }
 
-export const GridContainer = forwardRef(GridContainerComponent);
+const GridContainerComponent = withRouter(BaseComponent);
+
+export const GridContainer = forwardRef<CustomGridRef, Props<any>>(
+  (props, ref) => (
+    <GridContainerComponent
+      {...props}
+      forwardedRef={ref as RefObject<CustomGridRef>}
+    />
+  )
+);
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const columnWidth = el ? el.offsetWidth : 0;
