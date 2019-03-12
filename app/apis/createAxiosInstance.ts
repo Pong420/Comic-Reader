@@ -3,8 +3,8 @@ import {
   cacheAdapterEnhancer,
   throttleAdapterEnhancer
 } from 'axios-extensions';
-
 import cheerio from 'cheerio';
+import delayAdapterEnhancer from './delayAdapterEnhancer';
 
 const chineseConv = require('chinese-conv');
 
@@ -22,8 +22,8 @@ export const createAxiosInstance = (options: AxiosRequestConfig) =>
         return response;
       }
     ],
-    adapter: throttleAdapterEnhancer(
-      cacheAdapterEnhancer(axios.defaults.adapter)
+    adapter: delayAdapterEnhancer(
+      throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter!))
     ),
     ...options
   });

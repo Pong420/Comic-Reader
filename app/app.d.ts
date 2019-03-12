@@ -1,6 +1,10 @@
-declare module 'axios-extensions';
-declare module 'react-desktop/windows';
+import * as axios from 'axios';
 
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
-  ? A
-  : never;
+declare module 'axios-extensions';
+
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    cache?: boolean;
+    delay?: number;
+  }
+}
