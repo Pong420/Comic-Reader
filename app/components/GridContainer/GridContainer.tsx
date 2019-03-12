@@ -1,7 +1,6 @@
 import React, {
   ReactNode,
   RefObject,
-  forwardRef,
   useMemo,
   useRef,
   useImperativeHandle,
@@ -18,29 +17,28 @@ export interface GridContainerProps<T> {
   loadMore?: () => void;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
+  handler?: RefObject<GridHandler>;
 }
 
-export interface CustomGridRef {
+export interface GridHandler {
   getGridRef(): Grid | null;
   scrollTop(val?: number): void;
 }
 
-type Props<T> = GridContainerProps<T> & {
-  forwardedRef?: RefObject<CustomGridRef>;
-};
+type Props<T> = GridContainerProps<T>;
 
 const spacer = 15;
 const scrollPosition = new Map<string, number>();
 
 // FIXME: typing
-export function BaseComponent<T extends any>({
+export function GridContainerComponent<T extends any>({
   width,
   height,
   list,
   loadMore,
   onGridRender,
   noContentRenderer,
-  forwardedRef,
+  handler,
   location
 }: Props<T> & RouteComponentProps) {
   const key = location.pathname;
@@ -74,7 +72,7 @@ export function BaseComponent<T extends any>({
     );
   }
 
-  useImperativeHandle(forwardedRef, () => ({
+  useImperativeHandle(handler, () => ({
     getGridRef() {
       return gridRef.current;
     },
@@ -128,16 +126,7 @@ export function BaseComponent<T extends any>({
   );
 }
 
-const GridContainerComponent = withRouter(BaseComponent);
-
-export const GridContainer = forwardRef<CustomGridRef, Props<any>>(
-  (props, ref) => (
-    <GridContainerComponent
-      {...props}
-      forwardedRef={ref as RefObject<CustomGridRef>}
-    />
-  )
-);
+export const GridContainer = withRouter(GridContainerComponent);
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const columnWidth = el ? el.offsetWidth : 0;

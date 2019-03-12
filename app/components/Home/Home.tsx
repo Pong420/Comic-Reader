@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
-import { GridContainer, CustomGridRef } from '../GridContainer';
+import { GridContainer, GridHandler } from '../GridContainer';
 import { Grid } from '../Grid';
 import {
   RootState,
@@ -28,7 +28,7 @@ function HomeComponent({
   getComicList,
   cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
-  const gridRef = useRef<CustomGridRef>(null);
+  const gridHandler = useRef<GridHandler>(null);
   const request = () => {
     getComicList({
       page,
@@ -38,7 +38,7 @@ function HomeComponent({
 
   useLayoutEffect(() => {
     if (!comicList.length) {
-      gridRef.current!.scrollTop(0);
+      gridHandler.current!.scrollTop(0);
 
       request();
 
@@ -58,7 +58,7 @@ function HomeComponent({
             list={comicList}
             loadMore={() => !noMoreComicResults && request()}
             onGridRender={props => <Grid {...props} />}
-            ref={gridRef}
+            handler={gridHandler}
           />
         )}
       </AutoSizer>

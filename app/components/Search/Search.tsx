@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
-import { GridContainer, CustomGridRef } from '../GridContainer';
+import { GridContainer, GridHandler } from '../GridContainer';
 import { Grid } from '../Grid';
 import { SearchHeader } from './SearchHeader';
 import {
@@ -30,7 +30,7 @@ function SearchComponent({
   cancelGetSearchResults
 }: SearchResultsState & typeof SearchActionCreators) {
   const [keyword, setKeyword] = useState(cachedKeyword);
-  const rvGridRef = useRef<CustomGridRef>(null);
+  const gridHandler = useRef<GridHandler>(null);
 
   function request(pageNo: number = page) {
     if (keyword) {
@@ -43,7 +43,7 @@ function SearchComponent({
 
   function onSearch() {
     if (keyword !== cachedKeyword) {
-      rvGridRef.current!.getGridRef()!.scrollToPosition({
+      gridHandler.current!.getGridRef()!.scrollToPosition({
         scrollTop: 0,
         scrollLeft: 0
       });
@@ -73,7 +73,7 @@ function SearchComponent({
               noContentRenderer={() =>
                 noMoreSearchResults && <div className="wrapper">搵唔到</div>
               }
-              ref={rvGridRef}
+              handler={gridHandler}
             />
           )}
         </AutoSizer>
