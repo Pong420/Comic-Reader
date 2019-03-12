@@ -86,10 +86,12 @@ function FilterComponent({
   );
 }
 
-export const Filter = connect(
-  mapStateToProps,
-  mapDispathToProps
-)(withRouter(FilterComponent));
+export const Filter = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispathToProps
+  )(FilterComponent)
+);
 
 function replaceIndex(arr: any[], index: number, val: any) {
   const temp = arr.slice(0);

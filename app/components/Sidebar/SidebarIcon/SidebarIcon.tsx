@@ -13,6 +13,7 @@ export interface SidebarIconProps
     WithBadgesInput {
   Icon?: ComponentType<SvgIconProps>;
   Component?: ComponentType<any>;
+  active: boolean;
   [props: string]: any;
 }
 
@@ -34,7 +35,7 @@ const sidebarIconStyles = () => {
 
   return createStyles({
     root,
-    linkActive: {
+    isActive: {
       '& $icon': white
     },
     iconButton: {
@@ -53,15 +54,19 @@ function SidebarIconComponent({
   Component,
   classes,
   badage,
+  active = false,
   ...props
 }: SidebarIconProps & WithStyles<typeof sidebarIconStyles>) {
-  const { root, iconButton, icon, linkActive } = classes;
+  const { root, iconButton, icon, isActive } = classes;
 
   if (Icon) {
     return (
-      <WithNavLink to={to} activeClassName={linkActive}>
+      <WithNavLink to={to} activeClassName={isActive}>
         <WithTooltip tooltip={tooltip}>
-          <IconButton className={iconButton} {...props}>
+          <IconButton
+            className={[iconButton, active && isActive].join(' ')}
+            {...props}
+          >
             <WithBadges badage={badage}>
               <Icon className={icon} />
             </WithBadges>

@@ -10,13 +10,16 @@ function mapStateToProps({ comicList }: RootState) {
 }
 
 export function BaseComponent({ filter }: ComicListState) {
+  const filtered = !!filter.join('');
+
   return (
     <Sidebar className="comic-sidebar">
       <SidebarIcon
         to="/filter"
         tooltip="篩選"
         Icon={FilterList}
-        badage={!!filter.join('')}
+        active={filtered}
+        badage={filtered}
       />
     </Sidebar>
   );

@@ -24,6 +24,7 @@ export function SidebarWithRemoveFn({
       <SidebarIcon
         Icon={on ? DeleteIcon : DeleteOutlineIcon}
         tooltip={on ? '關閉刪除模式' : '開啟刪除模式'}
+        active={on}
         onClick={() => {
           onToggleOnOff(!on);
         }}
