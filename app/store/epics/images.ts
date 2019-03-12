@@ -18,7 +18,8 @@ async function loadImage(details: ImageDetail) {
     imgEl.onload = () =>
       resolve({
         ...details,
-        loaded: true
+        loaded: true,
+        dimensions: [imgEl.width, imgEl.height]
       });
 
     imgEl.onerror = () => {

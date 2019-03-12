@@ -31,6 +31,7 @@ export function ImagesComponent({
   onKeyDown,
   activeIndex,
   imagesDetail,
+  imageDimenClassName,
   preloadImage,
   stopPreloadImage
 }: ImageProps & ImagesState & typeof ImageActionCreators) {
@@ -64,7 +65,8 @@ export function ImagesComponent({
     >
       <div className="image-loading">撈緊...</div>
       {imagesDetail.map(detail => {
-        const { src, loaded, error, index } = detail;
+        const { src, loaded, error, index, dimensions } = detail;
+        const [width, height] = dimensions;
         const hidden = index !== activeIndex;
         const imgSrc = loaded ? src : '';
 
@@ -72,7 +74,16 @@ export function ImagesComponent({
           return <div className="image-error">張圖撈唔到，試下下一頁</div>;
         }
 
-        return <img key={index} src={imgSrc} hidden={hidden} />;
+        return (
+          <img
+            key={index}
+            className={imageDimenClassName}
+            src={imgSrc}
+            hidden={hidden}
+            width={width}
+            height={height}
+          />
+        );
       })}
     </div>
   );

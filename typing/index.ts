@@ -92,6 +92,7 @@ export interface ImageDetail {
   index: number;
   loaded: boolean;
   error: boolean;
+  dimensions: number[];
 }
 
 export type SearchResults = SearchResultItem[];
@@ -115,3 +116,5 @@ export interface FilterElement {
   label: string;
   val: string;
 }
+
+export type ImageDimenClassName = '' | 'fit-to-page' | 'fit-to-width';

@@ -6,13 +6,22 @@
   overflow: auto;
   outline: none;
 
-  img:not([hidden]) {
+  img {
     @include relative();
 
     display: block;
     margin: auto;
     max-width: 100%;
     z-index: 1;
+
+    &.fit-to-page {
+      @include sq-dimen(100%);
+      object-fit: contain;
+    }
+
+    &.fit-to-width {
+      @include dimen(100%, auto);
+    }
   }
 
   .image-error {

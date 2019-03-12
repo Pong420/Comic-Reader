@@ -1,11 +1,12 @@
 import { Action } from 'redux';
-import { ImageDetail } from '../../../typing';
+import { ImageDetail, ImageDimenClassName } from '../../../typing';
 
 export enum ImageActionTypes {
   LOAD_IMAGE_SUCCESS = 'LOAD_IMAGE_SUCCESS',
   LOAD_IMAGE_FAIL = 'LOAD_IMAGE_FAIL',
   PRELOAD_IMAGE = 'PRELOAD_IMAGE',
-  PRELOAD_IMAGE_STOPPED = 'PRELOAD_IMAGE_STOPPED'
+  PRELOAD_IMAGE_STOPPED = 'PRELOAD_IMAGE_STOPPED',
+  SWITCH_IMAGE_DIMENSIONS = 'SWITCH_IMAGE_DIMENSIONS'
 }
 
 export interface PreloadImagePayload {
@@ -32,11 +33,17 @@ export interface PreloadImageStopped extends Action {
   type: ImageActionTypes.PRELOAD_IMAGE_STOPPED;
 }
 
+export interface SwitchImageDimensions extends Action {
+  type: ImageActionTypes.SWITCH_IMAGE_DIMENSIONS;
+  payload?: ImageDimenClassName;
+}
+
 export type ImageActions =
   | LoadImageSuccess
   | LoadImageFail
   | PreloadImage
-  | PreloadImageStopped;
+  | PreloadImageStopped
+  | SwitchImageDimensions;
 
 export function loadImageSuccess(payload: ImageDetail): LoadImageSuccess {
   return {
@@ -71,9 +78,19 @@ export function stopPreloadImage(): PreloadImageStopped {
   };
 }
 
+export function switchImageDimensions(
+  payload?: ImageDimenClassName
+): SwitchImageDimensions {
+  return {
+    type: ImageActionTypes.SWITCH_IMAGE_DIMENSIONS,
+    payload
+  };
+}
+
 export const ImageActionCreators = {
   loadImageSuccess,
   loadImageFail,
   preloadImage,
-  stopPreloadImage
+  stopPreloadImage,
+  switchImageDimensions
 };

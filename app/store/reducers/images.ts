@@ -3,16 +3,20 @@ import {
   ContentActionTypes,
   ImageActions,
   ImageActionTypes
-  // ImageActionTypes
 } from '../actions';
-import { ImageDetail } from '../../../typing';
+import { ImageDetail, ImageDimenClassName } from '../../../typing';
+
+const IMAGE_DIMEN_CLASSNAME_KEY = 'IMAGE_DIMEN_CLASSNAME_KEY';
 
 export interface ImagesState {
   imagesDetail: ImageDetail[];
+  imageDimenClassName: ImageDimenClassName;
 }
 
 const initialState: ImagesState = {
-  imagesDetail: []
+  imagesDetail: [],
+  imageDimenClassName:
+    <ImageDimenClassName>localStorage.getItem(IMAGE_DIMEN_CLASSNAME_KEY) || ''
 };
 
 export default function(
@@ -27,7 +31,8 @@ export default function(
           index,
           src,
           loaded: false,
-          error: false
+          error: false,
+          dimensions: []
         }))
       };
 
@@ -36,6 +41,19 @@ export default function(
       return {
         ...state,
         imagesDetail: updateImageDetail(state.imagesDetail, action.payload)
+      };
+
+    case ImageActionTypes.SWITCH_IMAGE_DIMENSIONS:
+      const imageDimenClassName =
+        action.payload || ImageDimenClassNameMaping(state.imageDimenClassName);
+
+      console.log(imageDimenClassName, action.payload);
+
+      localStorage.setItem(IMAGE_DIMEN_CLASSNAME_KEY, imageDimenClassName);
+
+      return {
+        ...state,
+        imageDimenClassName
       };
 
     default:
@@ -47,4 +65,22 @@ function updateImageDetail(arr: ImageDetail[], detail: ImageDetail) {
   const result = arr.slice();
   result[detail.index] = detail;
   return result;
+}
+
+export function ImageDimenClassNameMaping(
+  current: ImageDimenClassName
+): ImageDimenClassName {
+  switch (current) {
+    case '':
+      return 'fit-to-page';
+
+    case 'fit-to-page':
+      return 'fit-to-width';
+
+    case 'fit-to-width':
+      return '';
+
+    default:
+      return '';
+  }
 }
