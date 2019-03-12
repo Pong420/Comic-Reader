@@ -5,7 +5,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
-import { ContentControls } from './ContentControls';
 import {
   RootState,
   ContentState,
@@ -122,7 +121,6 @@ function ContentComponent({
           onClick={nextPage}
           onContextMenu={prevPage}
         />
-        <ContentControls />
       </Layout>
       <ConfirmDialog
         {...dialogProps}

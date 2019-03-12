@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FilterList from '@material-ui/icons/FilterList';
+// import FitToPage from '@material-ui/icons/FullscreenExit';
+// import FitToWidth from '@material-ui/icons/Fullscreen';
 import { Sidebar } from '../../Sidebar';
 import { SidebarIcon } from '../../Sidebar/SidebarIcon';
-import { RootState, ComicListState } from '../../../store';
+import { RootState, ComicListState, ImagesState } from '../../../store';
 
-function mapStateToProps({ comicList }: RootState) {
-  return { ...comicList };
+function mapStateToProps({ comicList, images }: RootState) {
+  return { ...comicList, ...images };
 }
 
-export function BaseComponent({ filter }: ComicListState) {
+export function BaseComponent({ filter }: ComicListState & ImagesState) {
   const filtered = !!filter.join('');
 
   return (
@@ -21,6 +23,7 @@ export function BaseComponent({ filter }: ComicListState) {
         active={filtered}
         badage={filtered}
       />
+      <SidebarIcon tooltip="適應頁面" />
     </Sidebar>
   );
 }

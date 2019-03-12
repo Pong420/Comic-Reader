@@ -7,16 +7,19 @@ import {
 import { ImageDetail, ImageDimenClassName } from '../../../typing';
 
 const IMAGE_DIMEN_CLASSNAME_KEY = 'IMAGE_DIMEN_CLASSNAME_KEY';
+const className =
+  <ImageDimenClassName>localStorage.getItem(IMAGE_DIMEN_CLASSNAME_KEY) || '';
 
 export interface ImagesState {
   imagesDetail: ImageDetail[];
   imageDimenClassName: ImageDimenClassName;
+  nextImageDimenClassName: ImageDimenClassName;
 }
 
 const initialState: ImagesState = {
   imagesDetail: [],
-  imageDimenClassName:
-    <ImageDimenClassName>localStorage.getItem(IMAGE_DIMEN_CLASSNAME_KEY) || ''
+  imageDimenClassName: className,
+  nextImageDimenClassName: mapping(className)
 };
 
 export default function(
@@ -45,15 +48,14 @@ export default function(
 
     case ImageActionTypes.SWITCH_IMAGE_DIMENSIONS:
       const imageDimenClassName =
-        action.payload || ImageDimenClassNameMaping(state.imageDimenClassName);
-
-      console.log(imageDimenClassName, action.payload);
+        action.payload || mapping(state.imageDimenClassName);
 
       localStorage.setItem(IMAGE_DIMEN_CLASSNAME_KEY, imageDimenClassName);
 
       return {
         ...state,
-        imageDimenClassName
+        imageDimenClassName,
+        nextImageDimenClassName: mapping(imageDimenClassName)
       };
 
     default:
@@ -67,9 +69,7 @@ function updateImageDetail(arr: ImageDetail[], detail: ImageDetail) {
   return result;
 }
 
-export function ImageDimenClassNameMaping(
-  current: ImageDimenClassName
-): ImageDimenClassName {
+function mapping(current: ImageDimenClassName): ImageDimenClassName {
   switch (current) {
     case '':
       return 'fit-to-page';
