@@ -1,11 +1,18 @@
-import React, { KeyboardEvent, useLayoutEffect, useRef } from 'react';
+import React, {
+  MouseEvent,
+  KeyboardEvent,
+  useLayoutEffect,
+  useRef
+} from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RootState, ImagesState, ImageActionCreators } from '../../../store';
 
 export interface ImageProps {
   activeIndex: number;
-  onKeyDown: (evt: KeyboardEvent<HTMLDivElement>) => void;
+  onContextMenu(evt?: MouseEvent<HTMLDivElement>): void;
+  onClick(evt?: MouseEvent<HTMLDivElement>): void;
+  onKeyDown(evt: KeyboardEvent<HTMLDivElement>): void;
 }
 
 function mapStateToProps({ images }: RootState, ownProps: any) {
@@ -19,6 +26,8 @@ function mapDispathToProps(dispath: Dispatch) {
 const NO_OF_IMAGES_PRELOAD = 5;
 
 export function ImagesComponent({
+  onClick,
+  onContextMenu,
   onKeyDown,
   activeIndex,
   imagesDetail,
@@ -45,7 +54,14 @@ export function ImagesComponent({
   }, [, activeIndex]);
 
   return (
-    <div className="images" tabIndex={0} onKeyDown={onKeyDown} ref={scrollRef}>
+    <div
+      className="images"
+      tabIndex={0}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
+      onKeyDown={onKeyDown}
+      ref={scrollRef}
+    >
       <div className="image-loading">撈緊...</div>
       {imagesDetail.map(detail => {
         const { src, loaded, error, index } = detail;

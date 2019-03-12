@@ -5,6 +5,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
+import { ContentControls } from './ContentControls';
 import {
   RootState,
   ContentState,
@@ -114,16 +115,14 @@ function ContentComponent({
 
   return (
     <>
-      <Layout
-        className="content-page"
-        contentProps={{
-          onClick: nextPage,
-          onContextMenu: prevPage
-        }}
-        loading={loading}
-        error={error}
-      >
-        <Images activeIndex={Number(pageNo) - 1} onKeyDown={onKeyDown} />
+      <Layout className="content-page" loading={loading} error={error}>
+        <Images
+          activeIndex={Number(pageNo) - 1}
+          onKeyDown={onKeyDown}
+          onClick={nextPage}
+          onContextMenu={prevPage}
+        />
+        <ContentControls />
       </Layout>
       <ConfirmDialog
         {...dialogProps}

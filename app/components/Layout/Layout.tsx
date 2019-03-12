@@ -1,25 +1,17 @@
-import React, { ReactNode, DOMAttributes, forwardRef, Ref } from 'react';
+import React, { ReactNode, forwardRef, Ref } from 'react';
 import { ApiError } from 'typing';
 import { Loading } from '../Loading';
 import { Error } from '../Error';
 
 export interface LayoutProps {
   className?: string;
-  contentProps?: DOMAttributes<HTMLDivElement>;
   children?: ReactNode;
   loading?: boolean;
   error?: ApiError | null;
 }
 
 function LayoutComponent(
-  {
-    className = '',
-    children,
-    contentProps,
-    loading,
-    error,
-    ...props
-  }: LayoutProps,
+  { className = '', children, loading, error, ...props }: LayoutProps,
   ref: Ref<HTMLDivElement>
 ) {
   if (error) {
@@ -32,7 +24,7 @@ function LayoutComponent(
 
   return (
     <div className={`layout ${className}`} {...props}>
-      <div className="content" {...contentProps} ref={ref}>
+      <div className="content" ref={ref}>
         {children}
       </div>
     </div>
