@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
@@ -11,6 +12,7 @@ import {
   ComicListState,
   ComicListActionCreators
 } from '../../store';
+import { useKeydown } from '../../utils/useKeydown';
 import filterData from '../../filter.json';
 
 interface FilterItemProps {
@@ -53,8 +55,11 @@ function FilterHeader() {
 
 function FilterComponent({
   filter,
-  setFilter
-}: ComicListState & typeof ComicListActionCreators) {
+  setFilter,
+  history
+}: ComicListState & typeof ComicListActionCreators & RouteComponentProps) {
+  useKeydown(({ key }) => key === 'Escape' && history.push('/'));
+
   return (
     <Layout className="filter">
       <FilterHeader />
@@ -84,7 +89,7 @@ function FilterComponent({
 export const Filter = connect(
   mapStateToProps,
   mapDispathToProps
-)(FilterComponent);
+)(withRouter(FilterComponent));
 
 function replaceIndex(arr: any[], index: number, val: any) {
   const temp = arr.slice(0);
