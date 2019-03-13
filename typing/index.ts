@@ -116,5 +116,3 @@ export interface FilterElement {
   label: string;
   val: string;
 }
-
-export type ImageDimenClassName = '' | 'fit-to-page' | 'fit-to-width';

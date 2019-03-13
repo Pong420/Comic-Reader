@@ -4,22 +4,18 @@ import {
   ImageActions,
   ImageActionTypes
 } from '../actions';
-import { ImageDetail, ImageDimenClassName } from '../../../typing';
+import { ImageDetail } from '../../../typing';
 
-const IMAGE_DIMEN_CLASSNAME_KEY = 'IMAGE_DIMEN_CLASSNAME_KEY';
-const className =
-  <ImageDimenClassName>localStorage.getItem(IMAGE_DIMEN_CLASSNAME_KEY) || '';
+const FIT_TO_PAGE_KEY = 'FIT_TO_PAGE_KEY';
 
 export interface ImagesState {
   imagesDetail: ImageDetail[];
-  imageDimenClassName: ImageDimenClassName;
-  nextImageDimenClassName: ImageDimenClassName;
+  fitToPage: boolean;
 }
 
 const initialState: ImagesState = {
   imagesDetail: [],
-  imageDimenClassName: className,
-  nextImageDimenClassName: mapping(className)
+  fitToPage: localStorage.getItem(FIT_TO_PAGE_KEY) === 'true'
 };
 
 export default function(
@@ -46,16 +42,14 @@ export default function(
         imagesDetail: updateImageDetail(state.imagesDetail, action.payload)
       };
 
-    case ImageActionTypes.SWITCH_IMAGE_DIMENSIONS:
-      const imageDimenClassName =
-        action.payload || mapping(state.imageDimenClassName);
+    case ImageActionTypes.TOGGLE_FIT_TO_PAGE:
+      const fitToPage = !state.fitToPage;
 
-      localStorage.setItem(IMAGE_DIMEN_CLASSNAME_KEY, imageDimenClassName);
+      localStorage.setItem(FIT_TO_PAGE_KEY, JSON.stringify(fitToPage));
 
       return {
         ...state,
-        imageDimenClassName,
-        nextImageDimenClassName: mapping(imageDimenClassName)
+        fitToPage
       };
 
     default:
@@ -67,20 +61,4 @@ function updateImageDetail(arr: ImageDetail[], detail: ImageDetail) {
   const result = arr.slice();
   result[detail.index] = detail;
   return result;
-}
-
-function mapping(current: ImageDimenClassName): ImageDimenClassName {
-  switch (current) {
-    case '':
-      return 'fit-to-page';
-
-    case 'fit-to-page':
-      return 'fit-to-width';
-
-    case 'fit-to-width':
-      return '';
-
-    default:
-      return '';
-  }
 }

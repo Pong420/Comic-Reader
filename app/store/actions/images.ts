@@ -1,12 +1,12 @@
 import { Action } from 'redux';
-import { ImageDetail, ImageDimenClassName } from '../../../typing';
+import { ImageDetail } from '../../../typing';
 
 export enum ImageActionTypes {
   LOAD_IMAGE_SUCCESS = 'LOAD_IMAGE_SUCCESS',
   LOAD_IMAGE_FAIL = 'LOAD_IMAGE_FAIL',
   PRELOAD_IMAGE = 'PRELOAD_IMAGE',
   PRELOAD_IMAGE_STOPPED = 'PRELOAD_IMAGE_STOPPED',
-  SWITCH_IMAGE_DIMENSIONS = 'SWITCH_IMAGE_DIMENSIONS'
+  TOGGLE_FIT_TO_PAGE = 'TOGGLE_FIT_TO_PAGE'
 }
 
 export interface PreloadImagePayload {
@@ -33,9 +33,9 @@ export interface PreloadImageStopped extends Action {
   type: ImageActionTypes.PRELOAD_IMAGE_STOPPED;
 }
 
-export interface SwitchImageDimensions extends Action {
-  type: ImageActionTypes.SWITCH_IMAGE_DIMENSIONS;
-  payload?: ImageDimenClassName;
+export interface ToggleFitToPage extends Action {
+  type: ImageActionTypes.TOGGLE_FIT_TO_PAGE;
+  payload?: boolean;
 }
 
 export type ImageActions =
@@ -43,7 +43,7 @@ export type ImageActions =
   | LoadImageFail
   | PreloadImage
   | PreloadImageStopped
-  | SwitchImageDimensions;
+  | ToggleFitToPage;
 
 export function loadImageSuccess(payload: ImageDetail): LoadImageSuccess {
   return {
@@ -78,11 +78,9 @@ export function stopPreloadImage(): PreloadImageStopped {
   };
 }
 
-export function switchImageDimensions(
-  payload?: ImageDimenClassName
-): SwitchImageDimensions {
+export function toggleFitToPage(payload?: boolean): ToggleFitToPage {
   return {
-    type: ImageActionTypes.SWITCH_IMAGE_DIMENSIONS,
+    type: ImageActionTypes.TOGGLE_FIT_TO_PAGE,
     payload
   };
 }
@@ -92,5 +90,5 @@ export const ImageActionCreators = {
   loadImageFail,
   preloadImage,
   stopPreloadImage,
-  switchImageDimensions
+  toggleFitToPage
 };

@@ -31,7 +31,7 @@ export function ImagesComponent({
   onKeyDown,
   activeIndex,
   imagesDetail,
-  imageDimenClassName,
+  fitToPage,
   preloadImage,
   stopPreloadImage
 }: ImageProps & ImagesState & typeof ImageActionCreators) {
@@ -67,8 +67,12 @@ export function ImagesComponent({
       {imagesDetail.map(detail => {
         const { src, loaded, error, index, dimensions } = detail;
         const [width, height] = dimensions;
-        const hidden = index !== activeIndex;
+        const hidden = index !== activeIndex || !width || !height;
         const imgSrc = loaded ? src : '';
+        const className = [
+          fitToPage && 'fit-to-page',
+          width < height ? 'portrait' : 'landscape'
+        ];
 
         if (error) {
           return <div className="image-error">張圖撈唔到，試下下一頁</div>;
@@ -76,12 +80,10 @@ export function ImagesComponent({
 
         return (
           <img
+            className={className.join(' ').trim()}
             key={index}
-            className={imageDimenClassName}
             src={imgSrc}
             hidden={hidden}
-            width={width}
-            height={height}
           />
         );
       })}

@@ -9,7 +9,7 @@
   img {
     @include relative();
 
-    display: block;
+    border: 0;
     margin: auto;
     max-width: 100%;
     z-index: 1;
@@ -17,10 +17,6 @@
     &.fit-to-page {
       @include sq-dimen(100%);
       object-fit: contain;
-    }
-
-    &.fit-to-width {
-      @include dimen(100%, auto);
     }
   }
 
