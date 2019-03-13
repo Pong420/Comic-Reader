@@ -1,5 +1,5 @@
 import { createAxiosInstance } from '../../createAxiosInstance';
-import { GetSearchResultsParam } from '../../../../typing';
+import { GetSearchResultsParam, ApiError } from '../../../../typing';
 
 const api = createAxiosInstance({
   baseURL: 'https://m.manhuagui.com'
@@ -58,7 +58,11 @@ export async function getSearchResults({
 
     return searchResult || [];
   } catch (err) {
-    console.log(err);
-    return [];
+    return Promise.reject({
+      response: {
+        status: '',
+        statusText: err
+      }
+    } as ApiError);
   }
 }

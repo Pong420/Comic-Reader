@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetContentDataParam, ContentData } from '../../../../typing';
+import { GetContentDataParam, ContentData, ApiError } from '../../../../typing';
 import './utils/splic';
 
 interface SMH {
@@ -36,47 +36,56 @@ export async function getContentData({
   comicID,
   chapterID
 }: GetContentDataParam) {
-  const { data: $ } = await api.get(`/comic/${comicID}/${chapterID}.html`);
+  try {
+    const { data: $ } = await api.get(`/comic/${comicID}/${chapterID}.html`);
 
-  let variables: Variables = {};
+    let variables: Variables = {};
 
-  const SMH: SMH = {};
-  SMH.imgData = (n: Variables) => ({
-    preInit: () => {
-      variables = n;
-    }
-  });
-
-  $('script').each((_: number, script: CheerioElement) => {
-    try {
-      const { data } = $(script).get()[0].children[0];
-      const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
-      if (regex.test(data)) {
-        eval(eval(data.replace(regex, '')));
+    const SMH: SMH = {};
+    SMH.imgData = (n: Variables) => ({
+      preInit: () => {
+        variables = n;
       }
-    } catch (e) {}
-  });
-
-  const { path, files = [], cid, sl, prevId, nextId } = variables;
-  let images: string[] = [];
-
-  if (path) {
-    images = files.map(name => {
-      let url = `https://i.hamreus.com${path}${name}?cid=${cid}`;
-
-      for (const i in sl) {
-        url += `&${i}=${sl[i]}`;
-      }
-
-      return url;
     });
+
+    $('script').each((_: number, script: CheerioElement) => {
+      try {
+        const { data } = $(script).get()[0].children[0];
+        const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
+        if (regex.test(data)) {
+          eval(eval(data.replace(regex, '')));
+        }
+      } catch (e) {}
+    });
+
+    const { path, files = [], cid, sl, prevId, nextId } = variables;
+    let images: string[] = [];
+
+    if (path) {
+      images = files.map(name => {
+        let url = `https://i.hamreus.com${path}${name}?cid=${cid}`;
+
+        for (const i in sl) {
+          url += `&${i}=${sl[i]}`;
+        }
+
+        return url;
+      });
+    }
+
+    const result: ContentData = {
+      images,
+      prevId,
+      nextId
+    };
+
+    return result;
+  } catch (err) {
+    return Promise.reject({
+      response: {
+        status: '',
+        statusText: err
+      }
+    } as ApiError);
   }
-
-  const result: ContentData = {
-    images,
-    prevId,
-    nextId
-  };
-
-  return result;
 }
