@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react';
 import { Switch, Route, Redirect, RouteProps } from 'react-router';
 import App from './containers/App';
+import PATH from './paths.json';
 import { TitleBar } from './components/TitleBar';
 import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';
@@ -23,37 +24,37 @@ interface CustomRouteProps extends RouteProps {
 
 const routes: CustomRouteProps[] = [
   {
-    path: '/',
+    path: PATH.HOME,
     exact: true,
     main: HomePage,
     sidebar: HomeSidebar
   },
   {
-    path: '/comic/:comicID',
+    path: PATH.COMIC,
     main: ComicPage,
     sidebar: ComicSidebar
   },
   {
-    path: '/content/:comicID/:chapterID/:pageNo',
+    path: PATH.CONTENT,
     main: ContentPage,
     sidebar: ContentSidebar
   },
   {
-    path: '/search',
+    path: PATH.SEARCH,
     main: SearchPage
   },
   {
-    path: '/history',
+    path: PATH.BROWSING_HISTORY,
     main: BrowsingHistoryPage,
     sidebar: BrowsingHistorySidebar
   },
   {
-    path: '/bookmark',
+    path: PATH.BOOKMARK,
     main: BookmarkPage,
     sidebar: BookmarkSidebar
   },
   {
-    path: '/filter',
+    path: PATH.FILTER,
     main: FilterPage
   }
 ];
@@ -69,7 +70,7 @@ export default () => (
         {routes.map(({ main, ...props }, index) => (
           <Route {...props} key={index} component={main} />
         ))}
-        <Redirect to="/" />
+        <Redirect to={PATH.HOME} />
       </Switch>
     </main>
   </App>

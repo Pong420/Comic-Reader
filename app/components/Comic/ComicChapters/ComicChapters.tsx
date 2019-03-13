@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import red from '@material-ui/core/colors/red';
@@ -9,6 +9,7 @@ import WarningIcon from '@material-ui/icons/WarningRounded';
 import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
 import { RootState, BrowsingHistoryState } from '../../../store';
 import { Chapters, ChapterList } from '../../../../typing';
+import PATH from '../../../paths.json';
 
 export interface ChapterProps {
   comicID: string;
@@ -85,13 +86,14 @@ function ComicChaptersComponent({
         const chapterIDs = histroy ? histroy.chapterIDs : [];
         const lastVisitChapter = chapterIDs.includes(chapterID);
         const Icon = lastVisitChapter ? LastVisitIcon : isNew ? NewIcon : null;
+        const to = generatePath(PATH.CONTENT, {
+          comicID,
+          chapterID,
+          pageNo: 1
+        });
 
         return (
-          <Link
-            to={`/content/${comicID}/${chapterID}/1`}
-            className="chapter-item"
-            key={chapterID}
-          >
+          <Link to={to} className="chapter-item" key={chapterID}>
             {title}
             {Icon && <Icon className={classes.icon} color="inherit" />}
           </Link>

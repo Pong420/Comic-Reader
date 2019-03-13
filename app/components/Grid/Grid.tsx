@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import ContentLoader from 'react-content-loader';
 import { GridData } from '../../../typing';
+import PATH from '../../paths.json';
 
 export interface GridPorps extends GridData {
   className?: string;
@@ -34,10 +35,14 @@ export function Grid({
   children
 }: GridPorps) {
   if (comicID) {
+    const to = generatePath(PATH.COMIC, {
+      comicID
+    });
+
     return (
       <div className={`grid ${className}`.trim()}>
         <div className="grid-content">
-          <Link to={`/comic/${comicID}`}>
+          <Link to={to}>
             <div
               className="cover"
               style={{

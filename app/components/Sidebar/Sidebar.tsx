@@ -7,6 +7,7 @@ import BookMarksIcon from '@material-ui/icons/Bookmarks';
 import { SidebarIcon } from './SidebarIcon';
 import { SidebarDivider } from './SidebarDivider';
 import { useFullscreen } from '../../utils/useFullscreen';
+import PATH from '../../paths.json';
 
 interface SidebarProp {
   className: string;
@@ -27,13 +28,13 @@ const SidebarComponent = ({
       {macos && <div className="app-region" />}
 
       <div className="sidebar-content">
-        <SidebarIcon to="/" tooltip="首頁" Icon={BackToHome} />
+        <SidebarIcon to={PATH.HOME} tooltip="首頁" Icon={BackToHome} />
 
-        <SidebarIcon to="/search" tooltip="搜索" Icon={Search} />
+        <SidebarIcon to={PATH.SEARCH} tooltip="搜索" Icon={Search} />
 
-        <SidebarIcon to="/history" tooltip="瀏覽紀錄" Icon={HistoryIcon} />
+        <SidebarIcon to={PATH.BROWSING_HISTORY} tooltip="瀏覽紀錄" Icon={HistoryIcon} />
 
-        <SidebarIcon to="/bookmark" tooltip="收藏" Icon={BookMarksIcon} />
+        <SidebarIcon to={PATH.BOOKMARK} tooltip="收藏" Icon={BookMarksIcon} />
 
         {!!children && <SidebarDivider />}
 

@@ -14,6 +14,7 @@ import {
 } from '../../store';
 import { useKeydown } from '../../utils/useKeydown';
 import filterData from '../../filter.json';
+import PATH from '../../paths.json';
 
 interface FilterItemProps {
   label: string;
@@ -44,7 +45,7 @@ function FilterHeader() {
   return (
     <div className="filter-header">
       <h1>篩選</h1>
-      <Link to="/">
+      <Link to={PATH.HOME}>
         <IconButton color="inherit">
           <Close fontSize="small" />
         </IconButton>

@@ -4,6 +4,7 @@ import FilterList from '@material-ui/icons/FilterList';
 import { Sidebar } from '../../Sidebar';
 import { SidebarIcon } from '../../Sidebar/SidebarIcon';
 import { RootState, ComicListState, ImagesState } from '../../../store';
+import PATH from '../../../paths.json';
 
 function mapStateToProps({ comicList, images }: RootState) {
   return { ...comicList, ...images };
@@ -15,7 +16,7 @@ export function BaseComponent({ filter }: ComicListState & ImagesState) {
   return (
     <Sidebar className="comic-sidebar">
       <SidebarIcon
-        to="/filter"
+        to={PATH.FILTER}
         tooltip="篩選"
         Icon={FilterList}
         active={filtered}

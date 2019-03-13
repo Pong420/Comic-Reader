@@ -1,7 +1,11 @@
 import React, { useState, KeyboardEvent, MouseEvent, useEffect } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import {
+  withRouter,
+  RouteComponentProps,
+  generatePath
+} from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
@@ -10,6 +14,7 @@ import {
   ContentState,
   BrowsingHistoryActionCreators
 } from '../../store';
+import PATH from '../../paths.json';
 
 interface MatchParam {
   comicID: string;
@@ -56,7 +61,11 @@ function ContentComponent({
   const prevPage = (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, -1);
 
   function changeChapter(chapterID: number | undefined) {
-    history.push(chapterID ? `/content/${comicID}/${chapterID}/1` : '/');
+    history.push(
+      chapterID
+        ? generatePath(PATH.CONTENT, { comicID, chapterID, pageNo: 1 })
+        : PATH.HOME
+    );
   }
 
   function changePage(
