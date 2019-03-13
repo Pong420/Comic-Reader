@@ -100,7 +100,7 @@ async function createWindow() {
         const details = details_ as HeaderDetails;
 
         if (/hamreus/.test(details.url)) {
-          details.requestHeaders.Referer = 'https://tw.manhuagui.com/';
+          details.requestHeaders.Referer = 'https://www.manhuagui.com/';
         }
 
         if (/m\.manhuagui\.com/.test(details.url)) {

@@ -1,5 +1,5 @@
 import { createAxiosInstance } from '../../createAxiosInstance';
 
 export const api = createAxiosInstance({
-  baseURL: 'https://tw.manhuagui.com'
+  baseURL: 'https://www.manhuagui.com'
 });

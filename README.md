@@ -10,7 +10,7 @@ An Electron based comic reader.
 
 <img src="internals/img/screenshot.png">
 
-## :warning:
+## :warning: Warning
 
 - Frequently request may cause your IP banned by the data owner. In my experience, it will unlock after around one day.
 
@@ -82,12 +82,6 @@ $ yarn test-e2e
 ```bash
 DEBUG_PROD=true yarn package
 ```
-
-## TODO
-
-- [ ] Backlist
-- [ ] Allow image fit to page/with
-- [ ] Prev/Next Chapter Button
 
 ## Credit
 
