@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const name = process.argv[2].replace(/^\w/, function(chr) {
+const name = process.argv[2].replace(/^\w/, chr => {
   return chr.toUpperCase();
 });
 const dir = `./app/components/${name}`;
