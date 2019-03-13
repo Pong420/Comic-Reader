@@ -9,7 +9,7 @@ interface MatchParam {
   comicID: string;
 }
 
-function mapDispathToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(ComicActionCreators, dispatch);
 }
 
@@ -26,5 +26,5 @@ export function ComicPageComponemt({
 
 export const ComicPage = connect(
   null,
-  mapDispathToProps
+  mapDispatchToProps
 )(ComicPageComponemt);

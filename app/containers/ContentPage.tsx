@@ -11,8 +11,8 @@ interface MatchParam {
   pageNo: string;
 }
 
-function mapDispatchToProps(dispath: Dispatch) {
-  return bindActionCreators(ContentActionCreators, dispath);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(ContentActionCreators, dispatch);
 }
 
 const ContentPageComponent = ({

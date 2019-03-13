@@ -119,7 +119,7 @@ function ContentComponent({
       comicID,
       chapterID
     });
-  }, []);
+  }, [comicID, chapterID]);
 
   return (
     <>

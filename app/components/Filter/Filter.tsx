@@ -26,8 +26,8 @@ function mapStateToProps({ comicList }: RootState, ownProps: any) {
   return { ...comicList, ...ownProps };
 }
 
-function mapDispathToProps(dispath: Dispatch) {
-  return bindActionCreators(ComicListActionCreators, dispath);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(ComicListActionCreators, dispatch);
 }
 
 function FilterItem({ label, selected, onClick }: FilterItemProps) {
@@ -90,7 +90,7 @@ function FilterComponent({
 export const Filter = withRouter(
   connect(
     mapStateToProps,
-    mapDispathToProps
+    mapDispatchToProps
   )(FilterComponent)
 );
 

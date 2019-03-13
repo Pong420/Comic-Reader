@@ -19,8 +19,8 @@ function mapStateToProps({ images }: RootState, ownProps: any) {
   return { ...images, ownProps };
 }
 
-function mapDispathToProps(dispath: Dispatch) {
-  return bindActionCreators(ImageActionCreators, dispath);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(ImageActionCreators, dispatch);
 }
 
 const NO_OF_IMAGES_PRELOAD = 5;
@@ -93,5 +93,5 @@ export function ImagesComponent({
 
 export const Images = connect(
   mapStateToProps,
-  mapDispathToProps
+  mapDispatchToProps
 )(ImagesComponent);
