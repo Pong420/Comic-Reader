@@ -22,7 +22,8 @@ yarn
 
 ## Development
 
-Start the app in the `dev` environment. **There is some issue on hot updates, you may need to refresh few time after edit**
+Start the app in the `dev` environment. <br>
+**There is some issue on hot updates, you may need to refresh few time after edit**
 
 ```bash
 $ yarn dev
@@ -36,7 +37,7 @@ $ START_MINIMIZED=true yarn dev
 
 #### Create a Component
 
-You can create a react component quickly by below command
+You can create a react component files quickly by below command
 
 ```bash
 yarn component ComponentName
@@ -64,23 +65,6 @@ To package apps with options:
 
 ```bash
 $ yarn package --[option]
-```
-
-To run End-to-End Test
-
-```bash
-$ yarn build-e2e
-$ yarn test-e2e
-
-# Running e2e tests in a minimized window
-$ START_MINIMIZED=true yarn build-e2e
-$ yarn test-e2e
-```
-
-:bulb: You can debug your production build with devtools by simply setting the `DEBUG_PROD` env variable:
-
-```bash
-DEBUG_PROD=true yarn package
 ```
 
 ## Credit

@@ -28,7 +28,7 @@
     "component": "node ./internals/scripts/CreateComponent.js"
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{js,tsx}": [
       "cross-env NODE_ENV=development eslint --cache --format=pretty",
       "prettier --ignore-path .eslintignore --single-quote --write",
       "git add"
@@ -68,6 +68,7 @@
         "zip"
       ],
       "category": "public.app-category.entertainment",
+      "darkModeSupport": true,
       "icon": "resources/icon.png",
       "type": "distribution"
     },
