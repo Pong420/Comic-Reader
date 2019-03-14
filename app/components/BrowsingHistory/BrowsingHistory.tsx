@@ -25,7 +25,7 @@ function BrowsingHistoryComponent({
   refetchBrowsingHistory,
   removeBrowsingHistory
 }: BrowsingHistoryState & typeof BrowsingHistoryActionCreators) {
-  const ReversedBrowsingHistory = browsingHistory.slice(0).reverse();
+  const reversedBrowsingHistory = browsingHistory.slice().reverse();
 
   return (
     <Layout className="browsing-history">
@@ -34,7 +34,7 @@ function BrowsingHistoryComponent({
           <GridContainer
             width={width}
             height={height}
-            list={ReversedBrowsingHistory}
+            list={reversedBrowsingHistory}
             onGridRender={([_, { comicID, browsingHistoryItem }]) => {
               if (browsingHistoryItem) {
                 return (

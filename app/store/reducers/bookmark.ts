@@ -67,7 +67,10 @@ export default function(state = initialState, action: BookmarkActions) {
     case BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE:
       return {
         ...state,
-        removable: action.payload
+        removable:
+          typeof action.payload !== 'undefined'
+            ? action.payload
+            : !state.removable
       };
 
     case BookmarkActionTypes.SAVE_BOOKMARK:

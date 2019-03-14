@@ -23,6 +23,8 @@ function BookmarkComponent({
   refetchBookmark,
   removeBookmark
 }: BookmarkProps & BookmarkState & typeof BookmarkActionCreators) {
+  const reversedBookmarks = bookmarks.slice().reverse();
+
   return (
     <Layout className="bookmark">
       <AutoSizer>
@@ -30,7 +32,7 @@ function BookmarkComponent({
           <GridContainer
             width={width}
             height={height}
-            list={bookmarks}
+            list={reversedBookmarks}
             onGridRender={([, { comicID, bookmarkItem }]) => {
               if (bookmarkItem) {
                 return (

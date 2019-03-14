@@ -43,7 +43,7 @@ export interface RefetchBookmarkSuccess extends Action {
 
 export interface ToggleBookmarkRemovable extends Action {
   type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE;
-  payload: boolean;
+  payload?: boolean;
 }
 
 export interface SaveBookmark extends Action {
@@ -88,7 +88,7 @@ export function refetchBookmark(comicID: string): RefetchBookmark {
 }
 
 export function toggleBookmarkRemovable(
-  payload: boolean
+  payload?: boolean
 ): ToggleBookmarkRemovable {
   return {
     type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE,

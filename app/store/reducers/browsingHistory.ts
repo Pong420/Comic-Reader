@@ -74,7 +74,10 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
     case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE:
       return {
         ...state,
-        removable: action.payload
+        removable:
+          typeof action.payload !== 'undefined'
+            ? action.payload
+            : !state.removable
       };
 
     case BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY:

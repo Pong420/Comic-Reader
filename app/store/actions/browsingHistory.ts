@@ -52,7 +52,7 @@ export interface RefetchBrowsingHistorySuccess extends Action {
 
 export interface ToggleBrowsingHistoryRemovable extends Action {
   type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE;
-  payload: boolean;
+  payload?: boolean;
 }
 
 export interface SaveBrowsingHistory extends Action {
@@ -101,7 +101,7 @@ export function refetchBrowsingHistory(
 }
 
 export function toggleBrowsingHistoryRemovable(
-  payload: boolean
+  payload?: boolean
 ): ToggleBrowsingHistoryRemovable {
   return {
     type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE,
