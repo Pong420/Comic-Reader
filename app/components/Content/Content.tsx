@@ -16,6 +16,7 @@ import {
   BrowsingHistoryActionCreators
 } from '../../store';
 import PATH from '../../paths.json';
+import MESSAGE from './message.json';
 
 interface MatchParam {
   comicID: string;
@@ -41,7 +42,7 @@ const initialSnackBarProps = {
 };
 
 const initialContentDialogProps = {
-  msg: '',
+  message: '',
   open: false,
   onConfirm: () => {},
   onClose: () => {}
@@ -90,18 +91,18 @@ function ContentComponent({
 
     if (newPageNo < 1) {
       if (prevId === 0) {
-        setSnackbarProps(prevState => ({
-          ...prevState,
-          message: `已經係第一話`,
+        setSnackbarProps({
+          ...snackbarProps,
+          message: MESSAGE.FIRST_CHAPTER,
           open: true
-        }));
+        });
       } else {
-        setDialogProps(prevState => ({
-          ...prevState,
-          msg: `已經係第一頁，返回上一話？`,
+        setDialogProps({
+          ...dialogProps,
+          message: MESSAGE.FIRST_PAGE,
           open: true,
           onConfirm: prevChapter
-        }));
+        });
       }
 
       return;
@@ -109,18 +110,18 @@ function ContentComponent({
 
     if (newPageNo > images.length) {
       if (nextId === 0) {
-        setSnackbarProps(prevState => ({
-          ...prevState,
-          message: `已經係最後一話`,
+        setSnackbarProps({
+          ...snackbarProps,
+          message: MESSAGE.LAST_CHAPTER,
           open: true
-        }));
+        });
       } else {
-        setDialogProps(prevState => ({
-          ...prevState,
-          msg: `已經係最後一頁，睇下一話`,
+        setDialogProps({
+          ...dialogProps,
+          message: MESSAGE.LAST_CHAPTER,
           open: true,
           onConfirm: nextChapter
-        }));
+        });
       }
 
       return;

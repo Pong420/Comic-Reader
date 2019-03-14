@@ -53,15 +53,6 @@ export function getComicList(payload: GetComicListParam): GetComicList {
   };
 }
 
-export function getComicsListSuccess(
-  payload: GetComicListSuccessPayload
-): GetComicListSuccess {
-  return {
-    type: ComicListActionTypes.GET_COMICS_LIST_SUCCESS,
-    payload
-  };
-}
-
 export function setFilter(payload: string[]): SetFilter {
   return {
     type: ComicListActionTypes.SET_FILTER,
@@ -76,8 +67,7 @@ export function cancelGetComicList(): GetComicListCanceled {
 }
 
 export const ComicListActionCreators = {
+  cancelGetComicList,
   getComicList,
-  getComicsListSuccess,
-  setFilter,
-  cancelGetComicList
+  setFilter
 };

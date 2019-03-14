@@ -18,14 +18,14 @@ const styles = (theme: Theme) =>
   });
 
 export interface ConfirmDialogProps {
-  msg: string;
+  message: string;
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }
 
 function ConfirmDialogComponent({
-  msg,
+  message,
   open,
   onConfirm,
   onClose,
@@ -35,7 +35,7 @@ function ConfirmDialogComponent({
     <Dialog open={open} onClose={onClose}>
       <DialogContent>
         <DialogContentText classes={{ root: classes.content }}>
-          {msg}
+          {message}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

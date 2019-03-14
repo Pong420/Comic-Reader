@@ -6,16 +6,19 @@ import {
   ContentActions,
   ContentActionTypes,
   GetContent,
-  getContentSuccess
+  GetContentSuccess
 } from '../actions/content';
-import { ApiError } from '../../../typing';
+import { ApiError, ContentData } from '../../../typing';
 
 const getContentEpic: Epic<ContentActions> = action$ =>
   action$.pipe(
     ofType<ContentActions, GetContent>(ContentActionTypes.GET_CONTENT),
     mergeMap(action =>
       from(getContentDataAPI(action.payload)).pipe(
-        map(getContentSuccess),
+        map<ContentData, GetContentSuccess>(contentData => ({
+          type: ContentActionTypes.GET_CONTENT_SUCCESS,
+          payload: contentData
+        })),
         catchError((error: ApiError) =>
           of<ContentActions>({
             type: ContentActionTypes.GET_CONTENT_FAIL,

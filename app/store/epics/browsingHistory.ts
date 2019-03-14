@@ -10,6 +10,7 @@ import {
   RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
 import { getGridDataAPI } from '../../apis';
+import { GridData } from '../../../typing';
 
 const getGridData$ = (comicID: string) =>
   from(
@@ -25,16 +26,13 @@ const addBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
     ),
     mergeMap(action =>
       getGridData$(action.payload.comicID).pipe(
-        map(
-          gridData =>
-            ({
-              type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
-              payload: {
-                gridData,
-                ...action.payload
-              }
-            } as AddBrowsingHistorySuccess)
-        )
+        map<GridData, AddBrowsingHistorySuccess>(gridData => ({
+          type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
+          payload: {
+            gridData,
+            ...action.payload
+          }
+        }))
       )
     )
   );
@@ -46,16 +44,13 @@ const refetchBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
     ),
     mergeMap(action =>
       getGridData$(action.payload.comicID).pipe(
-        map(
-          gridData =>
-            ({
-              type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
-              payload: {
-                gridData,
-                ...action.payload
-              }
-            } as RefetchBrowsingHistorySuccess)
-        )
+        map<GridData, RefetchBrowsingHistorySuccess>(gridData => ({
+          type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
+          payload: {
+            gridData,
+            ...action.payload
+          }
+        }))
       )
     )
   );

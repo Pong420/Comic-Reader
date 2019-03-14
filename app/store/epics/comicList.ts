@@ -6,7 +6,7 @@ import {
   ComicListActions,
   ComicListActionTypes,
   GetComicList,
-  getComicsListSuccess
+  GetComicListSuccess
 } from '../actions/comicList';
 import { NO_OF_COMIC_ITEM_RETURN as length } from '../reducers/comicList';
 import { ApiError } from '../../../typing';
@@ -18,13 +18,14 @@ const getComicListEpic: Epic<ComicListActions> = action$ =>
     ),
     mergeMap(action =>
       from(getComicListAPI(action.payload)).pipe(
-        map(comicList =>
-          getComicsListSuccess({
+        map<any, GetComicListSuccess>(comicList => ({
+          type: ComicListActionTypes.GET_COMICS_LIST_SUCCESS,
+          payload: {
             comicList,
             from: (action.payload.page - 1) * length,
             to: action.payload.page * length
-          })
-        ),
+          }
+        })),
         catchError((error: ApiError) =>
           of<ComicListActions>({
             type: ComicListActionTypes.GET_COMICS_LIST_FAIL,

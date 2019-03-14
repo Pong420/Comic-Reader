@@ -32,14 +32,6 @@ export function getContent(payload: GetContentDataParam): GetContent {
   };
 }
 
-export function getContentSuccess(payload: ContentData): GetContentSuccess {
-  return {
-    type: ContentActionTypes.GET_CONTENT_SUCCESS,
-    payload
-  };
-}
-
 export const ContentActionCreators = {
-  getContent,
-  getContentSuccess
+  getContent
 };

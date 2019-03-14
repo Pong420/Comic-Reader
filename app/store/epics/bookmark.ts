@@ -10,6 +10,7 @@ import {
   RefetchBookmarkSuccess
 } from '../actions/bookmark';
 import { getGridDataAPI } from '../../apis';
+import { GridData } from '../../../typing';
 
 const getGridData$ = (comicID: string) =>
   from(
@@ -23,13 +24,10 @@ const addBookmarkEpic: Epic<BookmarkActions> = action$ =>
     ofType<BookmarkActions, AddBookmark>(BookmarkActionTypes.ADD_BOOKMARK),
     mergeMap(action =>
       getGridData$(action.payload).pipe(
-        map(
-          gridData =>
-            ({
-              type: BookmarkActionTypes.ADD_BOOKMARK_SUCCESS,
-              payload: gridData
-            } as AddBookmarkSuccess)
-        )
+        map<GridData, AddBookmarkSuccess>(gridData => ({
+          type: BookmarkActionTypes.ADD_BOOKMARK_SUCCESS,
+          payload: gridData
+        }))
       )
     )
   );
@@ -41,13 +39,10 @@ const refetchBookmarkEpic: Epic<BookmarkActions> = action$ =>
     ),
     mergeMap(action =>
       getGridData$(action.payload).pipe(
-        map(
-          gridData =>
-            ({
-              type: BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS,
-              payload: gridData
-            } as RefetchBookmarkSuccess)
-        )
+        map<GridData, RefetchBookmarkSuccess>(gridData => ({
+          type: BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS,
+          payload: gridData
+        }))
       )
     )
   );

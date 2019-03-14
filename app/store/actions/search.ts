@@ -58,15 +58,6 @@ export function getSearchResults(
   };
 }
 
-export function getSearchResultsSuccess(
-  payload: GetSearchResultsSuccessPayload
-): GetSearchResultsSuccess {
-  return {
-    type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS,
-    payload
-  };
-}
-
 export function cleanSearchResults(): CleanSearchResults {
   return {
     type: SearchActionTypes.CLEAN_SEARCH_RESULTS
@@ -80,8 +71,7 @@ export function cancelGetSearchResults(): GetSearchResultsCanceled {
 }
 
 export const SearchActionCreators = {
-  getSearchResults,
-  getSearchResultsSuccess,
   cancelGetSearchResults,
-  cleanSearchResults
+  cleanSearchResults,
+  getSearchResults
 };

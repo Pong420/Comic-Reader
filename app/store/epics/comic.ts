@@ -6,16 +6,19 @@ import {
   ComicActions,
   ComicActionTypes,
   GetComic,
-  getComicSuccess
+  GetComicSuccess
 } from '../actions/comic';
-import { ApiError } from '../../../typing';
+import { ApiError, ComicData } from '../../../typing';
 
 const getComicEpic: Epic<ComicActions> = action$ =>
   action$.pipe(
     ofType<ComicActions, GetComic>(ComicActionTypes.GET_COMIC),
     mergeMap(action =>
       from(getComicDataAPI(action.payload)).pipe(
-        map(getComicSuccess),
+        map<ComicData, GetComicSuccess>(comicData => ({
+          type: ComicActionTypes.GET_COMIC_SUCCESS,
+          payload: comicData
+        })),
         catchError((error: ApiError) =>
           of<ComicActions>({
             type: ComicActionTypes.GET_COMIC_FAIL,

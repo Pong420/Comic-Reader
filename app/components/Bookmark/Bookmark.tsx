@@ -55,7 +55,7 @@ function BookmarkComponent({
   );
 }
 
-export const Bookmark = connect(
+export const Bookmark: React.FC<BookmarkProps> = connect(
   mapStateToProps,
   mapDispatchToProps
 )(BookmarkComponent);
