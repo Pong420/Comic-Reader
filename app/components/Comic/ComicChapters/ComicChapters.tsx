@@ -13,7 +13,6 @@ import PATH from '../../../paths.json';
 
 export interface ChapterProps {
   comicID: string;
-  chapterID: string;
   chapters: Chapters;
   adultOnly: boolean;
 }
@@ -131,6 +130,6 @@ function ComicChaptersComponent({
   );
 }
 
-export const ComicChapters = withStyles(styles)(
-  connect(mapStateToProps)(ComicChaptersComponent)
-);
+export const ComicChapters: React.ComponentType<ChapterProps> = connect(
+  mapStateToProps
+)(withStyles(styles)(ComicChaptersComponent));

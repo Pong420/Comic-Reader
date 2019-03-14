@@ -7,8 +7,6 @@ import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
 import { RootState, BookmarkState, BookmarkActionCreators } from '../../store';
 
-export interface BookmarkProps {}
-
 function mapStateToProps({ bookmark }: RootState, ownProps: any) {
   return { ...bookmark, ...ownProps };
 }
@@ -22,7 +20,7 @@ function BookmarkComponent({
   removable,
   refetchBookmark,
   removeBookmark
-}: BookmarkProps & BookmarkState & typeof BookmarkActionCreators) {
+}: BookmarkState & typeof BookmarkActionCreators) {
   const reversedBookmarks = bookmarks.slice().reverse();
 
   return (
@@ -55,7 +53,7 @@ function BookmarkComponent({
   );
 }
 
-export const Bookmark: React.FC<BookmarkProps> = connect(
+export const Bookmark = connect(
   mapStateToProps,
   mapDispatchToProps
 )(BookmarkComponent);

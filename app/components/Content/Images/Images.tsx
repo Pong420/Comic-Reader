@@ -15,6 +15,8 @@ export interface ImageProps {
   onKeyDown(evt: KeyboardEvent<HTMLDivElement>): void;
 }
 
+const NO_OF_IMAGES_PRELOAD = 5;
+
 function mapStateToProps({ images }: RootState, ownProps: any) {
   return { ...images, ownProps };
 }
@@ -22,8 +24,6 @@ function mapStateToProps({ images }: RootState, ownProps: any) {
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(ImageActionCreators, dispatch);
 }
-
-const NO_OF_IMAGES_PRELOAD = 5;
 
 export function ImagesComponent({
   onClick,
@@ -91,7 +91,7 @@ export function ImagesComponent({
   );
 }
 
-export const Images = connect(
+export const Images: React.FC<ImageProps> = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ImagesComponent);
