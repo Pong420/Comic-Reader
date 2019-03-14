@@ -9,6 +9,7 @@ import {
 import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
+import { ContentSnackBar, ContentSnackBarProps } from './ContentSnackBar';
 import {
   RootState,
   ContentState,
@@ -33,6 +34,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 }
 
+const initialSnackBarProps = {
+  message: '',
+  open: false,
+  onClose: () => {}
+};
+
 const initialContentDialogProps = {
   msg: '',
   open: false,
@@ -53,7 +60,12 @@ function ContentComponent({
   typeof BrowsingHistoryActionCreators &
   RouteComponentProps<MatchParam>) {
   const { pageNo, comicID, chapterID } = match.params;
-  const [dialogProps, setDialogProps] = useState(initialContentDialogProps);
+  const [snackbarProps, setSnackbarProps] = useState<ContentSnackBarProps>(
+    initialSnackBarProps
+  );
+  const [dialogProps, setDialogProps] = useState<ConfirmDialogProps>(
+    initialContentDialogProps
+  );
 
   const prevChapter = () => changeChapter(prevId);
   const nextChapter = () => changeChapter(nextId);
@@ -77,29 +89,39 @@ function ContentComponent({
     const newPageNo = Number(pageNo) + step;
 
     if (newPageNo < 1) {
-      setDialogProps(prevState => ({
-        ...prevState,
-        msg:
-          prevId !== 0
-            ? `已經係第一頁，返回上一話？`
-            : '已經係第一話，返回首頁?',
-        open: true,
-        onConfirm: prevChapter
-      }));
+      if (prevId === 0) {
+        setSnackbarProps(prevState => ({
+          ...prevState,
+          message: `已經係第一話`,
+          open: true
+        }));
+      } else {
+        setDialogProps(prevState => ({
+          ...prevState,
+          msg: `已經係第一頁，返回上一話？`,
+          open: true,
+          onConfirm: prevChapter
+        }));
+      }
 
       return;
     }
 
     if (newPageNo > images.length) {
-      setDialogProps(prevState => ({
-        ...prevState,
-        msg:
-          nextId !== 0
-            ? `已經係最後一頁，睇下一話？`
-            : `已經係最後一話，返回首頁?`,
-        open: true,
-        onConfirm: nextChapter
-      }));
+      if (nextId === 0) {
+        setSnackbarProps(prevState => ({
+          ...prevState,
+          message: `已經係最後一話`,
+          open: true
+        }));
+      } else {
+        setDialogProps(prevState => ({
+          ...prevState,
+          msg: `已經係最後一頁，睇下一話`,
+          open: true,
+          onConfirm: nextChapter
+        }));
+      }
 
       return;
     }
@@ -121,6 +143,15 @@ function ContentComponent({
     });
   }, [comicID, chapterID]);
 
+  useEffect(() => {
+    return () => {
+      setSnackbarProps(prevState => ({
+        ...prevState,
+        open: false
+      }));
+    };
+  }, [pageNo]);
+
   return (
     <>
       <Layout className="content-page" loading={loading} error={error}>
@@ -131,10 +162,19 @@ function ContentComponent({
           onContextMenu={prevPage}
         />
       </Layout>
+      <ContentSnackBar
+        {...snackbarProps}
+        onClose={() =>
+          setSnackbarProps(prevState => ({
+            ...prevState,
+            open: false
+          }))
+        }
+      />
       <ConfirmDialog
         {...dialogProps}
         onClose={() =>
-          setDialogProps((prevState: ConfirmDialogProps) => ({
+          setDialogProps(prevState => ({
             ...prevState,
             open: false
           }))
