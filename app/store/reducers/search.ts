@@ -15,7 +15,11 @@ const initialState: SearchResultsState = {
   searchResults: []
 };
 
-export const searchResultPlaceholders: SearchResults = new Array(20).fill({});
+export const NO_OF_SEARCH_RESULT_RETURN = 20;
+
+const placeholders: SearchResults = new Array(NO_OF_SEARCH_RESULT_RETURN).fill({
+  isPlaceholder: true
+});
 
 export default function(state = initialState, action: SearchActions) {
   switch (action.type) {
@@ -24,7 +28,7 @@ export default function(state = initialState, action: SearchActions) {
         ...state,
         cachedKeyword: action.payload.keyword,
         page: state.page + 1,
-        searchResults: [...state.searchResults, ...searchResultPlaceholders]
+        searchResults: [...state.searchResults, ...placeholders]
       };
 
     case SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS:
@@ -33,11 +37,11 @@ export default function(state = initialState, action: SearchActions) {
 
       return {
         ...state,
-        noMoreSearchResults:
-          searchResults.length < searchResultPlaceholders.length,
+        noMoreSearchResults: searchResults.length < placeholders.length,
         searchResults: [
           ...state.searchResults.slice(0, from),
           ...searchResults,
+          ...new Array(placeholders.length - searchResults.length).fill({}),
           ...state.searchResults.slice(to, total)
         ]
       };

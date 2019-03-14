@@ -23,7 +23,11 @@ const initialState: ComicListState = {
   error: null
 };
 
-export const comistListPlaceholders: ComicItemList = new Array(42).fill({});
+export const NO_OF_COMIC_ITEM_RETURN = 42;
+
+const placeholders: ComicItemList = new Array(NO_OF_COMIC_ITEM_RETURN).fill({
+  isPlaceholder: true
+});
 
 export default function(state = initialState, action: ComicListActions) {
   switch (action.type) {
@@ -31,7 +35,7 @@ export default function(state = initialState, action: ComicListActions) {
       return {
         ...state,
         page: state.page + 1,
-        comicList: [...state.comicList, ...comistListPlaceholders]
+        comicList: [...state.comicList, ...placeholders]
       };
 
     case ComicListActionTypes.GET_COMICS_LIST_SUCCESS:
@@ -40,10 +44,11 @@ export default function(state = initialState, action: ComicListActions) {
 
       return {
         ...state,
-        noMoreComicResults: comicList.length < comistListPlaceholders.length,
+        noMoreComicResults: comicList.length < placeholders.length,
         comicList: [
           ...state.comicList.slice(0, from),
           ...comicList,
+          ...new Array(placeholders.length - comicList.length).fill({}),
           ...state.comicList.slice(to, total)
         ]
       };
@@ -57,12 +62,11 @@ export default function(state = initialState, action: ComicListActions) {
       };
 
     case ComicListActionTypes.GET_COMICS_LIST_CANCELED:
-      const validComiclist = state.comicList.filter(v => Object.keys(v).length);
+      const validComiclist = state.comicList.filter(({ comicID }) => !!comicID);
 
       return {
         ...state,
-        page:
-          Math.floor(validComiclist.length / comistListPlaceholders.length) + 1,
+        page: Math.floor(validComiclist.length / placeholders.length) + 1,
         comicList: validComiclist
       };
 

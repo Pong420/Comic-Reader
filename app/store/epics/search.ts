@@ -9,9 +9,7 @@ import {
   GetSearchResults,
   getSearchResultsSuccess
 } from '../actions/search';
-import { searchResultPlaceholders } from '../reducers/search';
-
-const { length } = searchResultPlaceholders;
+import { NO_OF_SEARCH_RESULT_RETURN as length } from '../reducers/search';
 
 const getSearchResultsEpic: Epic<SearchActions> = action$ =>
   action$.pipe(

@@ -7,9 +7,10 @@ import PATH from '../../paths.json';
 export interface GridPorps extends GridData {
   className?: string;
   children?: ReactNode;
+  isPlaceholder?: boolean;
 }
 
-function PlaceHolder() {
+function Placeholder() {
   const width = 360;
   const height = 510;
 
@@ -32,7 +33,8 @@ export function Grid({
   name,
   latest,
   className = '',
-  children
+  children,
+  isPlaceholder
 }: GridPorps) {
   if (comicID) {
     const to = generatePath(PATH.COMIC, {
@@ -60,5 +62,9 @@ export function Grid({
     );
   }
 
-  return <PlaceHolder />;
+  if (isPlaceholder) {
+    return <Placeholder />;
+  }
+
+  return null;
 }
