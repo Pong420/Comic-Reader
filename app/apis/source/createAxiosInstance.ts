@@ -4,7 +4,7 @@ import {
   throttleAdapterEnhancer
 } from 'axios-extensions';
 import cheerio from 'cheerio';
-import delayAdapterEnhancer from './delayAdapterEnhancer';
+import delayAdapterEnhancer from '../utils/delayAdapterEnhancer';
 
 const chineseConv = require('chinese-conv');
 

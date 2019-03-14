@@ -1,4 +1,4 @@
-import { createAxiosInstance } from '../../createAxiosInstance';
+import { createAxiosInstance } from '../createAxiosInstance';
 import { GetSearchResultsParam, ApiError } from '../../../../typing';
 
 const api = createAxiosInstance({

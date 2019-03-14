@@ -6,6 +6,7 @@ import Previous from '@material-ui/icons/ArrowBack';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import SkipNextIcon from '@material-ui/icons/SkipNextRounded';
 import { Sidebar, SidebarIcon } from '../../Sidebar';
+import { BookmarkBtn } from '../../BookmarkBtn';
 import { PageNoButton } from '../PageNoButton';
 import {
   RootState,
@@ -60,6 +61,7 @@ const BaseComponent = ({
           nextId && history.push(nextChapterPath);
         }}
       />
+      <BookmarkBtn comicID={match.params.comicID} />
       <SidebarIcon
         active={fitToPage}
         Icon={AspectRatioIcon}
