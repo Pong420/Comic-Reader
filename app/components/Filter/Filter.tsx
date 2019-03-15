@@ -13,8 +13,7 @@ import {
   ComicListActionCreators
 } from '../../store';
 import { useKeydown } from '../../utils/useKeydown';
-import filterData from '../../filter.json';
-import PATH from '../../paths.json';
+import { PATH, FILTER_DATA } from '../../constants';
 
 interface FilterItemProps {
   label: string;
@@ -65,7 +64,7 @@ function FilterComponent({
     <Layout className="filter">
       <FilterHeader />
       <div className="filter-table">
-        {(filterData as FilterData).map(([key, els], index) => {
+        {(FILTER_DATA as FilterData).map(([key, els], index) => {
           return (
             <div className="filter-table-row" key={key}>
               <div className="filter-table-cell">{key}</div>

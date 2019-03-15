@@ -15,7 +15,7 @@ import {
   ContentState,
   BrowsingHistoryActionCreators
 } from '../../store';
-import PATH from '../../paths.json';
+import { PATH } from '../../constants';
 import MESSAGE from './message.json';
 
 interface MatchParam {

@@ -4,7 +4,7 @@ import FilterList from '@material-ui/icons/FilterList';
 import { Sidebar } from '../../Sidebar';
 import { SidebarIcon } from '../../Sidebar/SidebarIcon';
 import { RootState, ComicListState, ImagesState } from '../../../store';
-import PATH from '../../../paths.json';
+import { PATH } from '../../../constants';
 
 function mapStateToProps({ comicList, images }: RootState) {
   return { ...comicList, ...images };

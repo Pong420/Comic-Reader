@@ -9,7 +9,7 @@ import WarningIcon from '@material-ui/icons/WarningRounded';
 import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
 import { RootState, BrowsingHistoryState } from '../../../store';
 import { Chapters, ChapterList } from '../../../../typing';
-import PATH from '../../../paths.json';
+import { PATH } from '../../../constants';
 
 export interface ChapterProps {
   comicID: string;

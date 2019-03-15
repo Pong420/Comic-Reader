@@ -5,7 +5,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Clear from '@material-ui/icons/Clear';
 import { Sidebar, SidebarIcon } from '../../Sidebar';
 import { ComicListActionCreators } from '../../../store';
-import PATH from '../../../paths.json';
+import { PATH } from '../../../constants';
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(ComicListActionCreators, dispatch);

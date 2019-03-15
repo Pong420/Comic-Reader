@@ -1,7 +1,7 @@
 import React, { ComponentType } from 'react';
 import { Switch, Route, Redirect, RouteProps } from 'react-router';
 import App from './containers/App';
-import PATH from './paths.json';
+import { PATH } from './constants';
 import { TitleBar } from './components/TitleBar';
 import { HomePage } from './containers/HomePage';
 import { ComicPage } from './containers/ComicPage';

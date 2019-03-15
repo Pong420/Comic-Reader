@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Link, generatePath } from 'react-router-dom';
 import ContentLoader from 'react-content-loader';
 import { GridData } from '../../../typing';
-import PATH from '../../paths.json';
+import { PATH } from '../../constants';
 
 export interface GridPorps extends GridData {
   className?: string;

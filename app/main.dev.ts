@@ -15,6 +15,7 @@ import {
   OnBeforeSendHeadersDetails
 } from 'electron';
 import MenuBuilder from './menu';
+import { MAC_OS, FRAME_LESS } from './constants';
 
 interface RequestHeaders {
   Origin: string;
@@ -66,8 +67,8 @@ async function createWindow() {
     show: false,
     width: 1024 + 80,
     height: 720,
-    titleBarStyle: 'hiddenInset',
-    frame: false
+    titleBarStyle: FRAME_LESS ? 'hiddenInset' : 'default',
+    frame: !FRAME_LESS
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -122,9 +123,7 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  !MAC_OS && app.quit();
 });
 
 app.on('activate', () => {
