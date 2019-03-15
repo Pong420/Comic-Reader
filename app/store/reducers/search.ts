@@ -1,5 +1,6 @@
 import { SearchActionTypes, SearchActions } from '../actions/search';
 import { SearchResults } from '../../../typing';
+import { pad } from '../../utils/pad';
 
 export interface SearchResultsState {
   cachedKeyword: string;
@@ -40,10 +41,7 @@ export default function(state = initialState, action: SearchActions) {
         noMoreSearchResults: searchResults.length < placeholders.length,
         searchResults: [
           ...state.searchResults.slice(0, from),
-          ...searchResults,
-          ...new Array(placeholders.length)
-            .fill({})
-            .slice(searchResults.length),
+          ...pad(searchResults, {}, placeholders.length),
           ...state.searchResults.slice(to, total)
         ]
       };
