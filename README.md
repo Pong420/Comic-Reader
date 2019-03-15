@@ -8,17 +8,13 @@ An Electron based comic reader.
 - Built from [iRath96/electron-react-typescript-boilerplate](https://github.com/iRath96/electron-react-typescript-boilerplate)
 - Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
-<img src="internals/img/screenshot.png">
+<img src="internals/img/screenshot1.png">
+<img src="internals/img/screenshot2.png">
+<img src="internals/img/screenshot3.png">
 
 ## :warning: Warning
 
-- Frequently request may cause your IP banned by the data owner. In my experience, it will unlock after around one day.
-
-## Install
-
-```
-yarn
-```
+- Your IP has an opportunity that banned by the data owner. In my experience, you will unlock after around one day.
 
 ## Development
 
@@ -26,13 +22,13 @@ Start the app in the `dev` environment. <br>
 **There is some issue on hot updates, you may need to refresh few time after edit**
 
 ```bash
-$ yarn dev
+yarn dev
 ```
 
 If you don't need autofocus when your files was changed, then run `dev` with env `START_MINIMIZED=true`:
 
 ```bash
-$ START_MINIMIZED=true yarn dev
+START_MINIMIZED=true yarn dev
 ```
 
 #### Create a Component
@@ -48,7 +44,7 @@ yarn component ComponentName
 To package apps for the local platform:
 
 ```bash
-$ yarn package
+yarn package
 ```
 
 To package apps for all platforms:
@@ -58,13 +54,13 @@ First, refer to the [Multi Platform Build docs](https://www.electron.build/multi
 Then,
 
 ```bash
-$ yarn package-all
+yarn package-all
 ```
 
 To package apps with options:
 
 ```bash
-$ yarn package --[option]
+yarn package --[option]
 ```
 
 ## Credit
