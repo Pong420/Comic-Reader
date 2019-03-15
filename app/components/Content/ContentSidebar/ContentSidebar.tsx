@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { RouteComponentProps, withRouter, generatePath } from 'react-router';
-import Previous from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import SkipNextIcon from '@material-ui/icons/SkipNextRounded';
 import { Sidebar, SidebarIcon } from '../../Sidebar';
@@ -52,13 +52,14 @@ const BaseComponent = ({
 
   const nextChapterPath = generatePath(PATH.CONTENT, {
     ...match.params,
+    pageNo: 1,
     chapterID: nextId
   });
 
   return (
     <>
       <Sidebar className="content-page-sidebar">
-        <SidebarIcon Icon={Previous} tooltip="返回章節" to={comicPath} />
+        <SidebarIcon Icon={ArrowBackIcon} tooltip="返回章節" to={comicPath} />
         <SidebarIcon
           Icon={SkipNextIcon}
           tooltip="下一集"

@@ -16,6 +16,7 @@ import { ComicSidebar } from './components/Comic/ComicSidebar';
 import { ContentSidebar } from './components/Content/ContentSidebar';
 import { BrowsingHistorySidebar } from './components/BrowsingHistory/BrowsingHistorySidebar';
 import { BookmarkSidebar } from './components/Bookmark/BookmarkSidebar';
+import { FilterSidebar } from './components/Filter/FilterSidebar';
 
 interface CustomRouteProps extends RouteProps {
   main: ComponentType<any>;
@@ -55,7 +56,8 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: PATH.FILTER,
-    main: FilterPage
+    main: FilterPage,
+    sidebar: FilterSidebar
   }
 ];
 

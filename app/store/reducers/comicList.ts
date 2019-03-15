@@ -2,10 +2,16 @@ import { ComicListActionTypes, ComicListActions } from '../actions/comicList';
 import { ComicItemList, ApiError } from '../../../typing';
 
 const FILTER_STORAGE_KEY = 'filter';
+export const NO_OF_FILTER_TYPES = 6;
 const filter = JSON.parse(
   localStorage.getItem(FILTER_STORAGE_KEY) ||
-    JSON.stringify(new Array(6).fill(''))
+    JSON.stringify(new Array(NO_OF_FILTER_TYPES).fill(''))
 );
+
+export const NO_OF_COMIC_ITEM_RETURN = 42;
+const placeholders: ComicItemList = new Array(NO_OF_COMIC_ITEM_RETURN).fill({
+  isPlaceholder: true
+});
 
 export interface ComicListState {
   comicList: ComicItemList;
@@ -22,12 +28,6 @@ const initialState: ComicListState = {
   page: 1,
   error: null
 };
-
-export const NO_OF_COMIC_ITEM_RETURN = 42;
-
-const placeholders: ComicItemList = new Array(NO_OF_COMIC_ITEM_RETURN).fill({
-  isPlaceholder: true
-});
 
 export default function(state = initialState, action: ComicListActions) {
   switch (action.type) {
@@ -48,17 +48,22 @@ export default function(state = initialState, action: ComicListActions) {
         comicList: [
           ...state.comicList.slice(0, from),
           ...comicList,
-          ...new Array(placeholders.length - comicList.length).fill({}),
+          ...new Array(placeholders.length).fill({}).slice(comicList.length),
           ...state.comicList.slice(to, total)
         ]
       };
 
     case ComicListActionTypes.SET_FILTER:
-      localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(action.payload));
+      const filter = [
+        ...action.payload,
+        ...new Array(NO_OF_FILTER_TYPES).fill('').slice(action.payload.length)
+      ];
+
+      localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(filter));
 
       return {
         ...initialState,
-        filter: action.payload
+        filter
       };
 
     case ComicListActionTypes.GET_COMICS_LIST_CANCELED:

@@ -118,7 +118,7 @@ function ContentComponent({
       } else {
         setDialogProps({
           ...dialogProps,
-          message: MESSAGE.LAST_CHAPTER,
+          message: MESSAGE.LAST_PAGE,
           open: true,
           onConfirm: nextChapter
         });

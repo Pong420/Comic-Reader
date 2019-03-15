@@ -41,7 +41,9 @@ export default function(state = initialState, action: SearchActions) {
         searchResults: [
           ...state.searchResults.slice(0, from),
           ...searchResults,
-          ...new Array(placeholders.length - searchResults.length).fill({}),
+          ...new Array(placeholders.length)
+            .fill({})
+            .slice(searchResults.length),
           ...state.searchResults.slice(to, total)
         ]
       };

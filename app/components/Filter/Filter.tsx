@@ -74,7 +74,7 @@ function FilterComponent({
                   <FilterItem
                     key={label}
                     label={label}
-                    selected={val === filter[index]}
+                    selected={val === (filter[index] || '')}
                     onClick={() => setFilter(replaceIndex(filter, index, val))}
                   />
                 ))}
