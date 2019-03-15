@@ -5,9 +5,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import createStyles from '@material-ui/core/styles/createStyles';
-import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     title: {
       color: '#fff'

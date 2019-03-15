@@ -31,7 +31,7 @@ function BookmarkComponent({
             width={width}
             height={height}
             list={reversedBookmarks}
-            onGridRender={([, { comicID, bookmarkItem }]) => {
+            onGridRender={([comicID, { bookmarkItem }]) => {
               if (bookmarkItem) {
                 return (
                   <RemovableGrid

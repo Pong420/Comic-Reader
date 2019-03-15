@@ -91,7 +91,7 @@ export function ImagesComponent({
   );
 }
 
-export const Images: React.FC<ImageProps> = connect(
+export const Images = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ImagesComponent);

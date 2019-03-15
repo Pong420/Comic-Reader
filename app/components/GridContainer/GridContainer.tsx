@@ -25,13 +25,10 @@ export interface GridHandler {
   scrollTop(val?: number): void;
 }
 
-type Props<T> = GridContainerProps<T>;
-
 const spacer = 15;
 const scrollPosition = new Map<string, number>();
 
-// FIXME: typing
-export function GridContainerComponent<T extends any>({
+export function BaseComponent<T extends any>({
   width,
   height,
   list,
@@ -40,7 +37,7 @@ export function GridContainerComponent<T extends any>({
   noContentRenderer,
   handler,
   location
-}: Props<T> & RouteComponentProps) {
+}: GridContainerProps<T> & RouteComponentProps) {
   const key = location.pathname;
   const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
@@ -126,7 +123,11 @@ export function GridContainerComponent<T extends any>({
   );
 }
 
-export const GridContainer = withRouter(GridContainerComponent);
+const RoutedComponent = withRouter(BaseComponent);
+
+export function GridContainer<T>(props: GridContainerProps<T>) {
+  return <RoutedComponent {...props} />;
+}
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const columnWidth = el ? el.offsetWidth : 0;

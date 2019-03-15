@@ -18,14 +18,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(BookmarkActionCreators, dispatch);
 }
 
-type Props = BookmarkBtnProps & BookmarkState & typeof BookmarkActionCreators;
-
 function BookmarkBtnComponent({
   bookmarks,
   comicID,
   addBookmark,
   removeBookmark
-}: Props) {
+}: BookmarkBtnProps & BookmarkState & typeof BookmarkActionCreators) {
   const mappedBookmarks = useMemo(() => new Map(bookmarks), [bookmarks]);
   const bookmarked = mappedBookmarks.has(comicID);
 
@@ -40,7 +38,7 @@ function BookmarkBtnComponent({
   );
 }
 
-export const BookmarkBtn: React.FC<BookmarkBtnProps> = connect(
+export const BookmarkBtn = connect(
   mapStateToProps,
   mapDispatchToProps
 )(BookmarkBtnComponent);

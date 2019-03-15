@@ -146,10 +146,10 @@ function ContentComponent({
 
   useEffect(() => {
     return () => {
-      setSnackbarProps(prevState => ({
-        ...prevState,
+      setSnackbarProps({
+        ...snackbarProps,
         open: false
-      }));
+      });
     };
   }, [pageNo]);
 
