@@ -1,9 +1,9 @@
 import { SearchActionTypes, SearchActions } from '../actions/search';
 import { SearchResults } from '../../../typing';
-import { pad } from '../../utils/pad';
 
 export interface SearchResultsState {
   cachedKeyword: string;
+  from: number;
   noMoreSearchResults: boolean;
   page: number;
   searchResults: SearchResults;
@@ -11,13 +11,13 @@ export interface SearchResultsState {
 
 const initialState: SearchResultsState = {
   cachedKeyword: '',
+  from: 0,
   noMoreSearchResults: false,
   page: 1,
   searchResults: []
 };
 
-export const NO_OF_SEARCH_RESULT_RETURN = 20;
-
+const NO_OF_SEARCH_RESULT_RETURN = 20;
 const placeholders: SearchResults = new Array(NO_OF_SEARCH_RESULT_RETURN).fill({
   isPlaceholder: true
 });
@@ -33,16 +33,18 @@ export default function(state = initialState, action: SearchActions) {
       };
 
     case SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS:
-      const total = state.searchResults.length;
-      const { from, to, searchResults } = action.payload;
+      const searchResults = action.payload;
+      const { from } = state;
+      const to = from + placeholders.length;
 
       return {
         ...state,
+        from: from + searchResults.length,
         noMoreSearchResults: searchResults.length < placeholders.length,
         searchResults: [
           ...state.searchResults.slice(0, from),
-          ...pad(searchResults, {}, placeholders.length),
-          ...state.searchResults.slice(to, total)
+          ...searchResults,
+          ...state.searchResults.slice(to)
         ]
       };
 

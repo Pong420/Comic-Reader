@@ -13,12 +13,6 @@ export enum SearchActionTypes {
   CLEAN_SEARCH_RESULTS = 'CLEAN_SEARCH_RESULTS'
 }
 
-export interface GetSearchResultsSuccessPayload {
-  searchResults: SearchResults;
-  from: number;
-  to: number;
-}
-
 export interface GetSearchResults extends Action {
   type: SearchActionTypes.GET_SEARCH_RESULTS;
   payload: GetSearchResultsParam;
@@ -26,7 +20,7 @@ export interface GetSearchResults extends Action {
 
 export interface GetSearchResultsSuccess extends Action {
   type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS;
-  payload: GetSearchResultsSuccessPayload;
+  payload: SearchResults;
 }
 
 export interface GetSearchResultsFailed extends Action {

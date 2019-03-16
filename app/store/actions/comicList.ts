@@ -9,12 +9,6 @@ export enum ComicListActionTypes {
   SET_FILTER = 'SET_FILTER'
 }
 
-export interface GetComicListSuccessPayload {
-  comicList: ComicItemList;
-  from?: number;
-  to?: number;
-}
-
 export interface GetComicList extends Action {
   type: ComicListActionTypes.GET_COMICS_LIST;
   payload: GetComicListParam;
@@ -22,7 +16,7 @@ export interface GetComicList extends Action {
 
 export interface GetComicListSuccess extends Action {
   type: ComicListActionTypes.GET_COMICS_LIST_SUCCESS;
-  payload: GetComicListSuccessPayload;
+  payload: ComicItemList;
 }
 
 export interface GetComicListFailed extends Action {

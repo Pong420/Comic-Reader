@@ -10,25 +10,27 @@ const DEFAULT_FILTER = JSON.parse(
     JSON.stringify(new Array(NO_OF_FILTER_TYPES).fill(''))
 );
 
-export const NO_OF_COMIC_ITEM_RETURN = 42;
+const NO_OF_COMIC_ITEM_RETURN = 42;
 const placeholders: ComicItemList = new Array(NO_OF_COMIC_ITEM_RETURN).fill({
   isPlaceholder: true
 });
 
 export interface ComicListState {
   comicList: ComicItemList;
+  error: ApiError | null;
   filter: string[];
+  from: number;
   noMoreComicResults: boolean;
   page: number;
-  error: ApiError | null;
 }
 
 const initialState: ComicListState = {
   comicList: [],
+  error: null,
   filter: DEFAULT_FILTER,
+  from: 0,
   noMoreComicResults: false,
-  page: 1,
-  error: null
+  page: 1
 };
 
 export default function(state = initialState, action: ComicListActions) {
@@ -41,18 +43,18 @@ export default function(state = initialState, action: ComicListActions) {
       };
 
     case ComicListActionTypes.GET_COMICS_LIST_SUCCESS:
-      const total = state.comicList.length;
-      const { from = total, to = total, comicList } = action.payload;
-
-      console.log(comicList, pad(comicList, {}, placeholders.length));
+      const comicList = action.payload;
+      const { from } = state;
+      const to = from + placeholders.length;
 
       return {
         ...state,
+        from: from + comicList.length,
         noMoreComicResults: comicList.length < placeholders.length,
         comicList: [
           ...state.comicList.slice(0, from),
-          ...pad(comicList, {}, placeholders.length),
-          ...state.comicList.slice(to, total)
+          ...comicList,
+          ...state.comicList.slice(to)
         ]
       };
 
