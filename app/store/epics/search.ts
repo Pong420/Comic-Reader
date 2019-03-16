@@ -8,7 +8,6 @@ import {
   GetSearchResults,
   GetSearchResultsSuccess
 } from '../actions/search';
-import { NO_OF_SEARCH_RESULT_RETURN as length } from '../reducers/search';
 import { SearchResults } from '../../../typing';
 import { getSearchResultsAPI } from '../../apis';
 
@@ -21,11 +20,7 @@ const getSearchResultsEpic: Epic<SearchActions> = action$ =>
       from(getSearchResultsAPI(action.payload)).pipe(
         map<SearchResults, GetSearchResultsSuccess>(searchResults => ({
           type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS,
-          payload: {
-            searchResults,
-            from: (action.payload.page - 1) * length,
-            to: action.payload.page * length
-          }
+          payload: searchResults
         })),
         catchError((error: AxiosError) =>
           of<SearchActions>({
