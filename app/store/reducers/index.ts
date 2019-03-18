@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers, ReducersMapObject } from 'redux';
 import { connectRouter, RouterState } from 'connected-react-router';
 import { History } from 'history';
 import bookmark from './bookmark';
@@ -17,28 +17,27 @@ export * from './content';
 export * from './images';
 export * from './search';
 
-// TODO:  typing
+type ExtractRootState<T extends ReducersMapObject> = {
+  [P in keyof T]: ReturnType<T[P]>
+};
 
-export interface RootState {
+export type RootState = ExtractRootState<typeof rootState> & {
   router: RouterState;
-  bookmark: typeof bookmark;
-  browsingHistory: typeof browsingHistory;
-  content: typeof content;
-  comic: typeof comic;
-  comicList: typeof comicList;
-  images: typeof images;
-  search: typeof search;
-}
+};
+
+const rootState = {
+  bookmark,
+  browsingHistory,
+  comic,
+  comicList,
+  content,
+  images,
+  search
+};
 
 export default function createRootReducer(history: History) {
-  return combineReducers({
+  return combineReducers<RootState>({
     router: connectRouter(history),
-    bookmark,
-    browsingHistory,
-    comic,
-    comicList,
-    content,
-    images,
-    search
+    ...rootState
   });
 }

@@ -10,7 +10,7 @@ export interface BookmarkBtnProps {
   comicID: string;
 }
 
-function mapStateToProps({ bookmark }: RootState, ownProps: any) {
+function mapStateToProps({ bookmark }: RootState, ownProps: BookmarkBtnProps) {
   return { ...bookmark, ...ownProps };
 }
 
