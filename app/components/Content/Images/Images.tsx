@@ -52,7 +52,7 @@ export function ImagesComponent({
         stopPreloadImage();
       };
     }
-  }, [, activeIndex]);
+  }, [activeIndex, imagesDetail, preloadImage, stopPreloadImage]);
 
   return (
     <div

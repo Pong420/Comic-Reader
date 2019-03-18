@@ -13,11 +13,13 @@ export function useRestoreScrollPosition(
     if (ref.current && scrollTop) {
       ref.current.scrollTop = scrollTop;
     }
-  }, deps);
+  }, [key, ref, ...deps]);
 
   useLayoutEffect(() => {
     return () => {
-      scrollPositionMap.set(key, ref.current!.scrollTop);
+      if (ref.current) {
+        scrollPositionMap.set(key, ref.current.scrollTop);
+      }
     };
-  }, []);
+  }, [key, ref]);
 }

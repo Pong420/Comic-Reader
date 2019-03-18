@@ -1,5 +1,5 @@
 import { from } from 'rxjs';
-import { map, mergeMap, mapTo } from 'rxjs/operators';
+import { map, mergeMap, mapTo, takeUntil } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   BrowsingHistoryActions,
@@ -9,6 +9,11 @@ import {
   RefetchBrowsingHistory,
   RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
+import {
+  ContentActions,
+  ContentActionTypes,
+  CacnelGetContent
+} from '../actions/content';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../../typing';
 
@@ -19,9 +24,11 @@ const getGridData$ = (comicID: string) =>
     })
   );
 
-const addBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
+type CombinedActions = BrowsingHistoryActions | ContentActions;
+
+const addBrowsingHistoryEpic: Epic<CombinedActions> = action$ =>
   action$.pipe(
-    ofType<BrowsingHistoryActions, AddBrowsingHistory>(
+    ofType<CombinedActions, AddBrowsingHistory>(
       BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY
     ),
     mergeMap(action =>
@@ -32,7 +39,14 @@ const addBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
             gridData,
             ...action.payload
           }
-        }))
+        })),
+        takeUntil(
+          action$.pipe(
+            ofType<CombinedActions, CacnelGetContent>(
+              ContentActionTypes.GET_CONTENT_CANCELED
+            )
+          )
+        )
       )
     )
   );

@@ -21,7 +21,7 @@ function PageNoButtonComponent({
   className,
   currentPageNo,
   totalPage,
-  history,
+  history
 }: PageNoButtonProps & RouteComponentProps) {
   const totalPageStr = String(totalPage);
   const pageNoStr = currentPageNo.padStart(totalPageStr.length, '0');

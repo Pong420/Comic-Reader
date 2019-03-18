@@ -24,6 +24,10 @@ export interface GetComicFail extends Action {
   payload: ApiError;
 }
 
+export interface CancelGetComic extends Action {
+  type: ComicActionTypes.GET_COMIC_CANCELED;
+}
+
 export interface ResetComicState extends Action {
   type: ComicActionTypes.RESET_COMIC_STATE;
 }
@@ -32,6 +36,7 @@ export type ComicActions =
   | GetComic
   | GetComicSuccess
   | GetComicFail
+  | CancelGetComic
   | ResetComicState;
 
 export function getComic(payload: GetComicDataParam): GetComic {
@@ -48,6 +53,12 @@ export function getComicSuccess(payload: ComicData): GetComicSuccess {
   };
 }
 
+export function cancelGetComic(): CancelGetComic {
+  return {
+    type: ComicActionTypes.GET_COMIC_CANCELED
+  };
+}
+
 export function resetComicState(): ResetComicState {
   return {
     type: ComicActionTypes.RESET_COMIC_STATE
@@ -57,5 +68,6 @@ export function resetComicState(): ResetComicState {
 export const ComicActionCreators = {
   getComic,
   getComicSuccess,
+  cancelGetComic,
   resetComicState
 };

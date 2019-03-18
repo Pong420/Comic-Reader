@@ -17,6 +17,7 @@ const placeholders: ComicItemList = new Array(NO_OF_COMIC_ITEM_RETURN).fill({
 
 export interface ComicListState {
   comicList: ComicItemList;
+  loading: boolean;
   error: ApiError | null;
   filter: string[];
   from: number;
@@ -26,6 +27,7 @@ export interface ComicListState {
 
 const initialState: ComicListState = {
   comicList: [],
+  loading: false,
   error: null,
   filter: DEFAULT_FILTER,
   from: 0,
@@ -38,6 +40,7 @@ export default function(state = initialState, action: ComicListActions) {
     case ComicListActionTypes.GET_COMICS_LIST:
       return {
         ...state,
+        loading: true,
         page: state.page + 1,
         comicList: [...state.comicList, ...placeholders]
       };
@@ -49,6 +52,7 @@ export default function(state = initialState, action: ComicListActions) {
 
       return {
         ...state,
+        loading: false,
         from: from + comicList.length,
         noMoreComicResults: comicList.length < placeholders.length,
         comicList: [
@@ -79,6 +83,7 @@ export default function(state = initialState, action: ComicListActions) {
     case ComicListActionTypes.GET_COMICS_LIST_FAIL:
       return {
         ...state,
+        loading: false,
         error: action.payload
       };
 

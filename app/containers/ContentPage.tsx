@@ -17,13 +17,18 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 const ContentPageComponent = ({
   match,
-  getContent
+  getContent,
+  cancelGetContent
 }: RouteComponentProps<MatchParam> & typeof ContentActionCreators) => {
   const { comicID, chapterID } = match.params;
 
   useEffect(() => {
     getContent({ comicID, chapterID });
-  }, [chapterID]);
+
+    return () => {
+      cancelGetContent();
+    };
+  }, [cancelGetContent, chapterID, comicID, getContent]);
 
   return <Content />;
 };

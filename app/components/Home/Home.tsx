@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useCallback } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -25,28 +25,23 @@ function HomeComponent({
   filter,
   comicList,
   noMoreComicResults,
-  getComicList,
-  cancelGetComicList
+  getComicList
 }: ComicListState & typeof ComicListActionCreators) {
   const gridHandler = useRef<GridHandler>(null);
-  const request = () => {
+  const request = useCallback(() => {
     getComicList({
       page,
       filter
     });
-  };
+  }, [filter, getComicList, page]);
 
   useLayoutEffect(() => {
     if (!comicList.length) {
       gridHandler.current!.scrollTop(0);
 
       request();
-
-      return () => {
-        cancelGetComicList();
-      };
     }
-  }, []);
+  }, [comicList.length, request]);
 
   return (
     <Layout className="home" error={error}>

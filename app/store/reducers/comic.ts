@@ -31,7 +31,14 @@ export default function(state = initialState, action: ComicActions) {
     case ComicActionTypes.GET_COMIC_FAIL:
       return {
         ...state,
+        loading: false,
         error: action.payload
+      };
+
+    case ComicActionTypes.GET_COMIC_CANCELED:
+      return {
+        ...state,
+        loading: false
       };
 
     case ComicActionTypes.RESET_COMIC_STATE:

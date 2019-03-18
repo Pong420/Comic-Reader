@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -32,16 +32,19 @@ function SearchComponent({
   const [keyword, setKeyword] = useState(cachedKeyword);
   const gridHandler = useRef<GridHandler>(null);
 
-  function request(pageNo: number = page) {
-    if (keyword) {
-      getSearchResults({
-        keyword,
-        page: pageNo
-      });
-    }
-  }
+  const request = useCallback(
+    (pageNo: number = page) => {
+      if (keyword) {
+        getSearchResults({
+          keyword,
+          page: pageNo
+        });
+      }
+    },
+    [getSearchResults, keyword, page]
+  );
 
-  function onSearch() {
+  const onSearch = useCallback(() => {
     if (keyword !== cachedKeyword) {
       gridHandler.current!.getGridRef()!.scrollToPosition({
         scrollTop: 0,
@@ -52,7 +55,13 @@ function SearchComponent({
       cancelGetSearchResults();
       request(1);
     }
-  }
+  }, [
+    cachedKeyword,
+    cancelGetSearchResults,
+    cleanSearchResults,
+    keyword,
+    request
+  ]);
 
   return (
     <Layout className="search">

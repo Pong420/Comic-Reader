@@ -142,7 +142,7 @@ function ContentComponent({
       comicID,
       chapterID
     });
-  }, [comicID, chapterID]);
+  }, [comicID, chapterID, addBrowsingHistory]);
 
   useEffect(() => {
     return () => {
@@ -151,7 +151,7 @@ function ContentComponent({
         open: false
       });
     };
-  }, [pageNo]);
+  }, [pageNo, snackbarProps]);
 
   return (
     <>

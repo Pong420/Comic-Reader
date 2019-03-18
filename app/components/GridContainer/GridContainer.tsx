@@ -44,7 +44,7 @@ export function BaseComponent<T extends any>({
   const scrollTopRef = useRef<number>(scrollPosition.get(key) || 0);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
-    [width, height]
+    [width]
   );
   const rowCount = Math.ceil(list.length / columnCount);
 
@@ -92,7 +92,7 @@ export function BaseComponent<T extends any>({
     return () => {
       scrollPosition.set(key, scrollTopRef.current);
     };
-  }, []);
+  }, [key]);
 
   return (
     <>

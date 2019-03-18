@@ -40,11 +40,13 @@
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": [
       "error",
-      { "extensions": [".js", ".jsx"] }
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
-  "plugins": ["import", "promise", "compat", "react"],
+  "plugins": ["import", "promise", "compat", "react", "react-hooks"],
   "settings": {
     "import/resolver": {
       "webpack": {

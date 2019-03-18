@@ -25,7 +25,7 @@ function ComicComponent({
   const { adultOnly, chapters, ...comicHeaderProps } = comicData;
   const { comicID } = match.params;
 
-  useRestoreScrollPosition(contentElRef, comicID, [loading]);
+  useRestoreScrollPosition(contentElRef, comicID, [comicData]);
 
   return (
     <Layout

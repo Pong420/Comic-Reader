@@ -1,14 +1,14 @@
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 
 export function useKeydown(
   handler: (evt: KeyboardEvent) => void,
   deps: ReadonlyArray<any> = []
 ) {
-  useLayoutEffect(() => {
+  useEffect(() => {
     addEventListener('keydown', handler);
 
     return () => {
       removeEventListener('keydown', handler);
     };
-  }, deps);
+  }, [handler, ...deps]);
 }

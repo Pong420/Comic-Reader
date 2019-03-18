@@ -15,11 +15,16 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 export function ComicPageComponemt({
   match,
-  getComic
+  getComic,
+  cancelGetComic
 }: RouteComponentProps<MatchParam> & typeof ComicActionCreators) {
   useEffect(() => {
     getComic(match.params);
-  }, []);
+
+    return () => {
+      cancelGetComic();
+    };
+  }, [cancelGetComic, getComic, match.params]);
 
   return <Comic />;
 }
