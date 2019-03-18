@@ -15,7 +15,8 @@
     "no-empty": false,
     "jsx-no-lambda": false,
     "curly": [true, "ignore-same-line"],
-    "no-unused-expression": [true, "allow-fast-null-checks"]
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "no-implicit-dependencies": [true, "dev"]
   },
   "rulesDirectory": []
 }
