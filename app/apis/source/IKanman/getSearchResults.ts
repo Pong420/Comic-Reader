@@ -1,5 +1,5 @@
 import { createAxiosInstance } from '../createAxiosInstance';
-import { GetSearchResultsParam, ApiError } from '../../../../typing';
+import { GetSearchResultsParam, SearchResults } from '../../../../typing';
 
 const api = createAxiosInstance({
   baseURL: 'https://m.manhuagui.com'
@@ -8,7 +8,7 @@ const api = createAxiosInstance({
 export async function getSearchResults({
   keyword,
   page = 1
-}: GetSearchResultsParam) {
+}: GetSearchResultsParam): Promise<SearchResults> {
   try {
     const { data: $ } = await api.get(
       `/s/${encodeURIComponent(keyword)}.html?page=${page}&ajax=1`
@@ -63,6 +63,6 @@ export async function getSearchResults({
         status: '',
         statusText: err
       }
-    } as ApiError);
+    });
   }
 }

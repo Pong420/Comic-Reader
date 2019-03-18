@@ -1,10 +1,13 @@
 import { api } from './api';
-import { GetComicListParam, ApiError } from '../../../../typing';
+import { GetComicListParam, ComicItemList } from '../../../../typing';
 
-export async function getComicList({ page = 1, filter }: GetComicListParam) {
-  const page_ = page === 1 ? '' : `_p${page}`;
+export async function getComicList({
+  page = 1,
+  filter
+}: GetComicListParam): Promise<ComicItemList> {
+  const pageStr = page === 1 ? '' : `_p${page}`;
   const filterPath = getFilterPath(filter);
-  const { data: $ } = await api.get(`/list/${filterPath}update${page_}.html`);
+  const { data: $ } = await api.get(`/list/${filterPath}update${pageStr}.html`);
   const $contList = $('#contList li');
 
   if ($contList.length > 1) {
@@ -38,7 +41,7 @@ export async function getComicList({ page = 1, filter }: GetComicListParam) {
       status: '',
       statusText: $contList.text().replace(/\s/g, '')
     }
-  } as ApiError);
+  });
 }
 
 function getFilterPath(arr: string[] | undefined = []) {

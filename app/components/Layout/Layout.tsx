@@ -1,7 +1,7 @@
 import React, { ReactNode, forwardRef, Ref } from 'react';
-import { ApiError } from 'typing';
 import { Loading } from '../Loading';
 import { Error } from '../Error';
+import { ApiError } from '../../../typing';
 
 export interface LayoutProps {
   className?: string;

@@ -30,7 +30,7 @@ interface HeaderDetails extends OnBeforeSendHeadersDetails {
 let mainWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
+  const sourceMapSupport = require('source-map-support'); // tslint:disable-line
   sourceMapSupport.install();
 }
 
@@ -38,17 +38,17 @@ if (
   process.env.NODE_ENV === 'development' ||
   process.env.DEBUG_PROD === 'true'
 ) {
-  require('electron-debug')();
+  require('electron-debug')(); // tslint:disable-line
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
+  const installer = require('electron-devtools-installer'); // tslint:disable-line
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+  ).catch(console.log); // tslint:disable-line
 };
 
 /**
@@ -97,8 +97,8 @@ async function createWindow() {
   if (session.defaultSession) {
     session.defaultSession.webRequest.onBeforeSendHeaders(
       { urls: [] },
-      (details_: OnBeforeSendHeadersDetails, callback) => {
-        const details = details_ as HeaderDetails;
+      (detailsProps: OnBeforeSendHeadersDetails, callback) => {
+        const details = detailsProps as HeaderDetails;
 
         if (/hamreus/.test(details.url)) {
           details.requestHeaders.Referer = 'https://www.manhuagui.com/';

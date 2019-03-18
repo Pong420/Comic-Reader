@@ -1,15 +1,12 @@
 import { api } from './api';
-import {
-  GetComicDataParam,
-  Chapters,
-  ComicData,
-  ApiError
-} from '../../../../typing';
+import { GetComicDataParam, Chapters, ComicData } from '../../../../typing';
 
-const chineseConv = require('chinese-conv');
-const LZString = require('./utils/LZString');
+const chineseConv = require('chinese-conv'); // tslint:disable-line
+const LZString = require('./utils/LZString'); // tslint:disable-line
 
-export async function getComicData({ comicID }: GetComicDataParam) {
+export async function getComicData({
+  comicID
+}: GetComicDataParam): Promise<ComicData> {
   try {
     const { data: $ } = await api.get(`/comic/${comicID}/`);
 
@@ -62,7 +59,7 @@ export async function getComicData({ comicID }: GetComicDataParam) {
           $(LZString.decompressFromBase64($('#__VIEWSTATE').attr('value')))
         );
       } catch (err) {
-        console.log(err);
+        console.log(err); // tslint:disable-line
       }
     }
 
@@ -71,7 +68,7 @@ export async function getComicData({ comicID }: GetComicDataParam) {
     $('.chapter')
       .children()
       .each((index: number, child: CheerioElement) => {
-        if ($(child).get(0).tagName == 'h4') {
+        if ($(child).get(0).tagName === 'h4') {
           let $el = $(child);
           while (!$el.next().hasClass('chapter-list')) {
             $el = $el.next();
@@ -118,13 +115,13 @@ export async function getComicData({ comicID }: GetComicDataParam) {
       adultOnly,
       name: title[0],
       updateTime: $('.detail-list li > span span:nth-of-type(2)').text()
-    } as ComicData;
+    };
   } catch (err) {
     return Promise.reject({
       response: {
         status: '',
         statusText: err
       }
-    } as ApiError);
+    });
   }
 }

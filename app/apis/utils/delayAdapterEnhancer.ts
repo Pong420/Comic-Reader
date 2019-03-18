@@ -2,9 +2,9 @@ import { AxiosAdapter, AxiosRequestConfig } from 'axios';
 
 const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
-export type Options = {
+export interface Options {
   delay?: number;
-};
+}
 
 export default function delayAdapterEnhancer(
   adapter: AxiosAdapter

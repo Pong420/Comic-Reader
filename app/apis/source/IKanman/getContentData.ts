@@ -1,5 +1,5 @@
 import { api } from './api';
-import { GetContentDataParam, ContentData, ApiError } from '../../../../typing';
+import { GetContentDataParam, ContentData } from '../../../../typing';
 import './utils/splic';
 
 interface SMH {
@@ -35,7 +35,7 @@ export interface Sl {
 export async function getContentData({
   comicID,
   chapterID
-}: GetContentDataParam) {
+}: GetContentDataParam): Promise<ContentData> {
   try {
     const { data: $ } = await api.get(`/comic/${comicID}/${chapterID}.html`);
 
@@ -53,6 +53,7 @@ export async function getContentData({
         const { data } = $(script).get()[0].children[0];
         const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
         if (regex.test(data)) {
+          // tslint:disable-next-line
           eval(eval(data.replace(regex, '')));
         }
       } catch (e) {}
@@ -66,7 +67,9 @@ export async function getContentData({
         let url = `https://i.hamreus.com${path}${name}?cid=${cid}`;
 
         for (const i in sl) {
-          url += `&${i}=${sl[i]}`;
+          if (sl.hasOwnProperty(i)) {
+            url += `&${i}=${sl[i]}`;
+          }
         }
 
         return url;
@@ -86,6 +89,6 @@ export async function getContentData({
         status: '',
         statusText: err
       }
-    } as ApiError);
+    });
   }
 }

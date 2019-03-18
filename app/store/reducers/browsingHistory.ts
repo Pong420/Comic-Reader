@@ -20,7 +20,7 @@ interface BrowsingHistoryMapVal {
   browsingHistoryItem: BrowsingHistoryItem;
 }
 
-type BrowsingHistoryMap = [string, BrowsingHistoryMapVal][];
+type BrowsingHistoryMap = Array<[string, BrowsingHistoryMapVal]>;
 
 export interface BrowsingHistoryState {
   browsingHistory: BrowsingHistoryMap;

@@ -6,7 +6,7 @@ import {
 import cheerio from 'cheerio';
 import delayAdapterEnhancer from '../utils/delayAdapterEnhancer';
 
-const chineseConv = require('chinese-conv');
+const chineseConv = require('chinese-conv'); // tslint:disable-line
 
 export const createAxiosInstance = (options: AxiosRequestConfig) =>
   axios.create({

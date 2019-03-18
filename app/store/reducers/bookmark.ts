@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
-import { BookmarkItem } from 'typing';
 import { BookmarkActions, BookmarkActionTypes } from '../actions/bookmark';
 import { writeFileSync } from '../../utils/writeFileSync';
+import { BookmarkItem } from '../../../typing';
 
 export const bookmarkDirectory = path.join(
   remote.app.getPath('userData'),
@@ -11,12 +11,12 @@ export const bookmarkDirectory = path.join(
   'bookmark.json'
 );
 
-interface BookmarksMapVal {
+export interface BookmarksMapVal {
   comicID: string;
   bookmarkItem: BookmarkItem;
 }
 
-type BookmarksMap = [string, BookmarksMapVal][];
+type BookmarksMap = Array<[string, BookmarksMapVal]>;
 
 export interface BookmarkState {
   bookmarks: BookmarksMap;

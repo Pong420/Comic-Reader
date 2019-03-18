@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export const writeFileSync = (dist: string, content: Object) => {
+export const writeFileSync = (dist: string, content: object) => {
   const dir = dist.split(path.sep).slice(0, -1);
 
   for (let i = 1; i <= dir.length; i++) {

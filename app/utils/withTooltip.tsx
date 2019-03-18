@@ -9,24 +9,26 @@ interface WithTooltipProps extends WithTooltipInput {
   children: ReactElement<any>;
 }
 
+const PopperProps = {
+  popperOptions: {
+    modifiers: {
+      offset: {
+        fn: (data: any) => {
+          data.offsets.popper.left = 50;
+          return data;
+        }
+      }
+    }
+  }
+};
+
 export function WithTooltip({ tooltip, children }: WithTooltipProps) {
   if (tooltip) {
     return (
       <Tooltip
         title={tooltip}
         placement="right"
-        PopperProps={{
-          popperOptions: {
-            modifiers: {
-              offset: {
-                fn: (data: any) => {
-                  data.offsets.popper.left = 50;
-                  return data;
-                }
-              }
-            }
-          }
-        }}
+        PopperProps={PopperProps}
         disableFocusListener
       >
         {children}

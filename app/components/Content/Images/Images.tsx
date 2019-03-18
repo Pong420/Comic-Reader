@@ -46,11 +46,12 @@ export function ImagesComponent({
         .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
         .filter(({ loaded, error }) => !loaded && !error);
 
-      imagesForPreload.length && preloadImage(imagesForPreload, 0);
-
-      return () => {
-        stopPreloadImage();
-      };
+      if (imagesForPreload.length) {
+        preloadImage(imagesForPreload, 0);
+        return () => {
+          stopPreloadImage();
+        };
+      }
     }
   }, [activeIndex, imagesDetail, preloadImage, stopPreloadImage]);
 

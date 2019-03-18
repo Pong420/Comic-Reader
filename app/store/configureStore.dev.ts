@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
-import { createLogger } from 'redux-logger';
+import { createLogger } from 'redux-logger'; // tslint:disable-line
 import rootEpic from './epics';
 import createRootReducer from './reducers';
 

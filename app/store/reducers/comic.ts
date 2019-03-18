@@ -8,7 +8,7 @@ export interface ComicState {
 }
 
 const initialState: ComicState = {
-  comicData: {} as ComicData,
+  comicData: {} as ComicData, // tslint:disable-line
   loading: true,
   error: null
 };

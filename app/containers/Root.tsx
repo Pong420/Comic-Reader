@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
@@ -33,10 +32,10 @@ const theme = createMuiTheme({
   }
 });
 
-type Props = {
+interface Props {
   store: any;
   history: History<any>;
-};
+}
 
 export default class Root extends Component<Props> {
   render() {
