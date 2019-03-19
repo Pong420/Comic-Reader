@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import DeleteForever from '@material-ui/icons/DeleteForever';
@@ -19,13 +19,14 @@ export function SidebarWithRemoveFn({
   onRemoveAll
 }: SidebarWithRemoveFnProps) {
   const [openDialog, setDialogOpen] = useState(false);
-  const turnOffRemovable = useCallback(() => onToggleOnOff(false), [
-    onToggleOnOff
-  ]);
+  const turnOffRemovable = () => onToggleOnOff(false);
 
-  useEffect(() => turnOffRemovable, [turnOffRemovable]);
+  useEffect(() => {
+    return () => {
+      turnOffRemovable();
+    };
+  }, []);
 
-  // FIXME: `onToggleOnOff(false)` call mutiple time
   useKeydown(({ key }) => key === 'Escape' && turnOffRemovable());
 
   return (

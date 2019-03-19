@@ -41,7 +41,7 @@ function HomeComponent({
 
       request();
     }
-  }, [comicList.length, request]);
+  }, []);
 
   return (
     <Layout className="home" error={error}>

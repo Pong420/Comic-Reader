@@ -1,5 +1,4 @@
 import React, { useState, KeyboardEvent, MouseEvent, useEffect } from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import {
   withRouter,
@@ -10,11 +9,7 @@ import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
 import { ContentSnackBar, ContentSnackBarProps } from './ContentSnackBar';
-import {
-  RootState,
-  ContentState,
-  BrowsingHistoryActionCreators
-} from '../../store';
+import { RootState, ContentState } from '../../store';
 import { PATH } from '../../constants';
 import MESSAGE from './message.json';
 
@@ -29,10 +24,6 @@ function mapStateToProps({ content }: RootState, ownProps: any) {
     ...content,
     ...ownProps
   };
-}
-
-function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 }
 
 const initialSnackBarProps = {
@@ -55,12 +46,9 @@ function ContentComponent({
   prevId,
   nextId,
   history,
-  match,
-  addBrowsingHistory
-}: ContentState &
-  typeof BrowsingHistoryActionCreators &
-  RouteComponentProps<MatchParam>) {
-  const { pageNo, comicID, chapterID } = match.params;
+  match
+}: ContentState & RouteComponentProps<MatchParam>) {
+  const { pageNo, comicID } = match.params;
   const [snackbarProps, setSnackbarProps] = useState<ContentSnackBarProps>(
     initialSnackBarProps
   );
@@ -110,11 +98,11 @@ function ContentComponent({
 
     if (newPageNo > images.length) {
       if (nextId === 0) {
-        setSnackbarProps({
-          ...snackbarProps,
+        setSnackbarProps(prevState => ({
+          ...prevState,
           message: MESSAGE.LAST_CHAPTER,
           open: true
-        });
+        }));
       } else {
         setDialogProps({
           ...dialogProps,
@@ -138,20 +126,13 @@ function ContentComponent({
   }
 
   useEffect(() => {
-    addBrowsingHistory({
-      comicID,
-      chapterID
-    });
-  }, [comicID, chapterID, addBrowsingHistory]);
-
-  useEffect(() => {
     return () => {
       setSnackbarProps({
         ...snackbarProps,
         open: false
       });
     };
-  }, [pageNo, snackbarProps]);
+  }, [pageNo]);
 
   return (
     <>
@@ -185,9 +166,4 @@ function ContentComponent({
   );
 }
 
-export const Content = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ContentComponent)
-);
+export const Content = withRouter(connect(mapStateToProps)(ContentComponent));

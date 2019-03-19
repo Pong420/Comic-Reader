@@ -92,7 +92,7 @@ export function BaseComponent<T extends any>({
     return () => {
       scrollPosition.set(key, scrollTopRef.current);
     };
-  }, [key]);
+  }, []);
 
   return (
     <>

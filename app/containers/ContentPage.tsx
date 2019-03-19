@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Content } from '../components/Content';
-import { ContentActionCreators } from '../store';
+import { ContentActionCreators, BrowsingHistoryActionCreators } from '../store';
 
 interface MatchParam {
   comicID: string;
@@ -12,23 +12,39 @@ interface MatchParam {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(ContentActionCreators, dispatch);
+  return bindActionCreators(
+    {
+      ...ContentActionCreators,
+      ...BrowsingHistoryActionCreators
+    },
+    dispatch
+  );
 }
 
 const ContentPageComponent = ({
   match,
   getContent,
-  cancelGetContent
-}: RouteComponentProps<MatchParam> & typeof ContentActionCreators) => {
+  cancelGetContent,
+  addBrowsingHistory
+}: RouteComponentProps<MatchParam> &
+  typeof ContentActionCreators &
+  typeof BrowsingHistoryActionCreators) => {
   const { comicID, chapterID } = match.params;
 
   useEffect(() => {
-    getContent({ comicID, chapterID });
+    (async () => {
+      await getContent({ comicID, chapterID });
+
+      addBrowsingHistory({
+        comicID,
+        chapterID
+      });
+    })();
 
     return () => {
       cancelGetContent();
     };
-  }, [cancelGetContent, chapterID, comicID, getContent]);
+  }, [chapterID, comicID]);
 
   return <Content />;
 };

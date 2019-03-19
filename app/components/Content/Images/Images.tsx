@@ -53,7 +53,7 @@ export function ImagesComponent({
         };
       }
     }
-  }, [activeIndex, imagesDetail, preloadImage, stopPreloadImage]);
+  }, [activeIndex]);
 
   return (
     <div
