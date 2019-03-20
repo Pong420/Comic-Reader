@@ -2,9 +2,9 @@ import { Action } from 'redux';
 import { ImageDetail } from '../../../typing';
 
 export enum ImageActionTypes {
-  LOAD_IMAGE_SUCCESS = 'LOAD_IMAGE_SUCCESS',
-  LOAD_IMAGE_FAIL = 'LOAD_IMAGE_FAIL',
   PRELOAD_IMAGE = 'PRELOAD_IMAGE',
+  PELOAD_IMAGE_SUCCESS = 'PELOAD_IMAGE_SUCCESS',
+  PELOAD_IMAGE_FAIL = 'PELOAD_IMAGE_FAIL',
   PRELOAD_IMAGE_STOPPED = 'PRELOAD_IMAGE_STOPPED',
   TOGGLE_FIT_TO_PAGE = 'TOGGLE_FIT_TO_PAGE'
 }
@@ -14,19 +14,19 @@ export interface PreloadImagePayload {
   startIndex: number;
 }
 
-export interface LoadImageSuccess extends Action {
-  type: ImageActionTypes.LOAD_IMAGE_SUCCESS;
-  payload: ImageDetail;
-}
-
-export interface LoadImageFail extends Action {
-  type: ImageActionTypes.LOAD_IMAGE_FAIL;
-  payload: ImageDetail;
-}
-
 export interface PreloadImage extends Action {
   type: ImageActionTypes.PRELOAD_IMAGE;
   payload: PreloadImagePayload;
+}
+
+export interface PreloadLoadImageSuccess extends Action {
+  type: ImageActionTypes.PELOAD_IMAGE_SUCCESS;
+  payload: ImageDetail;
+}
+
+export interface PreloadLoadImageFail extends Action {
+  type: ImageActionTypes.PELOAD_IMAGE_FAIL;
+  payload: ImageDetail;
 }
 
 export interface PreloadImageStopped extends Action {
@@ -39,25 +39,11 @@ export interface ToggleFitToPage extends Action {
 }
 
 export type ImageActions =
-  | LoadImageSuccess
-  | LoadImageFail
+  | PreloadLoadImageSuccess
+  | PreloadLoadImageFail
   | PreloadImage
   | PreloadImageStopped
   | ToggleFitToPage;
-
-export function loadImageSuccess(payload: ImageDetail): LoadImageSuccess {
-  return {
-    type: ImageActionTypes.LOAD_IMAGE_SUCCESS,
-    payload
-  };
-}
-
-export function loadImageFail(payload: ImageDetail): LoadImageFail {
-  return {
-    type: ImageActionTypes.LOAD_IMAGE_FAIL,
-    payload
-  };
-}
 
 export function preloadImage(
   imagesDetail: ImageDetail[],
@@ -69,6 +55,22 @@ export function preloadImage(
       imagesDetail,
       startIndex
     }
+  };
+}
+
+export function PreloadloadImageSuccess(
+  payload: ImageDetail
+): PreloadLoadImageSuccess {
+  return {
+    type: ImageActionTypes.PELOAD_IMAGE_SUCCESS,
+    payload
+  };
+}
+
+export function PreloadloadImageFail(payload: ImageDetail): PreloadLoadImageFail {
+  return {
+    type: ImageActionTypes.PELOAD_IMAGE_FAIL,
+    payload
   };
 }
 
@@ -86,8 +88,8 @@ export function toggleFitToPage(payload?: boolean): ToggleFitToPage {
 }
 
 export const ImageActionCreators = {
-  loadImageSuccess,
-  loadImageFail,
+  PreloadloadImageSuccess,
+  PreloadloadImageFail,
   preloadImage,
   stopPreloadImage,
   toggleFitToPage

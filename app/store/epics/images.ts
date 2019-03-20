@@ -6,7 +6,7 @@ import {
   ImageActions,
   PreloadImage,
   preloadImage,
-  loadImageSuccess
+  PreloadloadImageSuccess
 } from '../actions/images';
 import { ImageDetail } from '../../../typing';
 
@@ -45,7 +45,7 @@ const preloadImageEpic: Epic<ImageActions> = action$ =>
             ({ loaded, error }) => !loaded && !error
           );
           const hasNext = !!imagesDetail[nextIndex];
-          const res: any[] = [loadImageSuccess(detail)];
+          const res: any[] = [PreloadloadImageSuccess(detail)];
           hasNext && res.push(preloadImage(imagesDetail, nextIndex));
           return of(...res);
         }),

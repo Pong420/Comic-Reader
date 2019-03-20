@@ -36,24 +36,25 @@ export function ImagesComponent({
   stopPreloadImage
 }: ImageProps & ImagesState & typeof ImageActionCreators) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const imagesForPreload = imagesDetail
+    .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
+    .filter(({ loaded, error }) => !loaded && !error);
+  const shouldPreload = imagesForPreload.length;
 
   useLayoutEffect(() => {
     scrollRef.current!.scrollTop = 0;
     scrollRef.current!.focus();
-
-    if (imagesDetail[activeIndex]) {
-      const imagesForPreload = imagesDetail
-        .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
-        .filter(({ loaded, error }) => !loaded && !error);
-
-      if (imagesForPreload.length) {
-        preloadImage(imagesForPreload, 0);
-        return () => {
-          stopPreloadImage();
-        };
-      }
-    }
   }, [activeIndex]);
+
+  useLayoutEffect(() => {
+    if (shouldPreload) {
+      preloadImage(imagesForPreload, 0);
+
+      return () => {
+        stopPreloadImage();
+      };
+    }
+  }, [preloadImage, shouldPreload, stopPreloadImage]);
 
   return (
     <div

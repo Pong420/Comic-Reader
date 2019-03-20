@@ -35,8 +35,8 @@ export default function(
         }))
       };
 
-    case ImageActionTypes.LOAD_IMAGE_SUCCESS:
-    case ImageActionTypes.LOAD_IMAGE_FAIL:
+    case ImageActionTypes.PELOAD_IMAGE_SUCCESS:
+    case ImageActionTypes.PELOAD_IMAGE_FAIL:
       return {
         ...state,
         imagesDetail: updateImageDetail(state.imagesDetail, action.payload)

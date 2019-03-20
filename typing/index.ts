@@ -68,9 +68,9 @@ export interface ComicHeader {
   details: ComicHeaderDetails[];
 }
 
-export type Chapters = {
+export interface Chapters {
   [key: string]: ChapterList;
-};
+}
 
 export type ChapterList = ChpaterItem[];
 
@@ -110,7 +110,7 @@ export type BookmarkItem = GridData | null;
 
 export type BrowsingHistoryItem = GridData | null;
 
-export type FilterData = [string, FilterElement[]][];
+export type FilterData = Array<[string, FilterElement[]]>;
 
 export interface FilterElement {
   label: string;

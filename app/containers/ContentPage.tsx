@@ -44,7 +44,7 @@ const ContentPageComponent = ({
     return () => {
       cancelGetContent();
     };
-  }, [chapterID, comicID]);
+  }, [addBrowsingHistory, cancelGetContent, getContent, chapterID, comicID]);
 
   return <Content />;
 };

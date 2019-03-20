@@ -28,20 +28,20 @@ function HomeComponent({
   getComicList
 }: ComicListState & typeof ComicListActionCreators) {
   const gridHandler = useRef<GridHandler>(null);
+  const initialized = comicList.length;
   const request = useCallback(() => {
     getComicList({
       page,
       filter
     });
-  }, [filter, getComicList, page]);
+  }, [getComicList, filter, page]);
 
   useLayoutEffect(() => {
-    if (!comicList.length) {
+    if (!initialized) {
       gridHandler.current!.scrollTop(0);
-
       request();
     }
-  }, []);
+  }, [initialized, request]);
 
   return (
     <Layout className="home" error={error}>

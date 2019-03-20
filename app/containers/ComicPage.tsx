@@ -24,7 +24,7 @@ export function ComicPageComponemt({
     return () => {
       cancelGetComic();
     };
-  }, [match.params]);
+  }, [cancelGetComic, getComic, match.params]);
 
   return <Comic />;
 }

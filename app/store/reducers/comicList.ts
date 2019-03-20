@@ -35,7 +35,10 @@ const initialState: ComicListState = {
   page: 1
 };
 
-export default function(state = initialState, action: ComicListActions) {
+export default function(
+  state = initialState,
+  action: ComicListActions
+): ComicListState {
   switch (action.type) {
     case ComicListActionTypes.GET_COMICS_LIST:
       return {
@@ -57,7 +60,7 @@ export default function(state = initialState, action: ComicListActions) {
         noMoreComicResults: comicList.length < placeholders.length,
         comicList: [
           ...state.comicList.slice(0, from),
-          ...comicList,
+          ...(state.noMoreComicResults ? [] : comicList),
           ...state.comicList.slice(to)
         ]
       };
