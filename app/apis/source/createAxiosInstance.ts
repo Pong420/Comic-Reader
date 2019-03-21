@@ -10,6 +10,9 @@ const chineseConv = require('chinese-conv'); // tslint:disable-line
 
 export const createAxiosInstance = (options: AxiosRequestConfig) =>
   axios.create({
+    headers: {
+      'Cache-Control': 'no-cache'
+    },
     responseType: 'text',
     transformResponse: [
       (response: string | CheerioStatic) => {

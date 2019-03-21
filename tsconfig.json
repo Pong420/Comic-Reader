@@ -7,7 +7,6 @@
     "jsx": "react",
     "module": "esNext",
     "moduleResolution": "node",
-    "noUnusedLocals": true,
     "pretty": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -16,5 +15,5 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "dist"
   },
-  "exclude": ["node_modules", "**/node_modules/*"]
+  "exclude": ["./node_modules", "**/node_modules/*"]
 }
