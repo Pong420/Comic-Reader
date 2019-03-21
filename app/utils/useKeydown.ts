@@ -10,5 +10,5 @@ export function useKeydown(
     return () => {
       removeEventListener('keydown', handler);
     };
-  }, [deps]);
+  }, [handler, ...deps]);
 }

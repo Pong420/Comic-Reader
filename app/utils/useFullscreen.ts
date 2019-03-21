@@ -15,7 +15,7 @@ export function useFullscreen(enable: boolean) {
 
       return () => window.removeEventListener('resize', onResize);
     }
-  }, []);
+  }, [enable]);
 
   return isFullscreen;
 }

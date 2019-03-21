@@ -13,7 +13,7 @@ export function useRestoreScrollPosition(
     if (ref.current && scrollTop) {
       ref.current.scrollTop = scrollTop;
     }
-  }, deps);
+  }, [key, ref, ...deps]);
 
   useLayoutEffect(() => {
     return () => {
@@ -21,5 +21,5 @@ export function useRestoreScrollPosition(
         scrollPositionMap.set(key, ref.current.scrollTop);
       }
     };
-  }, []);
+  }, [key, ref]);
 }

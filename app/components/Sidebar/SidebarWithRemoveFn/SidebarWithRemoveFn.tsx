@@ -19,15 +19,14 @@ export function SidebarWithRemoveFn({
   onRemoveAll
 }: SidebarWithRemoveFnProps) {
   const [openDialog, setDialogOpen] = useState(false);
-  const turnOffRemovable = () => onToggleOnOff(false);
 
   useEffect(() => {
     return () => {
-      turnOffRemovable();
+      onToggleOnOff(false);
     };
-  }, []);
+  }, [onToggleOnOff]);
 
-  useKeydown(({ key }) => key === 'Escape' && turnOffRemovable());
+  useKeydown(({ key }) => key === 'Escape' && on && onToggleOnOff(false), [on]);
 
   return (
     <Sidebar className="sidebar-with-remove-fn">
