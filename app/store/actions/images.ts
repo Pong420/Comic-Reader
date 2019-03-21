@@ -2,35 +2,30 @@ import { Action } from 'redux';
 import { ImageDetail } from '../../../typing';
 
 export enum ImageActionTypes {
-  PRELOAD_IMAGE = 'PRELOAD_IMAGE',
-  PELOAD_IMAGE_SUCCESS = 'PELOAD_IMAGE_SUCCESS',
-  PELOAD_IMAGE_FAIL = 'PELOAD_IMAGE_FAIL',
-  PRELOAD_IMAGE_STOPPED = 'PRELOAD_IMAGE_STOPPED',
+  PRELOAD_IMAGES = 'PRELOAD_IMAGES',
+  PRELOAD_IMAGES_STOPPED = 'PRELOAD_IMAGES_STOPPED',
+  LOAD_IMAGE_SUCCESS = 'LOAD_IMAGE_SUCCESS',
+  LOAD_IMAGE_FAIL = 'LOAD_IMAGE_FAIL',
   TOGGLE_FIT_TO_PAGE = 'TOGGLE_FIT_TO_PAGE'
 }
 
-export interface PreloadImagePayload {
-  imagesDetail: ImageDetail[];
-  startIndex: number;
-}
-
 export interface PreloadImage extends Action {
-  type: ImageActionTypes.PRELOAD_IMAGE;
-  payload: PreloadImagePayload;
+  type: ImageActionTypes.PRELOAD_IMAGES;
+  payload: ImageDetail[];
 }
 
-export interface PreloadLoadImageSuccess extends Action {
-  type: ImageActionTypes.PELOAD_IMAGE_SUCCESS;
+export interface LoadLoadImageSuccess extends Action {
+  type: ImageActionTypes.LOAD_IMAGE_SUCCESS;
   payload: ImageDetail;
 }
 
-export interface PreloadLoadImageFail extends Action {
-  type: ImageActionTypes.PELOAD_IMAGE_FAIL;
+export interface LoadLoadImageFail extends Action {
+  type: ImageActionTypes.LOAD_IMAGE_FAIL;
   payload: ImageDetail;
 }
 
 export interface PreloadImageStopped extends Action {
-  type: ImageActionTypes.PRELOAD_IMAGE_STOPPED;
+  type: ImageActionTypes.PRELOAD_IMAGES_STOPPED;
 }
 
 export interface ToggleFitToPage extends Action {
@@ -39,44 +34,22 @@ export interface ToggleFitToPage extends Action {
 }
 
 export type ImageActions =
-  | PreloadLoadImageSuccess
-  | PreloadLoadImageFail
+  | LoadLoadImageSuccess
+  | LoadLoadImageFail
   | PreloadImage
   | PreloadImageStopped
   | ToggleFitToPage;
 
-export function preloadImage(
-  imagesDetail: ImageDetail[],
-  startIndex: number
-): PreloadImage {
+export function preloadImage(imagesDetail: ImageDetail[]): PreloadImage {
   return {
-    type: ImageActionTypes.PRELOAD_IMAGE,
-    payload: {
-      imagesDetail,
-      startIndex
-    }
-  };
-}
-
-export function PreloadloadImageSuccess(
-  payload: ImageDetail
-): PreloadLoadImageSuccess {
-  return {
-    type: ImageActionTypes.PELOAD_IMAGE_SUCCESS,
-    payload
-  };
-}
-
-export function PreloadloadImageFail(payload: ImageDetail): PreloadLoadImageFail {
-  return {
-    type: ImageActionTypes.PELOAD_IMAGE_FAIL,
-    payload
+    type: ImageActionTypes.PRELOAD_IMAGES,
+    payload: imagesDetail
   };
 }
 
 export function stopPreloadImage(): PreloadImageStopped {
   return {
-    type: ImageActionTypes.PRELOAD_IMAGE_STOPPED
+    type: ImageActionTypes.PRELOAD_IMAGES_STOPPED
   };
 }
 
@@ -88,8 +61,6 @@ export function toggleFitToPage(payload?: boolean): ToggleFitToPage {
 }
 
 export const ImageActionCreators = {
-  PreloadloadImageSuccess,
-  PreloadloadImageFail,
   preloadImage,
   stopPreloadImage,
   toggleFitToPage

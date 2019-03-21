@@ -1,29 +1,28 @@
-import { from, of } from 'rxjs';
-import { takeUntil, mergeMap } from 'rxjs/operators';
+import { Observable, from, Observer, of } from 'rxjs';
+import { takeUntil, mergeMap, catchError, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   ImageActionTypes,
   ImageActions,
-  PreloadImage,
-  preloadImage,
-  PreloadloadImageSuccess
+  PreloadImage
 } from '../actions/images';
 import { ImageDetail } from '../../../typing';
 
-async function loadImage(details: ImageDetail) {
-  return new Promise<ImageDetail>((resolve, reject) => {
+function loadImage(details: ImageDetail): Observable<ImageDetail> {
+  return Observable.create(async (observer: Observer<ImageDetail>) => {
     const imgEl = new Image();
 
     imgEl.src = details.src;
-    imgEl.onload = () =>
-      resolve({
+    imgEl.onload = () => {
+      observer.next({
         ...details,
         loaded: true,
         dimensions: [imgEl.width, imgEl.height]
       });
+    };
 
     imgEl.onerror = () => {
-      reject({
+      observer.error({
         ...details,
         error: true
       });
@@ -31,27 +30,34 @@ async function loadImage(details: ImageDetail) {
   });
 }
 
-const preloadImageEpic: Epic<ImageActions> = action$ =>
-  action$.pipe(
-    ofType<ImageActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGE),
-    mergeMap(action => {
-      const { imagesDetail, startIndex } = action.payload;
-
-      return from(loadImage(imagesDetail[startIndex])).pipe(
-        mergeMap(detail => {
-          imagesDetail[startIndex] = detail;
-
-          const nextIndex = imagesDetail.findIndex(
-            ({ loaded, error }) => !loaded && !error
-          );
-          const hasNext = !!imagesDetail[nextIndex];
-          const res: any[] = [PreloadloadImageSuccess(detail)];
-          hasNext && res.push(preloadImage(imagesDetail, nextIndex));
-          return of(...res);
-        }),
-        takeUntil(action$.pipe(ofType(ImageActionTypes.PRELOAD_IMAGE_STOPPED)))
-      );
-    })
+const preloadImageEpic: Epic<ImageActions> = action$ => {
+  return action$.pipe(
+    ofType<ImageActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGES),
+    mergeMap(action =>
+      from(action.payload).pipe(
+        concatMap(detail =>
+          loadImage(detail).pipe(
+            mergeMap(payload =>
+              of<ImageActions>({
+                type: ImageActionTypes.LOAD_IMAGE_SUCCESS,
+                payload
+              })
+            ),
+            takeUntil(
+              action$.pipe(ofType(ImageActionTypes.LOAD_IMAGE_SUCCESS))
+            ),
+            catchError(payload =>
+              of<ImageActions>({
+                type: ImageActionTypes.LOAD_IMAGE_FAIL,
+                payload
+              })
+            )
+          )
+        ),
+        takeUntil(action$.pipe(ofType(ImageActionTypes.PRELOAD_IMAGES_STOPPED)))
+      )
+    )
   );
+};
 
 export default [preloadImageEpic];

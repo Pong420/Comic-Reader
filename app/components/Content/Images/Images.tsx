@@ -39,22 +39,19 @@ export function ImagesComponent({
   const imagesForPreload = imagesDetail
     .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
     .filter(({ loaded, error }) => !loaded && !error);
-  const shouldPreload = imagesForPreload.length;
 
   useLayoutEffect(() => {
     scrollRef.current!.scrollTop = 0;
     scrollRef.current!.focus();
-  }, [activeIndex]);
 
-  useLayoutEffect(() => {
-    if (shouldPreload) {
-      preloadImage(imagesForPreload, 0);
+    if (imagesForPreload.length) {
+      preloadImage(imagesForPreload);
 
       return () => {
         stopPreloadImage();
       };
     }
-  }, [preloadImage, shouldPreload, stopPreloadImage]);
+  }, [activeIndex]); // eslint-disable-line
 
   return (
     <div
@@ -77,7 +74,11 @@ export function ImagesComponent({
         ];
 
         if (error) {
-          return <div className="image-error">張圖撈唔到，試下下一頁</div>;
+          return (
+            <div className="image-error" key={index}>
+              張圖撈唔到，試下下一頁
+            </div>
+          );
         }
 
         return (

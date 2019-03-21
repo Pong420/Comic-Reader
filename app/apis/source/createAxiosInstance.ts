@@ -22,7 +22,7 @@ export const createAxiosInstance = (options: AxiosRequestConfig) =>
         return response;
       }
     ],
-    delay: 1000,
+    delay: 5000,
     adapter: delayAdapterEnhancer(
       throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter!))
     ),
