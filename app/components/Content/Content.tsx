@@ -1,4 +1,10 @@
-import React, { useState, KeyboardEvent, MouseEvent, useEffect } from 'react';
+import React, {
+  useState,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useCallback
+} from 'react';
 import { connect } from 'react-redux';
 import {
   withRouter,
@@ -7,8 +13,8 @@ import {
 } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { Images } from './Images';
-import { ConfirmDialog, ConfirmDialogProps } from '../ConfirmDialog';
-import { ContentSnackBar, ContentSnackBarProps } from './ContentSnackBar';
+import { ConfirmDialog } from '../ConfirmDialog';
+import { ContentSnackBar } from './ContentSnackBar';
 import { RootState, ContentState } from '../../store';
 import { PATH } from '../../constants';
 import MESSAGE from './message.json';
@@ -26,19 +32,6 @@ function mapStateToProps({ content }: RootState, ownProps: any) {
   };
 }
 
-const initialSnackBarProps = {
-  message: '',
-  open: false,
-  onClose: () => {}
-};
-
-const initialContentDialogProps = {
-  message: '',
-  open: false,
-  onConfirm: () => {},
-  onClose: () => {}
-};
-
 function ContentComponent({
   error,
   loading,
@@ -49,90 +42,78 @@ function ContentComponent({
   match
 }: ContentState & RouteComponentProps<MatchParam>) {
   const { pageNo, comicID } = match.params;
-  const [snackbarProps, setSnackbarProps] = useState<ContentSnackBarProps>(
-    initialSnackBarProps
+  const [message, setMessage] = useState('');
+
+  const changeChapter = useCallback(
+    (chapterID: number | undefined) => {
+      history.push(
+        chapterID
+          ? generatePath(PATH.CONTENT, { comicID, chapterID, pageNo: 1 })
+          : PATH.HOME
+      );
+    },
+    [comicID, history]
   );
-  const [dialogProps, setDialogProps] = useState<ConfirmDialogProps>(
-    initialContentDialogProps
-  );
 
-  const prevChapter = () => changeChapter(prevId);
-  const nextChapter = () => changeChapter(nextId);
-  const nextPage = (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, 1);
-  const prevPage = (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, -1);
+  const prevChapter = useCallback(() => changeChapter(prevId), [
+    changeChapter,
+    prevId
+  ]);
 
-  function changeChapter(chapterID: number | undefined) {
-    history.push(
-      chapterID
-        ? generatePath(PATH.CONTENT, { comicID, chapterID, pageNo: 1 })
-        : PATH.HOME
-    );
-  }
+  const nextChapter = useCallback(() => changeChapter(nextId), [
+    changeChapter,
+    nextId
+  ]);
 
-  function changePage(
-    evt: MouseEvent<HTMLDivElement> | undefined,
-    step: number
-  ) {
-    evt && evt.preventDefault();
+  const changePage = useCallback(
+    (evt: MouseEvent<HTMLDivElement> | undefined, step: number) => {
+      evt && evt.preventDefault();
 
-    const newPageNo = Number(pageNo) + step;
+      const newPageNo = Number(pageNo) + step;
 
-    if (newPageNo < 1) {
-      if (prevId === 0) {
-        setSnackbarProps({
-          ...snackbarProps,
-          message: MESSAGE.FIRST_CHAPTER,
-          open: true
-        });
-      } else {
-        setDialogProps({
-          ...dialogProps,
-          message: MESSAGE.FIRST_PAGE,
-          open: true,
-          onConfirm: prevChapter
-        });
+      if (images[newPageNo - 1]) {
+        history.replace(
+          generatePath(PATH.CONTENT, {
+            ...match.params,
+            pageNo: newPageNo
+          })
+        );
       }
 
-      return;
-    }
-
-    if (newPageNo > images.length) {
-      if (nextId === 0) {
-        setSnackbarProps(prevState => ({
-          ...prevState,
-          message: MESSAGE.LAST_CHAPTER,
-          open: true
-        }));
-      } else {
-        setDialogProps({
-          ...dialogProps,
-          message: MESSAGE.LAST_PAGE,
-          open: true,
-          onConfirm: nextChapter
-        });
+      if (newPageNo < 1) {
+        setMessage(prevId ? MESSAGE.PREV_CHAPTER : MESSAGE.FIRST_CHAPTER);
       }
 
-      return;
-    }
+      if (newPageNo > images.length) {
+        setMessage(nextId ? MESSAGE.NEXT_CHAPTER : MESSAGE.LAST_CHAPTER);
+      }
+    },
+    [history, images, match.params, pageNo, nextId, prevId]
+  );
 
-    if (images[newPageNo - 1]) {
-      history.replace(match.url.replace(/\/.\d*$/, `/${newPageNo}`));
-    }
-  }
+  const nextPage = useCallback(
+    (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, 1),
+    [changePage]
+  );
 
-  function onKeyDown({ which }: KeyboardEvent<HTMLDivElement>) {
-    if (which === 37) prevPage();
-    if (which === 39) nextPage();
-  }
+  const prevPage = useCallback(
+    (evt?: MouseEvent<HTMLDivElement>) => changePage(evt, -1),
+    [changePage]
+  );
+
+  const onClose = useCallback(() => setMessage(''), []);
+
+  const onKeyDown = useCallback(
+    ({ which }: KeyboardEvent<HTMLDivElement>) => {
+      if (which === 37) prevPage();
+      if (which === 39) nextPage();
+    },
+    [nextPage, prevPage]
+  );
 
   useEffect(() => {
-    return () => {
-      setSnackbarProps({
-        ...snackbarProps,
-        open: false
-      });
-    };
-  }, [pageNo]);
+    return onClose;
+  }, [onClose, pageNo]);
 
   return (
     <>
@@ -145,22 +126,22 @@ function ContentComponent({
         />
       </Layout>
       <ContentSnackBar
-        {...snackbarProps}
-        onClose={() =>
-          setSnackbarProps(prevState => ({
-            ...prevState,
-            open: false
-          }))
+        open={
+          message === MESSAGE.FIRST_CHAPTER || message === MESSAGE.LAST_CHAPTER
         }
+        message={message}
+        onClose={onClose}
       />
       <ConfirmDialog
-        {...dialogProps}
-        onClose={() =>
-          setDialogProps(prevState => ({
-            ...prevState,
-            open: false
-          }))
+        open={
+          message === MESSAGE.PREV_CHAPTER || message === MESSAGE.NEXT_CHAPTER
         }
+        message={message}
+        onClose={onClose}
+        onConfirm={() => {
+          message === MESSAGE.PREV_CHAPTER && prevChapter();
+          message === MESSAGE.NEXT_CHAPTER && nextChapter();
+        }}
       />
     </>
   );
