@@ -25,7 +25,8 @@ function HomeComponent({
   filter,
   comicList,
   noMoreComicResults,
-  getComicList
+  getComicList,
+  cancelGetComicList
 }: ComicListState & typeof ComicListActionCreators) {
   const gridHandler = useRef<GridHandler>(null);
   const initialized = comicList.length;
@@ -42,6 +43,12 @@ function HomeComponent({
       request();
     }
   }, [initialized, request]);
+
+  useLayoutEffect(() => {
+    return () => {
+      cancelGetComicList();
+    };
+  }, [cancelGetComicList]);
 
   return (
     <Layout className="home" error={error}>
