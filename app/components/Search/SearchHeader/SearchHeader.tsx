@@ -1,13 +1,12 @@
-import React, { FormEvent, ChangeEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 export interface SearchHeaderProps {
-  value: string;
-  onSearch: () => void;
-  onInputChange: (keyword: string) => void;
+  initialValue: string;
+  onSearch: (keyword: string) => void;
 }
 
 const styles = (theme: Theme) => ({
@@ -26,29 +25,23 @@ const styles = (theme: Theme) => ({
 
 function SearchHeaderComponent({
   classes,
-  value,
-  onSearch,
-  onInputChange
+  initialValue,
+  onSearch
 }: SearchHeaderProps & WithStyles<typeof styles>) {
+  const [keyword, setKeyword] = useState(initialValue);
+
   function onSubmit(evt?: FormEvent<HTMLFormElement>) {
     evt && evt.preventDefault();
-    onSearch();
-  }
-
-  function onChange(evt: ChangeEvent<HTMLInputElement>) {
-    onInputChange(evt.target.value);
+    onSearch(keyword);
   }
 
   return (
     <div className="search-header">
-      <form
-        onSubmit={evt => onSubmit(evt)}
-        className={`search ${classes.background}`}
-      >
+      <form className={`search ${classes.background}`} onSubmit={onSubmit}>
         <InputBase
           className={classes.input}
-          onChange={onChange}
-          value={value}
+          onChange={evt => setKeyword(evt.target.value.trim())}
+          value={keyword}
           fullWidth
         />
         <IconButton className={classes.iconButton} onClick={() => onSubmit()}>

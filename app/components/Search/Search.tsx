@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -29,11 +29,10 @@ function SearchComponent({
   cleanSearchResults,
   cancelGetSearchResults
 }: SearchResultsState & typeof SearchActionCreators) {
-  const [keyword, setKeyword] = useState(cachedKeyword);
   const gridHandler = useRef<GridHandler>(null);
 
   const request = useCallback(
-    (pageNo: number = page) => {
+    (keyword: string, pageNo: number = page) => {
       if (keyword) {
         getSearchResults({
           keyword,
@@ -41,35 +40,28 @@ function SearchComponent({
         });
       }
     },
-    [getSearchResults, keyword, page]
+    [getSearchResults, page]
   );
 
-  const onSearch = useCallback(() => {
-    if (keyword !== cachedKeyword) {
-      gridHandler.current!.getGridRef()!.scrollToPosition({
-        scrollTop: 0,
-        scrollLeft: 0
-      });
+  const onSearch = useCallback(
+    (keyword: string) => {
+      if (keyword !== cachedKeyword) {
+        gridHandler.current!.getGridRef()!.scrollToPosition({
+          scrollTop: 0,
+          scrollLeft: 0
+        });
 
-      cleanSearchResults();
-      cancelGetSearchResults();
-      request(1);
-    }
-  }, [
-    cachedKeyword,
-    cancelGetSearchResults,
-    cleanSearchResults,
-    keyword,
-    request
-  ]);
+        cleanSearchResults();
+        cancelGetSearchResults();
+        request(keyword, 1);
+      }
+    },
+    [cachedKeyword, cancelGetSearchResults, cleanSearchResults, request]
+  );
 
   return (
     <Layout className="search">
-      <SearchHeader
-        value={keyword}
-        onSearch={onSearch}
-        onInputChange={(keyword: string) => setKeyword(keyword.trim())}
-      />
+      <SearchHeader initialValue={cachedKeyword} onSearch={onSearch} />
       <div className="search-results">
         <AutoSizer>
           {({ width, height }) => (
@@ -78,7 +70,7 @@ function SearchComponent({
               height={height}
               list={searchResults}
               onGridRender={props => <Grid {...props} />}
-              loadMore={() => !noMoreSearchResults && request()}
+              loadMore={() => !noMoreSearchResults && request(cachedKeyword)}
               noContentRenderer={() =>
                 noMoreSearchResults && <div className="wrapper">搵唔到</div>
               }
