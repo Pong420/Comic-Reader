@@ -15,8 +15,6 @@ export interface ImageProps {
   onKeyDown(evt: KeyboardEvent<HTMLDivElement>): void;
 }
 
-const NO_OF_IMAGES_PRELOAD = 5;
-
 function mapStateToProps({ images }: RootState, ownProps: any) {
   return { ...images, ownProps };
 }
@@ -32,26 +30,16 @@ export function ImagesComponent({
   activeIndex,
   imagesDetail,
   fitToPage,
-  preloadImage,
-  stopPreloadImage
+  preloadImage
 }: ImageProps & ImagesState & typeof ImageActionCreators) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const imagesForPreload = imagesDetail
-    .slice(activeIndex, activeIndex + NO_OF_IMAGES_PRELOAD)
-    .filter(({ loaded, error }) => !loaded && !error);
 
   useLayoutEffect(() => {
     scrollRef.current!.scrollTop = 0;
     scrollRef.current!.focus();
 
-    if (imagesForPreload.length) {
-      preloadImage(imagesForPreload);
-
-      return () => {
-        stopPreloadImage();
-      };
-    }
-  }, [activeIndex]); // eslint-disable-line
+    preloadImage(activeIndex);
+  }, [activeIndex, preloadImage]);
 
   return (
     <div

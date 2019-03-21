@@ -7,6 +7,9 @@ import {
   PreloadImage
 } from '../actions/images';
 import { ImageDetail } from '../../../typing';
+import { RootState } from '../reducers';
+
+const NO_OF_IMAGES_PRELOAD = 5;
 
 function loadImage(details: ImageDetail): Observable<ImageDetail> {
   return Observable.create(async (observer: Observer<ImageDetail>) => {
@@ -30,11 +33,18 @@ function loadImage(details: ImageDetail): Observable<ImageDetail> {
   });
 }
 
-const preloadImageEpic: Epic<ImageActions> = action$ => {
+const preloadImageEpic: Epic<ImageActions, ImageActions, RootState> = (
+  action$,
+  state$
+) => {
   return action$.pipe(
     ofType<ImageActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGES),
-    mergeMap(action =>
-      from(action.payload).pipe(
+    mergeMap(({ payload: startIndex }) => {
+      const imagesForPreload = state$.value.images.imagesDetail
+        .slice(startIndex, startIndex + NO_OF_IMAGES_PRELOAD)
+        .filter(({ loaded, error }) => !loaded && !error);
+
+      return from(imagesForPreload).pipe(
         concatMap(detail =>
           loadImage(detail).pipe(
             mergeMap(payload =>
@@ -54,9 +64,9 @@ const preloadImageEpic: Epic<ImageActions> = action$ => {
             )
           )
         ),
-        takeUntil(action$.pipe(ofType(ImageActionTypes.PRELOAD_IMAGES_STOPPED)))
-      )
-    )
+        takeUntil(action$.pipe(ofType(ImageActionTypes.PRELOAD_IMAGES)))
+      );
+    })
   );
 };
 
