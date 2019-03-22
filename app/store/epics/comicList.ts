@@ -1,5 +1,5 @@
 import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, mergeMap } from 'rxjs/operators';
+import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
 import {
@@ -15,7 +15,7 @@ const getComicListEpic: Epic<ComicListActions> = action$ =>
     ofType<ComicListActions, GetComicList>(
       ComicListActionTypes.GET_COMICS_LIST
     ),
-    mergeMap(action =>
+    concatMap(action =>
       from(getComicListAPI(action.payload)).pipe(
         map<ComicItemList, GetComicListSuccess>(comicList => ({
           type: ComicListActionTypes.GET_COMICS_LIST_SUCCESS,

@@ -1,5 +1,5 @@
 import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, mergeMap } from 'rxjs/operators';
+import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { AxiosError } from 'axios';
 import {
@@ -16,7 +16,7 @@ const getSearchResultsEpic: Epic<SearchActions> = action$ =>
     ofType<SearchActions, GetSearchResults>(
       SearchActionTypes.GET_SEARCH_RESULTS
     ),
-    mergeMap(action =>
+    concatMap(action =>
       from(getSearchResultsAPI(action.payload)).pipe(
         map<SearchResults, GetSearchResultsSuccess>(searchResults => ({
           type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS,

@@ -1,10 +1,8 @@
 import {
   GetComicListParam,
-  ComicItemList,
   GetComicDataParam,
   GetContentDataParam,
   GetSearchResultsParam,
-  SearchResults,
   GridData
 } from '../../typing';
 
@@ -15,14 +13,8 @@ import {
   getSearchResults
 } from './source/IKanman';
 
-let getComicListQueue = Promise.resolve<ComicItemList>([]);
-let getSearchResultQueue = Promise.resolve<SearchResults>([]);
-
 export function getComicListAPI(params: GetComicListParam) {
-  const next = () => getComicList(params);
-  getComicListQueue = getComicListQueue.then(next).catch(next);
-
-  return getComicListQueue;
+  return getComicList(params);
 }
 
 export function getGridDataAPI(params: GetComicDataParam) {
@@ -41,8 +33,5 @@ export async function getContentDataAPI(params: GetContentDataParam) {
 }
 
 export function getSearchResultsAPI(params: GetSearchResultsParam) {
-  const next = () => getSearchResults(params);
-  getSearchResultQueue = getSearchResultQueue.then(next).catch(next);
-
-  return getSearchResultQueue;
+  return getSearchResults(params);
 }
