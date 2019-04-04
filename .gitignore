@@ -24,4 +24,5 @@ yarn-error.log*
 
 release
 electron/*.js
-
+electron/*.js.map
+*.tsbuildinfo

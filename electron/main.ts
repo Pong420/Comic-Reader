@@ -1,7 +1,21 @@
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, WebPreferences } from 'electron';
+import { app, session, BrowserWindow, WebPreferences, OnBeforeSendHeadersDetails } from 'electron';
 import { MenuBuilder } from './menu';
+
+interface RequestHeaders {
+  Origin: string;
+  Referer: string;
+  'User-Agent': string;
+}
+
+interface HeaderDetails extends OnBeforeSendHeadersDetails {
+  requestHeaders: RequestHeaders;
+}
+
+const MAC_OS = process.platform === 'darwin';
+const WIN_OS = process.platform === 'win32';
+const FRAME_LESS = MAC_OS || WIN_OS;
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -9,7 +23,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const webPreferences: WebPreferences = isDevelopment
   ? {
       // if you have CROS issue, you could uncomment below config
-      // webSecurity: false
+      webSecurity: false
     }
   : {
       // Disable Node.js Integration for Remote Content
@@ -31,8 +45,10 @@ async function createWindow() {
 
   mainWindow = new BrowserWindow({
     show: false,
-    height: 600,
-    width: 800,
+    width: 1024 + 80,
+    height: 720,
+    titleBarStyle: FRAME_LESS ? 'hiddenInset' : 'default',
+    frame: !FRAME_LESS,
     webPreferences
   });
 
@@ -56,15 +72,35 @@ async function createWindow() {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  if (session.defaultSession) {
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      { urls: [] },
+      (detailsProps: OnBeforeSendHeadersDetails, callback) => {
+        const details = detailsProps as HeaderDetails;
+
+        if (/hamreus/.test(details.url)) {
+          details.requestHeaders.Referer = 'https://www.manhuagui.com/';
+        }
+
+        if (/m\.manhuagui\.com/.test(details.url)) {
+          details.requestHeaders['User-Agent'] = '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
+        }
+
+        callback({
+          cancel: false,
+          requestHeaders: details.requestHeaders
+        });
+      }
+    );
+  }
 }
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  !MAC_OS && app.quit();
 });
 
 app.on('activate', () => {

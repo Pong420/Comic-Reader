@@ -1,22 +1,21 @@
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
-  min-height: 100vh;
-}
-
 body {
+  background: $primary-color;
+  font-size: 14px;
+  font-family: Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif;
   margin: 0;
   padding: 0;
-
-  font-family: Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif;
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  // For window os, padding-right is added while MUI dialog opened.
+  padding-right: 0 !important;
 }
 
 img {
@@ -26,4 +25,48 @@ img {
 a {
   text-decoration: none;
   color: inherit;
+  outline: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.app-region {
+  @include app-region;
+}
+
+#root,
+main {
+  @include dimen(100%, 100vh);
+}
+
+#root {
+  @include flex($flex-direction: column);
+
+  > :nth-child(1) {
+    flex: 0 0 auto;
+  }
+
+  main {
+    flex: 1 1 auto;
+  }
+}
+
+main {
+  @include flex();
+
+  .sidebar {
+    flex: 0 0 auto;
+  }
+
+  .layout {
+    flex: 1 1 auto;
+  }
+
+  &:not(.darwin) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
