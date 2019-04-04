@@ -155,6 +155,8 @@
     "tslint-react": "^4.0.0"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "axios-extensions": "^3.0.5",
     "cheerio": "^1.0.0-rc.2",

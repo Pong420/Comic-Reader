@@ -46,7 +46,7 @@ export type HomeActions =
   | GetComicListCanceled
   | SetFilter;
 
-export const ComicListActionCreators = {
+export const HomeActionCreators = {
   getComicList(payload: GetComicListParam): GetComicList {
     return {
       type: HomeActionTypes.GET_COMICS_LIST,

@@ -5,23 +5,34 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer, GridHandler } from '../GridContainer';
 import { Grid } from '../Grid';
-import { RootState, HomeState, ComicListActionCreators } from '../../store';
+import { RootState, HomeState, HomeActionCreators } from '../../store';
 
 const mapStateToProps = ({ home }: RootState, ownProps: any) => ({ ...home, ...ownProps });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(ComicListActionCreators, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(HomeActionCreators, dispatch);
 
 export function HomeComponent({
   page,
   filter,
+  noMoreComicResults,
   comicList,
   getComicList,
-  getMoreComicList
-}: HomeState & typeof ComicListActionCreators) {
-  const loadMore = useCallback(() => getMoreComicList({ page, filter }), [getMoreComicList, page, filter]);
+  getMoreComicList,
+  cancelGetComicList
+}: HomeState & typeof HomeActionCreators) {
+  const loadMore = useCallback(() => !noMoreComicResults && getMoreComicList({ page, filter }), [
+    noMoreComicResults,
+    getMoreComicList,
+    page,
+    filter
+  ]);
 
   useEffect(() => {
     getComicList({ page: 1, filter });
-  }, [filter, getComicList]);
+
+    return () => {
+      cancelGetComicList();
+    };
+  }, [cancelGetComicList, filter, getComicList]);
 
   return (
     <Layout className="home">

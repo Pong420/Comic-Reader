@@ -29,7 +29,7 @@ const initialState: HomeState = {
   error: null,
   filter: DEFAULT_FILTER,
   offset: 0,
-  noMoreComicResults: true,
+  noMoreComicResults: false,
   page: 1
 };
 
@@ -39,7 +39,8 @@ export default function(state = initialState, action: HomeActions): HomeState {
       return {
         ...initialState,
         page: initialState.page + 1,
-        comicList: placeholders
+        comicList: placeholders,
+        filter: state.filter
       };
 
     case HomeActionTypes.GET_MORE_COMICS_LIST:
@@ -55,10 +56,11 @@ export default function(state = initialState, action: HomeActions): HomeState {
       return {
         ...state,
         offset,
+        noMoreComicResults: action.payload.length < NUM_OF_COMIC_ITEM_RETURN,
         comicList: [
           ...state.comicList.slice(0, state.offset),
           ...action.payload,
-          ...state.comicList.slice(state.offset + offset)
+          ...state.comicList.slice(state.offset + NUM_OF_COMIC_ITEM_RETURN)
         ]
       };
 

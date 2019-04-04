@@ -1,7 +1,8 @@
 import React, { ComponentType } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect, RouteProps } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
-import { HomePage } from './page/HomePage';
+import { Home, HomeSidebar } from './components/Home';
+import { Filter, FilterSidebar } from './components/Filter';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -13,8 +14,14 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.HOME,
     exact: true,
-    main: HomePage,
-    sidebar: Sidebar
+    main: Home,
+    sidebar: HomeSidebar
+  },
+  {
+    path: PATHS.FILTER,
+    exact: true,
+    main: Filter,
+    sidebar: FilterSidebar
   }
 ];
 
