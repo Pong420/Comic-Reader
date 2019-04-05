@@ -5,7 +5,11 @@ import { BookmarkActions, BookmarkActionTypes } from '../actions/bookmark';
 import { writeFileSync } from '../../utils/writeFileSync';
 import { BookmarkItem } from '../../typings';
 
-export const bookmarkDirectory = path.join(remote.app.getPath('userData'), 'comic-reader', 'bookmark.json');
+export const bookmarkDirectory = path.join(
+  remote.app.getPath('userData'),
+  'comic-reader',
+  'bookmark.json'
+);
 
 export interface BookmarksMapVal {
   comicID: string;
@@ -63,7 +67,10 @@ export default function(state = initialState, action: BookmarkActions) {
     case BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE:
       return {
         ...state,
-        removable: typeof action.payload !== 'undefined' ? action.payload : !state.removable
+        removable:
+          typeof action.payload !== 'undefined'
+            ? action.payload
+            : !state.removable
       };
 
     case BookmarkActionTypes.SAVE_BOOKMARK:

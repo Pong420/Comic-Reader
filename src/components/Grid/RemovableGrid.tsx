@@ -7,7 +7,11 @@ export interface RemovableGridProps extends GridPorps {
   onRemove: (comicID: string) => void;
 }
 
-export function RemovableGrid({ removable = false, onRemove, ...gridProps }: RemovableGridProps) {
+export function RemovableGrid({
+  removable = false,
+  onRemove,
+  ...gridProps
+}: RemovableGridProps) {
   return (
     <Grid {...gridProps} className="removable-grid">
       {removable && (

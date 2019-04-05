@@ -34,7 +34,9 @@ function ConfirmDialogComponent({
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogContent>
-        <DialogContentText classes={{ root: classes.content }}>{message}</DialogContentText>
+        <DialogContentText classes={{ root: classes.content }}>
+          {message}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">

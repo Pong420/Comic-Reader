@@ -27,7 +27,11 @@ export interface GetComicCanceled extends Action {
   type: ComicActionTypes.GET_COMIC_CANCELED;
 }
 
-export type ComicActions = GetComic | GetComicSuccess | GetComicFail | GetComicCanceled;
+export type ComicActions =
+  | GetComic
+  | GetComicSuccess
+  | GetComicFail
+  | GetComicCanceled;
 
 export function getComic(payload: GetComicDataParam): GetComic {
   return {

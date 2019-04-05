@@ -27,7 +27,11 @@ export interface ToggleFitToPage {
   payload?: boolean;
 }
 
-export type ImageActions = LoadLoadImageSuccess | LoadLoadImageFail | PreloadImage | ToggleFitToPage;
+export type ImageActions =
+  | LoadLoadImageSuccess
+  | LoadLoadImageFail
+  | PreloadImage
+  | ToggleFitToPage;
 
 export const ImageActionCreators = {
   preloadImage(startIndex: number): PreloadImage {

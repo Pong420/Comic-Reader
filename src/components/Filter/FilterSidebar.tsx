@@ -7,13 +7,18 @@ import { PATHS } from '../../constants';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ClearIcon from '@material-ui/icons/Clear';
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(HomeActionCreators, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(HomeActionCreators, dispatch);
 
 export function BaseConmponent({ setFilter }: typeof HomeActionCreators) {
   return (
     <Sidebar className="fitler-sidebar">
       <SidebarIcon Icon={ArrowBackIcon} tooltip="返回" to={PATHS.HOME} />
-      <SidebarIcon Icon={ClearIcon} tooltip="清除選項" onClick={() => setFilter([])} />
+      <SidebarIcon
+        Icon={ClearIcon}
+        tooltip="清除選項"
+        onClick={() => setFilter([])}
+      />
     </Sidebar>
   );
 }

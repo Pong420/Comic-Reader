@@ -2,7 +2,12 @@ import { from, of } from 'rxjs';
 import { map, catchError, takeUntil, switchMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicDataAPI } from '../../apis';
-import { ComicActions, ComicActionTypes, GetComic, GetComicSuccess } from '../actions/comic';
+import {
+  ComicActions,
+  ComicActionTypes,
+  GetComic,
+  GetComicSuccess
+} from '../actions/comic';
 import { ApiError, ComicData } from '../../typings';
 
 const getComicEpic: Epic<ComicActions> = action$ =>

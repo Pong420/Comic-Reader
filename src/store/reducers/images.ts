@@ -1,4 +1,9 @@
-import { ContentActions, ContentActionTypes, ImageActions, ImageActionTypes } from '../actions';
+import {
+  ContentActions,
+  ContentActionTypes,
+  ImageActions,
+  ImageActionTypes
+} from '../actions';
 import { ImageDetail } from '../../typings';
 
 const FIT_TO_PAGE_KEY = 'FIT_TO_PAGE_KEY';
@@ -13,7 +18,10 @@ const initialState: ImagesState = {
   fitToPage: localStorage.getItem(FIT_TO_PAGE_KEY) === 'true'
 };
 
-export default function(state = initialState, action: ContentActions | ImageActions) {
+export default function(
+  state = initialState,
+  action: ContentActions | ImageActions
+) {
   switch (action.type) {
     case ContentActionTypes.GET_CONTENT_SUCCESS:
       return {

@@ -17,7 +17,12 @@ export function ContentSnackBar({ ...props }: ContentSnackBarProps) {
       }}
       autoHideDuration={2000}
       action={[
-        <IconButton key="close" aria-label="Close" color="inherit" onClick={props.onClose}>
+        <IconButton
+          key="close"
+          aria-label="Close"
+          color="inherit"
+          onClick={props.onClose}
+        >
           <CloseIcon />
         </IconButton>
       ]}

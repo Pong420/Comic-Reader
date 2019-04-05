@@ -86,13 +86,17 @@ export const BrowsingHistoryActionCreators = {
       type: BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY
     };
   },
-  refetchBrowsingHistory(payload: BrowsingHistoryPayload): RefetchBrowsingHistory {
+  refetchBrowsingHistory(
+    payload: BrowsingHistoryPayload
+  ): RefetchBrowsingHistory {
     return {
       type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY,
       payload
     };
   },
-  toggleBrowsingHistoryRemovable(payload?: boolean): ToggleBrowsingHistoryRemovable {
+  toggleBrowsingHistoryRemovable(
+    payload?: boolean
+  ): ToggleBrowsingHistoryRemovable {
     return {
       type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE,
       payload

@@ -31,7 +31,9 @@ function BookmarkBtnComponent({
     <SidebarIcon
       Icon={bookmarked ? BookMarkIcon : BookmarkBorderIcon}
       tooltip={bookmarked ? '取消收藏' : '加入收藏'}
-      onClick={() => (bookmarked ? removeBookmark(comicID) : addBookmark(comicID))}
+      onClick={() =>
+        bookmarked ? removeBookmark(comicID) : addBookmark(comicID)
+      }
     />
   );
 }

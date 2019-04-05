@@ -6,10 +6,18 @@ import { Layout } from '../Layout';
 import { SearchField } from './SearchField';
 import { GridContainer, GridHandler } from '../GridContainer';
 import { Grid } from '../Grid';
-import { RootState, SearchResultsState, SearchActionCreators } from '../../store';
+import {
+  RootState,
+  SearchResultsState,
+  SearchActionCreators
+} from '../../store';
 
-const mapStateToProps = ({ search }: RootState, ownProps: any) => ({ ...search, ...ownProps });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(SearchActionCreators, dispatch);
+const mapStateToProps = ({ search }: RootState, ownProps: any) => ({
+  ...search,
+  ...ownProps
+});
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(SearchActionCreators, dispatch);
 
 function SearchComponent({
   page,
@@ -61,7 +69,9 @@ function SearchComponent({
               loadMore={loadMore}
               handler={gridHandler}
               onGridRender={props => <Grid {...props} />}
-              noContentRenderer={() => noMoreSearchResults && <div className="wrapper">搵唔到</div>}
+              noContentRenderer={() =>
+                noMoreSearchResults && <div className="wrapper">搵唔到</div>
+              }
             />
           )}
         </AutoSizer>

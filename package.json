@@ -114,6 +114,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "yarn tslint",
+      "prettier --ignore-path .eslintignore --write",
       "git add"
     ],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [

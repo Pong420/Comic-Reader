@@ -1,4 +1,11 @@
-import React, { ReactNode, RefObject, useMemo, useRef, useImperativeHandle, useEffect } from 'react';
+import React, {
+  ReactNode,
+  RefObject,
+  useMemo,
+  useRef,
+  useImperativeHandle,
+  useEffect
+} from 'react';
 import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -39,7 +46,10 @@ function BaseComponent<T extends any>({
   const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
   const scrollTopRef = useRef<number>(0);
-  const { columnCount, columnWidth } = useMemo(() => getColumnData(width, gridSizerRef.current), [width]);
+  const { columnCount, columnWidth } = useMemo(
+    () => getColumnData(width, gridSizerRef.current),
+    [width]
+  );
   const rowCount = Math.ceil(list.length / columnCount);
 
   function onScroll({ scrollTop }: OnScrollParams) {
@@ -56,7 +66,9 @@ function BaseComponent<T extends any>({
 
     return (
       <div style={style} key={key}>
-        <div style={{ padding: `${gridGap / 2}px`, height: '100%' }}>{onGridRender(data)}</div>{' '}
+        <div style={{ padding: `${gridGap / 2}px`, height: '100%' }}>
+          {onGridRender(data)}
+        </div>{' '}
       </div>
     );
   }
@@ -110,7 +122,10 @@ function BaseComponent<T extends any>({
         }}
         ref={gridRef}
       />
-      <div className="grid-sizer-container" style={{ gridGap, padding: containerPadding }}>
+      <div
+        className="grid-sizer-container"
+        style={{ gridGap, padding: containerPadding }}
+      >
         <div ref={gridSizerRef} />
       </div>
     </>

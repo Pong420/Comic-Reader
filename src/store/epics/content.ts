@@ -2,7 +2,12 @@ import { from, of } from 'rxjs';
 import { map, catchError, takeUntil, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getContentDataAPI } from '../../apis';
-import { ContentActions, ContentActionTypes, GetContent, GetContentSuccess } from '../actions/content';
+import {
+  ContentActions,
+  ContentActionTypes,
+  GetContent,
+  GetContentSuccess
+} from '../actions/content';
 import { ApiError, ContentData } from '../../typings';
 
 const getContentEpic: Epic<ContentActions> = action$ =>

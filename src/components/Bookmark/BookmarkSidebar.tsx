@@ -17,7 +17,13 @@ export function BookmarkSidebarComponent({
   toggleBookmarkRemovable,
   removeAllBookmark
 }: BookmarkState & typeof BookmarkActionCreators) {
-  return <SidebarWithRemoveFn on={removable} onToggleOnOff={toggleBookmarkRemovable} onRemoveAll={removeAllBookmark} />;
+  return (
+    <SidebarWithRemoveFn
+      on={removable}
+      onToggleOnOff={toggleBookmarkRemovable}
+      onRemoveAll={removeAllBookmark}
+    />
+  );
 }
 
 export const BookmarkSidebar = connect(

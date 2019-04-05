@@ -30,7 +30,9 @@ const getSearchResultsEpic: Epic<SearchActions> = action$ =>
             payload: error
           })
         ),
-        takeUntil(action$.pipe(ofType(SearchActionTypes.GET_SEARCH_RESULTS_CANCELED)))
+        takeUntil(
+          action$.pipe(ofType(SearchActionTypes.GET_SEARCH_RESULTS_CANCELED))
+        )
       )
     )
   );

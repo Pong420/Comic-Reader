@@ -13,7 +13,11 @@ interface SidebarWithRemoveFnProps {
   onRemoveAll: () => void;
 }
 
-export function SidebarWithRemoveFn({ on, onToggleOnOff, onRemoveAll }: SidebarWithRemoveFnProps) {
+export function SidebarWithRemoveFn({
+  on,
+  onToggleOnOff,
+  onRemoveAll
+}: SidebarWithRemoveFnProps) {
   const [openDialog, setDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -32,7 +36,11 @@ export function SidebarWithRemoveFn({ on, onToggleOnOff, onRemoveAll }: SidebarW
         active={on}
         onClick={() => onToggleOnOff()}
       />
-      <SidebarIcon Icon={DeleteForever} tooltip="刪除所有紀錄" onClick={() => setDialogOpen(true)} />
+      <SidebarIcon
+        Icon={DeleteForever}
+        tooltip="刪除所有紀錄"
+        onClick={() => setDialogOpen(true)}
+      />
       <ConfirmDialog
         open={openDialog}
         message="確定要刪除所有紀錄嗎？"

@@ -9,7 +9,11 @@ import {
   RefetchBrowsingHistory,
   RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
-import { ContentActions, ContentActionTypes, GetContentCanceled } from '../actions/content';
+import {
+  ContentActions,
+  ContentActionTypes,
+  GetContentCanceled
+} from '../actions/content';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../typings';
 
@@ -24,7 +28,9 @@ type CombinedActions = BrowsingHistoryActions | ContentActions;
 
 const addBrowsingHistoryEpic: Epic<CombinedActions> = action$ =>
   action$.pipe(
-    ofType<CombinedActions, AddBrowsingHistory>(BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY),
+    ofType<CombinedActions, AddBrowsingHistory>(
+      BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY
+    ),
     mergeMap(action =>
       getGridData$(action.payload.comicID).pipe(
         map<GridData, AddBrowsingHistorySuccess>(gridData => ({
@@ -34,14 +40,22 @@ const addBrowsingHistoryEpic: Epic<CombinedActions> = action$ =>
             ...action.payload
           }
         })),
-        takeUntil(action$.pipe(ofType<CombinedActions, GetContentCanceled>(ContentActionTypes.GET_CONTENT_CANCELED)))
+        takeUntil(
+          action$.pipe(
+            ofType<CombinedActions, GetContentCanceled>(
+              ContentActionTypes.GET_CONTENT_CANCELED
+            )
+          )
+        )
       )
     )
   );
 
 const refetchBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
   action$.pipe(
-    ofType<BrowsingHistoryActions, RefetchBrowsingHistory>(BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY),
+    ofType<BrowsingHistoryActions, RefetchBrowsingHistory>(
+      BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
+    ),
     mergeMap(action =>
       getGridData$(action.payload.comicID).pipe(
         map<GridData, RefetchBrowsingHistorySuccess>(gridData => ({
@@ -68,4 +82,8 @@ const saveBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
     })
   );
 
-export default [addBrowsingHistoryEpic, refetchBrowsingHistoryEpic, saveBrowsingHistoryEpic];
+export default [
+  addBrowsingHistoryEpic,
+  refetchBrowsingHistoryEpic,
+  saveBrowsingHistoryEpic
+];

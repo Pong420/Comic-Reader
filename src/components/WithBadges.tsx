@@ -22,7 +22,11 @@ const style = () => {
   });
 };
 
-function WithBadgesComponent({ badage, children, classes }: WithBadgesProps & WithStyles<typeof style>) {
+function WithBadgesComponent({
+  badage,
+  children,
+  classes
+}: WithBadgesProps & WithStyles<typeof style>) {
   if (badage) {
     return (
       <Badge badgeContent={1} classes={{ badge: classes.badge }} variant="dot">

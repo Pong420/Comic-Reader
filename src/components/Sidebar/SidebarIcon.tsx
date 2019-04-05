@@ -7,7 +7,10 @@ import { WithTooltipInput, WithTooltip } from '../../components/WithTooltip';
 import { WithNavLinkInput, WithNavLink } from '../../components/WithNavLink';
 import { WithBadgesInput, WithBadges } from '../../components/WithBadges';
 
-export interface SidebarIconProps extends WithNavLinkInput, WithTooltipInput, WithBadgesInput {
+export interface SidebarIconProps
+  extends WithNavLinkInput,
+    WithTooltipInput,
+    WithBadgesInput {
   Icon?: ComponentType<SvgIconProps>;
   Component?: ComponentType<any>;
   active: boolean;
@@ -60,7 +63,10 @@ function SidebarIconComponent({
     return (
       <WithNavLink to={to} activeClassName={isActive}>
         <WithTooltip tooltip={tooltip}>
-          <IconButton className={[iconButton, active && isActive].join(' ')} {...props}>
+          <IconButton
+            className={[iconButton, active && isActive].join(' ')}
+            {...props}
+          >
             <WithBadges badage={badage}>
               <Icon className={icon} />
             </WithBadges>

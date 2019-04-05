@@ -2,7 +2,13 @@ import { from, of } from 'rxjs';
 import { map, catchError, takeUntil, concatMap, filter } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
-import { HomeActions, HomeActionTypes, GetComicList, GetMoreComicList, GetComicListSuccess } from '../actions/home';
+import {
+  HomeActions,
+  HomeActionTypes,
+  GetComicList,
+  GetMoreComicList,
+  GetComicListSuccess
+} from '../actions/home';
 import { ComicItemList, ApiError } from '../../typings';
 
 const getComicListEpic: Epic<HomeActions> = action$ =>
@@ -23,7 +29,9 @@ const getComicListEpic: Epic<HomeActions> = action$ =>
             payload: error
           })
         ),
-        takeUntil(action$.pipe(ofType(HomeActionTypes.GET_COMICS_LIST_CANCELED)))
+        takeUntil(
+          action$.pipe(ofType(HomeActionTypes.GET_COMICS_LIST_CANCELED))
+        )
       )
     )
   );

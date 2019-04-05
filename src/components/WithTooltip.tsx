@@ -25,7 +25,12 @@ const PopperProps = {
 export function WithTooltip({ tooltip, children }: WithTooltipProps) {
   if (tooltip) {
     return (
-      <Tooltip title={tooltip} placement="right" PopperProps={PopperProps} disableFocusListener>
+      <Tooltip
+        title={tooltip}
+        placement="right"
+        PopperProps={PopperProps}
+        disableFocusListener
+      >
         {children}
       </Tooltip>
     );

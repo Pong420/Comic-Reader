@@ -13,7 +13,8 @@ interface MatchParams {
 }
 
 const mapStateToProps = ({ comic }: RootState) => ({ ...comic });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(ComicActionCreators, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(ComicActionCreators, dispatch);
 
 function ComicComponent({
   match,
@@ -38,7 +39,12 @@ function ComicComponent({
   }, [cancelGetComic, comicID, getComic]);
 
   return (
-    <Layout className="comic" ref={contentElRef} loading={loading} error={error}>
+    <Layout
+      className="comic"
+      ref={contentElRef}
+      loading={loading}
+      error={error}
+    >
       <ComicHeader {...comicData!} />
       <ComicContent {...comicData!} />
     </Layout>

@@ -21,7 +21,9 @@ function BookmarkComponent({
   refetchBookmark,
   removeBookmark
 }: BookmarkState & typeof BookmarkActionCreators) {
-  const reversedBookmarks = useMemo(() => bookmarks.slice().reverse(), [bookmarks]);
+  const reversedBookmarks = useMemo(() => bookmarks.slice().reverse(), [
+    bookmarks
+  ]);
 
   return (
     <Layout className="bookmark">
@@ -33,10 +35,18 @@ function BookmarkComponent({
             list={reversedBookmarks}
             onGridRender={([comicID, { bookmarkItem }]) => {
               if (bookmarkItem) {
-                return <RemovableGrid {...bookmarkItem} removable={removable} onRemove={removeBookmark} />;
+                return (
+                  <RemovableGrid
+                    {...bookmarkItem}
+                    removable={removable}
+                    onRemove={removeBookmark}
+                  />
+                );
               }
 
-              return <RefetchComicGrid onFetch={() => refetchBookmark(comicID)} />;
+              return (
+                <RefetchComicGrid onFetch={() => refetchBookmark(comicID)} />
+              );
             }}
           />
         )}

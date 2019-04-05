@@ -7,8 +7,12 @@ import { GridContainer, GridHandler } from '../GridContainer';
 import { Grid } from '../Grid';
 import { RootState, HomeState, HomeActionCreators } from '../../store';
 
-const mapStateToProps = ({ home }: RootState, ownProps: any) => ({ ...home, ...ownProps });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(HomeActionCreators, dispatch);
+const mapStateToProps = ({ home }: RootState, ownProps: any) => ({
+  ...home,
+  ...ownProps
+});
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(HomeActionCreators, dispatch);
 
 export function HomeComponent({
   page,
@@ -19,12 +23,10 @@ export function HomeComponent({
   getMoreComicList,
   cancelGetComicList
 }: HomeState & typeof HomeActionCreators) {
-  const loadMore = useCallback(() => !noMoreComicResults && getMoreComicList({ page, filter }), [
-    noMoreComicResults,
-    getMoreComicList,
-    page,
-    filter
-  ]);
+  const loadMore = useCallback(
+    () => !noMoreComicResults && getMoreComicList({ page, filter }),
+    [noMoreComicResults, getMoreComicList, page, filter]
+  );
 
   useEffect(() => {
     getComicList({ page: 1, filter });

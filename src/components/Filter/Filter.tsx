@@ -17,11 +17,15 @@ interface FilterItemProps {
 }
 
 const mapStateToProps = ({ home }: RootState) => ({ ...home });
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(HomeActionCreators, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(HomeActionCreators, dispatch);
 
 function FilterItem({ label, selected, onClick }: FilterItemProps) {
   return (
-    <div className={`filter-item ${selected ? 'selected' : ''}`} onClick={onClick}>
+    <div
+      className={`filter-item ${selected ? 'selected' : ''}`}
+      onClick={onClick}
+    >
       {label}
     </div>
   );
@@ -40,7 +44,11 @@ function FilterHeader() {
   );
 }
 
-function FilterComponent({ filter, setFilter, history }: HomeState & typeof HomeActionCreators & RouteComponentProps) {
+function FilterComponent({
+  filter,
+  setFilter,
+  history
+}: HomeState & typeof HomeActionCreators & RouteComponentProps) {
   // useKeydown(({ key }) => key === 'Escape' && history.push('/'));
 
   return (

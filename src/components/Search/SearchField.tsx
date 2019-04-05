@@ -23,7 +23,11 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export function SearchFieldComponent({ classes, value, onSearch }: Props & WithStyles<typeof styles>) {
+export function SearchFieldComponent({
+  classes,
+  value,
+  onSearch
+}: Props & WithStyles<typeof styles>) {
   const [keyword, setKeyword] = useState(value);
   const onSubmit = useCallback(
     (evt?: FormEvent<HTMLFormElement>) => {

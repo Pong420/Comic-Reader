@@ -15,13 +15,27 @@ function Placeholder() {
   const height = 510;
 
   return (
-    <ContentLoader height={height} width={width} speed={2} primaryColor="#252525" secondaryColor="#212121">
+    <ContentLoader
+      height={height}
+      width={width}
+      speed={2}
+      primaryColor="#252525"
+      secondaryColor="#212121"
+    >
       <rect x="2" y="-36" rx="5" ry="5" width={width} height={height} />
     </ContentLoader>
   );
 }
 
-export function Grid({ comicID, cover, name, latest, className = '', children, isPlaceholder }: GridPorps) {
+export function Grid({
+  comicID,
+  cover,
+  name,
+  latest,
+  className = '',
+  children,
+  isPlaceholder
+}: GridPorps) {
   if (comicID) {
     const to = generatePath(PATHS.COMIC, {
       comicID

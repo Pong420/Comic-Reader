@@ -34,7 +34,9 @@ const addBookmarkEpic: Epic<BookmarkActions> = action$ =>
 
 const refetchBookmarkEpic: Epic<BookmarkActions> = action$ =>
   action$.pipe(
-    ofType<BookmarkActions, RefetchBookmark>(BookmarkActionTypes.REFETCH_BOOKMARK),
+    ofType<BookmarkActions, RefetchBookmark>(
+      BookmarkActionTypes.REFETCH_BOOKMARK
+    ),
     mergeMap(action =>
       getGridData$(action.payload).pipe(
         map<GridData, RefetchBookmarkSuccess>(gridData => ({

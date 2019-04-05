@@ -12,7 +12,13 @@ export function BaseComponent({ filter }: HomeState) {
 
   return (
     <Sidebar className="comic-sidebar">
-      <SidebarIcon to={PATHS.FILTER} tooltip="篩選" Icon={FilterList} active={filtered} badage={filtered} />
+      <SidebarIcon
+        to={PATHS.FILTER}
+        tooltip="篩選"
+        Icon={FilterList}
+        active={filtered}
+        badage={filtered}
+      />
     </Sidebar>
   );
 }

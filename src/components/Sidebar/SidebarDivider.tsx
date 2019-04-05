@@ -13,6 +13,8 @@ const styles = () =>
     }
   });
 
-export const SidebarDivider = withStyles(styles)(({ classes }: WithStyles<typeof styles>) => (
-  <Divider className={classes.divider} />
-));
+export const SidebarDivider = withStyles(styles)(
+  ({ classes }: WithStyles<typeof styles>) => (
+    <Divider className={classes.divider} />
+  )
+);

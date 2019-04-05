@@ -18,9 +18,11 @@ const initialState: SearchResultsState = {
 };
 
 const NUM_OF_SEARCH_RESULT_RETURN = 20;
-const placeholders: SearchResults = new Array(NUM_OF_SEARCH_RESULT_RETURN).fill({
-  isPlaceholder: true
-});
+const placeholders: SearchResults = new Array(NUM_OF_SEARCH_RESULT_RETURN).fill(
+  {
+    isPlaceholder: true
+  }
+);
 
 export default function(state = initialState, action: SearchActions) {
   switch (action.type) {
@@ -47,7 +49,9 @@ export default function(state = initialState, action: SearchActions) {
         searchResults: [
           ...state.searchResults.slice(0, state.offset),
           ...action.payload,
-          ...state.searchResults.slice(state.offset + NUM_OF_SEARCH_RESULT_RETURN)
+          ...state.searchResults.slice(
+            state.offset + NUM_OF_SEARCH_RESULT_RETURN
+          )
         ]
       };
 

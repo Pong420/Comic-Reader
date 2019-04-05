@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
-import { BrowsingHistoryActions, BrowsingHistoryActionTypes } from '../actions/browsingHistory';
+import {
+  BrowsingHistoryActions,
+  BrowsingHistoryActionTypes
+} from '../actions/browsingHistory';
 import { writeFileSync } from '../../utils/writeFileSync';
 import { BrowsingHistoryItem } from '../../typings';
 
@@ -71,7 +74,10 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
     case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE:
       return {
         ...state,
-        removable: typeof action.payload !== 'undefined' ? action.payload : !state.removable
+        removable:
+          typeof action.payload !== 'undefined'
+            ? action.payload
+            : !state.removable
       };
 
     case BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY:

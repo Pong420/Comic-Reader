@@ -1,5 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { cacheAdapterEnhancer, throttleAdapterEnhancer } from 'axios-extensions';
+import {
+  cacheAdapterEnhancer,
+  throttleAdapterEnhancer
+} from 'axios-extensions';
 import cheerio from 'cheerio';
 
 const chineseConv = require('chinese-conv'); // tslint:disable-line
@@ -21,6 +24,8 @@ export const createAxiosInstance = (options: AxiosRequestConfig) =>
         return response;
       }
     ],
-    adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter!)),
+    adapter: throttleAdapterEnhancer(
+      cacheAdapterEnhancer(axios.defaults.adapter!)
+    ),
     ...options
   });

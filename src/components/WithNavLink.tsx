@@ -10,7 +10,11 @@ export interface WithNavLinkProps extends WithNavLinkInput {
   activeClassName?: string;
 }
 
-export function WithNavLink({ to, activeClassName, children }: WithNavLinkProps) {
+export function WithNavLink({
+  to,
+  activeClassName,
+  children
+}: WithNavLinkProps) {
   if (to) {
     return (
       <NavLink to={to} activeClassName={activeClassName} exact>

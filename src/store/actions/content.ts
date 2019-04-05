@@ -27,7 +27,11 @@ export interface GetContentCanceled {
   type: ContentActionTypes.GET_CONTENT_CANCELED;
 }
 
-export type ContentActions = GetContent | GetContentSuccess | GetContentFail | GetContentCanceled;
+export type ContentActions =
+  | GetContent
+  | GetContentSuccess
+  | GetContentFail
+  | GetContentCanceled;
 
 export const ContentActionCreators = {
   getContent(payload: GetContentDataParam): GetContent {

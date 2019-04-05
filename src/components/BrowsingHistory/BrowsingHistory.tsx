@@ -5,10 +5,18 @@ import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../../components/GridContainer';
 import { RemovableGrid, RefetchComicGrid } from '../../components/Grid';
-import { RootState, BrowsingHistoryState, BrowsingHistoryActionCreators } from '../../store';
+import {
+  RootState,
+  BrowsingHistoryState,
+  BrowsingHistoryActionCreators
+} from '../../store';
 
-const mapStateToProps = ({ browsingHistory }: RootState, ownProps: any) => ({ ...browsingHistory, ...ownProps });
-const mapActiontoProps = (dispatch: Dispatch) => bindActionCreators(BrowsingHistoryActionCreators, dispatch);
+const mapStateToProps = ({ browsingHistory }: RootState, ownProps: any) => ({
+  ...browsingHistory,
+  ...ownProps
+});
+const mapActiontoProps = (dispatch: Dispatch) =>
+  bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 
 function BrowsingHistoryComponent({
   browsingHistory,
@@ -29,7 +37,11 @@ function BrowsingHistoryComponent({
             onGridRender={([comicID, { chapterIDs, browsingHistoryItem }]) => {
               if (browsingHistoryItem) {
                 return (
-                  <RemovableGrid {...browsingHistoryItem} removable={removable} onRemove={removeBrowsingHistory} />
+                  <RemovableGrid
+                    {...browsingHistoryItem}
+                    removable={removable}
+                    onRemove={removeBrowsingHistory}
+                  />
                 );
               }
 

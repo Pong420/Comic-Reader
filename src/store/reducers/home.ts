@@ -5,7 +5,8 @@ import { pad } from '../../utils/pad';
 const FILTER_STORAGE_KEY = 'filter';
 const NUM_OF_FILTER_TYPES = 6;
 const DEFAULT_FILTER = JSON.parse(
-  localStorage.getItem(FILTER_STORAGE_KEY) || JSON.stringify(new Array(NUM_OF_FILTER_TYPES).fill(''))
+  localStorage.getItem(FILTER_STORAGE_KEY) ||
+    JSON.stringify(new Array(NUM_OF_FILTER_TYPES).fill(''))
 );
 
 const NUM_OF_COMIC_ITEM_RETURN = 42;

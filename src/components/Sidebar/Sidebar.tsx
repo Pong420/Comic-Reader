@@ -24,7 +24,11 @@ export function Sidebar({ className = '', children }: Props) {
 
         <SidebarIcon to={PATHS.SEARCH} tooltip="搜索" Icon={Search} />
 
-        <SidebarIcon to={PATHS.BROWSING_HISTORY} tooltip="瀏覽紀錄" Icon={HistoryIcon} />
+        <SidebarIcon
+          to={PATHS.BROWSING_HISTORY}
+          tooltip="瀏覽紀錄"
+          Icon={HistoryIcon}
+        />
 
         <SidebarIcon to={PATHS.BOOKMARK} tooltip="收藏" Icon={BookMarksIcon} />
 

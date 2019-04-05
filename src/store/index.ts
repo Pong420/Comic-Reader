@@ -4,7 +4,8 @@ import rootEpic from './epics';
 import rootReducer from './reducers';
 
 const epicMiddleware = createEpicMiddleware();
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(epicMiddleware));
 
 const store = createStore(rootReducer, undefined, enhancer);
