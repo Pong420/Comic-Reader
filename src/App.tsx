@@ -6,6 +6,7 @@ import { Comic, ComicSidebar } from './components/Comic';
 import { Content } from './components/Content';
 import { Filter, FilterSidebar } from './components/Filter';
 import { Search } from './components/Search';
+import { BrowsingHistory, BrowsingHistorySidebar } from './components/BrowsingHistory';
 import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
@@ -37,6 +38,12 @@ const routes: CustomRouteProps[] = [
     exact: true,
     main: Bookmark,
     sidebar: BookmarkSidebar
+  },
+  {
+    path: PATHS.BROWSING_HISTORY,
+    exact: true,
+    main: BrowsingHistory,
+    sidebar: BrowsingHistorySidebar
   },
   {
     path: PATHS.COMIC,

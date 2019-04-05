@@ -59,44 +59,34 @@ export type BookmarkActions =
   | ToggleBookmarkRemovable
   | SaveBookmark;
 
-export function addBookmark(comicID: string): AddBookmark {
-  return {
-    type: BookmarkActionTypes.ADD_BOOKMARK,
-    payload: comicID
-  };
-}
-
-export function removeBookmark(comicID: string): RemoveBookmark {
-  return {
-    type: BookmarkActionTypes.REMOVE_BOOKMARK,
-    payload: comicID
-  };
-}
-
-export function removeAllBookmark(): RemoveAllBookmark {
-  return {
-    type: BookmarkActionTypes.REMOVE_ALL_BOOKMARK
-  };
-}
-
-export function refetchBookmark(comicID: string): RefetchBookmark {
-  return {
-    type: BookmarkActionTypes.REFETCH_BOOKMARK,
-    payload: comicID
-  };
-}
-
-export function toggleBookmarkRemovable(payload?: boolean): ToggleBookmarkRemovable {
-  return {
-    type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE,
-    payload
-  };
-}
-
 export const BookmarkActionCreators = {
-  addBookmark,
-  removeBookmark,
-  removeAllBookmark,
-  refetchBookmark,
-  toggleBookmarkRemovable
+  addBookmark(comicID: string): AddBookmark {
+    return {
+      type: BookmarkActionTypes.ADD_BOOKMARK,
+      payload: comicID
+    };
+  },
+  removeBookmark(comicID: string): RemoveBookmark {
+    return {
+      type: BookmarkActionTypes.REMOVE_BOOKMARK,
+      payload: comicID
+    };
+  },
+  removeAllBookmark(): RemoveAllBookmark {
+    return {
+      type: BookmarkActionTypes.REMOVE_ALL_BOOKMARK
+    };
+  },
+  refetchBookmark(comicID: string): RefetchBookmark {
+    return {
+      type: BookmarkActionTypes.REFETCH_BOOKMARK,
+      payload: comicID
+    };
+  },
+  toggleBookmarkRemovable(payload?: boolean): ToggleBookmarkRemovable {
+    return {
+      type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE,
+      payload
+    };
+  }
 };

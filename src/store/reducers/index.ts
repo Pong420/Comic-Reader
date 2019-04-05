@@ -3,9 +3,8 @@ import home from './home';
 import comic from './comic';
 import search from './search';
 import bookmark from './bookmark';
+import browsingHistory from './browsingHistory';
 
-// import bookmark from './bookmark';
-// import browsingHistory from './browsingHistory';
 // import content from './content';
 // import images from './images';
 
@@ -13,7 +12,7 @@ export * from './home';
 export * from './comic';
 export * from './search';
 export * from './bookmark';
-// export * from './browsingHistory';
+export * from './browsingHistory';
 // export * from './content';
 // export * from './images';
 
@@ -23,8 +22,8 @@ const rootReducer = combineReducers({
   home,
   comic,
   search,
-  bookmark
-  // browsingHistory,
+  bookmark,
+  browsingHistory
   // content,
   // images,
 });

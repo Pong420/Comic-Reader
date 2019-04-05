@@ -43,9 +43,7 @@ function BaseComponent<T extends any>({
   const rowCount = Math.ceil(list.length / columnCount);
 
   function onScroll({ scrollTop }: OnScrollParams) {
-    if (scrollTop) {
-      scrollTopRef.current = scrollTop;
-    }
+    scrollTopRef.current = scrollTop;
   }
 
   function cellRenderer({ key, style, rowIndex, columnIndex }: GridCellProps) {
