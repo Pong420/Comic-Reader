@@ -2,10 +2,11 @@ import React, { ComponentType } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect, RouteProps } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
+import { Comic, ComicSidebar } from './components/Comic';
+import { Content } from './components/Content';
 import { Filter, FilterSidebar } from './components/Filter';
 import { Search } from './components/Search';
-import { Comic } from './components/Comic';
-import { Content } from './components/Content';
+import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -32,9 +33,16 @@ const routes: CustomRouteProps[] = [
     main: Search
   },
   {
+    path: PATHS.BOOKMARK,
+    exact: true,
+    main: Bookmark,
+    sidebar: BookmarkSidebar
+  },
+  {
     path: PATHS.COMIC,
     exact: true,
-    main: Comic
+    main: Comic,
+    sidebar: ComicSidebar
   },
   {
     path: PATHS.CONTENT,
