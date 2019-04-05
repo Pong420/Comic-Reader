@@ -6,7 +6,7 @@ import comic from './comic';
 // import browsingHistory from './browsingHistory';
 // import content from './content';
 // import images from './images';
-// import search from './search';
+import search from './search';
 
 export * from './home';
 export * from './comic';
@@ -14,18 +14,18 @@ export * from './comic';
 // export * from './browsingHistory';
 // export * from './content';
 // export * from './images';
-// export * from './search';
+export * from './search';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
   home,
-  comic
+  comic,
   // bookmark,
   // browsingHistory,
   // content,
   // images,
-  // search
+  search
 });
 
 export default rootReducer;

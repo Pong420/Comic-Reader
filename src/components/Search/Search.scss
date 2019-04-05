@@ -1,0 +1,37 @@
+$space: 20px;
+
+.search {
+  .content {
+    @include flex(center, center, column);
+  }
+
+  .search-field {
+    @include dimen(100%);
+
+    flex: 0 0 auto;
+    padding: $space;
+
+    form {
+      @include flex(center);
+
+      padding: 2px 4px;
+    }
+  }
+
+  .search-results {
+    flex: 1 1 auto;
+    align-self: stretch;
+  }
+
+  .wrapper {
+    @include absolute(0, null, 0);
+    @include flex(center, center);
+    @include sq-dimen(100%);
+
+    color: #fff;
+  }
+
+  .grid-container {
+    padding-top: 0 !important;
+  }
+}

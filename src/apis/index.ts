@@ -1,6 +1,7 @@
 import { GetComicListParam, GetComicDataParam, GetContentDataParam, GetSearchResultsParam, GridData } from '../typings';
-
 import { getComicList, getComicData, getContentData, getSearchResults } from './source/IKanman';
+
+const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
 export function getComicListAPI(params: GetComicListParam) {
   return getComicList(params);
@@ -20,6 +21,7 @@ export async function getContentDataAPI(params: GetContentDataParam) {
   return getContentData(params);
 }
 
-export function getSearchResultsAPI(params: GetSearchResultsParam) {
+export async function getSearchResultsAPI(params: GetSearchResultsParam) {
+  // await delay(50000);
   return getSearchResults(params);
 }

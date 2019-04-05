@@ -51,11 +51,9 @@ export default function(state = initialState, action: HomeActions): HomeState {
       };
 
     case HomeActionTypes.GET_COMICS_LIST_SUCCESS:
-      const offset = state.offset + action.payload.length;
-
       return {
         ...state,
-        offset,
+        offset: state.offset + action.payload.length,
         noMoreComicResults: action.payload.length < NUM_OF_COMIC_ITEM_RETURN,
         comicList: [
           ...state.comicList.slice(0, state.offset),
