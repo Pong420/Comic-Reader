@@ -47,7 +47,7 @@ export interface ComicItem extends GridData {
 
 export type ComicItemList = ComicItem[];
 
-export interface ComicData extends ComicHeader {
+export interface ComicData extends ComicHeaderProps {
   comicID: string;
   chapters: Chapters;
   adultOnly: boolean;
@@ -59,7 +59,7 @@ export interface ComicHeaderDetails {
   [key: string]: string;
 }
 
-export interface ComicHeader {
+export interface ComicHeaderProps {
   cover: string;
   latest: string;
   finished: boolean;

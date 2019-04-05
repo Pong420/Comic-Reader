@@ -1,0 +1,63 @@
+.comic-header {
+  @include flex();
+  @include relative;
+
+  z-index: 1;
+
+  .comic-info {
+    @include padding-x(1em);
+  }
+
+  .comic-title {
+    @include flex(baseline, $wrap: wrap);
+
+    > * {
+      margin: 0 10px 0 0;
+    }
+  }
+
+  .comic-details {
+    display: table;
+    padding: 10px 0 5px;
+  }
+
+  .comic-details-item {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 20px;
+
+    &:nth-child(4),
+    &:nth-child(6),
+    &:nth-child(7) {
+      clear: left;
+    }
+
+    > span {
+      span {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .comic-intro {
+    @include multi-line-ellipsis($line-height: 1.4em, $line-clamp: 3);
+
+    font-size: 15px;
+    text-indent: 1.8em;
+  }
+}
+
+.comic-cover {
+  min-width: 190px;
+  background: #333;
+
+  div {
+    @include dimen(100%, 0);
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    box-shadow: 2px 3px 10px #111;
+    padding-bottom: 240 / 180 * 100%;
+  }
+}

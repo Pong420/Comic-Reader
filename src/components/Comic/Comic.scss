@@ -1,0 +1,21 @@
+.comic {
+  $padding: 20px;
+
+  .content {
+    color: #fff;
+    overflow: auto;
+  }
+
+  .comic-header {
+    padding-top: $padding;
+  }
+
+  .comic-content {
+    padding-bottom: $padding;
+  }
+
+  .comic-header,
+  .comic-content {
+    @include padding-x($padding);
+  }
+}

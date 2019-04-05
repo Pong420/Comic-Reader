@@ -16,10 +16,12 @@ function LayoutComponent(
 ) {
   if (error) {
     // return <Error {...error} />;
+    return null;
   }
 
   if (loading) {
     // return <Loading />;
+    return null;
   }
 
   return (

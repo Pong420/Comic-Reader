@@ -3,6 +3,9 @@ import { HashRouter as Router, Route, Switch, Redirect, RouteProps } from 'react
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Filter, FilterSidebar } from './components/Filter';
+import { Search } from './components/Search';
+import { Comic } from './components/Comic';
+import { Content } from './components/Content';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -22,6 +25,21 @@ const routes: CustomRouteProps[] = [
     exact: true,
     main: Filter,
     sidebar: FilterSidebar
+  },
+  {
+    path: PATHS.SEARCH,
+    exact: true,
+    main: Search
+  },
+  {
+    path: PATHS.COMIC,
+    exact: true,
+    main: Comic
+  },
+  {
+    path: PATHS.CONTENT,
+    exact: true,
+    main: Content
   }
 ];
 
