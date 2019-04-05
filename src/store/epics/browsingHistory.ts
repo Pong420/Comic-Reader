@@ -9,7 +9,7 @@ import {
   RefetchBrowsingHistory,
   RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
-import { ContentActions, ContentActionTypes, CacnelGetContent } from '../actions/content';
+import { ContentActions, ContentActionTypes, GetContentCanceled } from '../actions/content';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../typings';
 
@@ -34,7 +34,7 @@ const addBrowsingHistoryEpic: Epic<CombinedActions> = action$ =>
             ...action.payload
           }
         })),
-        takeUntil(action$.pipe(ofType<CombinedActions, CacnelGetContent>(ContentActionTypes.GET_CONTENT_CANCELED)))
+        takeUntil(action$.pipe(ofType<CombinedActions, GetContentCanceled>(ContentActionTypes.GET_CONTENT_CANCELED)))
       )
     )
   );

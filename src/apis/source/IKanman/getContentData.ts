@@ -2,14 +2,6 @@ import { api } from './api';
 import { GetContentDataParam, ContentData } from '../../../typings';
 import './utils/splic';
 
-interface SMH {
-  imgData?: (
-    n: Variables
-  ) => {
-    preInit: () => void;
-  };
-}
-
 interface Variables {
   bid?: number;
   bname?: string;
@@ -38,20 +30,26 @@ export async function getContentData({ comicID, chapterID }: GetContentDataParam
 
     let variables: Variables = {};
 
-    const SMH: SMH = {};
-    SMH.imgData = (n: Variables) => ({
-      preInit: () => {
-        variables = n;
-      }
-    });
+    window.SMH = {
+      imgData: n => ({
+        preInit: () => {
+          variables = n;
+        }
+      })
+    };
 
     $('script').each((_: number, script: CheerioElement) => {
       try {
         const { data } = $(script).get()[0].children[0];
         const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
         if (regex.test(data)) {
-          // tslint:disable-next-line
-          eval(eval(data.replace(regex, '')));
+          try {
+            // tslint:disable-next-line
+            eval(eval(data));
+          } catch (err) {
+            // tslint:disable-next-line
+            console.log(err);
+          }
         }
       } catch (e) {}
     });

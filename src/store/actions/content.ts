@@ -23,26 +23,22 @@ export interface GetContentFail {
   payload: ApiError;
 }
 
-export interface CacnelGetContent {
+export interface GetContentCanceled {
   type: ContentActionTypes.GET_CONTENT_CANCELED;
 }
 
-export type ContentActions = GetContent | GetContentSuccess | GetContentFail | CacnelGetContent;
-
-export function getContent(payload: GetContentDataParam): GetContent {
-  return {
-    type: ContentActionTypes.GET_CONTENT,
-    payload
-  };
-}
-
-export function cancelGetContent(): CacnelGetContent {
-  return {
-    type: ContentActionTypes.GET_CONTENT_CANCELED
-  };
-}
+export type ContentActions = GetContent | GetContentSuccess | GetContentFail | GetContentCanceled;
 
 export const ContentActionCreators = {
-  getContent,
-  cancelGetContent
+  getContent(payload: GetContentDataParam): GetContent {
+    return {
+      type: ContentActionTypes.GET_CONTENT,
+      payload
+    };
+  },
+  cancelGetContent(): GetContentCanceled {
+    return {
+      type: ContentActionTypes.GET_CONTENT_CANCELED
+    };
+  }
 };

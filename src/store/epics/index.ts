@@ -4,16 +4,15 @@ import comicEpic from './comic';
 import searchEpic from './search';
 import bookmarkEpic from './bookmark';
 import browsingHistoryEpic from './browsingHistory';
-// import contentEpic from './content';
-// import imagesEpic from './images';
+import contentEpic from './content';
+import imagesEpic from './images';
 
 export default combineEpics(
   ...homeEpic,
   ...comicEpic,
+  ...contentEpic,
+  ...imagesEpic,
   ...searchEpic,
   ...bookmarkEpic,
   ...browsingHistoryEpic
-  //   ...comicEpic,
-  //   ...contentEpic,
-  //   ...imagesEpic,
 );

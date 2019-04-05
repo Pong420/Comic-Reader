@@ -23,3 +23,13 @@ declare var System: System;
 
 declare const process: any;
 declare const require: any;
+
+declare interface Window {
+  SMH: {
+    imgData?: (
+      n: T
+    ) => {
+      preInit: () => T;
+    };
+  };
+}

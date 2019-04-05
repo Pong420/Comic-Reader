@@ -1,7 +1,18 @@
-import { GetComicListParam, GetComicDataParam, GetContentDataParam, GetSearchResultsParam, GridData } from '../typings';
-import { getComicList, getComicData, getContentData, getSearchResults } from './source/IKanman';
+import {
+  GetComicListParam,
+  GetComicDataParam,
+  GetContentDataParam,
+  GetSearchResultsParam,
+  GridData
+} from '../typings';
+import {
+  getComicList,
+  getComicData,
+  getContentData,
+  getSearchResults
+} from './source/IKanman';
 
-const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
+// const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
 export function getComicListAPI(params: GetComicListParam) {
   return getComicList(params);
@@ -9,7 +20,8 @@ export function getComicListAPI(params: GetComicListParam) {
 
 export function getGridDataAPI(params: GetComicDataParam) {
   return getComicData(params).then<GridData>(
-    ({ adultOnly, chapters, finished, intro, details, title, ...gridData }) => gridData
+    ({ adultOnly, chapters, finished, intro, details, title, ...gridData }) =>
+      gridData
   );
 }
 
@@ -22,6 +34,5 @@ export async function getContentDataAPI(params: GetContentDataParam) {
 }
 
 export async function getSearchResultsAPI(params: GetSearchResultsParam) {
-  // await delay(50000);
   return getSearchResults(params);
 }
