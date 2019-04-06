@@ -1,12 +1,21 @@
 import React, { ComponentType } from 'react';
-import { HashRouter as Router, Route, Switch, Redirect, RouteProps } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  RouteProps
+} from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
-import { Content } from './components/Content';
+import { Content, ContentSidebar } from './components/Content';
 import { Filter, FilterSidebar } from './components/Filter';
 import { Search } from './components/Search';
-import { BrowsingHistory, BrowsingHistorySidebar } from './components/BrowsingHistory';
+import {
+  BrowsingHistory,
+  BrowsingHistorySidebar
+} from './components/BrowsingHistory';
 import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
@@ -54,7 +63,8 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.CONTENT,
     exact: true,
-    main: Content
+    main: Content,
+    sidebar: ContentSidebar
   }
 ];
 

@@ -10,7 +10,7 @@ import { RootState, ImagesState, ImageActionCreators } from '../../store';
 
 export interface ImageProps {
   activeIndex: number;
-  onContextMenu(evt?: MouseEvent<HTMLDivElement>): void;
+  onContextMenu(): void;
   onClick(evt?: MouseEvent<HTMLDivElement>): void;
   onKeyDown(evt: KeyboardEvent<HTMLDivElement>): void;
 }
@@ -46,7 +46,10 @@ export function ImagesComponent({
       className="images"
       tabIndex={0}
       onClick={onClick}
-      onContextMenu={onContextMenu}
+      onContextMenu={evt => {
+        evt.preventDefault();
+        onContextMenu();
+      }}
       onKeyDown={onKeyDown}
       ref={scrollRef}
     >

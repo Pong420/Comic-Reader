@@ -2,10 +2,12 @@ import { Observable, from, Observer, of } from 'rxjs';
 import { takeUntil, mergeMap, catchError, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
+  ContentActionTypes,
+  ContentActions,
   ImageActionTypes,
   ImageActions,
   PreloadImage
-} from '../actions/images';
+} from '../actions';
 import { ImageDetail } from '../../typings';
 import { RootState } from '../reducers';
 
@@ -33,12 +35,14 @@ function loadImage(details: ImageDetail): Observable<ImageDetail> {
   });
 }
 
-const preloadImageEpic: Epic<ImageActions, ImageActions, RootState> = (
+type CombinedActions = ImageActions | ContentActions;
+
+const preloadImageEpic: Epic<CombinedActions, CombinedActions, RootState> = (
   action$,
   state$
 ) => {
   return action$.pipe(
-    ofType<ImageActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGES),
+    ofType<CombinedActions, PreloadImage>(ImageActionTypes.PRELOAD_IMAGES),
     mergeMap(({ payload: startIndex }) => {
       const imagesForPreload = state$.value.images.imagesDetail
         .slice(startIndex, startIndex + NO_OF_IMAGES_PRELOAD)
@@ -64,7 +68,14 @@ const preloadImageEpic: Epic<ImageActions, ImageActions, RootState> = (
             )
           )
         ),
-        takeUntil(action$.pipe(ofType(ImageActionTypes.PRELOAD_IMAGES)))
+        takeUntil(
+          action$.pipe(
+            ofType<CombinedActions>(
+              ImageActionTypes.PRELOAD_IMAGES,
+              ContentActionTypes.GET_CONTENT_CANCELED
+            )
+          )
+        )
       );
     })
   );

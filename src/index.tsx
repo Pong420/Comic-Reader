@@ -30,6 +30,14 @@ const theme = createMuiTheme({
       paper: {
         backgroundColor: '#2a2a2a'
       }
+    },
+    MuiSnackbar: {
+      anchorOriginBottomCenter: {
+        left: 'calc(50% + 60px) !important',
+        right: 'auto !important',
+        bottom: '10px !important',
+        transform: 'translateX(-50%)'
+      }
     }
   }
 });

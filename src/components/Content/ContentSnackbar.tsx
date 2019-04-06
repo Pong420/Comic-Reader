@@ -15,7 +15,7 @@ export function ContentSnackBar({ ...props }: ContentSnackBarProps) {
         vertical: 'bottom',
         horizontal: 'center'
       }}
-      autoHideDuration={2000}
+      autoHideDuration={2000000}
       action={[
         <IconButton
           key="close"
