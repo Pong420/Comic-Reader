@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicContent } from './ComicContent';
-// import { useRestoreScrollPosition } from '../../utils/useRestoreScrollPosition';
+import { useRestoreScrollPosition } from '../../utils/useRestoreScrollPosition';
 import { RootState, ComicState, ComicActionCreators } from '../../store';
 
 interface MatchParams {
@@ -26,9 +26,8 @@ function ComicComponent({
 }: ComicState & typeof ComicActionCreators & RouteComponentProps<MatchParams>) {
   const { comicID } = match.params;
   const contentElRef = useRef<HTMLDivElement>(null);
-  // const { adultOnly, chapters, ...comicHeaderProps } = comicData!;
 
-  // useRestoreScrollPosition(contentElRef, comicID, [comicData]);
+  useRestoreScrollPosition(contentElRef, comicID, [comicData]);
 
   useEffect(() => {
     getComic({ comicID });

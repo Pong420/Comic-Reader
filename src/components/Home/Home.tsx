@@ -46,7 +46,6 @@ export function HomeComponent({
             list={comicList}
             loadMore={loadMore}
             onGridRender={props => <Grid {...props} />}
-            // handler={gridHandler}
           />
         )}
       </AutoSizer>

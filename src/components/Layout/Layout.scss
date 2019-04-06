@@ -6,4 +6,24 @@
     height: 100%;
     overflow: hidden;
   }
+
+  &.loading {
+    .content {
+      @include flex(center, center, column);
+    }
+  }
+
+  &.error {
+    .content {
+      color: #fff;
+      font-size: 16px;
+
+      .error-status-text {
+        background: #444;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px 15px;
+      }
+    }
+  }
 }

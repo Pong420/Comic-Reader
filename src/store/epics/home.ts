@@ -1,5 +1,5 @@
 import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, concatMap, filter } from 'rxjs/operators';
+import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
 import {

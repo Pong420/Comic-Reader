@@ -1,6 +1,6 @@
 import React, { ReactNode, forwardRef, Ref } from 'react';
-// import { Loading } from '../Loading';
-// import { Error } from '../Error';
+import { Loading } from '../Loading';
+import { Error } from '../Error';
 import { ApiError } from '../../typings';
 
 export interface LayoutProps {
@@ -15,13 +15,11 @@ function LayoutComponent(
   ref: Ref<HTMLDivElement>
 ) {
   if (error) {
-    // return <Error {...error} />;
-    return null;
+    return <Error {...error} />;
   }
 
   if (loading) {
-    // return <Loading />;
-    return null;
+    return <Loading />;
   }
 
   return (

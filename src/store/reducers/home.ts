@@ -16,7 +16,6 @@ const placeholders: ComicItemList = new Array(NUM_OF_COMIC_ITEM_RETURN).fill({
 
 export interface HomeState {
   comicList: ComicItemList;
-  loading: boolean;
   error: ApiError | null;
   filter: string[];
   offset: number;
@@ -26,7 +25,6 @@ export interface HomeState {
 
 const initialState: HomeState = {
   comicList: [],
-  loading: false,
   error: null,
   filter: DEFAULT_FILTER,
   offset: 0,
@@ -78,7 +76,6 @@ export default function(state = initialState, action: HomeActions): HomeState {
     case HomeActionTypes.GET_COMICS_LIST_FAIL:
       return {
         ...state,
-        loading: false,
         error: action.payload
       };
 
