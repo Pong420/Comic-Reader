@@ -1,25 +1,23 @@
-## Electron-CRA-TS
+<img src="./internals/128x128.png" align="right">
 
-The `react-scripts` used in this repo is [my customized version](https://github.com/Pong420/create-react-app). The main difference are `sass-loader` config and allow to change the [webpack target](https://webpack.js.org/concepts/targets/). <br><br>
-If this [CRA pull request are merged](https://github.com/facebook/create-react-app/pull/5498) and you do not require the sass prefix, you could repalce the `react-scripts` to offical version
+## Desktop Comic Reader
 
-### Reference
+An Electron based comic reader.
 
-- [How to build an Electron app using create-react-app. No webpack configuration or “ejecting” necessary.](https://medium.freecodecamp.org/building-an-electron-application-with-create-react-app-97945861647c)
-- [electron-react-boilerplate typescript examples](https://github.com/electron-react-boilerplate/examples/tree/master/examples/typescript)
+- Data are scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
+- Built from [electron-with-cra-ts](https://github.com/Pong420/electron-with-cra-ts)
+- Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
-### Installation
+## :warning: Warning
 
-yarn is requeired, otherwise you should replace 'yarn' in package.json
-
-```
-yarn install
-```
+- Your IP has an opportunity that banned by the data owner. In my experience, you will unlock after around one day.
 
 ### Development
 
 ```
+
 yarn dev
+
 ```
 
 ### Packaging
@@ -29,19 +27,27 @@ Before packaging you may edit the build config in `package.json` which prefix wi
 To package apps for the local platform:
 
 ```
+
 yarn package
+
 ```
 
 First, refer to the [Multi Platform Build docs](https://www.electron.build/multi-platform-build) for dependencies. Then,
 
 ```
+
 yarn package-all
+
 ```
 
-### Tips
+## Credit
 
-- The scss variables / mixins in `src/scss` directly without `@import ....`
+- [App Icon created by ncrow](https://www.deviantart.com/ncrow/art/ComicBunch-Icon-189969026)
 
-- Create a new component quickly by `yarn component ComponentName`
+## License
 
-- Install dependencies with type. `yarn get lodash` equivalent to `yarn add lodash` and `yarn add --dev @types/loadash`
+[MIT](./LICENSE)
+
+## Disclaimer
+
+This project is for technical testing and educational purposes only. The owner and contributors do not assume any legal responsibilities caused by the users. Users should be aware of and take the risks.
