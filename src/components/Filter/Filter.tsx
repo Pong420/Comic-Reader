@@ -7,7 +7,7 @@ import Close from '@material-ui/icons/Close';
 import { Layout } from '../Layout';
 import { FilterData } from '../../typings';
 import { RootState, HomeState, HomeActionCreators } from '../../store';
-// import { useKeydown } from '../../utils/useKeydown';
+import { useKeydown } from '../../utils/useKeydown';
 import { PATHS, FILTER_DATA } from '../../constants';
 
 interface FilterItemProps {
@@ -49,7 +49,7 @@ function FilterComponent({
   setFilter,
   history
 }: HomeState & typeof HomeActionCreators & RouteComponentProps) {
-  // useKeydown(({ key }) => key === 'Escape' && history.push('/'));
+  useKeydown(({ key }) => key === 'Escape' && history.push('/'));
 
   return (
     <Layout className="filter">

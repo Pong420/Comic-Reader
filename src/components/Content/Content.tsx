@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, KeyboardEvent } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { ContentSnackBar } from './ContentSnackBar';
 import { RootState, ContentState, ContentActionCreators } from '../../store';
 import { PATHS } from '../../constants';
 import { usePagination } from '../../utils/usePagination';
+import { useKeydown } from '../../utils/useKeydown';
 import MESSAGE from './message.json';
 
 interface MatchParam {
@@ -77,13 +78,10 @@ function ContentComponent({
 
   const onClose = useCallback(() => setMessage(''), []);
 
-  const onKeyDown = useCallback(
-    ({ which }: KeyboardEvent<HTMLDivElement>) => {
-      if (which === 37) prevPage();
-      if (which === 39) nextPage();
-    },
-    [nextPage, prevPage]
-  );
+  useKeydown(({ which }: KeyboardEvent) => {
+    if (which === 37) prevPage();
+    if (which === 39) nextPage();
+  });
 
   useEffect(() => {
     getContent({ comicID, chapterID });
@@ -102,7 +100,6 @@ function ContentComponent({
       <Layout className="content-page" loading={loading} error={error}>
         <Images
           activeIndex={Number(pageNo) - 1}
-          onKeyDown={onKeyDown}
           onClick={nextPage}
           onContextMenu={prevPage}
         />

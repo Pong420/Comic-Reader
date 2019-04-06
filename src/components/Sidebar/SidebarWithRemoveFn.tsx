@@ -5,7 +5,7 @@ import DeleteForever from '@material-ui/icons/DeleteForever';
 import { Sidebar } from './';
 import { SidebarIcon } from './SidebarIcon';
 import { ConfirmDialog } from '../ConfirmDialog';
-// import { useKeydown } from '../../../utils/useKeydown';
+import { useKeydown } from '../../utils/useKeydown';
 
 interface SidebarWithRemoveFnProps {
   on: boolean;
@@ -22,11 +22,11 @@ export function SidebarWithRemoveFn({
 
   useEffect(() => {
     return () => {
-      onToggleOnOff(false);
+      on && onToggleOnOff(false);
     };
-  }, [onToggleOnOff]);
+  }, [on, onToggleOnOff]);
 
-  // useKeydown(({ key }) => key === 'Escape' && on && onToggleOnOff(false), [on]);
+  useKeydown(({ key }) => key === 'Escape' && on && onToggleOnOff(false));
 
   return (
     <Sidebar className="sidebar-with-remove-fn">
