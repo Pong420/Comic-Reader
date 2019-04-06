@@ -1,0 +1,12 @@
+.title-bar {
+  @include absolute(0, null, 0);
+  @include app-region;
+
+  width: 100%;
+  min-height: 20px;
+}
+
+.window-title-bar-placeholder {
+  height: 31px;
+  background-color: #333;
+}

@@ -6,16 +6,23 @@
   border-right: 1px solid #555;
   z-index: 1;
 
-  .app-region {
-    @include absolute(0, null, 0);
-    @include sq-dimen(100%);
-  }
-
   .sidebar-content {
     @include flex(center, flex-start, column);
     @include relative();
     @include sq-dimen(100%);
 
     z-index: 1;
+  }
+}
+
+main.darwin {
+  .sidebar {
+    &:before {
+      @include app-region;
+      @include absolute(0, null, 0);
+      @include sq-dimen(100%);
+
+      content: '';
+    }
   }
 }

@@ -1,5 +1,8 @@
 /// <reference types="react-scripts" />
 
+declare module 'react-desktop';
+declare module 'react-desktop/windows';
+
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.svg' {

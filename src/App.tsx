@@ -6,6 +6,7 @@ import {
   Redirect,
   RouteProps
 } from 'react-router-dom';
+import { TitleBar } from './components/TitleBar';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
@@ -70,6 +71,7 @@ const routes: CustomRouteProps[] = [
 
 const App = () => (
   <Router>
+    <TitleBar />
     <main className={process.platform}>
       {routes.map(({ sidebar = Sidebar, ...props }, index) => (
         <Route {...props} key={index} component={sidebar} />
