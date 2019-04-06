@@ -6,7 +6,12 @@ import { Layout } from '../Layout';
 import { Images } from './Images';
 import { ConfirmDialog } from '../ConfirmDialog';
 import { ContentSnackBar } from './ContentSnackBar';
-import { RootState, ContentState, ContentActionCreators } from '../../store';
+import {
+  RootState,
+  ContentState,
+  ContentActionCreators,
+  BrowsingHistoryActionCreators
+} from '../../store';
 import { PATHS } from '../../constants';
 import { usePagination } from '../../utils/usePagination';
 import { useKeydown } from '../../utils/useKeydown';
@@ -23,7 +28,13 @@ const mapStateToProps = ({ content }: RootState, ownProps: any) => ({
   ...ownProps
 });
 const mapDispatchToProps = (dispath: Dispatch) =>
-  bindActionCreators(ContentActionCreators, dispath);
+  bindActionCreators(
+    {
+      ...ContentActionCreators,
+      ...BrowsingHistoryActionCreators
+    },
+    dispath
+  );
 
 function ContentComponent({
   error,
@@ -34,9 +45,11 @@ function ContentComponent({
   history,
   match: { params },
   getContent,
-  cancelGetContent
+  cancelGetContent,
+  addBrowsingHistory
 }: ContentState &
   typeof ContentActionCreators &
+  typeof BrowsingHistoryActionCreators &
   RouteComponentProps<MatchParam>) {
   const { pageNo, comicID, chapterID } = params;
   const [message, setMessage] = useState('');
@@ -85,11 +98,12 @@ function ContentComponent({
 
   useEffect(() => {
     getContent({ comicID, chapterID });
+    addBrowsingHistory({ comicID, chapterID });
 
     return () => {
       cancelGetContent();
     };
-  }, [cancelGetContent, chapterID, comicID, getContent]);
+  }, [addBrowsingHistory, cancelGetContent, chapterID, comicID, getContent]);
 
   useEffect(() => {
     return onClose;

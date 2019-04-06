@@ -22,9 +22,9 @@ export function SidebarWithRemoveFn({
 
   useEffect(() => {
     return () => {
-      on && onToggleOnOff(false);
+      onToggleOnOff(false);
     };
-  }, [on, onToggleOnOff]);
+  }, [onToggleOnOff]);
 
   useKeydown(({ key }) => key === 'Escape' && on && onToggleOnOff(false));
 
