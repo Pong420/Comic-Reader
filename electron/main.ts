@@ -1,6 +1,12 @@
 import * as path from 'path';
 import * as url from 'url';
-import { app, session, BrowserWindow, WebPreferences, OnBeforeSendHeadersDetails } from 'electron';
+import {
+  app,
+  session,
+  BrowserWindow,
+  WebPreferences,
+  OnBeforeSendHeadersDetails
+} from 'electron';
 import { MenuBuilder } from './menu';
 
 interface RequestHeaders {
@@ -49,7 +55,8 @@ async function createWindow() {
     height: 720,
     titleBarStyle: FRAME_LESS ? 'hiddenInset' : 'default',
     frame: !FRAME_LESS,
-    webPreferences
+    webPreferences,
+    autoHideMenuBar: true
   });
 
   const startUrl =
@@ -84,7 +91,8 @@ async function createWindow() {
         }
 
         if (/m\.manhuagui\.com/.test(details.url)) {
-          details.requestHeaders['User-Agent'] = '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
+          details.requestHeaders['User-Agent'] =
+            '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
         }
 
         callback({
