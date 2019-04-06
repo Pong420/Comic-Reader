@@ -12,9 +12,9 @@ import {
   getSearchResults
 } from './source/IKanman';
 
-// const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
+const delay = (ms: number) => new Promise(_ => setTimeout(_, ms));
 
-export function getComicListAPI(params: GetComicListParam) {
+export async function getComicListAPI(params: GetComicListParam) {
   return getComicList(params);
 }
 

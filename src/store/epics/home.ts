@@ -1,5 +1,5 @@
-import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
+import { from, of, race } from 'rxjs';
+import { map, catchError, take, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
 import {
@@ -18,19 +18,22 @@ const getComicListEpic: Epic<HomeActions> = action$ =>
       HomeActionTypes.GET_MORE_COMICS_LIST
     ),
     concatMap(action =>
-      from(getComicListAPI(action.payload)).pipe(
-        map<ComicItemList, GetComicListSuccess>(comicList => ({
-          type: HomeActionTypes.GET_COMICS_LIST_SUCCESS,
-          payload: comicList
-        })),
-        catchError((error: ApiError) =>
-          of<HomeActions>({
-            type: HomeActionTypes.GET_COMICS_LIST_FAIL,
-            payload: error
-          })
+      race(
+        from(getComicListAPI(action.payload)).pipe(
+          map<ComicItemList, GetComicListSuccess>(comicList => ({
+            type: HomeActionTypes.GET_COMICS_LIST_SUCCESS,
+            payload: comicList
+          })),
+          catchError((error: ApiError) =>
+            of<HomeActions>({
+              type: HomeActionTypes.GET_COMICS_LIST_FAIL,
+              payload: error
+            })
+          )
         ),
-        takeUntil(
-          action$.pipe(ofType(HomeActionTypes.GET_COMICS_LIST_CANCELED))
+        action$.pipe(
+          ofType(HomeActionTypes.GET_COMICS_LIST_CANCELED),
+          take(1)
         )
       )
     )

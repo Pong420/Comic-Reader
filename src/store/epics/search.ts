@@ -1,5 +1,5 @@
-import { from, of } from 'rxjs';
-import { map, catchError, takeUntil, concatMap } from 'rxjs/operators';
+import { from, of, race } from 'rxjs';
+import { map, catchError, take, concatMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { AxiosError } from 'axios';
 import {
@@ -19,19 +19,22 @@ const getSearchResultsEpic: Epic<SearchActions> = action$ =>
       SearchActionTypes.GET_MORE_SEARCH_RESULTS
     ),
     concatMap(action =>
-      from(getSearchResultsAPI(action.payload)).pipe(
-        map<SearchResults, GetSearchResultsSuccess>(searchResults => ({
-          type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS,
-          payload: searchResults
-        })),
-        catchError((error: AxiosError) =>
-          of<SearchActions>({
-            type: SearchActionTypes.GET_SEARCH_RESULTS_FAIL,
-            payload: error
-          })
+      race(
+        from(getSearchResultsAPI(action.payload)).pipe(
+          map<SearchResults, GetSearchResultsSuccess>(searchResults => ({
+            type: SearchActionTypes.GET_SEARCH_RESULTS_SUCCESS,
+            payload: searchResults
+          })),
+          catchError((error: AxiosError) =>
+            of<SearchActions>({
+              type: SearchActionTypes.GET_SEARCH_RESULTS_FAIL,
+              payload: error
+            })
+          )
         ),
-        takeUntil(
-          action$.pipe(ofType(SearchActionTypes.GET_SEARCH_RESULTS_CANCELED))
+        action$.pipe(
+          ofType(SearchActionTypes.GET_SEARCH_RESULTS_CANCELED),
+          take(1)
         )
       )
     )
