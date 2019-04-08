@@ -1,5 +1,5 @@
-import { from } from 'rxjs';
-import { map, mergeMap, mapTo } from 'rxjs/operators';
+import { from, empty } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   BookmarkActions,
@@ -11,6 +11,8 @@ import {
 } from '../actions/bookmark';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../typings';
+import { RootState, bookmarkDirectory } from '../reducers';
+import { writeFileSync } from '../../utils/writeFileSync';
 
 const getGridData$ = (comicID: string) =>
   from(
@@ -47,7 +49,10 @@ const refetchBookmarkEpic: Epic<BookmarkActions> = action$ =>
     )
   );
 
-const saveBookmarkEpic: Epic<BookmarkActions> = action$ =>
+const saveBookmarkEpic: Epic<BookmarkActions, BookmarkActions, RootState> = (
+  action$,
+  state$
+) =>
   action$.pipe(
     ofType<BookmarkActions>(
       BookmarkActionTypes.ADD_BOOKMARK_SUCCESS,
@@ -55,8 +60,9 @@ const saveBookmarkEpic: Epic<BookmarkActions> = action$ =>
       BookmarkActionTypes.REMOVE_ALL_BOOKMARK,
       BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS
     ),
-    mapTo<BookmarkActions, BookmarkActions>({
-      type: BookmarkActionTypes.SAVE_BOOKMARK
+    switchMap(() => {
+      writeFileSync(bookmarkDirectory, state$.value.bookmark.bookmarks);
+      return empty();
     })
   );
 

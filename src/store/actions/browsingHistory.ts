@@ -7,8 +7,7 @@ export enum BrowsingHistoryActionTypes {
   REMOVE_ALL_BROWSING_HISTORY = 'REMOVE_ALL_BROWSING_HISTORY',
   REFETCH_BROWSING_HISTORY = 'REFETCH_BROWSING_HISTORY',
   REFETCH_BROWSING_HISTORY_SUCCESS = 'REFETCH_BROWSING_HISTORY_SUCCESS',
-  TOGGLE_BROWSING_HISTORY_REMOVABLE = 'TOGGLE_BROWSING_HISTORY_REMOVABLE',
-  SAVE_BROWSING_HISTORY = 'SAVE_BROWSING_HISTORY'
+  TOGGLE_BROWSING_HISTORY_REMOVABLE = 'TOGGLE_BROWSING_HISTORY_REMOVABLE'
 }
 
 export interface BrowsingHistoryPayload {
@@ -54,10 +53,6 @@ export interface ToggleBrowsingHistoryRemovable {
   payload?: boolean;
 }
 
-export interface SaveBrowsingHistory {
-  type: BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY;
-}
-
 export type BrowsingHistoryActions =
   | AddBrowsingHistory
   | AddBrowsingHistorySuccess
@@ -65,8 +60,7 @@ export type BrowsingHistoryActions =
   | RemoveAllBrowsingHistory
   | RefetchBrowsingHistory
   | RefetchBrowsingHistorySuccess
-  | ToggleBrowsingHistoryRemovable
-  | SaveBrowsingHistory;
+  | ToggleBrowsingHistoryRemovable;
 
 export const BrowsingHistoryActionCreators = {
   addBrowsingHistory(payload: BrowsingHistoryPayload): AddBrowsingHistory {

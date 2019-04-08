@@ -7,8 +7,7 @@ export enum BookmarkActionTypes {
   REMOVE_ALL_BOOKMARK = 'REMOVE_ALL_BOOKMARK',
   REFETCH_BOOKMARK = 'REFETCH_BOOKMARK',
   REFETCH_BOOKMARK_SUCCESS = 'REFETCH_BOOKMARK_SUCCESS',
-  TOGGLE_BOOKMARK_REMOVABLE = 'TOGGLE_BOOKMARK_REMOVABLE',
-  SAVE_BOOKMARK = 'SAVE_BOOKMARK'
+  TOGGLE_BOOKMARK_REMOVABLE = 'TOGGLE_BOOKMARK_REMOVABLE'
 }
 
 export interface AddBookmark {
@@ -45,10 +44,6 @@ export interface ToggleBookmarkRemovable {
   payload?: boolean;
 }
 
-export interface SaveBookmark {
-  type: BookmarkActionTypes.SAVE_BOOKMARK;
-}
-
 export type BookmarkActions =
   | AddBookmark
   | AddBookmarkSuccess
@@ -56,8 +51,7 @@ export type BookmarkActions =
   | RemoveAllBookmark
   | RefetchBookmark
   | RefetchBookmarkSuccess
-  | ToggleBookmarkRemovable
-  | SaveBookmark;
+  | ToggleBookmarkRemovable;
 
 export const BookmarkActionCreators = {
   addBookmark(comicID: string): AddBookmark {

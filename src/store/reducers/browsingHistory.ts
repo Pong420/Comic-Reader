@@ -80,11 +80,6 @@ export default function(state = initialState, action: BrowsingHistoryActions) {
             : !state.removable
       };
 
-    case BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY:
-      writeFileSync(browsingHistoryDirectory, state.browsingHistory);
-
-      return state;
-
     default:
       return state;
   }

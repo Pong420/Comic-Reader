@@ -1,5 +1,5 @@
-import { from } from 'rxjs';
-import { map, mergeMap, mapTo, takeUntil } from 'rxjs/operators';
+import { from, empty } from 'rxjs';
+import { map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   BrowsingHistoryActions,
@@ -16,6 +16,8 @@ import {
 } from '../actions/content';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../typings';
+import { RootState, browsingHistoryDirectory } from '../reducers';
+import { writeFileSync } from '../../utils/writeFileSync';
 
 const getGridData$ = (comicID: string) =>
   from(
@@ -69,7 +71,11 @@ const refetchBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
     )
   );
 
-const saveBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
+const saveBrowsingHistoryEpic: Epic<
+  BrowsingHistoryActions,
+  BrowsingHistoryActions,
+  RootState
+> = (action$, state$) =>
   action$.pipe(
     ofType<BrowsingHistoryActions>(
       BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
@@ -77,8 +83,12 @@ const saveBrowsingHistoryEpic: Epic<BrowsingHistoryActions> = action$ =>
       BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY,
       BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS
     ),
-    mapTo<BrowsingHistoryActions, BrowsingHistoryActions>({
-      type: BrowsingHistoryActionTypes.SAVE_BROWSING_HISTORY
+    switchMap(() => {
+      writeFileSync(
+        browsingHistoryDirectory,
+        state$.value.browsingHistory.browsingHistory
+      );
+      return empty();
     })
   );
 

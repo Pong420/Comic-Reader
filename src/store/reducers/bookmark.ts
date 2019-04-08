@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
 import { BookmarkActions, BookmarkActionTypes } from '../actions/bookmark';
-import { writeFileSync } from '../../utils/writeFileSync';
 import { BookmarkItem } from '../../typings';
 
 export const bookmarkDirectory = path.join(
@@ -72,11 +71,6 @@ export default function(state = initialState, action: BookmarkActions) {
             ? action.payload
             : !state.removable
       };
-
-    case BookmarkActionTypes.SAVE_BOOKMARK:
-      writeFileSync(bookmarkDirectory, state.bookmarks);
-
-      return state;
 
     default:
       return state;
