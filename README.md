@@ -8,6 +8,10 @@ An Electron based comic reader.
 - Built from [electron-with-cra-ts](https://github.com/Pong420/electron-with-cra-ts)
 - Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
+<img src="internals/screenshot1.png">
+<img src="internals/screenshot2.png">
+<img src="internals/screenshot3.png">
+
 ## :warning: Warning
 
 - Your IP has an opportunity that banned by the data owner. In my experience, you will unlock after around one day.
