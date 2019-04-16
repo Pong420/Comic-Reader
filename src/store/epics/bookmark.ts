@@ -1,13 +1,15 @@
-import { from, empty } from 'rxjs';
+import { from, empty, of } from 'rxjs';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
+import { RouterAction, LOCATION_CHANGE } from 'connected-react-router';
 import {
   BookmarkActions,
   BookmarkActionTypes,
   AddBookmark,
   AddBookmarkSuccess,
   RefetchBookmark,
-  RefetchBookmarkSuccess
+  RefetchBookmarkSuccess,
+  ToggleBookmarkRemovable
 } from '../actions/bookmark';
 import { getGridDataAPI } from '../../apis';
 import { GridData } from '../../typings';
@@ -66,4 +68,27 @@ const saveBookmarkEpic: Epic<BookmarkActions, BookmarkActions, RootState> = (
     })
   );
 
-export default [addBookmarkEpic, refetchBookmarkEpic, saveBookmarkEpic];
+const disableRemovableEpic: Epic<
+  BookmarkActions | RouterAction,
+  BookmarkActions | RouterAction,
+  RootState
+> = (action$, state$) =>
+  action$.pipe(
+    ofType(LOCATION_CHANGE),
+    switchMap(() => {
+      if (state$.value.bookmark.removable) {
+        return of<ToggleBookmarkRemovable>({
+          type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE
+        });
+      }
+
+      return empty();
+    })
+  );
+
+export default [
+  addBookmarkEpic,
+  refetchBookmarkEpic,
+  saveBookmarkEpic,
+  disableRemovableEpic
+];

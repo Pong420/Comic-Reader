@@ -1,13 +1,15 @@
-import { from, empty } from 'rxjs';
+import { from, empty, of } from 'rxjs';
 import { map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
+import { RouterAction, LOCATION_CHANGE } from 'connected-react-router';
 import {
   BrowsingHistoryActions,
   BrowsingHistoryActionTypes,
   AddBrowsingHistory,
   AddBrowsingHistorySuccess,
   RefetchBrowsingHistory,
-  RefetchBrowsingHistorySuccess
+  RefetchBrowsingHistorySuccess,
+  ToggleBrowsingHistoryRemovable
 } from '../actions/browsingHistory';
 import {
   ContentActions,
@@ -92,8 +94,27 @@ const saveBrowsingHistoryEpic: Epic<
     })
   );
 
+const disableRemovableEpic: Epic<
+  BrowsingHistoryActions | RouterAction,
+  BrowsingHistoryActions | RouterAction,
+  RootState
+> = (action$, state$) =>
+  action$.pipe(
+    ofType(LOCATION_CHANGE),
+    switchMap(() => {
+      if (state$.value.browsingHistory.removable) {
+        return of<ToggleBrowsingHistoryRemovable>({
+          type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE
+        });
+      }
+
+      return empty();
+    })
+  );
+
 export default [
   addBrowsingHistoryEpic,
   refetchBrowsingHistoryEpic,
-  saveBrowsingHistoryEpic
+  saveBrowsingHistoryEpic,
+  disableRemovableEpic
 ];

@@ -20,12 +20,6 @@ export function SidebarWithRemoveFn({
 }: SidebarWithRemoveFnProps) {
   const [openDialog, setDialogOpen] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      onToggleOnOff(false);
-    };
-  }, [onToggleOnOff]);
-
   useKeydown(({ key }) => key === 'Escape' && on && onToggleOnOff(false));
 
   return (
