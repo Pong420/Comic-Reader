@@ -4,7 +4,7 @@
 
 An Electron based comic reader.
 
-- Data are scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
+- Data is scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
 - Built from [electron-with-cra-ts](https://github.com/Pong420/electron-with-cra-ts)
 - Inspired by [ComicsReader](https://github.com/ComicsReader/app) and [Arachnid-27/Cimoc](https://github.com/Arachnid-27/Cimoc)
 
@@ -21,8 +21,6 @@ yarn dev
 ```
 
 ### Packaging
-
-Before packaging you may edit the build config in `package.json` which prefix with `REPLACE_`.
 
 To package apps for the local platform:
 
