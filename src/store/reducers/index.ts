@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import home from './home';
 import comic from './comic';
 import content from './content';
@@ -15,16 +16,18 @@ export * from './browsingHistory';
 export * from './content';
 export * from './images';
 
-export type RootState = ReturnType<typeof rootReducer>;
+const rootReducer = (history: Parameters<typeof connectRouter>[0]) =>
+  combineReducers({
+    router: connectRouter(history),
+    home,
+    comic,
+    content,
+    images,
+    search,
+    bookmark,
+    browsingHistory
+  });
 
-const rootReducer = combineReducers({
-  home,
-  comic,
-  content,
-  images,
-  search,
-  bookmark,
-  browsingHistory
-});
+export type RootState = ReturnType<ReturnType<typeof rootReducer>>;
 
 export default rootReducer;

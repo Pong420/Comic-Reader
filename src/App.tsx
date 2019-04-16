@@ -70,7 +70,7 @@ const routes: CustomRouteProps[] = [
 ];
 
 const App = () => (
-  <Router>
+  <>
     <TitleBar />
     <main className={process.platform}>
       {routes.map(({ sidebar = Sidebar, ...props }, index) => (
@@ -83,7 +83,7 @@ const App = () => (
         <Redirect to={PATHS.HOME} />
       </Switch>
     </main>
-  </Router>
+  </>
 );
 
 export default App;

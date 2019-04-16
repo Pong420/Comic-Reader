@@ -1,18 +1,45 @@
+import { createBrowserHistory } from 'history';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
+import { createEpicMiddleware, Epic } from 'redux-observable';
+import { routerMiddleware } from 'connected-react-router';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import rootEpic from './epics';
-import rootReducer from './reducers';
+import createRootReducer from './reducers';
 
-const epicMiddleware = createEpicMiddleware();
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(epicMiddleware));
+export const history = createBrowserHistory();
 
-const store = createStore(rootReducer, undefined, enhancer);
+const epic$ = new BehaviorSubject(rootEpic);
+const hotReloadingEpic: Epic<any> = (...args: any) =>
+  epic$.pipe(switchMap(epic => epic(...args)));
 
-epicMiddleware.run(rootEpic);
+export default function configureStore() {
+  const epicMiddleware = createEpicMiddleware();
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const enhancer = composeEnhancers(
+    applyMiddleware(routerMiddleware(history), epicMiddleware)
+  );
 
-export default store;
+  const store = createStore(createRootReducer(history), undefined, enhancer);
+
+  epicMiddleware.run(hotReloadingEpic);
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (module.hot) {
+      module.hot.accept('./reducers', () => {
+        store.replaceReducer(createRootReducer(history));
+      });
+
+      module.hot.accept('./epics', () => {
+        const nextRootEpic = require('./epics').default;
+        epic$.next(nextRootEpic);
+      });
+    }
+  }
+
+  return store;
+}
 
 export * from './actions';
 export * from './reducers';
