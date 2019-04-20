@@ -78,7 +78,9 @@ function ContentComponent({
   );
 
   const nextPage = changePath(nextPagePath, () =>
-    setMessage(MESSAGE.GOTO_NEXT_CHAPTER)
+    setMessage(
+      nextChapterPath ? MESSAGE.GOTO_NEXT_CHAPTER : MESSAGE.LAST_CHAPTER
+    )
   );
 
   const prevChapter = changePath(prevChapterPath, () =>
