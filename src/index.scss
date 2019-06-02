@@ -17,6 +17,8 @@ body {
   font-family: Helvetica, Arial, 微軟正黑體, Microsoft JhengHei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: $primary-color;
 }
 
 img {
@@ -26,4 +28,23 @@ img {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+main {
+  @include dimen(100%, 100vh);
+  @include flex();
+
+  .sidebar {
+    flex: 0 0 auto;
+
+    + * {
+      flex: 1 1 auto;
+    }
+  }
+
+  &:not(.darwin) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

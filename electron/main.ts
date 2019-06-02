@@ -1,11 +1,34 @@
 import * as path from 'path';
 import * as url from 'url';
-import { app, shell, BrowserWindow } from 'electron';
+import {
+  app,
+  shell,
+  session,
+  BrowserWindow,
+  WebPreferences,
+  OnBeforeSendHeadersDetails
+} from 'electron';
 import { MenuBuilder } from './menu';
 
 let mainWindow: BrowserWindow | null = null;
 
+interface RequestHeaders {
+  Origin: string;
+  Referer: string;
+  'User-Agent': string;
+}
+
+interface HeaderDetails extends OnBeforeSendHeadersDetails {
+  requestHeaders: RequestHeaders;
+}
+
 const isDevelopment = process.env.NODE_ENV === 'development';
+const webPreferences: WebPreferences = isDevelopment
+  ? {
+      // if you have CROS issue, you could uncomment below config
+      webSecurity: false
+    }
+  : {};
 
 async function createWindow() {
   if (isDevelopment) {
@@ -20,8 +43,12 @@ async function createWindow() {
 
   mainWindow = new BrowserWindow({
     show: false,
-    height: 600,
-    width: 800
+    width: 1024 + 80,
+    height: 720,
+    titleBarStyle: 'hiddenInset',
+    frame: false,
+    webPreferences,
+    autoHideMenuBar: true
   });
 
   const startUrl =
@@ -49,6 +76,29 @@ async function createWindow() {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  if (session.defaultSession) {
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      { urls: [] },
+      (detailsProps, callback) => {
+        const details = detailsProps as HeaderDetails;
+
+        if (/hamreus/.test(details.url)) {
+          details.requestHeaders.Referer = 'https://www.manhuagui.com/';
+        }
+
+        if (/m\.manhuagui\.com/.test(details.url)) {
+          details.requestHeaders['User-Agent'] =
+            '"Mozilla/5.0 (Linux; Android 7.0;) Chrome/58.0.3029.110 Mobile")';
+        }
+
+        callback({
+          cancel: false,
+          requestHeaders: details.requestHeaders
+        });
+      }
+    );
+  }
 }
 app.on('ready', createWindow);
 
