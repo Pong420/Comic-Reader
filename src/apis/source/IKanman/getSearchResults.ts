@@ -16,7 +16,7 @@ export async function getSearchResults({
 
     const searchResult = $('li')
       .toArray()
-      .map((_, li) => {
+      .map(li => {
         const text = (selector: string) =>
           $(li)
             .find(selector)

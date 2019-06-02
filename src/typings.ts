@@ -45,8 +45,6 @@ export interface Schema$ComicItem extends Schema$GridData {
   status: string;
 }
 
-export type ComicItemList = Schema$ComicItem[];
-
 export interface Schema$ComicData extends ComicHeaderProps {
   comicID: string;
   chapters: Schema$Chapters;

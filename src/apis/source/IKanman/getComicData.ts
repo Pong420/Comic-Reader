@@ -24,14 +24,14 @@ export async function getComicData({
     const title = $('.book-title')
       .children()
       .toArray()
-      .map((_, c) => $(c).text());
+      .map(c => $(c).text());
 
     const finished = !$('.hcover .serial').length;
     const adultOnly = !!$('#checkAdult').length;
 
     const details = $('.detail-list li > span')
       .toArray()
-      .map((_, details) => {
+      .map(details => {
         const $val = $(details)
           .contents()
           .filter((_, el) => el.tagName !== 'strong');
@@ -41,7 +41,8 @@ export async function getComicData({
             .find('strong')
             .text(),
           val: $val
-            .map((_, el) => {
+            .toArray()
+            .map(el => {
               const text = $(el).text();
               // FIXME:
               // @ts-ignore
@@ -50,7 +51,6 @@ export async function getComicData({
               }
               return `<span>${text}</span>`;
             })
-            .toArray()
             .join('')
         };
       });
@@ -96,7 +96,7 @@ export async function getComicData({
             return {
               chapterID: $aTag
                 .attr('href')
-                .replace(/.*\/(?=[^\/].*$)|.html/g, ''),
+                .replace(/.*\/(?=[^/].*$)|.html/g, ''),
               title: chineseConv.tify($aTag.attr('title')),
               p: $aTag.find('i').text(),
               isNew: !!$(chapter).find('.new').length

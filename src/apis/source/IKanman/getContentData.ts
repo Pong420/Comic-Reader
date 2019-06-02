@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { api } from './api';
 import { Param$Schema$ContentData, Schema$ContentData } from '../../../typings';
 import './utils/splic';
@@ -46,7 +48,7 @@ export async function getContentData({
     $('script').each((_, script) => {
       try {
         const { data } = $(script).get()[0].children[0];
-        const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
+        const regex = /window\["\\x65\\x76\\x61\\x6c\"F]/g;
         if (regex.test(data)) {
           try {
             // tslint:disable-next-line
