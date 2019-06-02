@@ -132,6 +132,7 @@
     ]
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.11",
     "@types/jest": "24.0.13",
     "@types/node": "12.0.4",
     "@types/react": "16.8.19",
@@ -157,6 +158,10 @@
   "dependencies": {
     "@material-ui/core": "^4.0.1",
     "@material-ui/icons": "^4.0.1",
+    "axios": "^0.19.0",
+    "axios-extensions": "^3.0.6",
+    "cheerio": "^1.0.0-rc.3",
+    "chinese-conv": "^1.0.1",
     "electron-devtools-installer": "^2.2.4",
     "pong-react-scripts": "3.0.1",
     "react": "^16.8.6",
