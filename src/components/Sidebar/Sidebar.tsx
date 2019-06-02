@@ -26,8 +26,7 @@ export function Sidebar({ className, children }: Props) {
         />
         <IconButton icon={BookMarksIcon} to={PATHS.BOOKMARK} title="收藏" />
 
-        {/* {!!children && <Divider className="divider" />} */}
-        <Divider className="divider" />
+        {!!children && <Divider className="divider" />}
 
         {children}
       </div>

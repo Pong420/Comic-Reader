@@ -1,8 +1,11 @@
+import { Schema$ComicItem, ApiError } from '../../typings';
+
 export enum HomeActionTypes {
   GET_COMICS_LIST = 'GET_COMICS_LIST',
   GET_COMICS_LIST_SUCCESS = 'GET_COMICS_LIST_SUCCESS',
   GET_COMICS_LIST_FAIL = 'GET_COMICS_LIST_FAIL',
   GET_COMICS_LIST_CANCELED = 'GET_COMICS_LIST_CANCELED',
+  GET_MORE_COMICS_LIST = 'GET_MORE_COMICS_LIST',
   SET_FILTER = 'SET_FILTER'
 }
 
@@ -10,7 +13,31 @@ export interface GetComicList {
   type: HomeActionTypes.GET_COMICS_LIST;
 }
 
-export type HomeActions = GetComicList;
+export interface GetComicListSuccess {
+  type: HomeActionTypes.GET_COMICS_LIST_SUCCESS;
+  payload: Schema$ComicItem[];
+}
+
+export interface GetComicListFail {
+  type: HomeActionTypes.GET_COMICS_LIST_FAIL;
+  payload: ApiError;
+}
+
+export interface CancelGetComicList {
+  type: HomeActionTypes.GET_COMICS_LIST_CANCELED;
+}
+
+export interface GetMoreComicList {
+  type: HomeActionTypes.GET_MORE_COMICS_LIST;
+}
+
+export type HomeActions =
+  | GetComicList
+  | GetComicListSuccess
+  | GetComicListFail
+  | CancelGetComicList
+  | CancelGetComicList
+  | GetMoreComicList;
 
 export function getComicList(): GetComicList {
   return {
@@ -18,6 +45,13 @@ export function getComicList(): GetComicList {
   };
 }
 
+export function getMoreComicList(): GetMoreComicList {
+  return {
+    type: HomeActionTypes.GET_MORE_COMICS_LIST
+  };
+}
+
 export const HomeActionCreators = {
-  getComicList
+  getComicList,
+  getMoreComicList
 };

@@ -1,0 +1,15 @@
+.grid-container {
+  .grid {
+    height: 100%;
+    display: block;
+  }
+}
+
+.grid-sizer-container {
+  @include absolute(null, 0, 0);
+  @include sq-dimen(100%);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  visibility: hidden;
+}

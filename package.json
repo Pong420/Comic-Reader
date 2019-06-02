@@ -139,6 +139,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
+    "@types/react-virtualized": "^9.21.2",
     "cross-env": "^5.2.0",
     "dart-sass": "^1.20.3",
     "electron": "^4.1.4",
@@ -168,6 +169,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
+    "react-virtualized": "^9.21.1",
     "redux": "^4.0.1",
     "redux-observable": "^1.1.0",
     "rxjs": "^6.5.2"

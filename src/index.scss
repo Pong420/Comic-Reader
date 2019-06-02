@@ -33,6 +33,7 @@ a {
 #root {
   @include dimen(100%, 100vh);
   @include flex();
+  font-size: 14px;
 
   .sidebar {
     flex: 0 0 auto;
