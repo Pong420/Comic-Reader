@@ -23,6 +23,11 @@ const execPromise = command => {
 const root = path.join(__dirname, '../src');
 const templatePath = path.join(__dirname, 'template/store');
 const store = path.join(root, 'store');
+
+if (!fs.existsSync(store)) {
+  fs.mkdirSync(store);
+}
+
 const subdir = ['actions', 'epics', 'reducers'].map(dir =>
   path.join(store, dir)
 );
@@ -44,7 +49,9 @@ if (args[0] === 'init') {
     const key = dir.split('/').slice(-1)[0];
     fs.readFile(path.join(templatePath, `${key}.tmpl`), (error, content) => {
       if (!error) {
-        fs.mkdirSync(dir);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir);
+        }
         fs.writeFileSync(path.join(dir, 'index.ts'), content);
       }
     });

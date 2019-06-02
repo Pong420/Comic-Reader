@@ -14,6 +14,7 @@
     "component": "node scripts/component.js",
     "precommit": "lint-staged",
     "get": "node scripts/type.js",
+    "redux": "node scripts/redux.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -135,6 +136,7 @@
     "@types/node": "12.0.4",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
     "cross-env": "^5.2.0",
     "dart-sass": "^1.20.3",
@@ -159,7 +161,11 @@
     "pong-react-scripts": "3.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-observable": "^1.1.0",
+    "rxjs": "^6.5.2"
   },
   "devEngines": {
     "node": ">=7.x",
