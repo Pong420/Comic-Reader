@@ -1,9 +1,11 @@
 .sidebar {
+  @include app-region-drag;
   @include dimen(80px);
   @include relative();
 
   background-color: #424242;
   border-right: 1px solid #555;
+  padding-top: 40px; // TODO: check fullscreen
   z-index: 1;
 
   .sidebar-content {
@@ -12,17 +14,15 @@
     @include sq-dimen(100%);
 
     z-index: 1;
-  }
-}
 
-main.darwin {
-  .sidebar {
-    &:before {
-      @include app-region;
-      @include absolute(0, null, 0);
-      @include sq-dimen(100%);
-
-      content: '';
+    > * {
+      @include app-region-no-drag;
     }
+  }
+
+  .divider {
+    @include dimen(40px);
+    @include margin-y(10px);
+    background: #aaa;
   }
 }

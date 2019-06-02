@@ -30,7 +30,7 @@ a {
   color: inherit;
 }
 
-main {
+#root {
   @include dimen(100%, 100vh);
   @include flex();
 

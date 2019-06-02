@@ -153,6 +153,8 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
     "electron-devtools-installer": "^2.2.4",
     "pong-react-scripts": "3.0.1",
     "react": "^16.8.6",

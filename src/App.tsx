@@ -27,17 +27,15 @@ const routes: CustomRouteProps[] = [
 const App = () => (
   <Router>
     <Switch>
-      <main className={process.platform}>
-        {routes.map(({ sidebar = Sidebar, ...props }, index) => (
-          <Route {...props} key={index} component={sidebar} />
+      {routes.map(({ sidebar = Sidebar, ...props }, index) => (
+        <Route {...props} key={index} component={sidebar} />
+      ))}
+      <Switch>
+        {routes.map(({ main, ...props }, index) => (
+          <Route {...props} key={index} component={main} />
         ))}
-        <Switch>
-          {routes.map(({ main, ...props }, index) => (
-            <Route {...props} key={index} component={main} />
-          ))}
-          <Redirect to={PATHS.HOME} />
-        </Switch>
-      </main>
+        <Redirect to={PATHS.HOME} />
+      </Switch>
     </Switch>
   </Router>
 );
