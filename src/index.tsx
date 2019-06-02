@@ -10,19 +10,17 @@ import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
 const render = (Component: React.ComponentType<any>) => {
-  return ReactDOM.render(<Component />, document.getElementById('root'));
+  return ReactDOM.render(
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Component />
+      </Provider>
+    </MuiThemeProvider>,
+    document.getElementById('root')
+  );
 };
 
 render(App);
-
-ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </MuiThemeProvider>,
-  document.getElementById('root')
-);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
