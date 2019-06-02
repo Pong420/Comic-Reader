@@ -1,6 +1,6 @@
 import {
   Param$ComicList,
-  Param$Schema$ComicData,
+  Param$ComicData,
   Param$Schema$ContentData,
   Param$SearchResult,
   Schema$GridData
@@ -16,14 +16,14 @@ export async function getComicListAPI(params: Param$ComicList) {
   return getComicList(params);
 }
 
-export function getGridDataAPI(params: Param$Schema$ComicData) {
+export function getGridDataAPI(params: Param$ComicData) {
   return getComicData(params).then<Schema$GridData>(
     ({ adultOnly, chapters, finished, intro, details, title, ...gridData }) =>
       gridData
   );
 }
 
-export async function getComicDataAPI(params: Param$Schema$ComicData) {
+export async function getComicDataAPI(params: Param$ComicData) {
   return getComicData(params);
 }
 

@@ -19,7 +19,7 @@ export interface Param$Schema$GridData {
   comicID: string;
 }
 
-export interface Param$Schema$ComicData {
+export interface Param$ComicData {
   comicID: string;
 }
 

@@ -28,7 +28,7 @@ export function IconButton({
 }: Props) {
   if (Icon) {
     return (
-      <WithNavLink to={to} activeClassName="mui-icon-button-active">
+      <WithNavLink to={to} activeClassName="mui-icon-button-active" exact>
         <WithTooltip title={title}>
           <MuiIconButton
             {...props}

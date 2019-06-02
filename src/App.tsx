@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home } from './components/Home';
+import { Comic } from './components/Comic';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -20,6 +21,11 @@ const routes: CustomRouteProps[] = [
     path: PATHS.HOME,
     exact: true,
     main: Home,
+    sidebar: Sidebar
+  },
+  {
+    path: PATHS.COMIC,
+    main: Comic,
     sidebar: Sidebar
   }
 ];

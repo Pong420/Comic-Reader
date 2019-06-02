@@ -1,6 +1,6 @@
 import { api } from './api';
 import {
-  Param$Schema$ComicData,
+  Param$ComicData,
   Schema$Chapters,
   Schema$ComicData
 } from '../../../typings';
@@ -10,7 +10,7 @@ const chineseConv = require('chinese-conv'); // tslint:disable-line
 
 export async function getComicData({
   comicID
-}: Param$Schema$ComicData): Promise<Schema$ComicData> {
+}: Param$ComicData): Promise<Schema$ComicData> {
   try {
     const { data: $ } = await api.get<CheerioStatic>(`/comic/${comicID}/`);
 

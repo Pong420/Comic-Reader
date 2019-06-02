@@ -29,7 +29,7 @@ const getComicListEpic: Epic<HomeActions, HomeActions, RootState> = (
       HomeActionTypes.GET_MORE_COMICS_LIST
     ),
     withLatestFrom(param$),
-    concatMap(([action, page]) =>
+    concatMap(([_, page]) =>
       from(getComicListAPI({ page })).pipe(
         map<Schema$ComicItem[], GetComicListSuccess>(comicList => ({
           type: HomeActionTypes.GET_COMICS_LIST_SUCCESS,
