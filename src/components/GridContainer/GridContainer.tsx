@@ -1,4 +1,10 @@
-import React, { ReactNode, useMemo, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+  ReactNode
+} from 'react';
 import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
@@ -10,12 +16,13 @@ export interface GridContainerProps<T> {
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
   overscanRowCount?: number;
+  scrollPostionKey?: string;
 }
 
 const gridGap = 20;
 const ratio = 360 / 480; // width / height
 const containerPadding = gridGap;
-// const scrollPosition = new Map<string, number>();
+const scrollPosition = new Map<string, number>();
 
 const gridContainerStyle = {
   padding: containerPadding - gridGap / 2,
@@ -26,6 +33,8 @@ const gridSizerContainerStyle = {
   gridGap,
   padding: containerPadding
 };
+
+const gridStyle = { padding: `${gridGap / 2}px`, height: '100%' };
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const columnWidth = el ? el.offsetWidth : 0;
@@ -43,10 +52,12 @@ export function GridContainer<T extends {}>({
   items,
   onGridRender,
   loadMore,
-  overscanRowCount = 10
+  overscanRowCount,
+  scrollPostionKey
 }: GridContainerProps<T>) {
+  const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
-  const scrollTopRef = useRef<number>(0);
+  const scrollTopRef = useRef(0);
   const { columnCount, columnWidth } = useMemo(
     () => getColumnData(width, gridSizerRef.current),
     [width]
@@ -71,9 +82,7 @@ export function GridContainer<T extends {}>({
 
       return (
         <div style={style} key={key}>
-          <div style={{ padding: `${gridGap / 2}px`, height: '100%' }}>
-            {onGridRender(data)}
-          </div>
+          <div style={gridStyle}>{onGridRender(data)}</div>
         </div>
       );
     },
@@ -88,6 +97,22 @@ export function GridContainer<T extends {}>({
     },
     [rowCount, loadMore]
   );
+
+  useEffect(() => {
+    scrollTopRef.current =
+      (scrollPostionKey && scrollPosition.get(scrollPostionKey)) || 0;
+
+    gridRef.current!.scrollToPosition({
+      scrollTop: scrollTopRef.current,
+      scrollLeft: 0
+    });
+
+    return () => {
+      if (scrollPostionKey) {
+        scrollPosition.set(scrollPostionKey, scrollTopRef.current);
+      }
+    };
+  }, [scrollPostionKey]);
 
   return (
     <>
@@ -105,6 +130,7 @@ export function GridContainer<T extends {}>({
         overscanRowCount={overscanRowCount}
         onScroll={onScroll}
         onSectionRendered={onSectionRendered}
+        ref={gridRef}
       />
       <div className="grid-sizer-container" style={gridSizerContainerStyle}>
         <div ref={gridSizerRef} />

@@ -27,6 +27,7 @@ function HomeCompomnent({ comicList, getComicList, getMoreComicList }: Props) {
             items={comicList}
             loadMore={getMoreComicList}
             onGridRender={props => <Grid {...props} />}
+            scrollPostionKey="home"
           />
         )}
       </AutoSizer>
