@@ -1,5 +1,9 @@
 import { HomeActionTypes, HomeActions } from '../actions/home';
-import { Param$ComicList, Schema$ComicItem } from '../../typings';
+import {
+  Param$ComicList,
+  Schema$ComicItem,
+  ApiRequestStatus
+} from '../../typings';
 
 const NUM_OF_COMIC_ITEM_RETURN = 42;
 const placeholders: Schema$ComicItem[] = new Array(
@@ -8,7 +12,7 @@ const placeholders: Schema$ComicItem[] = new Array(
   isPlaceholder: true
 });
 
-export interface HomeState extends Param$ComicList {
+export interface HomeState extends Param$ComicList, ApiRequestStatus {
   comicList: Schema$ComicItem[];
   offset: number;
   noMoreComicResults: boolean;
@@ -18,14 +22,17 @@ const initialState: HomeState = {
   comicList: placeholders,
   offset: 0,
   page: 1,
-  noMoreComicResults: false
+  noMoreComicResults: false,
+  error: false,
+  loading: false
 };
 
 export default function(state = initialState, action: HomeActions): HomeState {
   switch (action.type) {
     case HomeActionTypes.GET_COMICS_LIST:
       return {
-        ...initialState
+        ...initialState,
+        loading: true
       };
 
     case HomeActionTypes.GET_MORE_COMICS_LIST:
@@ -42,6 +49,8 @@ export default function(state = initialState, action: HomeActions): HomeState {
 
         return {
           ...state,
+          loading: false,
+          error: false,
           offset: offset + newComicList.length,
           noMoreComicResults: newComicList.length < NUM_OF_COMIC_ITEM_RETURN,
           comicList: [
@@ -51,6 +60,13 @@ export default function(state = initialState, action: HomeActions): HomeState {
           ]
         };
       })();
+
+    case HomeActionTypes.GET_COMICS_LIST_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
 
     default:
       return state;

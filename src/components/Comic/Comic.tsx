@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicContent } from './ComicContent';
 import { RootState, ComicState, ComicActionCreators } from '../../store';
@@ -20,6 +21,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 function ComicComponent({
   match,
+  error,
+  loading,
   comicData,
   getComic,
   cancelGetComic
@@ -35,10 +38,12 @@ function ComicComponent({
   }, [cancelGetComic, comicID, getComic]);
 
   return (
-    <div className="comic" ref={contentElRef}>
-      <ComicHeader {...comicData} />
-      <ComicContent {...comicData} />
-    </div>
+    <Layout error={error} loading={loading}>
+      <div className="comic" ref={contentElRef}>
+        <ComicHeader {...comicData} />
+        <ComicContent {...comicData} />
+      </div>
+    </Layout>
   );
 }
 

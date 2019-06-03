@@ -9,6 +9,13 @@ export interface CustomApiError {
 
 export type ApiError = AxiosError | CustomApiError;
 
+export type Error = ApiError | boolean;
+
+export interface ApiRequestStatus {
+  error: Error;
+  loading: boolean;
+}
+
 export interface Param$ComicList {
   page: number;
   type?: string;
