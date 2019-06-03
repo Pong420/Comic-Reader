@@ -3,7 +3,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { Schema$GridData } from '../../typings';
 import { classes } from '../../utils/classes';
 import { PATHS } from '../../constants';
-// import ContentLoader from 'react-content-loader';
+import ContentLoader from 'react-content-loader';
 
 export interface GridPorps extends Schema$GridData {
   className?: string;
@@ -12,7 +12,20 @@ export interface GridPorps extends Schema$GridData {
 }
 
 function Placeholder() {
-  return null;
+  const width = 360;
+  const height = 510;
+
+  return (
+    <ContentLoader
+      height={height}
+      width={width}
+      speed={2}
+      primaryColor="#252525"
+      secondaryColor="#212121"
+    >
+      <rect x="2" y="-36" rx="5" ry="5" width={width} height={height} />
+    </ContentLoader>
+  );
 }
 
 export function Grid({
