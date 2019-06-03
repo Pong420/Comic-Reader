@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, generatePath } from 'react-router-dom';
 import { Schema$ComicData, Schema$ChpaterItem } from '../../typings';
 import { PATHS } from '../../constants';
@@ -86,12 +86,14 @@ export function ComicContent({
       Object.entries(chapters).sort(([, l1], [, l2]) => l2.length - l1.length),
     [chapters]
   );
-  const [currentChapterType, setCurrentChapterType] = useState(
-    chapterTypeMap.get(comicID) || 0
-  );
+  const [currentChapterType, setCurrentChapterType] = useState(0);
   const [showChapters, setShowChapters] = useState(
     !adultOnly || localStorage.getItem(IS_ADULT) === '1'
   );
+
+  useEffect(() => {
+    setCurrentChapterType((!!comicID && chapterTypeMap.get(comicID)) || 0);
+  }, [comicID]);
 
   return (
     <div className="comic-content">

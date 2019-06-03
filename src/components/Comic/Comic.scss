@@ -1,23 +1,16 @@
 $padding: 20px;
 
 .comic {
+  @include flex(stretch, stretch, column);
+  @include padding-x($padding);
   color: #fff;
-  padding: $padding;
-
-  .content {
-    overflow: auto;
-  }
-
-  .comic-header,
-  .comic-content {
-    @include margin-x(-$padding);
-    @include padding-x($padding);
-  }
 }
 
 .comic-header {
   @include flex();
   @include relative;
+  flex: 0 0 auto;
+  margin-top: $padding;
   z-index: 1;
 
   .comic-info {
@@ -77,6 +70,10 @@ $padding: 20px;
 }
 
 .comic-content {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-bottom: $padding;
+
   .chapter-types {
     @include flex();
     @include sticky(0);
