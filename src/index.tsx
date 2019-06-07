@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
-import store from './store';
+import configureStore, { history } from './store';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
 
+const store = configureStore();
+
 const render = (Component: React.ComponentType<any>) => {
   return ReactDOM.render(
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <Component />
+        <ConnectedRouter history={history}>
+          <Component />
+        </ConnectedRouter>
       </Provider>
     </MuiThemeProvider>,
     document.getElementById('root')
