@@ -2,9 +2,7 @@
   @include animate(transform);
   @include relative();
 
-  border-radius: 5px;
   background-color: #232323;
-  overflow: hidden;
 
   .grid-content {
     @include sq-dimen(100%);
@@ -14,9 +12,11 @@
     @include animate(transform);
     @include sq-dimen(100%);
 
+    border-radius: 5px;
     background-size: cover;
     background-position: 50%;
     box-shadow: 0px 5px 10px #111;
+    overflow: hidden;
   }
 
   .caption {
