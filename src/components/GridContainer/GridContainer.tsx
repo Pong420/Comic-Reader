@@ -8,7 +8,7 @@ import React, {
 import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
-export interface GridContainerProps<T> {
+export interface GridContainerProps<T,> {
   width: number;
   height: number;
   items: T[];
@@ -52,7 +52,7 @@ export function GridContainer<T extends {}>({
   items,
   onGridRender,
   loadMore,
-  overscanRowCount,
+  overscanRowCount = 1,
   scrollPostionKey
 }: GridContainerProps<T>) {
   const gridRef = useRef<Grid>(null);

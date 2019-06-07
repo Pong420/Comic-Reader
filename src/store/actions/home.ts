@@ -51,7 +51,14 @@ export function getMoreComicList(): GetMoreComicList {
   };
 }
 
+export function cancelGetComicList(): CancelGetComicList {
+  return {
+    type: HomeActionTypes.GET_COMICS_LIST_CANCELED
+  };
+}
+
 export const HomeActionCreators = {
   getComicList,
-  getMoreComicList
+  getMoreComicList,
+  cancelGetComicList
 };

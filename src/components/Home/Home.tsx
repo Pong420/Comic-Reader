@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
@@ -18,11 +18,20 @@ function HomeCompomnent({
   error,
   loading,
   comicList,
+  noMoreComicResults,
   getComicList,
-  getMoreComicList
+  getMoreComicList,
+  cancelGetComicList
 }: Props) {
+  const loadMore = useCallback(() => {
+    !noMoreComicResults && getMoreComicList();
+  }, [noMoreComicResults, getMoreComicList]);
+
   useEffect(() => {
     getComicList();
+    return () => {
+      cancelGetComicList();
+    };
   }, [getComicList]);
 
   return (
@@ -33,7 +42,7 @@ function HomeCompomnent({
             <GridContainer
               {...dimen}
               items={comicList}
-              loadMore={getMoreComicList}
+              loadMore={loadMore}
               onGridRender={props => <Grid {...props} />}
               scrollPostionKey="home"
             />
