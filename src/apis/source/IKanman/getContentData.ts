@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { api } from './api';
-import { Param$Schema$ContentData, Schema$ContentData } from '../../../typings';
+import { Param$ContentData, Schema$ContentData } from '../../../typings';
 import './utils/splic';
 
 interface Variables {
@@ -29,7 +29,7 @@ export interface Sl {
 export async function getContentData({
   comicID,
   chapterID
-}: Param$Schema$ContentData): Promise<Schema$ContentData> {
+}: Param$ContentData): Promise<Schema$ContentData> {
   try {
     const { data: $ } = await api.get<CheerioStatic>(
       `/comic/${comicID}/${chapterID}.html`
@@ -48,7 +48,7 @@ export async function getContentData({
     $('script').each((_, script) => {
       try {
         const { data } = $(script).get()[0].children[0];
-        const regex = /window\["\\x65\\x76\\x61\\x6c\"F]/g;
+        const regex = /window\[\"\\x65\\x76\\x61\\x6c\"\]/g;
         if (regex.test(data)) {
           try {
             // tslint:disable-next-line

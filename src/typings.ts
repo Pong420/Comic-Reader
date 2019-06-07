@@ -30,7 +30,7 @@ export interface Param$ComicData {
   comicID: string;
 }
 
-export interface Param$Schema$ContentData {
+export interface Param$ContentData {
   comicID: string;
   chapterID: string;
 }
@@ -86,9 +86,22 @@ export interface Schema$ChpaterItem {
 
 export interface Schema$ContentData {
   images: string[];
-  prevId?: number | undefined;
-  nextId?: number | undefined;
+  prevId?: number;
+  nextId?: number;
 }
+
+export interface Schema$ImageDetail {
+  src: string;
+  width?: number;
+  height?: number;
+  loaded: boolean;
+  error: boolean;
+}
+
+export type Response$LoadImage = Pick<
+  Schema$ImageDetail,
+  'src' | 'width' | 'height'
+>;
 
 export interface Schema$SearchResult extends Schema$GridData {
   author: string;

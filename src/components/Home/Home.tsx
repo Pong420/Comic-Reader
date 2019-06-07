@@ -32,7 +32,7 @@ function HomeCompomnent({
     return () => {
       cancelGetComicList();
     };
-  }, [getComicList]);
+  }, [getComicList, cancelGetComicList]);
 
   return (
     <Layout error={error} loading={loading}>

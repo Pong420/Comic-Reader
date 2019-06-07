@@ -1,7 +1,7 @@
 import {
   Param$ComicList,
   Param$ComicData,
-  Param$Schema$ContentData,
+  Param$ContentData,
   Param$SearchResult,
   Schema$GridData
 } from '../typings';
@@ -27,7 +27,7 @@ export async function getComicDataAPI(params: Param$ComicData) {
   return getComicData(params);
 }
 
-export async function getContentDataAPI(params: Param$Schema$ContentData) {
+export async function getContentDataAPI(params: Param$ContentData) {
   return getContentData(params);
 }
 
