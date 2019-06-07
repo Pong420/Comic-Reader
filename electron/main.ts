@@ -26,7 +26,8 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const webPreferences: WebPreferences = isDevelopment
   ? {
       // if you have CROS issue, you could uncomment below config
-      webSecurity: false
+      webSecurity: false,
+      nodeIntegration: true
     }
   : {};
 
@@ -62,7 +63,12 @@ async function createWindow() {
   mainWindow.loadURL(startUrl);
 
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow && mainWindow.show();
+    if (mainWindow) {
+      mainWindow.show();
+
+      isDevelopment &&
+        mainWindow.webContents.openDevTools({ mode: 'undocked' });
+    }
   });
 
   mainWindow.webContents.on('new-window', (event, url) => {
