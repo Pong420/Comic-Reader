@@ -14,9 +14,9 @@ export enum ContentActionTypes {
   PRELOAD_IMAGE_SUCCESS = 'PRELOAD_IMAGE_SUCCESS'
 }
 
-export interface Payload$PreloadImageSuccess {
+export interface Payload$PreloadImageSuccess
+  extends Partial<Schema$ImageDetail> {
   index: number;
-  image: Partial<Schema$ImageDetail>;
 }
 
 export interface GetContent {
@@ -38,11 +38,6 @@ export interface CancelGetContent {
   type: ContentActionTypes.GET_CONTENT_CANCELED;
 }
 
-export interface PreloadImage {
-  type: ContentActionTypes.PRELOAD_IMAGE;
-  payload: number;
-}
-
 export interface PreloadImageSuccess {
   type: ContentActionTypes.PRELOAD_IMAGE_SUCCESS;
   payload: Payload$PreloadImageSuccess;
@@ -53,7 +48,6 @@ export type ContentActions =
   | GetContentSuccess
   | GetContentFail
   | CancelGetContent
-  | PreloadImage
   | PreloadImageSuccess;
 
 export function getContent(payload: Param$ContentData): GetContent {
@@ -69,15 +63,7 @@ export function cancelGetContent(): CancelGetContent {
   };
 }
 
-export function preloadImage(payload: number): PreloadImage {
-  return {
-    type: ContentActionTypes.PRELOAD_IMAGE,
-    payload
-  };
-}
-
 export const ContentActionCreators = {
   getContent,
-  cancelGetContent,
-  preloadImage
+  cancelGetContent
 };

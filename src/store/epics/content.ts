@@ -1,4 +1,6 @@
-import { from, of, empty } from 'rxjs';
+import { matchPath } from 'react-router-dom';
+import { RouterAction, LOCATION_CHANGE } from 'connected-react-router';
+import { from, of } from 'rxjs';
 import {
   map,
   catchError,
@@ -15,8 +17,7 @@ import {
   GetContent,
   GetContentSuccess,
   GetContentFail,
-  PreloadImageSuccess,
-  PreloadImage
+  PreloadImageSuccess
 } from '../actions/content';
 import {
   ApiError,
@@ -24,8 +25,10 @@ import {
   Response$LoadImage
 } from '../../typings';
 import { RootState } from '../reducers';
+import { PATHS } from '../../constants';
 
-type ContentEpic = Epic<ContentActions, ContentActions, RootState>;
+type Actions = ContentActions | RouterAction;
+type ContentEpic = Epic<Actions, Actions, RootState>;
 
 const loadImage = (src: string) =>
   new Promise<Response$LoadImage>((res, rej) => {
@@ -42,7 +45,7 @@ const loadImage = (src: string) =>
 
 const getContentEpic: ContentEpic = action$ => {
   return action$.pipe(
-    ofType<ContentActions, GetContent>(ContentActionTypes.GET_CONTENT),
+    ofType<Actions, GetContent>(ContentActionTypes.GET_CONTENT),
     switchMap(action =>
       from(getContentDataAPI(action.payload)).pipe(
         map<Schema$ContentData, GetContentSuccess>(payload => ({
@@ -62,41 +65,42 @@ const getContentEpic: ContentEpic = action$ => {
 };
 
 const preloadImageEpic: ContentEpic = (action$, state$) => {
-  const images$ = state$.pipe(map(({ content }) => content.imagesDetails));
+  const images$ = state$.pipe(
+    map(({ content, router }) => {
+      const match = matchPath<{ pageNo: string }>(router.location.pathname, {
+        path: PATHS.CONTENT
+      });
+
+      let startIndex = 0;
+
+      if (match && match.params.pageNo) {
+        startIndex = Number(match.params.pageNo) - 1;
+      }
+
+      return content.imagesDetails
+        .slice(startIndex, startIndex + 5)
+        .filter(({ loaded, error }) => !loaded && !error);
+    })
+  );
 
   return action$.pipe(
-    ofType<ContentActions, PreloadImage>(ContentActionTypes.PRELOAD_IMAGE),
+    ofType<Actions>(ContentActionTypes.GET_CONTENT_SUCCESS, LOCATION_CHANGE),
     withLatestFrom(images$),
-    concatMap(([{ payload }, images]) =>
-      from(images.slice(payload, payload + 5)).pipe(
-        concatMap(({ src, loaded }, _index) => {
-          const index = payload + _index;
-
-          if (loaded) {
-            return empty();
-          }
-
-          return from(loadImage(src)).pipe(
+    switchMap(([_, images]) =>
+      from(images).pipe(
+        concatMap(({ src, index }) =>
+          from(loadImage(src)).pipe(
             map<Response$LoadImage, PreloadImageSuccess>(image => ({
               type: ContentActionTypes.PRELOAD_IMAGE_SUCCESS,
               payload: {
                 index,
-                image: {
-                  ...image,
-                  loaded: true
-                }
+                loaded: true,
+                ...image
               }
             }))
-          );
-        }),
-        takeUntil(
-          action$.pipe(
-            ofType(
-              ContentActionTypes.PRELOAD_IMAGE,
-              ContentActionTypes.GET_CONTENT_CANCELED
-            )
           )
-        )
+        ),
+        takeUntil(action$.pipe(ofType<Actions>(LOCATION_CHANGE)))
       )
     )
   );

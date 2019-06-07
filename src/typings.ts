@@ -91,6 +91,7 @@ export interface Schema$ContentData {
 }
 
 export interface Schema$ImageDetail {
+  index: number;
   src: string;
   width?: number;
   height?: number;

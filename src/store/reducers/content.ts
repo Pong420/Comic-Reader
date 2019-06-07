@@ -35,7 +35,8 @@ export default function(
         error: false,
         loading: false,
         images,
-        imagesDetails: images.map(src => ({
+        imagesDetails: images.map((src, index) => ({
+          index,
           src,
           loaded: false,
           error: false
@@ -51,9 +52,9 @@ export default function(
 
     case ContentActionTypes.PRELOAD_IMAGE_SUCCESS:
       return (() => {
-        const { index, image } = action.payload;
+        const { index } = action.payload;
         const imagesDetails = state.imagesDetails.slice();
-        imagesDetails[index] = { ...imagesDetails[index], ...image };
+        imagesDetails[index] = { ...imagesDetails[index], ...action.payload };
 
         return {
           ...state,

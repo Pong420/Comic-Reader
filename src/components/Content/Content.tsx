@@ -24,10 +24,8 @@ type Props = RouteComponentProps<MatchParams> &
 export function ContentComponent({
   match,
   history,
-  images,
   getContent,
   cancelGetContent,
-  preloadImage,
   imagesDetails
 }: Props) {
   const { comicID, chapterID, pageNo } = match.params;
@@ -55,10 +53,6 @@ export function ContentComponent({
       cancelGetContent();
     };
   }, [comicID, chapterID, getContent, cancelGetContent]);
-
-  useEffect(() => {
-    images.length && preloadImage(currIndex);
-  }, [preloadImage, currIndex, images.length]);
 
   useEffect(() => {
     if (contentRef.current) {
