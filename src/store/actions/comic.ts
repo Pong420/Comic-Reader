@@ -30,7 +30,6 @@ export type ComicActions =
   | GetComic
   | GetComicSuccess
   | GetComicFail
-  | CancelGetComic
   | CancelGetComic;
 
 export function getComic(payload: string): GetComic {
