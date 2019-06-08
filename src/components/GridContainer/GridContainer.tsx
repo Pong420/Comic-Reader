@@ -53,6 +53,7 @@ export function GridContainer<T extends {}>({
   onGridRender,
   loadMore,
   overscanRowCount = 1,
+  noContentRenderer,
   scrollPostionKey
 }: GridContainerProps<T>) {
   const gridRef = useRef<Grid>(null);
@@ -126,7 +127,7 @@ export function GridContainer<T extends {}>({
         width={width}
         style={gridContainerStyle}
         cellRenderer={cellRenderer}
-        // noContentRenderer={noContentRenderer}
+        noContentRenderer={noContentRenderer}
         overscanRowCount={overscanRowCount}
         onScroll={onScroll}
         onSectionRendered={onSectionRendered}

@@ -21,16 +21,11 @@ export function SearchComponent({
   searchResults,
   noMoreSearchResult,
   getSearchResult,
-  getMoreSearchResult,
-  cancelGetSearchResult
+  getMoreSearchResult
 }: Props) {
   const loadMore = () => !noMoreSearchResult && getMoreSearchResult();
-
-  useEffect(() => {
-    return () => {
-      cancelGetSearchResult();
-    };
-  }, []);
+  const noContentRenderer = () =>
+    noMoreSearchResult && <div className="no-search-result">沒有相關結果</div>;
 
   return (
     <div className="search">
@@ -42,8 +37,9 @@ export function SearchComponent({
               {...dimen}
               items={searchResults}
               loadMore={loadMore}
-              onGridRender={props => <Grid {...props} />}
               scrollPostionKey={keyword}
+              noContentRenderer={noContentRenderer}
+              onGridRender={props => <Grid {...props} />}
             />
           )}
         </AutoSizer>

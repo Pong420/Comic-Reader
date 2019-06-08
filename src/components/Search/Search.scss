@@ -27,4 +27,11 @@ $space: 20px;
   .search-results {
     flex: 1 1 auto;
   }
+
+  .no-search-result {
+    @include sq-dimen(100%);
+    @include flex(center, center);
+    color: #fff;
+    font-size: 16px;
+  }
 }

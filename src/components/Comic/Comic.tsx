@@ -8,7 +8,6 @@ import { ComicContent } from './ComicContent';
 import { RootState, ComicState, ComicActionCreators } from '../../store';
 
 // TODO:
-// restore scroll position
 // browsing history
 
 interface MatchParams {
@@ -28,7 +27,7 @@ function ComicComponent({
   cancelGetComic
 }: ComicState & typeof ComicActionCreators & RouteComponentProps<MatchParams>) {
   const { comicID } = match.params;
-  const contentElRef = useRef<HTMLDivElement>(null);
+  const containerElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     getComic(comicID);
@@ -39,7 +38,7 @@ function ComicComponent({
 
   return (
     <Layout error={error} loading={loading}>
-      <div className="comic" ref={contentElRef}>
+      <div className="comic" ref={containerElRef}>
         <ComicHeader {...comicData} />
         <ComicContent {...comicData} />
       </div>
