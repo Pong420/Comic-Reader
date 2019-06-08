@@ -19,12 +19,12 @@ import {
   GetContentFail,
   PreloadImageSuccess
 } from '../actions/content';
+import { RootState } from '../reducers';
 import {
   ApiError,
   Schema$ContentData,
   Response$LoadImage
 } from '../../typings';
-import { RootState } from '../reducers';
 import { PATHS } from '../../constants';
 
 type Actions = ContentActions | RouterAction;

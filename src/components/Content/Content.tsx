@@ -24,9 +24,9 @@ type Props = RouteComponentProps<MatchParams> &
 export function ContentComponent({
   match,
   history,
+  imagesDetails,
   getContent,
-  cancelGetContent,
-  imagesDetails
+  cancelGetContent
 }: Props) {
   const { comicID, chapterID, pageNo } = match.params;
   const currIndex = Number(pageNo) - 1;

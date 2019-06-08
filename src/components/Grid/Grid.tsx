@@ -5,7 +5,8 @@ import { classes } from '../../utils/classes';
 import { PATHS } from '../../constants';
 import ContentLoader from 'react-content-loader';
 
-export interface GridPorps extends Schema$GridData {
+export interface GridPorps extends Partial<Schema$GridData> {
+  comicID: string;
   className?: string;
   children?: ReactNode;
   isPlaceholder?: boolean;

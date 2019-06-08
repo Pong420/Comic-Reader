@@ -4,11 +4,13 @@ import home from './home';
 import comic from './comic';
 import content from './content';
 import search from './search';
+import browsingHistory from './browsingHistory';
 
 export * from './home';
 export * from './comic';
 export * from './content';
 export * from './search';
+export * from './browsingHistory';
 
 const rootReducer = (history: Parameters<typeof connectRouter>[0]) =>
   combineReducers({
@@ -16,7 +18,8 @@ const rootReducer = (history: Parameters<typeof connectRouter>[0]) =>
     home,
     comic,
     content,
-    search
+    search,
+    browsingHistory
   });
 
 export type RootState = ReturnType<ReturnType<typeof rootReducer>>;

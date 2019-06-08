@@ -123,6 +123,10 @@ $padding: 20px;
       background-color: $secondary-color;
       color: #333;
     }
+
+    svg {
+      color: $red;
+    }
   }
 
   .warning {

@@ -1,11 +1,21 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, generatePath } from 'react-router-dom';
-import { Schema$ComicData, Schema$ChpaterItem } from '../../typings';
+import {
+  Schema$ComicData,
+  Schema$ChpaterItem,
+  Schema$BrowsingHistory
+} from '../../typings';
 import { PATHS } from '../../constants';
 import Button from '@material-ui/core/Button';
+import NewIcon from '@material-ui/icons/FiberNewOutlined';
 import WarningIcon from '@material-ui/icons/WarningRounded';
+import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
 
 type ChaptersEntries = Array<[string, Schema$ChpaterItem[]]>;
+
+interface ComicContentProps extends Partial<Schema$ComicData> {
+  visited?: Schema$BrowsingHistory[1];
+}
 
 interface ChapterTypeProps {
   chaptersEntries: ChaptersEntries;
@@ -16,6 +26,7 @@ interface ChapterTypeProps {
 interface ChapterListProps {
   comicID: string;
   chapterList: Schema$ChpaterItem[];
+  visited?: Schema$BrowsingHistory[1];
 }
 
 const IS_ADULT = 'IS_ADULT';
@@ -54,19 +65,27 @@ function Warning({ onClick }: { onClick(): void }) {
   );
 }
 
-function ChapterListComonent({ chapterList = [], comicID }: ChapterListProps) {
+function ChapterList({ chapterList = [], comicID, visited }: ChapterListProps) {
   return (
     <div className="chapters-list">
-      {chapterList.map(({ chapterID, title }) => {
+      {chapterList.map(({ chapterID, title, isNew }) => {
         const to = generatePath(PATHS.CONTENT, {
           comicID,
           chapterID,
           pageNo: 1
         });
 
+        const Icon =
+          visited && visited.chapterID === chapterID
+            ? LastVisitIcon
+            : isNew
+            ? NewIcon
+            : null;
+
         return (
           <Link to={to} className="chapter-item" key={chapterID}>
             {title}
+            {Icon && <Icon />}
           </Link>
         );
       })}
@@ -74,13 +93,12 @@ function ChapterListComonent({ chapterList = [], comicID }: ChapterListProps) {
   );
 }
 
-const ChapterList = ChapterListComonent;
-
 export function ComicContent({
   adultOnly,
   comicID = '',
-  chapters = {}
-}: Partial<Schema$ComicData>) {
+  chapters = {},
+  visited
+}: ComicContentProps) {
   const chaptersEntries = useMemo(
     () =>
       Object.entries(chapters).sort(([, l1], [, l2]) => l2.length - l1.length),
@@ -111,6 +129,7 @@ export function ComicContent({
             <ChapterList
               comicID={comicID}
               chapterList={chaptersEntries[currentChapterType][1]}
+              visited={visited}
             />
           )}
         </>

@@ -22,7 +22,7 @@ export interface Param$ComicList {
   filter?: string[];
 }
 
-export interface Param$Schema$GridData {
+export interface Param$GridData {
   comicID: string;
 }
 
@@ -109,9 +109,14 @@ export interface Schema$SearchResult extends Schema$GridData {
   category: string[];
 }
 
-export type Schema$Bookmark = Schema$GridData | null;
+export interface Schema$Bookmark extends Partial<Schema$GridData> {
+  comicID: string;
+}
 
-export type Schema$BrowsingHistory = Schema$GridData | null;
+export type Schema$BrowsingHistory = [
+  string,
+  Partial<Schema$GridData> & Param$ContentData
+];
 
 export type FilterData = Array<[string, FilterElement[]]>;
 
