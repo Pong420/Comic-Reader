@@ -45,6 +45,7 @@ export function BrowsingHistoryComponent({
             onGridRender={([_, { chapterID, ...props }]) => (
               <SeletableGrid
                 {...props}
+                subtitle="author"
                 seletable={seletable}
                 toggleSelect={toggleSelect}
                 selected={selection.includes(props.comicID)}

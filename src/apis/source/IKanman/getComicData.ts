@@ -31,29 +31,31 @@ export async function getComicData({
 
     const details = $('.detail-list li > span')
       .toArray()
-      .map(details => {
+      .reduce<Schema$ComicData['details']>((acc, details) => {
         const $val = $(details)
           .contents()
           .filter((_, el) => el.tagName !== 'strong');
 
-        return {
-          key: $(details)
-            .find('strong')
-            .text(),
-          val: $val
-            .toArray()
-            .map(el => {
-              const text = $(el).text();
-              // FIXME:
-              // @ts-ignore
-              if (el.nodeType === 3) {
-                return text;
-              }
-              return `<span>${text}</span>`;
-            })
-            .join('')
-        };
-      });
+        const key = $(details)
+          .find('strong')
+          .text()
+          .replace('：', '');
+
+        acc[key] = $val
+          .toArray()
+          .map(el => {
+            const text = $(el).text();
+            // FIXME:
+            // @ts-ignore
+            if (el.nodeType === 3) {
+              return text;
+            }
+            return `<span>${text}</span>`;
+          })
+          .join('');
+
+        return acc;
+      }, {});
 
     if (adultOnly || $('.warning-bar')) {
       try {
@@ -105,6 +107,10 @@ export async function getComicData({
         }
       });
 
+    const author = $(details['漫畫作者'])
+      .text()
+      .replace(' , ', ' ');
+
     return {
       comicID,
       cover,
@@ -116,7 +122,8 @@ export async function getComicData({
       chapters,
       adultOnly,
       name: title[0],
-      updateTime: $('.detail-list li > span span:nth-of-type(2)').text()
+      updateTime: $('.detail-list li > span span:nth-of-type(2)').text(),
+      author
     };
   } catch (err) {
     return Promise.reject({

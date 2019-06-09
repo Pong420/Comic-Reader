@@ -45,6 +45,7 @@ export function BookmarkComponent({
             onGridRender={([_, { ...props }]) => (
               <SeletableGrid
                 {...props}
+                subtitle="author"
                 seletable={seletable}
                 toggleSelect={toggleSelect}
                 selected={selection.includes(props.comicID)}

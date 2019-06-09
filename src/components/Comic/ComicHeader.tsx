@@ -10,6 +10,7 @@ const DetailsItem: React.FC<{ label: string; val: string }> = ({
   return (
     <div className="comic-details-item">
       <span>{label}</span>
+      <span>：</span>
       <span dangerouslySetInnerHTML={html} />
     </div>
   );
@@ -19,7 +20,7 @@ export function ComicHeader({
   cover = '',
   intro = '',
   title = [],
-  details = []
+  details = {}
 }: Partial<Schema$ComicData>) {
   const coverStyle = useMemo(() => ({ backgroundImage: `url(${cover})` }), [
     cover
@@ -38,7 +39,7 @@ export function ComicHeader({
         </div>
 
         <div className="comic-details">
-          {details.map(({ key, val }) => (
+          {Object.entries(details).map(([key, val]) => (
             <DetailsItem key={key} label={key} val={val} />
           ))}
         </div>

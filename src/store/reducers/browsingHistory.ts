@@ -54,9 +54,10 @@ export default function(
       })();
 
     case BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY:
-      Array.from(action.payload).forEach(comicID =>
-        mappedBrowsingHistory.delete(comicID)
-      );
+      const comicIDs =
+        typeof action.payload === 'string' ? [action.payload] : action.payload;
+
+      comicIDs.forEach(comicID => mappedBrowsingHistory.delete(comicID));
 
       return {
         ...state,

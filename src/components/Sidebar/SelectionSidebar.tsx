@@ -10,7 +10,7 @@ interface Props {
   selectedAll: boolean;
   toggle(): void;
   toggleSelectAll(): void;
-  onDelete(): void;
+  onRemove(): void;
 }
 
 export function SelectionSidebar({
@@ -18,7 +18,7 @@ export function SelectionSidebar({
   selectedAll,
   toggle,
   toggleSelectAll,
-  onDelete
+  onRemove
 }: Props) {
   return (
     <Sidebar>
@@ -36,7 +36,7 @@ export function SelectionSidebar({
             isActive={selectedAll}
             onClick={() => toggleSelectAll()}
           />
-          <IconButton title="刪除已選擇" icon={DeleteIcon} onClick={onDelete} />
+          <IconButton title="刪除已選擇" icon={DeleteIcon} onClick={onRemove} />
         </>
       )}
     </Sidebar>

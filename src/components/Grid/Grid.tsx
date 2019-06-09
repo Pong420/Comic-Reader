@@ -9,6 +9,7 @@ export interface GridPorps extends Partial<Schema$GridData> {
   comicID: string;
   className?: string;
   children?: ReactNode;
+  subtitle?: 'latest' | 'author';
   isPlaceholder?: boolean;
 }
 
@@ -33,10 +34,11 @@ export function Grid({
   comicID,
   cover,
   name,
-  latest,
-  className = '',
   children,
-  isPlaceholder
+  className = '',
+  subtitle = 'latest',
+  isPlaceholder,
+  ...props
 }: GridPorps) {
   const style = useMemo(
     () => ({
@@ -56,8 +58,8 @@ export function Grid({
           <Link to={to}>
             <div className="cover" style={style} />
             <div className="caption">
-              <div className="name">{name}</div>
-              <div className="latest">{latest}</div>
+              <div className="title">{name}</div>
+              <div className="subtitle">{props[subtitle]}</div>
             </div>
           </Link>
           {children}

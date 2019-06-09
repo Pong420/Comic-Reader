@@ -33,16 +33,16 @@
     text-shadow: 1px 1px 10px #666;
     padding: 20px 5px 5px;
 
-    .name {
+    .title {
       font-size: 15px;
     }
 
-    .latest {
+    .subtitle {
       @include text-overflow-ellipsis();
     }
 
-    .name,
-    .latest {
+    .title,
+    .subtitle {
       line-height: 1.5em;
     }
   }
@@ -76,10 +76,6 @@
 
     &.selected {
       border-color: $secondary-color;
-    }
-
-    .latest {
-      display: none;
     }
   }
 }

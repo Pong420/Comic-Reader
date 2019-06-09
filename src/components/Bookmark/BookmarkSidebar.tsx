@@ -32,7 +32,7 @@ export const BookmarkSidebar = connect(
         selectedAll ? [] : bookmark.map(([_, { comicID }]) => comicID)
       );
 
-    const onDelete = () => removeBookmark(selection);
+    const onRemove = () => removeBookmark(selection);
 
     return (
       <SelectionSidebar
@@ -40,7 +40,7 @@ export const BookmarkSidebar = connect(
         selectedAll={selectedAll}
         toggle={toggleBookmarkSelection}
         toggleSelectAll={toggleSelectAll}
-        onDelete={onDelete}
+        onRemove={onRemove}
       />
     );
   }

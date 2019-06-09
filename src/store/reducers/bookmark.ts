@@ -50,9 +50,10 @@ export default function(
       })();
 
     case BookmarkActionTypes.REMOVE_BOOKMARK:
-      Array.from(action.payload).forEach(comicID =>
-        mappedBookmark.delete(comicID)
-      );
+      const comicIDs =
+        typeof action.payload === 'string' ? [action.payload] : action.payload;
+
+      comicIDs.forEach(comicID => mappedBookmark.delete(comicID));
 
       return {
         ...state,

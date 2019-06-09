@@ -11,15 +11,15 @@ import {
   getContentData,
   getSearchResults
 } from './source/IKanman';
+import pick from 'lodash.pick';
 
 export async function getComicListAPI(params: Param$ComicList) {
   return getComicList(params);
 }
 
 export function getGridDataAPI(params: Param$ComicData) {
-  return getComicData(params).then<Schema$GridData>(
-    ({ adultOnly, chapters, finished, intro, details, title, ...gridData }) =>
-      gridData
+  return getComicData(params).then<Schema$GridData>(data =>
+    pick(data, ['comicID', 'cover', 'name', 'latest', 'updateTime', 'author'])
   );
 }
 

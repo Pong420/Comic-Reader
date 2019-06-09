@@ -32,7 +32,7 @@ export const BrowsingHistorySidebar = connect(
         selectedAll ? [] : browsingHistory.map(([_, { comicID }]) => comicID)
       );
 
-    const onDelete = () => removeBrowsingHistory(selection);
+    const onRemove = () => removeBrowsingHistory(selection);
 
     return (
       <SelectionSidebar
@@ -40,7 +40,7 @@ export const BrowsingHistorySidebar = connect(
         selectedAll={selectedAll}
         toggle={toggleBrowsingHistorySelection}
         toggleSelectAll={toggleSelectAll}
-        onDelete={onDelete}
+        onRemove={onRemove}
       />
     );
   }

@@ -34,10 +34,10 @@ export async function getSearchResults({
           .replace(/\/[a-z]\//, '/h/');
 
         const name = text('h3');
-        const author = text('dl:nth-child(1) dd');
-        const category = text('dl:nth-child(2) dd').split(',');
-        const latest = text('dl:nth-child(3) dd');
-        const updateTime = text('dl:nth-child(4) dd');
+        const author = text('dl:nth-child(3) dd');
+        const category = text('dl:nth-child(4) dd').split(',');
+        const latest = text('dl:nth-child(5) dd');
+        const updateTime = text('dl:nth-child(6) dd');
 
         return {
           comicID,

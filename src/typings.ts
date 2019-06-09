@@ -46,6 +46,7 @@ export interface Schema$GridData {
   name: string;
   latest: string;
   updateTime: string;
+  author?: string;
 }
 
 export interface Schema$ComicItem extends Schema$GridData {
@@ -70,7 +71,8 @@ export interface ComicHeaderProps {
   finished: boolean;
   intro: string;
   title: string[];
-  details: ComicHeaderDetails[];
+  details: ComicHeaderDetails;
+  author: string;
 }
 
 export interface Schema$Chapters {
