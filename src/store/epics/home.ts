@@ -16,12 +16,13 @@ import {
 } from '../actions/home';
 import { RootState } from '../reducers';
 import { Schema$ComicItem, ApiError } from '../../typings';
+import pick from 'lodash.pick';
 
 const getComicListEpic: Epic<HomeActions, HomeActions, RootState> = (
   action$,
   state$
 ) => {
-  const param$ = state$.pipe(map(({ home }) => home.page));
+  const param$ = state$.pipe(map(({ home }) => pick(home, ['page', 'filter'])));
 
   return action$.pipe(
     ofType(
@@ -29,8 +30,8 @@ const getComicListEpic: Epic<HomeActions, HomeActions, RootState> = (
       HomeActionTypes.GET_MORE_COMICS_LIST
     ),
     withLatestFrom(param$),
-    concatMap(([_, page]) =>
-      from(getComicListAPI({ page })).pipe(
+    concatMap(([_, params]) =>
+      from(getComicListAPI(params)).pipe(
         map<Schema$ComicItem[], GetComicListSuccess>(comicList => ({
           type: HomeActionTypes.GET_COMICS_LIST_SUCCESS,
           payload: comicList

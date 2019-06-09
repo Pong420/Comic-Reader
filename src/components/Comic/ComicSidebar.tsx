@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Sidebar } from '../Sidebar';
+import { Sidebar } from '../Sidebar/Sidebar';
 import { BookmarkBtn } from '../BookmarkBtn';
 
 interface MatchParams {

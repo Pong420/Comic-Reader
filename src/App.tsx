@@ -7,7 +7,7 @@ import {
   RouteProps
 } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
-import { Home } from './components/Home';
+import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
 import { Content } from './components/Content';
 import { Search } from './components/Search';
@@ -16,6 +16,7 @@ import {
   BrowsingHistorySidebar
 } from './components/BrowsingHistory';
 import { Bookmark, BookmarkSidebar } from './components/Bookmark';
+import { Filter, FilterSidebar } from './components/Filter';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -28,7 +29,7 @@ const routes: CustomRouteProps[] = [
     path: PATHS.HOME,
     exact: true,
     main: Home,
-    sidebar: Sidebar
+    sidebar: HomeSidebar
   },
   {
     path: PATHS.COMIC,
@@ -54,6 +55,11 @@ const routes: CustomRouteProps[] = [
     path: PATHS.BOOKMARK,
     main: Bookmark,
     sidebar: BookmarkSidebar
+  },
+  {
+    path: PATHS.FILTER,
+    main: Filter,
+    sidebar: FilterSidebar
   }
 ];
 

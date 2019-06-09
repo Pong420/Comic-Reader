@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sidebar } from '../Sidebar';
+import { Sidebar } from './Sidebar';
 import { IconButton } from '../Mui/IconButton';
 import { ListCheckIcon } from '../Icon/ListCheckIcon';
 import { DeleteIcon } from '../Icon/DeleteIcon';

@@ -31,13 +31,19 @@ export interface GetMoreComicList {
   type: HomeActionTypes.GET_MORE_COMICS_LIST;
 }
 
+export interface SetFilter {
+  type: HomeActionTypes.SET_FILTER;
+  payload: string[];
+}
+
 export type HomeActions =
   | GetComicList
   | GetComicListSuccess
   | GetComicListFail
   | CancelGetComicList
   | CancelGetComicList
-  | GetMoreComicList;
+  | GetMoreComicList
+  | SetFilter;
 
 export function getComicList(): GetComicList {
   return {
@@ -57,8 +63,16 @@ export function cancelGetComicList(): CancelGetComicList {
   };
 }
 
+export function setFilter(payload: string[]): SetFilter {
+  return {
+    type: HomeActionTypes.SET_FILTER,
+    payload
+  };
+}
+
 export const HomeActionCreators = {
   getComicList,
   getMoreComicList,
-  cancelGetComicList
+  cancelGetComicList,
+  setFilter
 };
