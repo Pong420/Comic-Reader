@@ -30,7 +30,7 @@ export interface RemoveAllBrowsingHistory {
 
 export interface RefetchBrowsingHistory {
   type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY;
-  payload: Payload$BrowsingHistory;
+  payload: string;
 }
 
 export interface RefetchBrowsingHistorySuccess {
@@ -65,7 +65,7 @@ export function removeAllBrowsingHistory(): RemoveAllBrowsingHistory {
 }
 
 export function refetchBrowsingHistory(
-  payload: Payload$BrowsingHistory
+  payload: string
 ): RefetchBrowsingHistory {
   return {
     type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY,

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
 import { IncompleteGrid } from '../Grid';
-import { RootState, BookmarkActionCreators } from '../../store';
+import { RootState, refetchBookmark } from '../../store';
 
 const mapStateToProps = ({ bookmark }: RootState) => ({
   ...bookmark
 });
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(BookmarkActionCreators, dispatch);
+  bindActionCreators({ refetchBookmark }, dispatch);
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;

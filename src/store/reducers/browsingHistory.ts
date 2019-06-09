@@ -64,6 +64,17 @@ export default function(
         browsingHistory: []
       };
 
+    case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS:
+      mappedBrowsingHistory.set(action.payload.comicID, {
+        chapterID: mappedBrowsingHistory.get(action.payload.comicID)!.chapterID,
+        ...action.payload
+      });
+
+      return {
+        ...state,
+        browsingHistory: [...mappedBrowsingHistory]
+      };
+
     case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE:
       return {
         ...state,

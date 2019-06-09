@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
 import { IncompleteGrid } from '../Grid';
-import { RootState, BrowsingHistoryActionCreators } from '../../store';
+import { RootState, refetchBrowsingHistory } from '../../store';
 
 const mapStateToProps = ({ browsingHistory }: RootState) => ({
   ...browsingHistory
 });
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(BrowsingHistoryActionCreators, dispatch);
+  bindActionCreators({ refetchBrowsingHistory }, dispatch);
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-export function BrowsingHistoryComponent({ browsingHistory }: Props) {
+export function BrowsingHistoryComponent({
+  browsingHistory,
+  refetchBrowsingHistory
+}: Props) {
   const items = browsingHistory.reverse();
   return (
     <div className="browsing-history">
@@ -25,7 +28,10 @@ export function BrowsingHistoryComponent({ browsingHistory }: Props) {
             {...dimen}
             items={items}
             onGridRender={([_, { chapterID, ...props }]) => (
-              <IncompleteGrid {...props} onRefetch={() => {}} />
+              <IncompleteGrid
+                {...props}
+                onRefetch={() => refetchBrowsingHistory(props.comicID)}
+              />
             )}
           />
         )}

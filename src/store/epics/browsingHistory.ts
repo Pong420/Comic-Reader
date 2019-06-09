@@ -1,10 +1,12 @@
 import { from, empty } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   BrowsingHistoryActions,
   BrowsingHistoryActionTypes,
-  AddBrowsingHistorySuccess
+  AddBrowsingHistorySuccess,
+  RefetchBrowsingHistory,
+  RefetchBrowsingHistorySuccess
 } from '../actions/browsingHistory';
 import {
   ContentActionTypes,
@@ -36,23 +38,20 @@ const addBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
     })
   );
 
-// const refetchBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
-//   action$.pipe(
-//     ofType<BrowsingHistoryActions, RefetchBrowsingHistory>(
-//       BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
-//     ),
-//     mergeMap(action =>
-//       getGridData$(action.payload.comicID).pipe(
-//         map<Schema$GridData, RefetchBrowsingHistorySuccess>(gridData => ({
-//           type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
-//           payload: {
-//             gridData,
-//             ...action.payload
-//           }
-//         }))
-//       )
-//     )
-//   );
+const refetchBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
+  action$.pipe(
+    ofType<Actions, RefetchBrowsingHistory>(
+      BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
+    ),
+    mergeMap(action =>
+      getGridData$({ comicID: action.payload }).pipe(
+        map<Schema$GridData, RefetchBrowsingHistorySuccess>(payload => ({
+          type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
+          payload
+        }))
+      )
+    )
+  );
 
 const saveBrowsingHistoryEpic: BrowsingHistroyEpic = (action$, state$) =>
   action$.pipe(
@@ -74,6 +73,6 @@ const saveBrowsingHistoryEpic: BrowsingHistroyEpic = (action$, state$) =>
 
 export default [
   addBrowsingHistoryEpic,
-  // refetchBrowsingHistoryEpic,
+  refetchBrowsingHistoryEpic,
   saveBrowsingHistoryEpic
 ];
