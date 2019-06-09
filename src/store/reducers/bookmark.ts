@@ -61,6 +61,14 @@ export default function(
         bookmark: []
       };
 
+    case BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS:
+      mappedBookmark.set(action.payload.comicID, action.payload);
+
+      return {
+        ...state,
+        bookmark: [...mappedBookmark]
+      };
+
     case BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE:
       return {
         ...state,

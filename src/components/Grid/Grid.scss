@@ -1,9 +1,9 @@
 .grid {
+  @include relative();
   background-color: #232323;
 
   .grid-content {
     @include sq-dimen(100%);
-    @include relative();
     display: block;
   }
 
@@ -40,5 +40,21 @@
       @include text-overflow-ellipsis();
       line-height: 1.5em;
     }
+  }
+
+  .grid-layer {
+    @include absolute(0, null 0);
+    @include flex(center, center, column);
+    @include sq-dimen(100%);
+    background-color: rgba(0, 0, 0, 0.65);
+
+    &,
+    svg {
+      color: #fff;
+    }
+  }
+
+  .click-to-refetch {
+    cursor: pointer;
   }
 }
