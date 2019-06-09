@@ -11,15 +11,15 @@ const mapStateToProps = (
   ownProps: { comicID: string }
 ) => ({ ...bookmark, ...ownProps });
 
-const mapDispathToProps = (dispath: Dispatch) =>
-  bindActionCreators(BookmarkActionCreators, dispath);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(BookmarkActionCreators, dispatch);
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispathToProps>;
+  ReturnType<typeof mapDispatchToProps>;
 
 export const BookmarkBtn = connect(
   mapStateToProps,
-  mapDispathToProps
+  mapDispatchToProps
 )(({ comicID, bookmark, addBookmark, removeBookmark }: Props) => {
   const bookmarked = !!new Map(bookmark).get(comicID);
 

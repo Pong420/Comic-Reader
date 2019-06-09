@@ -7,13 +7,17 @@ import {
 
 export interface ContentState extends Schema$ContentData, ApiRequestStatus {
   imagesDetails: Schema$ImageDetail[];
+  fitToPage: boolean;
 }
+
+const FIT_TO_PAGE_KEY = 'COMIC_READER_FIT_TO_PAGE';
 
 const initialState: ContentState = {
   loading: false,
   error: false,
   images: [],
-  imagesDetails: []
+  imagesDetails: [],
+  fitToPage: localStorage.getItem(FIT_TO_PAGE_KEY) === 'true'
 };
 
 export default function(
@@ -24,18 +28,17 @@ export default function(
     case ContentActionTypes.GET_CONTENT:
       return {
         ...initialState,
-        loading: true
+        loading: true,
+        fitToPage: state.fitToPage
       };
 
     case ContentActionTypes.GET_CONTENT_SUCCESS:
-      const { images } = action.payload;
-
       return {
         ...state,
+        ...action.payload,
         error: false,
         loading: false,
-        images,
-        imagesDetails: images.map((src, index) => ({
+        imagesDetails: action.payload.images.map((src, index) => ({
           index,
           src,
           loaded: false,
@@ -61,6 +64,19 @@ export default function(
           imagesDetails
         };
       })();
+
+    case ContentActionTypes.TOGGLE_FIT_TO_PAGE:
+      const fitToPage =
+        typeof action.payload !== 'undefined'
+          ? !!action.payload
+          : !state.fitToPage;
+
+      localStorage.setItem(FIT_TO_PAGE_KEY, JSON.stringify(fitToPage));
+
+      return {
+        ...state,
+        fitToPage
+      };
 
     default:
       return state;

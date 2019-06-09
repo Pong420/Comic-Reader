@@ -12,7 +12,8 @@ export enum ContentActionTypes {
   GET_CONTENT_CANCELED = 'GET_CONTENT_CANCELED',
   PRELOAD_IMAGE = 'PRELOAD_IMAGE',
   PRELOAD_IMAGE_SUCCESS = 'PRELOAD_IMAGE_SUCCESS',
-  PRELOAD_IMAGE_FAIL = 'PRELOAD_IMAGE_FAIL'
+  PRELOAD_IMAGE_FAIL = 'PRELOAD_IMAGE_FAIL',
+  TOGGLE_FIT_TO_PAGE = 'TOGGLE_FIT_TO_PAGE'
 }
 
 export interface Payload$PreloadImageSuccess
@@ -49,13 +50,19 @@ export interface PreloadImageFail {
   payload: Partial<Schema$ImageDetail>;
 }
 
+export interface ToggleFitToPage {
+  type: ContentActionTypes.TOGGLE_FIT_TO_PAGE;
+  payload?: boolean;
+}
+
 export type ContentActions =
   | GetContent
   | GetContentSuccess
   | GetContentFail
   | CancelGetContent
   | PreloadImageSuccess
-  | PreloadImageFail;
+  | PreloadImageFail
+  | ToggleFitToPage;
 
 export function getContent(payload: Param$ContentData): GetContent {
   return {
@@ -70,7 +77,15 @@ export function cancelGetContent(): CancelGetContent {
   };
 }
 
+export function toggleFitToPage(payload?: boolean): ToggleFitToPage {
+  return {
+    type: ContentActionTypes.TOGGLE_FIT_TO_PAGE,
+    payload
+  };
+}
+
 export const ContentActionCreators = {
   getContent,
-  cancelGetContent
+  cancelGetContent,
+  toggleFitToPage
 };

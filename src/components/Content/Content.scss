@@ -10,8 +10,12 @@
 
   img {
     display: block;
-    max-width: 100%;
     margin: auto;
+
+    .content.fit-to-page & {
+      @include sq-dimen(100%);
+      object-fit: contain;
+    }
   }
 
   &[hidden] {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Layout } from '../Layout';
 import { Image } from './Image';
+import { classes } from '../../utils/classes';
 import { RootState, ContentActionCreators } from '../../store';
 import { PATHS } from '../../constants';
 
@@ -14,8 +15,8 @@ interface MatchParams {
 }
 
 const mapStateToProps = ({ content }: RootState) => ({ ...content });
-const mapDispatchToProps = (dispath: Dispatch) =>
-  bindActionCreators(ContentActionCreators, dispath);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(ContentActionCreators, dispatch);
 
 type Props = RouteComponentProps<MatchParams> &
   ReturnType<typeof mapStateToProps> &
@@ -24,6 +25,7 @@ type Props = RouteComponentProps<MatchParams> &
 export function ContentComponent({
   match,
   history,
+  fitToPage,
   imagesDetails,
   getContent,
   cancelGetContent
@@ -63,7 +65,7 @@ export function ContentComponent({
   return (
     <Layout loading={false}>
       <div
-        className="content"
+        className={classes('content', fitToPage && 'fit-to-page')}
         onClick={pageNavigate(1)}
         onContextMenu={pageNavigate(-1)}
         ref={contentRef}

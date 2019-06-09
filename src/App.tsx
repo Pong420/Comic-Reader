@@ -9,7 +9,7 @@ import {
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
-import { Content } from './components/Content';
+import { Content, ContentSidebar } from './components/Content';
 import { Search } from './components/Search';
 import {
   BrowsingHistory,
@@ -39,7 +39,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.CONTENT,
     main: Content,
-    sidebar: Sidebar
+    sidebar: ContentSidebar
   },
   {
     path: PATHS.SEARCH,
