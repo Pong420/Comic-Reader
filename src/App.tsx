@@ -15,7 +15,7 @@ import {
   BrowsingHistory,
   BrowsingHistorySidebar
 } from './components/BrowsingHistory';
-import { Bookmark } from './components/Bookmark';
+import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -53,7 +53,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.BOOKMARK,
     main: Bookmark,
-    sidebar: Sidebar
+    sidebar: BookmarkSidebar
   }
 ];
 

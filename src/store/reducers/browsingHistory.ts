@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { RouterAction, LOCATION_CHANGE } from 'connected-react-router';
 import {
   BrowsingHistoryActionTypes,
   BrowsingHistoryActions
@@ -28,7 +29,7 @@ const initialState: BrowsingHistoryState = {
 
 export default function(
   state = initialState,
-  action: BrowsingHistoryActions | ContentActions
+  action: BrowsingHistoryActions | ContentActions | RouterAction
 ) {
   const mappedBrowsingHistory = new Map(state.browsingHistory.slice(0));
 
@@ -87,6 +88,13 @@ export default function(
           typeof action.payload !== 'undefined'
             ? !!action.payload
             : !state.seletable
+      };
+
+    case LOCATION_CHANGE:
+      return {
+        ...state,
+        selection: [],
+        seletable: false
       };
 
     default:

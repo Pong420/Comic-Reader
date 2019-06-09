@@ -17,15 +17,15 @@ import { BOOKMARK_DIRECTORY } from '../../constants';
 import { writeFileSync } from '../../utils/writeFileSync';
 
 type Actions = BookmarkActions | RouterAction;
-type BrowsingHistroyEpic = Epic<Actions, Actions, RootState>;
+type BrowsingHistoryEpic = Epic<Actions, Actions, RootState>;
 
 const getGridData$ = (params: Param$GridData) => from(getGridDataAPI(params));
 
-const addBookmarkEpic: BrowsingHistroyEpic = action$ =>
+const addBookmarkEpic: BrowsingHistoryEpic = action$ =>
   action$.pipe(
     ofType<Actions, AddBookmark>(BookmarkActionTypes.ADD_BOOKMARK),
-    switchMap(({ payload }) =>
-      getGridData$({ comicID: payload }).pipe(
+    switchMap(action =>
+      getGridData$(action.payload).pipe(
         map<Schema$GridData, AddBookmarkSuccess>(payload => ({
           type: BookmarkActionTypes.ADD_BOOKMARK_SUCCESS,
           payload
@@ -35,7 +35,7 @@ const addBookmarkEpic: BrowsingHistroyEpic = action$ =>
     )
   );
 
-const refetchBookmarkEpic: BrowsingHistroyEpic = action$ =>
+const refetchBookmarkEpic: BrowsingHistoryEpic = action$ =>
   action$.pipe(
     ofType<Actions, RefetchBookmark>(BookmarkActionTypes.REFETCH_BOOKMARK),
     mergeMap(({ payload }) =>
@@ -48,13 +48,12 @@ const refetchBookmarkEpic: BrowsingHistroyEpic = action$ =>
     )
   );
 
-const saveBookmarkEpic: BrowsingHistroyEpic = (action$, state$) =>
+const saveBookmarkEpic: BrowsingHistoryEpic = (action$, state$) =>
   action$.pipe(
     ofType<Actions>(
       BookmarkActionTypes.ADD_BOOKMARK,
       BookmarkActionTypes.ADD_BOOKMARK_SUCCESS,
       BookmarkActionTypes.REMOVE_BOOKMARK,
-      BookmarkActionTypes.REMOVE_ALL_BOOKMARK,
       BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS
     ),
     switchMap(() => {

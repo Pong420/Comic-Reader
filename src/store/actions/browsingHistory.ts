@@ -34,7 +34,7 @@ export interface RefetchBrowsingHistorySuccess {
   payload: Schema$GridData;
 }
 
-export interface UpdateBrowsingHistroySelection {
+export interface UpdateBrowsingHistorySelection {
   type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION;
   payload: string[];
 }
@@ -50,7 +50,7 @@ export type BrowsingHistoryActions =
   | RefetchBrowsingHistory
   | RefetchBrowsingHistorySuccess
   | ToggleBrowsingHistorySelection
-  | UpdateBrowsingHistroySelection;
+  | UpdateBrowsingHistorySelection;
 
 export function removeBrowsingHistory(
   payload: string | string[]
@@ -79,9 +79,9 @@ export function toggleBrowsingHistorySelection(
   };
 }
 
-export function updateBrowsingHistroySelection(
+export function updateBrowsingHistorySelection(
   payload: string[]
-): UpdateBrowsingHistroySelection {
+): UpdateBrowsingHistorySelection {
   return {
     type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION,
     payload
@@ -92,5 +92,5 @@ export const BrowsingHistoryActionCreators = {
   removeBrowsingHistory,
   refetchBrowsingHistory,
   toggleBrowsingHistorySelection,
-  updateBrowsingHistroySelection
+  updateBrowsingHistorySelection
 };

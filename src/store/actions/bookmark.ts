@@ -1,18 +1,18 @@
-import { Schema$GridData } from '../../typings';
+import { Schema$GridData, Param$ComicData } from '../../typings';
 
 export enum BookmarkActionTypes {
   ADD_BOOKMARK = 'ADD_BOOKMARK',
   ADD_BOOKMARK_SUCCESS = 'ADD_BOOKMARK_SUCCESS',
   REMOVE_BOOKMARK = 'REMOVE_BOOKMARK',
-  REMOVE_ALL_BOOKMARK = 'REMOVE_ALL_BOOKMARK',
   REFETCH_BOOKMARK = 'REFETCH_BOOKMARK',
   REFETCH_BOOKMARK_SUCCESS = 'REFETCH_BOOKMARK_SUCCESS',
-  TOGGLE_BOOKMARK_REMOVABLE = 'TOGGLE_BOOKMARK_REMOVABLE'
+  UPDATE_BOOKMARK_SELECTION = 'UPDATE_BOOKMARK_SELECTION',
+  TOGGLE_BOOKMARK_SELECTION = 'TOGGLE_BOOKMARK_SELECTION'
 }
 
 export interface AddBookmark {
   type: BookmarkActionTypes.ADD_BOOKMARK;
-  payload: string;
+  payload: Param$ComicData;
 }
 
 export interface AddBookmarkSuccess {
@@ -22,11 +22,7 @@ export interface AddBookmarkSuccess {
 
 export interface RemoveBookmark {
   type: BookmarkActionTypes.REMOVE_BOOKMARK;
-  payload: string;
-}
-
-export interface RemoveAllBookmark {
-  type: BookmarkActionTypes.REMOVE_ALL_BOOKMARK;
+  payload: string | string[];
 }
 
 export interface RefetchBookmark {
@@ -39,8 +35,13 @@ export interface RefetchBookmarkSuccess {
   payload: Schema$GridData;
 }
 
-export interface ToggleBookmarkRemovable {
-  type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE;
+export interface UpdateBookmarkSelection {
+  type: BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION;
+  payload: string[];
+}
+
+export interface ToggleBookmarkSelection {
+  type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION;
   payload?: boolean;
 }
 
@@ -48,28 +49,22 @@ export type BookmarkActions =
   | AddBookmark
   | AddBookmarkSuccess
   | RemoveBookmark
-  | RemoveAllBookmark
   | RefetchBookmark
   | RefetchBookmarkSuccess
-  | ToggleBookmarkRemovable;
+  | UpdateBookmarkSelection
+  | ToggleBookmarkSelection;
 
-export function addBookmark(payload: string): AddBookmark {
+export function addBookmark(comicID: string): AddBookmark {
   return {
     type: BookmarkActionTypes.ADD_BOOKMARK,
-    payload
+    payload: { comicID }
   };
 }
 
-export function removeBookmark(payload: string): RemoveBookmark {
+export function removeBookmark(payload: string | string[]): RemoveBookmark {
   return {
     type: BookmarkActionTypes.REMOVE_BOOKMARK,
     payload
-  };
-}
-
-export function removeAllBookmark(): RemoveAllBookmark {
-  return {
-    type: BookmarkActionTypes.REMOVE_ALL_BOOKMARK
   };
 }
 
@@ -80,11 +75,20 @@ export function refetchBookmark(payload: string): RefetchBookmark {
   };
 }
 
-export function toggleBookmarkRemovable(
-  payload?: boolean
-): ToggleBookmarkRemovable {
+export function updateBookmarkSelection(
+  payload: string[]
+): UpdateBookmarkSelection {
   return {
-    type: BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE,
+    type: BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION,
+    payload
+  };
+}
+
+export function toggleBookmarkSelection(
+  payload?: boolean
+): ToggleBookmarkSelection {
+  return {
+    type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION,
     payload
   };
 }
@@ -92,7 +96,7 @@ export function toggleBookmarkRemovable(
 export const BookmarkActionCreators = {
   addBookmark,
   removeBookmark,
-  removeAllBookmark,
   refetchBookmark,
-  toggleBookmarkRemovable
+  toggleBookmarkSelection,
+  updateBookmarkSelection
 };

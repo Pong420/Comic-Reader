@@ -20,11 +20,11 @@ import { BROWSING_HISTORY_DIRECTORY } from '../../constants';
 import { writeFileSync } from '../../utils/writeFileSync';
 
 type Actions = BrowsingHistoryActions | ContentActions;
-type BrowsingHistroyEpic = Epic<Actions, Actions, RootState>;
+type BrowsingHistoryEpic = Epic<Actions, Actions, RootState>;
 
 const getGridData$ = (params: Param$GridData) => from(getGridDataAPI(params));
 
-const addBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
+const addBrowsingHistoryEpic: BrowsingHistoryEpic = action$ =>
   action$.pipe(
     ofType<Actions, GetContent>(ContentActionTypes.GET_CONTENT),
     switchMap(action => {
@@ -38,7 +38,7 @@ const addBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
     })
   );
 
-const refetchBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
+const refetchBrowsingHistoryEpic: BrowsingHistoryEpic = action$ =>
   action$.pipe(
     ofType<Actions, RefetchBrowsingHistory>(
       BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
@@ -53,7 +53,7 @@ const refetchBrowsingHistoryEpic: BrowsingHistroyEpic = action$ =>
     )
   );
 
-const saveBrowsingHistoryEpic: BrowsingHistroyEpic = (action$, state$) =>
+const saveBrowsingHistoryEpic: BrowsingHistoryEpic = (action$, state$) =>
   action$.pipe(
     ofType<Actions>(
       ContentActionTypes.GET_CONTENT,

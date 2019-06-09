@@ -33,13 +33,16 @@
     text-shadow: 1px 1px 10px #666;
     padding: 20px 5px 5px;
 
+    .name {
+      font-size: 15px;
+    }
+
     .latest {
-      font-size: 12px;
+      @include text-overflow-ellipsis();
     }
 
     .name,
     .latest {
-      @include text-overflow-ellipsis();
       line-height: 1.5em;
     }
   }
@@ -68,11 +71,15 @@
     border-width: 6px;
     border-style: dashed;
     border-color: transparent;
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 5px;
 
     &.selected {
       border-color: $secondary-color;
+    }
+
+    .latest {
+      display: none;
     }
   }
 }

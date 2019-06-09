@@ -1,6 +1,6 @@
 import fs from 'fs';
+import { RouterAction, LOCATION_CHANGE } from 'connected-react-router';
 import { BookmarkActionTypes, BookmarkActions } from '../actions/bookmark';
-import { ContentActions, ContentActionTypes } from '../actions/content';
 import { Schema$Bookmark } from '../../typings';
 import { BOOKMARK_DIRECTORY } from '../../constants';
 
@@ -8,7 +8,8 @@ type BookmarkMap = Schema$Bookmark[];
 
 export interface BookmarkState {
   bookmark: BookmarkMap;
-  removable: boolean;
+  seletable: boolean;
+  selection: string[];
 }
 
 const getBookmark = (): BookmarkMap =>
@@ -18,17 +19,18 @@ const getBookmark = (): BookmarkMap =>
 
 const initialState: BookmarkState = {
   bookmark: getBookmark(),
-  removable: false
+  seletable: false,
+  selection: []
 };
 
 export default function(
   state = initialState,
-  action: BookmarkActions | ContentActions
+  action: BookmarkActions | RouterAction
 ) {
   const mappedBookmark = new Map(state.bookmark.slice(0));
 
   switch (action.type) {
-    case ContentActionTypes.GET_CONTENT:
+    case BookmarkActionTypes.ADD_BOOKMARK:
       mappedBookmark.delete(action.payload.comicID);
       mappedBookmark.set(action.payload.comicID, action.payload);
 
@@ -48,17 +50,13 @@ export default function(
       })();
 
     case BookmarkActionTypes.REMOVE_BOOKMARK:
-      mappedBookmark.delete(action.payload);
+      Array.from(action.payload).forEach(comicID =>
+        mappedBookmark.delete(comicID)
+      );
 
       return {
         ...state,
         bookmark: [...mappedBookmark]
-      };
-
-    case BookmarkActionTypes.REMOVE_ALL_BOOKMARK:
-      return {
-        ...state,
-        bookmark: []
       };
 
     case BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS:
@@ -69,13 +67,27 @@ export default function(
         bookmark: [...mappedBookmark]
       };
 
-    case BookmarkActionTypes.TOGGLE_BOOKMARK_REMOVABLE:
+    case BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION:
       return {
         ...state,
-        removable:
+        selection: action.payload
+      };
+
+    case BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION:
+      return {
+        ...state,
+        selection: [],
+        seletable:
           typeof action.payload !== 'undefined'
             ? action.payload
-            : !state.removable
+            : !state.seletable
+      };
+
+    case LOCATION_CHANGE:
+      return {
+        ...state,
+        selection: [],
+        seletable: false
       };
 
     default:

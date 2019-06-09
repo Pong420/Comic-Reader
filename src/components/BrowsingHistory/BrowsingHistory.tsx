@@ -20,15 +20,15 @@ export function BrowsingHistoryComponent({
   selection,
   seletable,
   refetchBrowsingHistory,
-  updateBrowsingHistroySelection
+  updateBrowsingHistorySelection
 }: Props) {
   const items = browsingHistory.slice().reverse();
   const toggleSelect = (comicID: string) => {
     const index = selection.indexOf(comicID);
     if (index === -1) {
-      updateBrowsingHistroySelection([...selection, comicID]);
+      updateBrowsingHistorySelection([...selection, comicID]);
     } else {
-      updateBrowsingHistroySelection([
+      updateBrowsingHistorySelection([
         ...selection.slice(0, index),
         ...selection.slice(index + 1)
       ]);

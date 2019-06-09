@@ -24,11 +24,11 @@ export const BrowsingHistorySidebar = connect(
     browsingHistory,
     removeBrowsingHistory,
     toggleBrowsingHistorySelection,
-    updateBrowsingHistroySelection
+    updateBrowsingHistorySelection
   }: Props) => {
     const selectedAll = selection.length === browsingHistory.length;
     const toggleSelectAll = () =>
-      updateBrowsingHistroySelection(
+      updateBrowsingHistorySelection(
         selectedAll ? [] : browsingHistory.map(([_, { comicID }]) => comicID)
       );
 
