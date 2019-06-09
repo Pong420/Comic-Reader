@@ -11,7 +11,8 @@ type BrowsingHistoryMap = Schema$BrowsingHistory[];
 
 export interface BrowsingHistoryState {
   browsingHistory: BrowsingHistoryMap;
-  removable: boolean;
+  seletable: boolean;
+  selection: string[];
 }
 
 const getBrowsingHistory = (): BrowsingHistoryMap =>
@@ -21,7 +22,8 @@ const getBrowsingHistory = (): BrowsingHistoryMap =>
 
 const initialState: BrowsingHistoryState = {
   browsingHistory: getBrowsingHistory(),
-  removable: false
+  seletable: false,
+  selection: []
 };
 
 export default function(
@@ -51,17 +53,13 @@ export default function(
       })();
 
     case BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY:
-      mappedBrowsingHistory.delete(action.payload);
+      Array.from(action.payload).forEach(comicID =>
+        mappedBrowsingHistory.delete(comicID)
+      );
 
       return {
         ...state,
         browsingHistory: [...mappedBrowsingHistory]
-      };
-
-    case BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY:
-      return {
-        ...state,
-        browsingHistory: []
       };
 
     case BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS:
@@ -75,13 +73,20 @@ export default function(
         browsingHistory: [...mappedBrowsingHistory]
       };
 
-    case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE:
+    case BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION:
       return {
         ...state,
-        removable:
+        selection: action.payload
+      };
+
+    case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION:
+      return {
+        ...state,
+        selection: [],
+        seletable:
           typeof action.payload !== 'undefined'
-            ? action.payload
-            : !state.removable
+            ? !!action.payload
+            : !state.seletable
       };
 
     default:

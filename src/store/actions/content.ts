@@ -11,7 +11,8 @@ export enum ContentActionTypes {
   GET_CONTENT_FAIL = 'GET_CONTENT_FAIL',
   GET_CONTENT_CANCELED = 'GET_CONTENT_CANCELED',
   PRELOAD_IMAGE = 'PRELOAD_IMAGE',
-  PRELOAD_IMAGE_SUCCESS = 'PRELOAD_IMAGE_SUCCESS'
+  PRELOAD_IMAGE_SUCCESS = 'PRELOAD_IMAGE_SUCCESS',
+  PRELOAD_IMAGE_FAIL = 'PRELOAD_IMAGE_FAIL'
 }
 
 export interface Payload$PreloadImageSuccess
@@ -43,12 +44,18 @@ export interface PreloadImageSuccess {
   payload: Payload$PreloadImageSuccess;
 }
 
+export interface PreloadImageFail {
+  type: ContentActionTypes.PRELOAD_IMAGE_FAIL;
+  payload: Partial<Schema$ImageDetail>;
+}
+
 export type ContentActions =
   | GetContent
   | GetContentSuccess
   | GetContentFail
   | CancelGetContent
-  | PreloadImageSuccess;
+  | PreloadImageSuccess
+  | PreloadImageFail;
 
 export function getContent(payload: Param$ContentData): GetContent {
   return {

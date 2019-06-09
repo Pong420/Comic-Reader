@@ -3,23 +3,38 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
-import { IncompleteGrid } from '../Grid';
-import { RootState, refetchBrowsingHistory } from '../../store';
+import { SeletableGrid } from '../Grid/SeletableGrid';
+import { RootState, BrowsingHistoryActionCreators } from '../../store';
 
 const mapStateToProps = ({ browsingHistory }: RootState) => ({
   ...browsingHistory
 });
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ refetchBrowsingHistory }, dispatch);
+  bindActionCreators(BrowsingHistoryActionCreators, dispatch);
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 export function BrowsingHistoryComponent({
   browsingHistory,
-  refetchBrowsingHistory
+  selection,
+  seletable,
+  refetchBrowsingHistory,
+  updateBrowsingHistroySelection
 }: Props) {
-  const items = browsingHistory.reverse();
+  const items = browsingHistory.slice().reverse();
+  const toggleSelect = (comicID: string) => {
+    const index = selection.indexOf(comicID);
+    if (index === -1) {
+      updateBrowsingHistroySelection([...selection, comicID]);
+    } else {
+      updateBrowsingHistroySelection([
+        ...selection.slice(0, index),
+        ...selection.slice(index + 1)
+      ]);
+    }
+  };
+
   return (
     <div className="browsing-history">
       <AutoSizer>
@@ -28,8 +43,11 @@ export function BrowsingHistoryComponent({
             {...dimen}
             items={items}
             onGridRender={([_, { chapterID, ...props }]) => (
-              <IncompleteGrid
+              <SeletableGrid
                 {...props}
+                seletable={seletable}
+                toggleSelect={toggleSelect}
+                selected={selection.includes(props.comicID)}
                 onRefetch={() => refetchBrowsingHistory(props.comicID)}
               />
             )}

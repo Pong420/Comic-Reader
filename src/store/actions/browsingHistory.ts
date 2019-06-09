@@ -3,10 +3,10 @@ import { Schema$GridData } from '../../typings';
 export enum BrowsingHistoryActionTypes {
   ADD_BROWSING_HISTORY_SUCCESS = 'ADD_BROWSING_HISTORY_SUCCESS',
   REMOVE_BROWSING_HISTORY = 'REMOVE_BROWSING_HISTORY',
-  REMOVE_ALL_BROWSING_HISTORY = 'REMOVE_ALL_BROWSING_HISTORY',
   REFETCH_BROWSING_HISTORY = 'REFETCH_BROWSING_HISTORY',
   REFETCH_BROWSING_HISTORY_SUCCESS = 'REFETCH_BROWSING_HISTORY_SUCCESS',
-  TOGGLE_BROWSING_HISTORY_REMOVABLE = 'TOGGLE_BROWSING_HISTORY_REMOVABLE'
+  UPDATE_BROWSING_HISTORY_SELECTION = 'UPDATE_BROWSING_HISTORY_SELECTION',
+  TOGGLE_BROWSING_HISTORY_SELECTION = 'TOGGLE_BROWSING_HISTORY_SELECTION'
 }
 
 export interface Payload$BrowsingHistory {
@@ -21,11 +21,7 @@ export interface AddBrowsingHistorySuccess {
 
 export interface RemoveBrowsingHistory {
   type: BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY;
-  payload: string;
-}
-
-export interface RemoveAllBrowsingHistory {
-  type: BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY;
+  payload: string | string[];
 }
 
 export interface RefetchBrowsingHistory {
@@ -38,29 +34,30 @@ export interface RefetchBrowsingHistorySuccess {
   payload: Schema$GridData;
 }
 
-export interface ToggleBrowsingHistoryRemovable {
-  type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE;
+export interface UpdateBrowsingHistroySelection {
+  type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION;
+  payload: string[];
+}
+
+export interface ToggleBrowsingHistorySelection {
+  type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION;
   payload?: boolean;
 }
 
 export type BrowsingHistoryActions =
   | AddBrowsingHistorySuccess
   | RemoveBrowsingHistory
-  | RemoveAllBrowsingHistory
   | RefetchBrowsingHistory
   | RefetchBrowsingHistorySuccess
-  | ToggleBrowsingHistoryRemovable;
+  | ToggleBrowsingHistorySelection
+  | UpdateBrowsingHistroySelection;
 
-export function removeBrowsingHistory(comicID: string): RemoveBrowsingHistory {
+export function removeBrowsingHistory(
+  payload: string | string[]
+): RemoveBrowsingHistory {
   return {
     type: BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY,
-    payload: comicID
-  };
-}
-
-export function removeAllBrowsingHistory(): RemoveAllBrowsingHistory {
-  return {
-    type: BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY
+    payload
   };
 }
 
@@ -73,18 +70,27 @@ export function refetchBrowsingHistory(
   };
 }
 
-export function toggleBrowsingHistoryRemovable(
+export function toggleBrowsingHistorySelection(
   payload?: boolean
-): ToggleBrowsingHistoryRemovable {
+): ToggleBrowsingHistorySelection {
   return {
-    type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_REMOVABLE,
+    type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION,
+    payload
+  };
+}
+
+export function updateBrowsingHistroySelection(
+  payload: string[]
+): UpdateBrowsingHistroySelection {
+  return {
+    type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION,
     payload
   };
 }
 
 export const BrowsingHistoryActionCreators = {
   removeBrowsingHistory,
-  removeAllBrowsingHistory,
   refetchBrowsingHistory,
-  toggleBrowsingHistoryRemovable
+  toggleBrowsingHistorySelection,
+  updateBrowsingHistroySelection
 };

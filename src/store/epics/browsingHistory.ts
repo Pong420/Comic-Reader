@@ -59,7 +59,6 @@ const saveBrowsingHistoryEpic: BrowsingHistroyEpic = (action$, state$) =>
       ContentActionTypes.GET_CONTENT,
       BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
       BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY,
-      BrowsingHistoryActionTypes.REMOVE_ALL_BROWSING_HISTORY,
       BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS
     ),
     switchMap(() => {

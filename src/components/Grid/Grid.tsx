@@ -52,14 +52,16 @@ export function Grid({
 
     return (
       <div className={classes('grid', className)}>
-        <Link to={to} className="grid-content">
-          <div className="cover" style={style} />
-          <div className="caption">
-            <div className="name">{name}</div>
-            <div className="latest">{latest}</div>
-          </div>
-        </Link>
-        {children}
+        <div className="grid-content">
+          <Link to={to}>
+            <div className="cover" style={style} />
+            <div className="caption">
+              <div className="name">{name}</div>
+              <div className="latest">{latest}</div>
+            </div>
+          </Link>
+          {children}
+        </div>
       </div>
     );
   }

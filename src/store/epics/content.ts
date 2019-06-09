@@ -17,7 +17,8 @@ import {
   GetContent,
   GetContentSuccess,
   GetContentFail,
-  PreloadImageSuccess
+  PreloadImageSuccess,
+  PreloadImageFail
 } from '../actions/content';
 import { RootState } from '../reducers';
 import {
@@ -66,7 +67,7 @@ const getContentEpic: ContentEpic = action$ => {
 
 const preloadImageEpic: ContentEpic = (action$, state$) => {
   const images$ = state$.pipe(
-    map(({ content, router }) => {
+    switchMap(({ content, router }) => {
       const match = matchPath<{ pageNo: string }>(router.location.pathname, {
         path: PATHS.CONTENT
       });
@@ -77,9 +78,11 @@ const preloadImageEpic: ContentEpic = (action$, state$) => {
         startIndex = Number(match.params.pageNo) - 1;
       }
 
-      return content.imagesDetails
-        .slice(startIndex, startIndex + 5)
-        .filter(({ loaded, error }) => !loaded && !error);
+      return of(
+        content.imagesDetails
+          .slice(startIndex, startIndex + 5)
+          .filter(({ loaded, error }) => !loaded && !error)
+      );
     })
   );
 
@@ -97,7 +100,17 @@ const preloadImageEpic: ContentEpic = (action$, state$) => {
                 loaded: true,
                 ...image
               }
-            }))
+            })),
+            catchError(() =>
+              of<PreloadImageFail>({
+                type: ContentActionTypes.PRELOAD_IMAGE_FAIL,
+                payload: {
+                  src,
+                  index,
+                  error: true
+                }
+              })
+            )
           )
         ),
         takeUntil(action$.pipe(ofType<Actions>(LOCATION_CHANGE)))

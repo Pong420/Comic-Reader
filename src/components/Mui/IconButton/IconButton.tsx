@@ -11,16 +11,20 @@ interface Props
     Pick<WithNavLinkProps, 'to'>,
     Pick<WithTooltipProps, 'title'>,
     Pick<WithBadgesProps, 'badage'> {
+  isActive?: boolean;
   icon?: ComponentType<SvgIconProps>;
   iconProps?: SvgIconProps;
   children?: ReactElement;
 }
+
+const activeClassName = 'mui-icon-button-active';
 
 export function IconButton({
   icon: Icon,
   iconProps,
   children,
   className = '',
+  isActive,
   to,
   title,
   badage,
@@ -28,11 +32,15 @@ export function IconButton({
 }: Props) {
   if (Icon) {
     return (
-      <WithNavLink to={to} activeClassName="mui-icon-button-active" exact>
+      <WithNavLink to={to} activeClassName={activeClassName} exact>
         <WithTooltip title={title}>
           <MuiIconButton
             {...props}
-            className={classes('mui-icon-button', className)}
+            className={classes(
+              'mui-icon-button',
+              className,
+              isActive && activeClassName
+            )}
           >
             <WithBadges badage={badage}>
               <Icon {...iconProps} />
