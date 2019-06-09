@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicContent } from './ComicContent';
-import { RootState, ComicState, ComicActionCreators } from '../../store';
+import { RootState, ComicActionCreators } from '../../store';
 
 interface MatchParams {
   comicID: string;

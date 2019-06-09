@@ -12,3 +12,5 @@ export const BROWSING_HISTORY_DIRECTORY = path.join(
   STORAGE_DIRECTORY,
   'browsing_history.json'
 );
+
+export const BOOKMARK_DIRECTORY = path.join(STORAGE_DIRECTORY, 'bookmark.json');

@@ -12,6 +12,7 @@ import { Comic } from './components/Comic';
 import { Content } from './components/Content';
 import { Search } from './components/Search';
 import { BrowsingHistory } from './components/BrowsingHistory';
+import { Bookmark } from './components/Bookmark';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -44,6 +45,11 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.BROWSING_HISTORY,
     main: BrowsingHistory,
+    sidebar: Sidebar
+  },
+  {
+    path: PATHS.BOOKMARK,
+    main: Bookmark,
     sidebar: Sidebar
   }
 ];

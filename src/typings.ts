@@ -109,9 +109,10 @@ export interface Schema$SearchResult extends Schema$GridData {
   category: string[];
 }
 
-export interface Schema$Bookmark extends Partial<Schema$GridData> {
-  comicID: string;
-}
+export type Schema$Bookmark = [
+  string,
+  Partial<Schema$GridData> & Param$GridData
+];
 
 export type Schema$BrowsingHistory = [
   string,

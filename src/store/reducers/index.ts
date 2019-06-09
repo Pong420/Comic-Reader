@@ -5,12 +5,14 @@ import comic from './comic';
 import content from './content';
 import search from './search';
 import browsingHistory from './browsingHistory';
+import bookmark from './bookmark';
 
 export * from './home';
 export * from './comic';
 export * from './content';
 export * from './search';
 export * from './browsingHistory';
+export * from './bookmark';
 
 const rootReducer = (history: Parameters<typeof connectRouter>[0]) =>
   combineReducers({
@@ -19,7 +21,8 @@ const rootReducer = (history: Parameters<typeof connectRouter>[0]) =>
     comic,
     content,
     search,
-    browsingHistory
+    browsingHistory,
+    bookmark
   });
 
 export type RootState = ReturnType<ReturnType<typeof rootReducer>>;
