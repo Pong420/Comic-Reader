@@ -11,7 +11,7 @@ export interface IncompleteGridProps extends GridPorps {
 const style = { marginTop: 10 };
 
 function Loading() {
-  return <div className="grid-layer">LOADING...</div>;
+  return <div className="grid-layer grid-loading-layer">LOADING...</div>;
 }
 
 function RefetchLayer(props: HTMLAttributes<HTMLDivElement>) {
