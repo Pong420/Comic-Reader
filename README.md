@@ -2,8 +2,6 @@
 
 ## Desktop Comic Reader
 
-:warning: v4 is working in progress. Your may checkout branch v3.
-
 An Electron based comic reader.
 
 - Data is scrape from [https://www.manhuagui.com](https://www.manhuagui.com)
@@ -14,16 +12,23 @@ An Electron based comic reader.
 <img src="internals/screenshot2.png">
 <img src="internals/screenshot3.png">
 
-## :warning: Warning
+### :warning: Warning
 
 - Your IP has an opportunity that banned by the data owner. In my experience, you will unlock after around one day.
+
+### TODO
+
+- [ ] Check window & linux
+- [ ] Add title bar for content page
+- [ ] Drag selection for bookmark & history page
+- [ ] Preference page for preload / maxiumn history etc ...
+- [ ] Open comic in external window
+- [ ] Highlight bookmarked / visited comic in Home Page
 
 ### Development
 
 ```
-
 yarn dev
-
 ```
 
 ### Packaging
@@ -31,17 +36,13 @@ yarn dev
 To package apps for the local platform:
 
 ```
-
 yarn package
-
 ```
 
 First, refer to the [Multi Platform Build docs](https://www.electron.build/multi-platform-build) for dependencies. Then,
 
 ```
-
 yarn package-all
-
 ```
 
 ## Credit
