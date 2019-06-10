@@ -5,10 +5,10 @@ interface Props extends Schema$ImageDetail {
   hidden?: boolean;
 }
 
-export function Image({ src, loaded, hidden }: Props) {
+export function Image({ src, loaded, error, hidden }: Props) {
   return (
     <div className="image" hidden={hidden}>
-      {loaded && <img src={src} alt={src} />}
+      {error ? 'FAIL' : loaded ? <img src={src} alt={src} /> : 'LOADING...'}
     </div>
   );
 }
