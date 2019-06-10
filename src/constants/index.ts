@@ -3,6 +3,7 @@ import { remote } from 'electron';
 
 export { default as PATHS } from './paths.json';
 export { default as FILTER_DATA } from './filter.json';
+export { default as MESSAGE } from './message.json';
 
 export const STORAGE_DIRECTORY = path.join(
   remote.app.getPath('userData'),

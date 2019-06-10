@@ -34,7 +34,7 @@ export function PageNo({ pageNo, totalPage, changePage }: Props) {
   return (
     <>
       <Button className="page-no" onClick={setAnchorEl}>
-        <div>{String(pageNo).padStart(String(totalPage).length, ' ')}</div>
+        <div>{('' + pageNo).padStart(('' + totalPage).length, ' ')}</div>
         <div className="slash" />
         <div>{totalPage}</div>
       </Button>

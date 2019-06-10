@@ -26,9 +26,12 @@
   }
 
   .page-no {
-    color: #fff;
+    color: $icon-inactive-color;
     margin-bottom: 15px;
 
+    &:hover {
+      color: $icon-active-color;
+    }
     div {
       @include flex(flex-start, center);
 
@@ -56,6 +59,7 @@
       &:nth-child(1) {
         margin-top: -$top;
         text-align: right;
+        white-space: pre-wrap;
       }
 
       &:nth-child(3) {

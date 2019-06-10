@@ -1,6 +1,6 @@
 .sidebar {
   @include app-region-drag;
-  @include dimen(80px);
+  @include dimen($sidebar-width);
   @include relative();
 
   background-color: #424242;

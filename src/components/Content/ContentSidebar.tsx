@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { RouteComponentProps, generatePath } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
-import { IconButton } from '../Mui/IconButton';
 import { BookmarkBtn } from '../BookmarkBtn';
 import { PageNo } from './PageNo';
+import { IconButton } from '../Mui/IconButton';
+import { Snackbar } from '../Mui/Snackbar';
 import { RootState, toggleFitToPage } from '../../store';
-import { PATHS } from '../../constants';
+import { PATHS, MESSAGE } from '../../constants';
+import { useBoolean } from '../../utils/useBoolean';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
-import SkipNextIcon from '@material-ui/icons/SkipNextRounded';
+import LastPageIcon from '@material-ui/icons/LastPage';
 
 interface MatchParams {
   comicID: string;
@@ -38,14 +40,21 @@ function ContentSidebarComponent({
   toggleFitToPage
 }: Props) {
   const { comicID, chapterID, pageNo } = match.params;
+  const [snackbarOpend, snackbar] = useBoolean();
 
-  const nextChapter = nextId
-    ? generatePath(PATHS.CONTENT, {
-        comicID,
-        chapterID: nextId,
-        pageNo: 1
-      })
-    : undefined;
+  const nextChapter = () => {
+    if (nextId) {
+      history.replace(
+        generatePath(PATHS.CONTENT, {
+          comicID,
+          chapterID: nextId,
+          pageNo: 1
+        })
+      );
+    } else {
+      snackbar.on();
+    }
+  };
 
   return (
     <Sidebar className="content-sidebar">
@@ -54,7 +63,7 @@ function ContentSidebarComponent({
         icon={ArrowBackIcon}
         to={generatePath(PATHS.COMIC, { comicID })}
       />
-      <IconButton title="下一集" icon={SkipNextIcon} to={nextChapter} />
+      <IconButton title="下一集" icon={LastPageIcon} onClick={nextChapter} />
       <BookmarkBtn comicID={comicID} />
       <IconButton
         title={fitToPage ? '預設大小' : '適合頁面'}
@@ -62,9 +71,7 @@ function ContentSidebarComponent({
         isActive={fitToPage}
         onClick={() => toggleFitToPage()}
       />
-
       <div className="flex-spacer" />
-
       <PageNo
         pageNo={Number(pageNo)}
         totalPage={totalPage}
@@ -77,6 +84,11 @@ function ContentSidebarComponent({
             })
           )
         }
+      />
+      <Snackbar
+        open={snackbarOpend}
+        onClose={snackbar.off}
+        message={MESSAGE.LAST_CHAPTER}
       />
     </Sidebar>
   );

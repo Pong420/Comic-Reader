@@ -1,0 +1,5 @@
+.mui-snackbar {
+  @media (min-width: 600px) {
+    margin-left: $sidebar-width/2;
+  }
+}

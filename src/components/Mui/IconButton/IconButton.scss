@@ -1,10 +1,10 @@
 .mui-icon-button.mui-icon-button {
-  color: #aaa;
+  color: $icon-inactive-color;
 
   .mui-icon-button-active &,
   &.mui-icon-button-active,
   &:hover {
-    color: #fff;
+    color: $icon-active-color;
   }
 
   svg {
