@@ -5,14 +5,16 @@ import { RouteComponentProps, generatePath } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { IconButton } from '../Mui/IconButton';
 import { BookmarkBtn } from '../BookmarkBtn';
+import { PageNo } from './PageNo';
 import { RootState, toggleFitToPage } from '../../store';
+import { PATHS } from '../../constants';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import SkipNextIcon from '@material-ui/icons/SkipNextRounded';
-import { PATHS } from '../../constants';
 
 interface MatchParams {
   comicID: string;
+  chapterID: string;
   pageNo: string;
 }
 
@@ -29,11 +31,13 @@ type Props = RouteComponentProps<MatchParams> &
 
 function ContentSidebarComponent({
   match,
+  history,
   nextId,
+  totalPage,
   fitToPage,
   toggleFitToPage
 }: Props) {
-  const { comicID } = match.params;
+  const { comicID, chapterID, pageNo } = match.params;
 
   const nextChapter = nextId
     ? generatePath(PATHS.CONTENT, {
@@ -60,6 +64,20 @@ function ContentSidebarComponent({
       />
 
       <div className="flex-spacer" />
+
+      <PageNo
+        pageNo={Number(pageNo)}
+        totalPage={totalPage}
+        changePage={pageNo =>
+          history.replace(
+            generatePath(PATHS.CONTENT, {
+              comicID,
+              chapterID,
+              pageNo
+            })
+          )
+        }
+      />
     </Sidebar>
   );
 }

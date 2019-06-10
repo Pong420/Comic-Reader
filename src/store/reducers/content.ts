@@ -8,6 +8,7 @@ import {
 export interface ContentState extends Schema$ContentData, ApiRequestStatus {
   imagesDetails: Schema$ImageDetail[];
   fitToPage: boolean;
+  totalPage: number;
 }
 
 const FIT_TO_PAGE_KEY = 'COMIC_READER_FIT_TO_PAGE';
@@ -17,7 +18,8 @@ const initialState: ContentState = {
   error: false,
   images: [],
   imagesDetails: [],
-  fitToPage: localStorage.getItem(FIT_TO_PAGE_KEY) === 'true'
+  fitToPage: localStorage.getItem(FIT_TO_PAGE_KEY) === 'true',
+  totalPage: 0
 };
 
 export default function(
@@ -38,6 +40,7 @@ export default function(
         ...action.payload,
         error: false,
         loading: false,
+        totalPage: action.payload.images.length,
         imagesDetails: action.payload.images.map((src, index) => ({
           index,
           src,
