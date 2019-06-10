@@ -9,9 +9,6 @@
   @include sq-dimen(100%);
 
   img {
-    display: block;
-    margin: auto;
-
     .content.fit-to-page & {
       @include sq-dimen(100%);
       object-fit: contain;
@@ -31,6 +28,41 @@
   .page-no {
     color: #fff;
     margin-bottom: 15px;
+
+    div {
+      @include flex(flex-start, center);
+
+      &.slash {
+        @include dimen(0.2em);
+
+        &:before {
+          @include dimen(1px, 1.8em);
+          content: '';
+          display: block;
+          border-width: 1px;
+          border-style: solid;
+          transform: rotate(45deg);
+        }
+      }
+
+      &:nth-child(2n + 1) {
+        font-weight: bold;
+        line-height: 1em;
+        min-width: 1em;
+      }
+
+      $top: 1.5em;
+
+      &:nth-child(1) {
+        margin-top: -$top;
+        text-align: right;
+      }
+
+      &:nth-child(3) {
+        margin-top: $top;
+        text-align: left;
+      }
+    }
   }
 }
 

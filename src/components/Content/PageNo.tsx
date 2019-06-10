@@ -19,7 +19,11 @@ export function PageNo({ pageNo, totalPage, changePage }: Props) {
 
   const onEnterCallback = useCallback(() => {
     if (menuContentRef.current && activeMenuItemRef.current) {
-      menuContentRef.current.scrollTop = activeMenuItemRef.current.offsetTop;
+      menuContentRef.current.scrollTop =
+        activeMenuItemRef.current.offsetTop +
+        activeMenuItemRef.current.offsetHeight -
+        menuContentRef.current.offsetHeight -
+        5;
     }
   }, []);
 
@@ -30,9 +34,9 @@ export function PageNo({ pageNo, totalPage, changePage }: Props) {
   return (
     <>
       <Button className="page-no" onClick={setAnchorEl}>
-        <span>{pageNo}</span>
-        <span>/</span>
-        <span>{totalPage}</span>
+        <div>{String(pageNo).padStart(String(totalPage).length, ' ')}</div>
+        <div className="slash" />
+        <div>{totalPage}</div>
       </Button>
       <Menu
         classes={paperClassName}
@@ -42,15 +46,19 @@ export function PageNo({ pageNo, totalPage, changePage }: Props) {
         ref={menuContentRef}
         onEnter={onEnterCallback}
       >
-        {pages.map((_, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => changePage(index + 1)}
-            innerRef={index + 1 === pageNo ? activeMenuItemRef : null}
-          >
-            {index + 1}
-          </MenuItem>
-        ))}
+        {pages.map((_, index) => {
+          const selected = index + 1 === pageNo;
+          return (
+            <MenuItem
+              key={index}
+              selected={selected}
+              onClick={() => changePage(index + 1)}
+              innerRef={selected ? activeMenuItemRef : null}
+            >
+              {index + 1}
+            </MenuItem>
+          );
+        })}
       </Menu>
     </>
   );

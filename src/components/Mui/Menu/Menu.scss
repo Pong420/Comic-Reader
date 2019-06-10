@@ -1,4 +1,10 @@
 .mui-menu {
+  .mui-menu-content {
+    overflow: auto;
+  }
+}
+
+.mui-menu {
   ul {
     @include padding-y(5px);
   }
@@ -11,7 +17,6 @@
 
     .mui-menu-item-content {
       @include dimen(100%);
-      overflow: auto;
     }
   }
 }

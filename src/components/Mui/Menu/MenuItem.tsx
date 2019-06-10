@@ -1,6 +1,6 @@
 import React, { useCallback, MouseEvent, ComponentType } from 'react';
-import MuiMenuItem from '@material-ui/core/MenuItem';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import MuiMenuItem from '@material-ui/core/MenuItem';
 
 type DefaultMenuItemProps = Parameters<typeof MuiMenuItem>[0];
 
@@ -14,7 +14,6 @@ interface Props {
 
 export function MenuItem({
   selected,
-  classes,
   children,
   onClick,
   onClose,
@@ -30,7 +29,12 @@ export function MenuItem({
   );
 
   return (
-    <MuiMenuItem className="mui-menu-item" onClick={onClickCallback} {...props}>
+    <MuiMenuItem
+      className="mui-menu-item"
+      selected={selected}
+      onClick={onClickCallback}
+      {...props}
+    >
       {Icon && <Icon />}
       <div className="mui-menu-item-content">{children}</div>
     </MuiMenuItem>

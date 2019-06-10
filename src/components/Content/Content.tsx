@@ -31,6 +31,7 @@ export function ContentComponent({
   cancelGetContent
 }: Props) {
   const { comicID, chapterID, pageNo } = match.params;
+  const currIndex = Number(pageNo) - 1;
   const contentRef = useRef<HTMLDivElement>(null);
 
   const navigate = (params: Partial<MatchParams>) =>
@@ -70,7 +71,7 @@ export function ContentComponent({
         ref={contentRef}
       >
         {imagesDetails.map((image, index) => (
-          <Image key={image.src} hidden={true} {...image} />
+          <Image key={image.src} hidden={currIndex !== index} {...image} />
         ))}
       </div>
     </Layout>
