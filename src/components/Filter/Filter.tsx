@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { replace } from 'connected-react-router';
 import { IconButton } from '../Mui/IconButton';
 import { FilterData } from '../../typings';
 import { RootState, HomeActionCreators } from '../../store';
 import { PATHS, FILTER_DATA } from '../../constants';
+import { useHotkeys } from '../../utils/useHotkeys';
 import CloseIcon from '@material-ui/icons/Close';
-
-// TODO:
-// hotkey - ESC
 
 interface FilterItemProps {
   label: string;
@@ -19,7 +18,7 @@ interface FilterItemProps {
 
 const mapStateToProps = ({ home }: RootState) => ({ ...home });
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(HomeActionCreators, dispatch);
+  bindActionCreators({ replace, ...HomeActionCreators }, dispatch);
 
 type Props = RouteComponentProps &
   ReturnType<typeof mapStateToProps> &
@@ -47,7 +46,9 @@ function FilterHeader() {
   );
 }
 
-function FilterComponent({ filter, setFilter }: Props) {
+function FilterComponent({ filter, setFilter, replace }: Props) {
+  useHotkeys('esc', () => replace(PATHS.HOME));
+
   return (
     <div className="filter">
       <FilterHeader />

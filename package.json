@@ -169,6 +169,7 @@
     "connected-react-router": "^6.4.0",
     "electron-devtools-installer": "^2.2.4",
     "history": "^4.9.0",
+    "hotkeys-js": "Pong420/hotkeys#aa5f618",
     "lodash.mergewith": "^4.6.1",
     "lodash.pick": "^4.4.0",
     "pong-react-scripts": "3.0.1",

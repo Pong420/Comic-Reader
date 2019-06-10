@@ -14,6 +14,7 @@ import { ConfirmDialog } from '../Mui/Dialog';
 import { Snackbar } from '../Mui/Snackbar';
 import { classes } from '../../utils/classes';
 import { useBoolean } from '../../utils/useBoolean';
+import { useHotkeys } from '../../utils/useHotkeys';
 import { RootState, ContentActionCreators } from '../../store';
 import { PATHS, MESSAGE } from '../../constants';
 
@@ -45,8 +46,11 @@ export function ContentComponent({
   const { comicID, chapterID, pageNo } = match.params;
   const currIndex = Number(pageNo) - 1;
   const contentRef = useRef<HTMLDivElement>(null);
-  const [dialogOpened, dialog] = useBoolean();
-  const [snackbarOpened, snackbar] = useBoolean();
+  const [dialogOpened, { on: openDialog, off: closeDialog }] = useBoolean();
+  const [
+    snackbarOpened,
+    { on: openSnackbar, off: closeSnackbar }
+  ] = useBoolean();
   const [msg, setMsg] = useState('');
 
   const clearMsg = useCallback(() => setMsg(''), []);
@@ -76,23 +80,29 @@ export function ContentComponent({
     if (newPageNo < 1) {
       if (prevId) {
         setMsg(MESSAGE.GOTO_PREV_CHAPTER);
-        dialog.on();
+        openDialog();
       } else {
         setMsg(MESSAGE.FIRST_CHAPTER);
-        snackbar.on();
+        openSnackbar();
       }
     } else if (newPageNo > totalPage) {
       if (nextId) {
         setMsg(MESSAGE.GOTO_NEXT_CHAPTER);
-        dialog.on();
+        openDialog();
       } else {
         setMsg(MESSAGE.LAST_CHAPTER);
-        snackbar.on();
+        openSnackbar();
       }
     } else {
       navigate({ pageNo: '' + newPageNo });
     }
   };
+
+  const prevPage = pageNavigate(-1);
+  const nextPage = pageNavigate(1);
+
+  useHotkeys('left', () => prevPage(), true);
+  useHotkeys('right', () => nextPage(), true);
 
   useEffect(() => {
     getContent({ comicID, chapterID });
@@ -104,16 +114,18 @@ export function ContentComponent({
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollTop = 0;
+      closeDialog();
+      closeSnackbar();
     }
-  }, [match.params]);
+  }, [match.params, closeDialog, closeSnackbar]);
 
   return (
     <>
       <Layout loading={false}>
         <div
           className={classes('content', fitToPage && 'fit-to-page')}
-          onClick={pageNavigate(1)}
-          onContextMenu={pageNavigate(-1)}
+          onClick={nextPage}
+          onContextMenu={prevPage}
           ref={contentRef}
         >
           {imagesDetails.map((image, index) => (
@@ -124,7 +136,7 @@ export function ContentComponent({
       <ConfirmDialog
         maxWidth="xs"
         open={dialogOpened}
-        handleClose={dialog.off}
+        handleClose={closeDialog}
         handleConfirm={handleConfirm}
         onExited={clearMsg}
       >
@@ -132,7 +144,7 @@ export function ContentComponent({
       </ConfirmDialog>
       <Snackbar
         open={snackbarOpened}
-        onClose={snackbar.off}
+        onClose={closeSnackbar}
         message={msg}
         onExited={clearMsg}
       />

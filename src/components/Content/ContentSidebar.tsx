@@ -40,7 +40,10 @@ function ContentSidebarComponent({
   toggleFitToPage
 }: Props) {
   const { comicID, chapterID, pageNo } = match.params;
-  const [snackbarOpend, snackbar] = useBoolean();
+  const [
+    snackbarOpened,
+    { on: openSnackbar, off: closeSnackbar }
+  ] = useBoolean();
 
   const nextChapter = () => {
     if (nextId) {
@@ -52,7 +55,7 @@ function ContentSidebarComponent({
         })
       );
     } else {
-      snackbar.on();
+      openSnackbar();
     }
   };
 
@@ -86,8 +89,8 @@ function ContentSidebarComponent({
         }
       />
       <Snackbar
-        open={snackbarOpend}
-        onClose={snackbar.off}
+        open={snackbarOpened}
+        onClose={closeSnackbar}
         message={MESSAGE.LAST_CHAPTER}
       />
     </Sidebar>
