@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
-import { SeletableGrid } from '../Grid/SeletableGrid';
+import { SeletableGrid, useDraggable } from '../Grid/SeletableGrid';
 import { RootState, BrowsingHistoryActionCreators } from '../../store';
 
 const mapStateToProps = ({ browsingHistory }: RootState) => ({
@@ -35,6 +35,8 @@ export function BrowsingHistoryComponent({
     }
   };
 
+  const dragProps = useDraggable();
+
   return (
     <div className="browsing-history">
       <AutoSizer>
@@ -45,10 +47,11 @@ export function BrowsingHistoryComponent({
             onGridRender={([_, { chapterID, ...props }]) => (
               <SeletableGrid
                 {...props}
+                {...dragProps}
                 subtitle="author"
                 seletable={seletable}
-                toggleSelect={toggleSelect}
                 selected={selection.includes(props.comicID)}
+                toggleSelect={toggleSelect}
                 onRefetch={() => refetchBrowsingHistory(props.comicID)}
               />
             )}

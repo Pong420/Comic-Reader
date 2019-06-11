@@ -20,7 +20,7 @@ An Electron based comic reader.
 
 - [ ] Check window & linux
 - [ ] Add title bar for content page
-- [ ] Drag selection for bookmark & history page
+- [x] Drag selection for bookmark & history page
 - [ ] Preference page for preload / maxiumn history etc ...
 - [ ] Open comic in external window
 - [ ] Highlight bookmarked / visited comic in Home Page

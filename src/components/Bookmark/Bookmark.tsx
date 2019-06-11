@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
-import { SeletableGrid } from '../Grid/SeletableGrid';
+import { SeletableGrid, useDraggable } from '../Grid/SeletableGrid';
 import { RootState, BookmarkActionCreators } from '../../store';
 
 const mapStateToProps = ({ bookmark }: RootState) => ({
@@ -35,6 +35,8 @@ export function BookmarkComponent({
     }
   };
 
+  const dragProps = useDraggable();
+
   return (
     <div className="bookmark">
       <AutoSizer>
@@ -45,10 +47,11 @@ export function BookmarkComponent({
             onGridRender={([_, { ...props }]) => (
               <SeletableGrid
                 {...props}
+                {...dragProps}
                 subtitle="author"
                 seletable={seletable}
-                toggleSelect={toggleSelect}
                 selected={selection.includes(props.comicID)}
+                toggleSelect={toggleSelect}
                 onRefetch={() => refetchBookmark(props.comicID)}
               />
             )}
