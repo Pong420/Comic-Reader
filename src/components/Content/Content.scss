@@ -6,8 +6,11 @@
 .image {
   @include absolute(0, null, 0);
   @include flex(center, center);
-  @include sq-dimen(100%);
   color: #fff;
+
+  .content.fit-to-page & {
+    @include sq-dimen(100% !important);
+  }
 
   img {
     .content.fit-to-page & {
