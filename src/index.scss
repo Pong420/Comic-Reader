@@ -48,4 +48,10 @@ a {
       display: none;
     }
   }
+
+  + .app-region {
+    @include app-region-drag;
+    @include fixed(0, null, $sidebar-width);
+    @include dimen(100%, 24px);
+  }
 }

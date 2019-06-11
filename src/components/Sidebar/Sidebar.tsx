@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { AppRegion } from './AppRegion';
 import { IconButton } from '../Mui/IconButton';
 import { classes } from '../../utils/classes';
 import { PATHS } from '../../constants';
@@ -16,6 +17,7 @@ interface Props {
 export function Sidebar({ className, children }: Props) {
   return (
     <div className={classes('sidebar', className)}>
+      <AppRegion />
       <div className="sidebar-content">
         <IconButton icon={HomeIcon} to={PATHS.HOME} title="首頁" />
         <IconButton icon={SearchIcon} to={PATHS.SEARCH} title="搜索" />

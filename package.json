@@ -175,6 +175,7 @@
     "pong-react-scripts": "3.0.1",
     "react": "^16.8.6",
     "react-content-loader": "^4.2.1",
+    "react-desktop": "^0.3.9",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.1",

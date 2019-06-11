@@ -1,11 +1,5 @@
 import React, { ComponentType } from 'react';
-import {
-  HashRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-  RouteProps
-} from 'react-router-dom';
+import { Route, Redirect, Switch, RouteProps } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
@@ -64,7 +58,7 @@ const routes: CustomRouteProps[] = [
 ];
 
 const App = () => (
-  <Router>
+  <>
     {routes.map(({ sidebar = Sidebar, ...props }, index) => (
       <Route {...props} key={index} component={sidebar} />
     ))}
@@ -74,7 +68,7 @@ const App = () => (
       ))}
       <Redirect to={PATHS.HOME} />
     </Switch>
-  </Router>
+  </>
 );
 
 export default App;
