@@ -18,7 +18,7 @@ An Electron based comic reader.
 
 ### TODO
 
-- [ ] Check window & linux
+- [x] Check window & linux
 - [ ] Add title bar for content page
 - [x] Drag selection for bookmark & history page
 - [ ] Preference page for preload / maxiumn history etc ...
