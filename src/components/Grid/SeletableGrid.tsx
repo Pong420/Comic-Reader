@@ -19,7 +19,6 @@ export function SeletableGrid({
   className,
   ...props
 }: Props) {
-  const [flag, setFlag] = useState(false);
   const toggle = () => toggleSelect(props.comicID);
   const onMouseEnter = () => seletable && dragging && toggle();
 
@@ -27,16 +26,14 @@ export function SeletableGrid({
     <IncompleteGrid {...props} className={classes({ selected, seletable })}>
       {seletable && (
         <div
+          draggable
           className="grid-layer selection-layer"
           onClick={toggle}
           onMouseEnter={onMouseEnter}
-          onMouseDown={() => setFlag(true)}
-          onMouseMove={() => {
-            if (flag) {
-              setFlag(false);
-              setDragging && setDragging(true);
-              toggle();
-            }
+          onDragStart={evt => {
+            toggle();
+            setDragging && setDragging(true);
+            evt.preventDefault();
           }}
         />
       )}
@@ -53,6 +50,7 @@ export function useDraggable() {
       window.addEventListener('mouseup', callback);
       return () => {
         window.removeEventListener('mouseup', callback);
+        window.removeEventListener('mouseleave', callback);
       };
     }
   }, [dragging]);
