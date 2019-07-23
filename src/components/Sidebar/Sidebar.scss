@@ -1,0 +1,50 @@
+.sidebar {
+  @include dimen($sidebar-width);
+  @include relative();
+
+  background-color: #424242;
+  border-right: 1px solid #555;
+  padding-top: 40px; // TODO: check fullscreen
+
+  .app-region {
+    @include app-region-drag;
+    @include absolute(0, null, 0);
+    @include sq-dimen(100%);
+
+    > div {
+      @include sq-dimen(100%);
+      align-items: flex-start !important;
+    }
+  }
+
+  .sidebar-content {
+    @include flex(stretch, flex-start, column);
+    @include relative();
+    @include sq-dimen(100%);
+
+    > a {
+      @include app-region-no-drag;
+      @include relative();
+      text-align: center;
+
+      &.mui-icon-button-active {
+        &:after {
+          @include absolute(0, 0, null, 0);
+          @include dimen(0px, 90%);
+          border-top: 3px solid transparent;
+          border-bottom: 3px solid transparent;
+          border-right: 4px solid $secondary-color;
+          border-radius: 50px;
+          content: '';
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .divider {
+    @include dimen(40px);
+    background: #aaa;
+    margin: 10px auto;
+  }
+}

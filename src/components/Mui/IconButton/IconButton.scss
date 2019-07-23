@@ -1,0 +1,13 @@
+.mui-icon-button.mui-icon-button {
+  color: $icon-inactive-color;
+
+  .mui-icon-button-active &,
+  &.mui-icon-button-active,
+  &:hover {
+    color: $icon-active-color;
+  }
+
+  svg {
+    font-size: 27.5px;
+  }
+}

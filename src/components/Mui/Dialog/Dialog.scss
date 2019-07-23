@@ -1,0 +1,43 @@
+.mui-dialog-paper {
+  &.mui-dialog-paper {
+    $margin-x: 25px;
+    @include dimen(100%);
+    @include margin-x($margin-x + $sidebar-width $margin-x);
+    background-color: $primary-color;
+    border-radius: 8px;
+    padding: 0;
+  }
+
+  &.mui-dialog-xs {
+    max-width: 300px;
+  }
+
+  .dialog-body {
+    @include padding-y(15px);
+    max-height: 100%;
+  }
+
+  .dialog-title {
+    // @include typeface('Nunito Sans', 700);
+    margin-bottom: 10px;
+  }
+
+  .dialog-content {
+    @include padding-x(25px);
+    color: #fff;
+  }
+
+  .dialog-actions {
+    @include flex(center, flex-end);
+    @include padding-x(15px);
+    margin-top: 30px;
+
+    button {
+      color: #fff;
+
+      + button {
+        color: $secondary-color;
+      }
+    }
+  }
+}

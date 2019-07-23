@@ -1,0 +1,22 @@
+.mui-menu {
+  .mui-menu-content {
+    overflow: auto;
+  }
+}
+
+.mui-menu {
+  ul {
+    @include padding-y(5px);
+  }
+
+  .mui-menu-item {
+    $padding-x: 10px;
+    @include relative();
+    @include padding-y(7px);
+    min-height: 0;
+
+    .mui-menu-item-content {
+      @include dimen(100%);
+    }
+  }
+}

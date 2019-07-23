@@ -25,6 +25,7 @@ export function GridComponent({
   cover,
   name,
   subtitleType = 'latest',
+  updateTime,
   dispatch,
   ...props
 }: GridPorps & DispatchProp & ReturnType<typeof mapStateToProps>) {
@@ -34,8 +35,6 @@ export function GridComponent({
     }),
     [cover]
   );
-
-  console.log(comicID);
 
   if (comicID) {
     const to = generatePath(PATHS.COMIC, {

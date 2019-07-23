@@ -11,6 +11,7 @@ interface State extends Param$ComicList, ApiRequestStatus {
   ids: string[];
   noMore: boolean;
   offset: number;
+  filter: string[];
 }
 
 const NUM_OF_COMIC_ITEM_RETURN = 42;
@@ -22,7 +23,8 @@ const initialState: State = {
   page: 1,
   offset: 0,
   error: false,
-  loading: false
+  loading: false,
+  filter: []
 };
 
 export default function(state = initialState, action: ComicsActions): State {
