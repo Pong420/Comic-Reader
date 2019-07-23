@@ -16,7 +16,7 @@ const anchorOrigin: SnackbarProps['anchorOrigin'] = {
 };
 
 export function Snackbar({ classes, ...props }: SnackbarProps) {
-  const mergedClasses = useMemo(
+  const mergedClasses = useMemo<SnackbarProps['classes']>(
     () =>
       mergeWith(
         {

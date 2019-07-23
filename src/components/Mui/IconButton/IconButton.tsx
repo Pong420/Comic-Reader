@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactElement } from 'react';
+import React, { ComponentType } from 'react';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { WithTooltip, WithTooltipProps } from '../../WithTooltip';
 import { WithNavLink, WithNavLinkProps } from '../../WithNavLink';
@@ -14,7 +14,6 @@ interface Props
   isActive?: boolean;
   icon?: ComponentType<SvgIconProps>;
   iconProps?: SvgIconProps;
-  children?: ReactElement;
 }
 
 const activeClassName = 'mui-icon-button-active';
@@ -22,7 +21,6 @@ const activeClassName = 'mui-icon-button-active';
 export function IconButton({
   icon: Icon,
   iconProps,
-  children,
   className = '',
   isActive,
   to,

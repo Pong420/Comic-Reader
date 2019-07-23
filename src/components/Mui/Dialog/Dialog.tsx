@@ -6,20 +6,17 @@ import mergeWith from 'lodash.mergewith';
 
 export interface DialogProps extends DefaultDialogProps {
   title?: string;
-  open: boolean;
-  children?: ReactNode;
   actions?: ReactNode;
-  handleClose(): void;
+  onClose(): void;
 }
 
 const backdropProps = { classes: { root: 'mui-dialog-backdrop' } };
 
 export function Dialog({
   title,
-  open,
   actions,
   children,
-  handleClose,
+  onClose,
   classes,
   ...props
 }: DialogProps) {
@@ -39,8 +36,7 @@ export function Dialog({
 
   return (
     <MuiDialog
-      open={open}
-      onClose={handleClose}
+      onClose={onClose}
       classes={mergedClasses}
       BackdropProps={backdropProps}
       {...props}

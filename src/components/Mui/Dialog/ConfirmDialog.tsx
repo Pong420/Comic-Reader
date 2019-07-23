@@ -3,29 +3,29 @@ import { Dialog, DialogProps } from './';
 import Button from '@material-ui/core/Button';
 
 interface Props extends DialogProps {
-  handleConfirm(): any;
+  onConfirm(): any;
   autoFocusConfirmButon?: boolean;
 }
 
 export function ConfirmDialog({
-  handleClose,
-  handleConfirm,
+  onClose,
+  onConfirm,
   autoFocusConfirmButon = true,
   ...props
 }: Props) {
   const confirmCallback = useCallback(() => {
-    if (handleConfirm() !== false) {
-      handleClose();
+    if (onConfirm() !== false) {
+      onClose();
     }
-  }, [handleClose, handleConfirm]);
+  }, [onClose, onConfirm]);
 
   return (
     <Dialog
       {...props}
-      handleClose={handleClose}
+      onClose={onClose}
       actions={
         <>
-          <Button onClick={handleClose}>取消</Button>
+          <Button onClick={onClose}>取消</Button>
           <Button onClick={confirmCallback} autoFocus={autoFocusConfirmButon}>
             確定
           </Button>

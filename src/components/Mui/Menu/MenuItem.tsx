@@ -1,4 +1,9 @@
-import React, { useCallback, MouseEvent, ComponentType } from 'react';
+import React, {
+  useCallback,
+  forwardRef,
+  MouseEvent,
+  ComponentType
+} from 'react';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import MuiMenuItem from '@material-ui/core/MenuItem';
 
@@ -12,38 +17,35 @@ interface Props {
   onClose(): void;
 }
 
-export function MenuItem({
-  selected,
-  children,
-  onClick,
-  onClose,
-  icon: Icon,
-  ...props
-}: Props & MenuItemProps) {
-  const onClickCallback = useCallback(
-    (evt: MouseEvent<HTMLLIElement>) => {
-      onClose();
-      onClick && onClick(evt);
-    },
-    [onClick, onClose]
-  );
+export const MenuItem = forwardRef<HTMLLIElement, Props & MenuItemProps>(
+  ({ children, onClick, onClose, selected, icon: Icon, ...props }, ref) => {
+    const onClickCallback = useCallback(
+      (evt: MouseEvent<HTMLLIElement>) => {
+        onClose();
+        onClick && onClick(evt);
+      },
+      [onClick, onClose]
+    );
 
-  return (
-    <MuiMenuItem
-      className="mui-menu-item"
-      selected={selected}
-      onClick={onClickCallback}
-      {...props}
-    >
-      {Icon && <Icon />}
-      <div className="mui-menu-item-content">{children}</div>
-    </MuiMenuItem>
-  );
-}
+    return (
+      <MuiMenuItem
+        className="mui-menu-item"
+        selected={selected}
+        onClick={onClickCallback}
+        {...props}
+      >
+        {Icon && <Icon />}
+        <div className="mui-menu-item-content">{children}</div>
+      </MuiMenuItem>
+    );
+  }
+);
 
 export function useMuiMenuItem({ onClose }: Props) {
   return useCallback(
-    (props: MenuItemProps) => <MenuItem onClose={onClose} {...props} />,
+    forwardRef<HTMLLIElement, MenuItemProps>((props, ref) => (
+      <MenuItem onClose={onClose} {...props} ref={ref} />
+    )),
     [onClose]
   );
 }

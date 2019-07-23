@@ -1,22 +1,13 @@
-.mui-menu {
+.mui-menu-paper {
+  &.mui-menu-paper {
+    border-radius: 8px;
+    background-color: var(--paper-background-color);
+    box-shadow: 0 8px 10px 1px var(--shadow-color),
+      0 3px 14px 2px var(--shadow-color), 0 5px 5px -3px var(--shadow-color);
+    color: var(--text-color);
+  }
+
   .mui-menu-content {
     overflow: auto;
-  }
-}
-
-.mui-menu {
-  ul {
-    @include padding-y(5px);
-  }
-
-  .mui-menu-item {
-    $padding-x: 10px;
-    @include relative();
-    @include padding-y(7px);
-    min-height: 0;
-
-    .mui-menu-item-content {
-      @include dimen(100%);
-    }
   }
 }
