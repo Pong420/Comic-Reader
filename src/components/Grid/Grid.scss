@@ -1,0 +1,82 @@
+.grid {
+  @include relative();
+  user-select: none;
+
+  .grid-content {
+    @include relative();
+    @include sq-dimen(100%);
+  }
+
+  .cover {
+    @include animate(transform);
+    @include sq-dimen(100%);
+    border-radius: 5px;
+    background-size: cover;
+    background-position: 50%;
+    background-color: #232323;
+    box-shadow: 0 8px 10px 1px $shadow-color, 0 3px 14px 2px $shadow-color, 0 5px 5px -3px $shadow-color;
+    overflow: hidden;
+  }
+
+  .caption {
+    @include dimen(calc(100%));
+    @include absolute(null, 0, 0);
+    border-radius: 5px;
+    background-image: linear-gradient(
+      180deg,
+      hsla(0, 0%, 9%, 0) 0,
+      rgba(0, 0, 0, 0.5) 50%
+    );
+    color: #fff;
+    font-weight: bold;
+    text-align: right;
+    text-shadow: 1px 1px 10px #666;
+    padding: 20px 5px 5px;
+
+    .title {
+      font-size: 15px;
+    }
+
+    .subtitle {
+      @include text-overflow-ellipsis();
+    }
+
+    .title,
+    .subtitle {
+      line-height: 1.5em;
+    }
+  }
+
+  .grid-layer {
+    @include absolute(0, null 0);
+    @include flex(center, center, column);
+    @include sq-dimen(100%);
+  }
+
+  .selection-layer,
+  .click-to-refetch {
+    cursor: pointer;
+  }
+
+  .grid-loading-layer,
+  .click-to-refetch {
+    background-color: rgba(0, 0, 0, 0.65);
+
+    &,
+    svg {
+      color: #fff;
+    }
+  }
+
+  &.seletable {
+    border-width: 6px;
+    border-style: dashed;
+    border-color: transparent;
+    border-radius: 4px;
+    padding: 5px;
+
+    &.selected {
+      border-color: $secondary-color;
+    }
+  }
+}

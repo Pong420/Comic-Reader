@@ -138,7 +138,9 @@
     "@types/node": "12.6.8",
     "@types/react": "16.8.23",
     "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.1.1",
     "@types/react-router-dom": "^4.3.4",
+    "@types/react-virtualized": "^9.21.4",
     "cheerio": "^1.0.0-rc.3",
     "chinese-conv": "^1.0.1",
     "cross-env": "^5.2.0",
@@ -167,7 +169,12 @@
     "pong-react-scripts": "3.0.1-1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1"
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-virtualized": "^9.21.1",
+    "redux": "^4.0.4",
+    "redux-observable": "^1.1.0",
+    "rxjs": "^6.5.2"
   },
   "devEngines": {
     "node": ">=7.x",

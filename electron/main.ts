@@ -5,7 +5,8 @@ import {
   shell,
   session,
   BrowserWindow,
-  OnBeforeSendHeadersDetails
+  OnBeforeSendHeadersDetails,
+  WebPreferences
 } from 'electron';
 import { MenuBuilder } from './menu';
 
@@ -22,6 +23,11 @@ interface HeaderDetails extends OnBeforeSendHeadersDetails {
 let mainWindow: BrowserWindow | null = null;
 
 const isDevelopment = process.env.NODE_ENV === 'development';
+const webPreferences: WebPreferences = isDevelopment
+  ? {
+      webSecurity: false
+    }
+  : {};
 
 async function createWindow() {
   if (isDevelopment) {
@@ -40,7 +46,8 @@ async function createWindow() {
     height: 720,
     titleBarStyle: 'hiddenInset',
     frame: false,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    webPreferences
   });
 
   const startUrl =

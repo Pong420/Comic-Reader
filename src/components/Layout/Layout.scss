@@ -1,0 +1,27 @@
+.error,
+.loading {
+  @include flex(center, center);
+}
+
+.error {
+  color: #fff;
+  text-align: center;
+
+  .warning-icon {
+    color: $secondary-color;
+    display: block;
+    font-size: 80px;
+    margin: auto;
+  }
+
+  .error-message {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+}
+
+.loading {
+  .loading-spinner {
+    color: $secondary-color;
+  }
+}

@@ -5,6 +5,7 @@ import { PATHS } from './constants';
 
 const App = () => (
   <Router>
+    <div className="sidebar" />
     <Switch>
       <Route exact path={PATHS.HOME} component={Home} />
     </Switch>
