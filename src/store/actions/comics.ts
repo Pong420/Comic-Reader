@@ -3,7 +3,7 @@ import { Schema$ComicItem, ApiError } from '../../typings';
 export enum ComicsActionTypes {
   GET_COMICS = 'GET_COMICS',
   GET_COMICS_SUCCESS = 'GET_COMICS_SUCCESS',
-  GET_COMICS_FAIL = 'GET_COMICS_FAIL',
+  GET_COMICS_FAILURE = 'GET_COMICS_FAILURE',
   GET_MORE_COMICS = 'GET_MORE_COMICS'
 }
 
@@ -17,7 +17,7 @@ export interface GetComicsSuccess {
 }
 
 export interface GetComicsFail {
-  type: ComicsActionTypes.GET_COMICS_FAIL;
+  type: ComicsActionTypes.GET_COMICS_FAILURE;
   payload: ApiError;
 }
 

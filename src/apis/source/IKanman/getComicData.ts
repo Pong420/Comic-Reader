@@ -1,9 +1,5 @@
 import { api } from './api';
-import {
-  Param$ComicData,
-  Schema$Chapters,
-  Schema$ComicData
-} from '../../../typings';
+import { Param$ComicData, Schema$ComicData } from '../../../typings';
 import LZString from './utils/LZString';
 
 const chineseConv = require('chinese-conv'); // tslint:disable-line
@@ -67,11 +63,12 @@ export async function getComicData({
       }
     }
 
-    const chapters: Schema$Chapters = {};
-
-    $('.chapter')
+    const types: Schema$ComicData['chapters']['types'] = [];
+    const byTypes: Schema$ComicData['chapters']['byTypes'] = {};
+    const byIds = $('.chapter')
       .children()
-      .each((_, child) => {
+      .toArray()
+      .reduce<Schema$ComicData['chapters']['byIds']>((byIds, child) => {
         if ($(child).get(0).tagName === 'h4') {
           let $el = $(child);
           while (!$el.next().hasClass('chapter-list')) {
@@ -92,20 +89,28 @@ export async function getComicData({
 
           const chapterType = chineseConv.tify($(child).text());
 
-          chapters[chapterType] = arr.map(chapter => {
-            const $aTag = $(chapter).find('a');
+          types.push(chapterType);
+          byTypes[chapterType] = [];
 
-            return {
-              chapterID: $aTag
-                .attr('href')
-                .replace(/.*\/(?=[^/].*$)|.html/g, ''),
-              title: chineseConv.tify($aTag.attr('title')),
+          arr.forEach(chapter => {
+            const $aTag = $(chapter).find('a');
+            const chapterID = $aTag
+              .attr('href')
+              .replace(/.*\/(?=[^/].*$)|.html/g, '');
+
+            byTypes[chapterType].push(chapterID);
+
+            byIds[chapterID] = {
+              chapterID,
               p: $aTag.find('i').text(),
-              isNew: !!$(chapter).find('.new').length
+              isNew: !!$(chapter).find('.new').length,
+              title: $aTag.attr('title')
             };
           });
         }
-      });
+
+        return byIds;
+      }, {});
 
     const author = $(details['漫畫作者'])
       .text()
@@ -119,7 +124,11 @@ export async function getComicData({
       intro,
       title,
       details,
-      chapters,
+      chapters: {
+        byIds,
+        byTypes,
+        types
+      },
       adultOnly,
       name: title[0],
       updateTime: $('.detail-list li > span span:nth-of-type(2)').text(),

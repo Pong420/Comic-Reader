@@ -1,5 +1,9 @@
 import { AxiosError } from 'axios';
 
+interface MyObject<T> {
+  [key: string]: T;
+}
+
 export interface CustomApiError {
   response: {
     status: string | number;
@@ -53,30 +57,23 @@ export interface Schema$ComicItem extends Schema$GridData {
   status: string;
 }
 
-export interface Schema$ComicData extends ComicHeaderProps {
-  comicID: string;
-  chapters: Schema$Chapters;
+export interface Schema$ComicData {
+  author: string;
   adultOnly: boolean;
-  name: string;
-  updateTime: string;
-}
-
-export interface ComicHeaderDetails {
-  [key: string]: string;
-}
-
-export interface ComicHeaderProps {
   cover: string;
-  latest: string;
+  comicID: string;
+  chapters: {
+    byIds: MyObject<Schema$ChpaterItem>;
+    byTypes: MyObject<string[]>;
+    types: string[];
+  };
+  details: MyObject<string>;
+  name: string;
   finished: boolean;
   intro: string;
+  latest: string;
   title: string[];
-  details: ComicHeaderDetails;
-  author: string;
-}
-
-export interface Schema$Chapters {
-  [key: string]: Schema$ChpaterItem[];
+  updateTime: string;
 }
 
 export interface Schema$ChpaterItem {

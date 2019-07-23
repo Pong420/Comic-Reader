@@ -1,0 +1,148 @@
+$padding: 20px;
+
+.comic {
+  @include flex(stretch, stretch, column);
+  @include padding-x($padding);
+  color: #fff;
+}
+
+.comic-header {
+  @include flex();
+  @include relative;
+  flex: 0 0 auto;
+  margin-top: $padding;
+  z-index: 1;
+
+  .comic-info {
+    @include padding-x(1em);
+  }
+
+  .comic-title {
+    @include flex(baseline, $wrap: wrap);
+
+    > * {
+      margin: 0 10px 0 0;
+    }
+  }
+
+  .comic-details {
+    display: table;
+    padding: 10px 0 5px;
+  }
+
+  .comic-details-item {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 20px;
+
+    &:nth-child(4),
+    &:nth-child(6),
+    &:nth-child(7) {
+      clear: left;
+    }
+
+    > span {
+      span {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .comic-intro {
+    @include multi-line-ellipsis($line-height: 1.4em, $line-clamp: 3);
+    font-size: 15px;
+    text-indent: 1.8em;
+  }
+}
+
+.comic-cover {
+  min-width: 190px;
+
+  div {
+    @include dimen(100%, 0);
+    background-color: #333;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    padding-bottom: 240 / 180 * 100%;
+  }
+}
+
+.comic-content {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-bottom: $padding;
+
+  .chapter-types {
+    @include flex();
+    @include sticky(0);
+
+    background-color: $primary-color;
+    padding: 10px 0;
+
+    .type {
+      color: #999;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1em;
+      margin-right: 10px;
+      order: 0;
+      padding: 10px 20px;
+
+      &:hover {
+        color: #fff;
+      }
+
+      &.active {
+        color: $secondary-color;
+        border-bottom: 2px solid $secondary-color;
+      }
+    }
+  }
+
+  .chapters-list {
+    @include dimen(100%);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    margin-top: 15px;
+    order: 1;
+  }
+
+  .chapter-item {
+    @include flex(center, space-between);
+
+    background-color: #333;
+    min-height: 40px;
+    padding: 5px 10px;
+
+    &:hover {
+      background-color: $secondary-color;
+      color: #333;
+    }
+
+    svg {
+      color: $red;
+    }
+  }
+
+  .warning {
+    @include flex(center, center, column);
+
+    margin: 100px auto auto;
+    max-width: 500px;
+    text-align: center;
+
+    .warning-icon {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      color: $secondary-color;
+      margin-top: 15px;
+    }
+  }
+}

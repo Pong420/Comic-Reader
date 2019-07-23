@@ -66,7 +66,7 @@ export default function(state = initialState, action: ComicsActions): State {
         };
       })();
 
-    case ComicsActionTypes.GET_COMICS_FAIL:
+    case ComicsActionTypes.GET_COMICS_FAILURE:
       return {
         ...state,
         loading: false,

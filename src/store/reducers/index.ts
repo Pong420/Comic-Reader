@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import comics from './comics';
+import comicData from './comicData';
 
 const rootReducer = () =>
   combineReducers({
-    comics
+    comics,
+    comicData
   });
 
 export type RootState = ReturnType<ReturnType<typeof rootReducer>>;

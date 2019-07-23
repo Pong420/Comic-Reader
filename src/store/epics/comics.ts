@@ -38,7 +38,7 @@ const getComicsEpic: ComicsEpic = (action$, state$) => {
           })),
           catchError((error: ApiError) =>
             of<GetComicsFail>({
-              type: ComicsActionTypes.GET_COMICS_FAIL,
+              type: ComicsActionTypes.GET_COMICS_FAILURE,
               payload: error
             })
           )
