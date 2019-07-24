@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect, DispatchProp } from 'react-redux';
 import { Layout } from '../Layout';
 import { ComicHeader } from './ComicHeader';
 import { ComicContent } from './ComicContent';
 import { RootState, getComicData } from '../../store';
+import { useMouseTrap } from '../../utils/useMouseTrap';
+import { PATHS } from '../../constants';
 
 interface MatchParams {
   comicID: string;
@@ -23,15 +25,20 @@ export function ComicComponent({
   match,
   error,
   loading,
-  comicData
+  comicData,
+  history
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   const { comicID, chapterType } = match.params;
 
-  // TODO: Add esc hot key
+  const backToHome = useCallback(() => {
+    history.push(PATHS.HOME);
+  }, [history]);
 
   useEffect(() => {
     dispatch(getComicData(comicID));
   }, [comicID, dispatch]);
+
+  useMouseTrap('esc', backToHome);
 
   return (
     <Layout error={error} loading={loading}>

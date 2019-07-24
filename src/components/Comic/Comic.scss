@@ -56,11 +56,13 @@ $padding: 20px;
 }
 
 .comic-cover {
+  box-shadow: 0 8px 10px 1px $shadow-color, 0 3px 14px 2px $shadow-color,
+    0 5px 5px -3px $shadow-color;
   min-width: 190px;
 
   div {
     @include dimen(100%, 0);
-    background-color: #333;
+    background-color: lighten($primary-color, 5%);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50%;
@@ -107,20 +109,20 @@ $padding: 20px;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     grid-row-gap: 10px;
     grid-column-gap: 10px;
-    margin-top: 15px;
+    margin-top: 5px;
     order: 1;
   }
 
   .chapter-item {
     @include flex(center, space-between);
 
-    background-color: #333;
+    background-color: lighten($primary-color, 5%);
     min-height: 40px;
-    padding: 5px 10px;
+    padding: 7px 15px;
 
     &:hover {
       background-color: $secondary-color;
-      color: #333;
+      color: #222;
     }
 
     svg {
