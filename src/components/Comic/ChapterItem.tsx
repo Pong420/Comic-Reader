@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { connect, DispatchProp, Omit } from 'react-redux';
-import { Link, generatePath } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { RootState } from '../../store';
 import { PATHS } from '../../constants';
 import { Schema$ChpaterItem } from '../../typings';
@@ -29,19 +29,21 @@ export function ChapterItemComponent({
   title,
   visited
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
-  const to = generatePath(PATHS.CONTENT, {
-    comicID,
-    chapterID,
-    pageNo: 1
-  });
-
   const Icon = visited ? LastVisitIcon : isNew ? NewIcon : null;
 
   return (
-    <div className="chapter-item" key={chapterID}>
+    <Link
+      className="chapter-item"
+      key={chapterID}
+      to={generatePath(PATHS.CONTENT, {
+        comicID,
+        chapterID,
+        pageNo: 1
+      })}
+    >
       {title}
       {Icon && <Icon />}
-    </div>
+    </Link>
   );
 }
 

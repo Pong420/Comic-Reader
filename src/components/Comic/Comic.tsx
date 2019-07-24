@@ -27,6 +27,8 @@ export function ComicComponent({
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   const { comicID, chapterType } = match.params;
 
+  // TODO: Add esc hot key
+
   useEffect(() => {
     dispatch(getComicData(comicID));
   }, [comicID, dispatch]);
