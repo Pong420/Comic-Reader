@@ -1,29 +1,29 @@
 .content {
   @include relative();
   overflow: auto;
+}
 
-  .image {
-    @include absolute(0, null, 0, 0);
-    @include sq-dimen(100%);
-    @include flex(center, center);
-  
-    color: #fff;
-    margin: auto;
-  
+.image {
+  @include absolute(0, null, 0, 0);
+  @include sq-dimen(100%);
+  @include flex(center, center);
+
+  color: #fff;
+  margin: auto;
+
+  .content.fit-to-page & {
+    @include sq-dimen(100% !important);
+  }
+
+  img {
     .content.fit-to-page & {
-      @include sq-dimen(100% !important);
+      @include sq-dimen(100%);
+      object-fit: contain;
     }
-  
-    img {
-      .content.fit-to-page & {
-        @include sq-dimen(100%);
-        object-fit: contain;
-      }
-    }
-  
-    &[hidden] {
-      display: none;
-    }
+  }
+
+  &[hidden] {
+    display: none;
   }
 }
 

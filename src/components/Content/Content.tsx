@@ -16,7 +16,8 @@ import { Image } from './Image';
 import { getContent, RootState } from '../../store';
 import { useMouseTrap } from '../../utils/useMouseTrap';
 import { PATHS, MESSAGE } from '../../constants';
-import { useBoolean } from '../../utils';
+import { useBoolean } from '../../utils/useBoolean';
+import { classes } from '../../utils/classes';
 
 interface MatchParams<T = string> {
   comicID: T;
@@ -29,17 +30,21 @@ interface Props extends RouteComponentProps<MatchParams> {}
 const mapStateToProps = (state: RootState) => ({
   images: state.content.images,
   prevId: state.content.prevId,
-  nextId: state.content.nextId
+  nextId: state.content.nextId,
+  fitToPage: state.content.fitToPage
 });
 
-// TODO: Add shortcuts guide => sidebar ?
+// TODO:
+// Add shortcuts guide => sidebar ?
+// save fit to page
 
 export function ContentComponent({
   dispatch,
   match,
   prevId,
   nextId,
-  images
+  images,
+  fitToPage
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   const totalPage = images.length;
   const contentRef = useRef<HTMLDivElement>(null);
@@ -123,7 +128,7 @@ export function ContentComponent({
     <>
       <Layout>
         <div
-          className="content"
+          className={classes('content', fitToPage && 'fit-to-page')}
           ref={contentRef}
           onClick={nextPage}
           onContextMenu={prevPage}

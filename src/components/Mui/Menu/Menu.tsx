@@ -19,19 +19,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
       [classes]
     );
 
-    // const mergedPaperProps = useMemo(
-    //   () =>
-    //     mergeWith(
-    //       {
-    //         style: {
-    //           boxShadow: `0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)`
-    //         }
-    //       },
-    //       PaperProps
-    //     ),
-    //   [PaperProps]
-    // );
-
     return (
       <Popover
         classes={mergedClasses}
@@ -39,7 +26,9 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
         ref={ref}
         {...props}
       >
-        <div className="mui-menu-content">{children}</div>
+        <div className="mui-menu-content" ref={ref}>
+          {children}
+        </div>
       </Popover>
     );
   }

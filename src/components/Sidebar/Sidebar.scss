@@ -26,10 +26,6 @@
       @include dimen(100%);
       @include relative();
       text-align: center;
-    }
-
-    > * {
-      @include app-region-no-drag;
 
       &.mui-icon-button-active {
         &:after {
@@ -43,6 +39,10 @@
           margin: auto;
         }
       }
+    }
+
+    > * {
+      @include app-region-no-drag;
     }
   }
 

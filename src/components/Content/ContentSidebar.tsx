@@ -3,7 +3,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, generatePath } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 // import { BookmarkBtn } from '../BookmarkBtn';
-// import { PageNo } from './PageNo';
+import { PageNo } from './PageNo';
 import { IconButton } from '../Mui/IconButton';
 import { Snackbar } from '../Mui/Snackbar';
 import { RootState, toggleFitToPage } from '../../store';
@@ -32,9 +32,10 @@ function ContentSidebarComponent({
   history,
   nextId,
   totalPage,
-  fitToPage
+  fitToPage,
+  dispatch
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
-  const { comicID } = match.params;
+  const { comicID, chapterID, pageNo } = match.params;
   const [
     snackbarOpened,
     { on: openSnackbar, off: closeSnackbar }
@@ -54,6 +55,23 @@ function ContentSidebarComponent({
     }
   }, [history, comicID, nextId, openSnackbar]);
 
+  const totalPageCallback = useCallback(() => {
+    dispatch(toggleFitToPage());
+  }, [dispatch]);
+
+  const changePageCallback = useCallback(
+    (pageNo: number) => {
+      history.replace(
+        generatePath(PATHS.CONTENT, {
+          comicID,
+          chapterID,
+          pageNo
+        })
+      );
+    },
+    [history, comicID, chapterID]
+  );
+
   return (
     <Sidebar className="content-sidebar">
       <IconButton
@@ -67,22 +85,14 @@ function ContentSidebarComponent({
         title={fitToPage ? '預設大小' : '適合頁面'}
         icon={AspectRatioIcon}
         isActive={fitToPage}
-        onClick={() => toggleFitToPage()}
+        onClick={totalPageCallback}
       />
       <div className="flex-spacer" />
-      {/* <PageNo
+      <PageNo
         pageNo={Number(pageNo)}
         totalPage={totalPage}
-        changePage={pageNo =>
-          history.replace(
-            generatePath(PATHS.CONTENT, {
-              comicID,
-              chapterID,
-              pageNo
-            })
-          )
-        }
-      /> */}
+        changePage={changePageCallback}
+      />
       <Snackbar
         open={snackbarOpened}
         onClose={closeSnackbar}
