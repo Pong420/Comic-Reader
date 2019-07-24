@@ -133,6 +133,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.12",
+    "@types/history": "^4.7.2",
     "@types/jest": "24.0.15",
     "@types/lodash.mergewith": "^4.6.6",
     "@types/lodash.pick": "^4.4.6",
@@ -166,6 +167,8 @@
     "@material-ui/icons": "^4.2.1",
     "axios": "^0.19.0",
     "axios-extensions": "^3.0.6",
+    "connected-react-router": "^6.5.2",
+    "history": "^4.9.0",
     "lodash.mergewith": "^4.6.2",
     "lodash.pick": "^4.4.0",
     "pong-react-scripts": "3.0.1-1",

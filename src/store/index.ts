@@ -1,9 +1,12 @@
+import { createHashHistory } from 'history';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware, Epic } from 'redux-observable';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import rootEpic from './epics';
 import createRootReducer from './reducers';
+
+export const history = createHashHistory();
 
 const epic$ = new BehaviorSubject(rootEpic);
 const hotReloadingEpic: Epic = (...args) =>
@@ -15,14 +18,14 @@ export default function configureStore() {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const enhancer = composeEnhancers(applyMiddleware(epicMiddleware));
 
-  const store = createStore(createRootReducer(), undefined, enhancer);
+  const store = createStore(createRootReducer(history), undefined, enhancer);
 
   epicMiddleware.run(hotReloadingEpic);
 
   if (process.env.NODE_ENV !== 'production') {
     if (module.hot) {
       module.hot.accept('./reducers', () => {
-        store.replaceReducer(createRootReducer());
+        store.replaceReducer(createRootReducer(history));
       });
 
       module.hot.accept('./epics', () => {
