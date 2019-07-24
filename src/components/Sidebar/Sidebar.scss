@@ -18,14 +18,18 @@
   }
 
   .sidebar-content {
-    @include flex(stretch, flex-start, column);
+    @include flex(center, flex-start, column);
     @include relative();
     @include sq-dimen(100%);
 
     > a {
-      @include app-region-no-drag;
+      @include dimen(100%);
       @include relative();
       text-align: center;
+    }
+
+    > * {
+      @include app-region-no-drag;
 
       &.mui-icon-button-active {
         &:after {

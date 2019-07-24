@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 
 export interface WithNavLinkProps extends Partial<NavLinkProps> {
-  children?: ReactNode;
+  children: ReactElement<any>;
 }
 
 export function WithNavLink({
@@ -19,5 +19,5 @@ export function WithNavLink({
     );
   }
 
-  return <div className={className}>{children}</div>;
+  return children;
 }

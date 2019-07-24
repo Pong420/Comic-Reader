@@ -9,7 +9,7 @@ import {
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic } from './components/Comic';
-import { Content } from './components/Content';
+import { Content, ContentSidebar } from './components/Content';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -30,7 +30,8 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: PATHS.CONTENT,
-    main: Content
+    main: Content,
+    sidebar: ContentSidebar
   }
 ];
 
