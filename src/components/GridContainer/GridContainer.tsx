@@ -26,15 +26,13 @@ const containerPadding = gridGap;
 const scrollPosition = new Map<string, number>();
 
 const gridContainerStyle: CSSProperties = {
-  padding: `${containerPadding - gridGap / 2}px`,
-  paddingTop: 0,
-  outline: 0
+  outline: 0,
+  padding: `${containerPadding - gridGap / 2}px`
 };
 
 const gridSizerContainerStyle: CSSProperties = {
   gridGap,
-  padding: `0 ${containerPadding}px`,
-  paddingTop: 0
+  padding: `0 ${containerPadding}px`
 };
 
 const gridStyle = { padding: `${gridGap / 2}px`, height: '100%' };
