@@ -10,6 +10,7 @@ import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic } from './components/Comic';
 import { Content, ContentSidebar } from './components/Content';
+import { BrowsingHistory } from './components/BrowsingHistory';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -32,6 +33,10 @@ const routes: CustomRouteProps[] = [
     path: PATHS.CONTENT,
     main: Content,
     sidebar: ContentSidebar
+  },
+  {
+    path: PATHS.BROWSING_HISTORY,
+    main: BrowsingHistory
   }
 ];
 

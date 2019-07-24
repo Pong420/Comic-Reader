@@ -113,10 +113,8 @@ export type Schema$Bookmark = [
   Partial<Schema$GridData> & Param$GridData
 ];
 
-export type Schema$BrowsingHistory = [
-  string,
-  Partial<Schema$GridData> & Param$ContentData
-];
+export type Schema$BrowsingHistory = Partial<Schema$GridData> &
+  Param$ContentData;
 
 export type FilterData = Array<[string, FilterElement[]]>;
 
