@@ -14,7 +14,7 @@ function toggleMaximize() {
   setFullScreen(!isFullScreen());
 }
 
-export function AppRegion() {
+export const AppRegion = React.memo(() => {
   const [isFullscreen, setIsFullscreen] = useState(isMaximized());
 
   useEffect(() => {
@@ -45,4 +45,4 @@ export function AppRegion() {
       {/* )} */}
     </div>
   );
-}
+});

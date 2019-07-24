@@ -18,36 +18,38 @@ interface Props
 
 const activeClassName = 'mui-icon-button-active';
 
-export function IconButton({
-  icon: Icon,
-  iconProps,
-  className = '',
-  isActive,
-  to,
-  title,
-  badage,
-  ...props
-}: Props) {
-  if (Icon) {
-    return (
-      <WithNavLink to={to} activeClassName={activeClassName} exact>
-        <WithTooltip title={title}>
-          <MuiIconButton
-            {...props}
-            className={classes(
-              'mui-icon-button',
-              className,
-              isActive && activeClassName
-            )}
-          >
-            <WithBadges badage={badage}>
-              <Icon {...iconProps} />
-            </WithBadges>
-          </MuiIconButton>
-        </WithTooltip>
-      </WithNavLink>
-    );
-  }
+export const IconButton = React.memo(
+  ({
+    icon: Icon,
+    iconProps,
+    className = '',
+    isActive,
+    to,
+    title,
+    badage,
+    ...props
+  }: Props) => {
+    if (Icon) {
+      return (
+        <WithNavLink to={to} activeClassName={activeClassName} exact>
+          <WithTooltip title={title}>
+            <MuiIconButton
+              {...props}
+              className={classes(
+                'mui-icon-button',
+                className,
+                isActive && activeClassName
+              )}
+            >
+              <WithBadges badage={badage}>
+                <Icon {...iconProps} />
+              </WithBadges>
+            </MuiIconButton>
+          </WithTooltip>
+        </WithNavLink>
+      );
+    }
 
-  return null;
-}
+    return null;
+  }
+);
