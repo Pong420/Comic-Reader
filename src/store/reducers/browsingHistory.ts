@@ -29,9 +29,10 @@ export default function(
     case ContentActionTypes.GET_CONTENT:
       return (() => {
         const { comicID, chapterID } = action.payload;
+        const ids = [action.payload.comicID, ...remove(state.ids, comicID)];
         return {
           ...state,
-          ids: [action.payload.comicID, ...state.ids],
+          ids,
           byIds: {
             ...state.byIds,
             [comicID]: {
