@@ -1,6 +1,7 @@
 import { createHashHistory } from 'history';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware, Epic } from 'redux-observable';
+import { routerMiddleware } from 'connected-react-router';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import rootEpic from './epics';
@@ -16,7 +17,9 @@ export default function configureStore() {
   const epicMiddleware = createEpicMiddleware();
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const enhancer = composeEnhancers(applyMiddleware(epicMiddleware));
+  const enhancer = composeEnhancers(
+    applyMiddleware(routerMiddleware(history), epicMiddleware)
+  );
 
   const store = createStore(createRootReducer(history), undefined, enhancer);
 
