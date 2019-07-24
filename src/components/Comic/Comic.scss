@@ -72,32 +72,35 @@ $padding: 20px;
 
 .comic-content {
   flex: 1 1 auto;
+  margin-top: 10px;
   overflow: auto;
   padding-bottom: $padding;
 
   .chapter-types {
     @include flex();
     @include sticky(0);
-
     background-color: $primary-color;
     padding: 10px 0;
 
     .type {
       color: #999;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1em;
-      margin-right: 10px;
       order: 0;
-      padding: 10px 20px;
+      padding: 7px 20px;
+
+      + .type {
+        margin-left: 10px;
+      }
 
       &:hover {
         color: #fff;
       }
 
       &.active {
-        color: $secondary-color;
         border-bottom: 2px solid $secondary-color;
+        color: $secondary-color;
       }
     }
   }
@@ -117,6 +120,7 @@ $padding: 20px;
     @include flex(center, space-between);
 
     background-color: lighten($primary-color, 5%);
+    font-size: 13px;
     min-height: 40px;
     padding: 7px 15px;
 

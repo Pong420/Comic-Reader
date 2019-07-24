@@ -20,6 +20,8 @@ const mapStateToProps = (state: RootState) => {
 
 interface Props extends RouteComponentProps<MatchParams> {}
 
+// TODO: Add adultOnly handling
+
 export function ComicComponent({
   dispatch,
   match,

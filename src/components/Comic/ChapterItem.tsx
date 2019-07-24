@@ -10,15 +10,17 @@ import LastVisitIcon from '@material-ui/icons/LocationOnRounded';
 interface Props {
   comicID: string;
   chapterID: string;
-  visited?: boolean;
 }
 
-const mapStateToProps = (state: RootState, { chapterID }: Props) => {
+const mapStateToProps = (state: RootState, { comicID, chapterID }: Props) => {
   const { chapters } = state.comicData;
+  const item = state.browsingHistory.byIds[comicID];
+  const visited = !!item && item.chapterID === chapterID;
   return {
     ...((chapters ? chapters.byIds[chapterID] : {}) as Partial<
       Omit<Schema$ChpaterItem, 'chapterID'>
-    >)
+    >),
+    visited
   };
 };
 
