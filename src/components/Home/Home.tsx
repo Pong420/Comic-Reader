@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
-import { Grid } from '../Grid';
+import { HomeGrid } from './HomeGrid';
 import { RootState, getComics } from '../../store';
 
 const mapStateToProps = (state: RootState) => ({
@@ -28,7 +28,7 @@ export function HomeComponent({
             <GridContainer
               {...dimen}
               items={comics}
-              onGridRender={comicID => <Grid comicID={comicID} />}
+              onGridRender={comicID => <HomeGrid comicID={comicID} />}
               scrollPostionKey={location.pathname}
             />
           )}

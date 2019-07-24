@@ -1,9 +1,8 @@
 import React, { useMemo, HTMLAttributes, CSSProperties } from 'react';
 import { Link, generatePath } from 'react-router-dom';
-import { connect, DispatchProp, Omit } from 'react-redux';
+import { Omit } from 'react-redux';
 import { classes } from '../../utils/classes';
 import { PATHS } from '../../constants';
-import { RootState } from '../../store';
 import { Schema$GridData } from '../../typings';
 
 export interface GridPorps extends HTMLAttributes<HTMLDivElement> {
@@ -11,14 +10,7 @@ export interface GridPorps extends HTMLAttributes<HTMLDivElement> {
   subtitleType?: 'latest' | 'author';
 }
 
-const mapStateToProps = (state: RootState, ownProps: GridPorps) => ({
-  ...((state.comics.byIds[ownProps.comicID] || {}) as Omit<
-    Partial<Schema$GridData>,
-    'comicID'
-  >)
-});
-
-export function GridComponent({
+export function Grid({
   comicID,
   children,
   className = '',
@@ -26,9 +18,8 @@ export function GridComponent({
   name,
   subtitleType = 'latest',
   updateTime,
-  dispatch,
   ...props
-}: GridPorps & DispatchProp & ReturnType<typeof mapStateToProps>) {
+}: GridPorps & Omit<Partial<Schema$GridData>, 'comicID'>) {
   const style = useMemo<CSSProperties>(
     () => ({
       backgroundImage: `url(${cover})`
@@ -59,5 +50,3 @@ export function GridComponent({
 
   return null;
 }
-
-export const Grid = connect(mapStateToProps)(GridComponent);
