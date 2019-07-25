@@ -18,7 +18,7 @@ interface Props
 
 const activeClassName = 'mui-icon-button-active';
 
-export const IconButton = React.memo(
+export const IconButton = React.memo<Props>(
   ({
     icon: Icon,
     iconProps,
@@ -28,7 +28,7 @@ export const IconButton = React.memo(
     title,
     badage,
     ...props
-  }: Props) => {
+  }) => {
     if (Icon) {
       return (
         <WithNavLink to={to} activeClassName={activeClassName} exact>

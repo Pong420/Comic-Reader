@@ -4,6 +4,11 @@ interface MyObject<T> {
   [key: string]: T;
 }
 
+export interface Schema$Data<T, K extends keyof T> {
+  byIds: MyObject<T>;
+  ids: Array<T[K]>;
+}
+
 export interface CustomApiError {
   response: {
     status: string | number;
@@ -42,6 +47,8 @@ export interface Param$ContentData {
 export interface Param$SearchResult {
   keyword: string;
   page: number;
+  order?: number;
+  ajax?: number;
 }
 
 export interface Schema$GridData {
@@ -102,6 +109,8 @@ export type Response$LoadImage = Pick<
   Schema$ImageDetail,
   'src' | 'width' | 'height'
 >;
+
+export type Response$SearchResult = Schema$Data<Schema$SearchResult, 'comicID'>;
 
 export interface Schema$SearchResult extends Schema$GridData {
   author: string;

@@ -1,0 +1,35 @@
+.search {
+  @include flex($flex-direction: column);
+
+  .search-input {
+    @include dimen(100%);
+    flex: 0 0 auto;
+    padding: 20px 15px 15px;
+
+    form {
+      @include flex(center);
+      padding: 2px 4px;
+    }
+
+    .text-field {
+      @include padding-x(15px 5px);
+      background-color: lighten(#2a2a2a, 10%);
+      color: #fff;
+
+      svg {
+        font-size: 25px;
+      }
+    }
+  }
+
+  .search-results {
+    flex: 1 1 auto;
+  }
+
+  .no-search-result {
+    @include sq-dimen(100%);
+    @include flex(center, center);
+    color: #fff;
+    font-size: 16px;
+  }
+}
