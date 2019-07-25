@@ -44,6 +44,7 @@
 
       &.slash {
         @include dimen(0.2em);
+        flex: 0 0 auto;
 
         &:before {
           @include dimen(1px, 1.8em);
@@ -58,20 +59,19 @@
       &:nth-child(2n + 1) {
         font-weight: bold;
         line-height: 1em;
-        min-width: 1em;
+        flex: 1 1 50%;
       }
 
       $top: 1.5em;
 
       &:nth-child(1) {
         margin-top: -$top;
-        text-align: right;
-        white-space: pre-wrap;
+        justify-content: flex-end;
       }
 
       &:nth-child(3) {
         margin-top: $top;
-        text-align: left;
+        justify-content: flex-start;
       }
     }
   }
