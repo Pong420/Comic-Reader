@@ -10,7 +10,10 @@ import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
 import { Content, ContentSidebar } from './components/Content';
-import { BrowsingHistory } from './components/BrowsingHistory';
+import {
+  BrowsingHistory,
+  BrowsingHistorySidebar
+} from './components/BrowsingHistory';
 import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
@@ -38,7 +41,8 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: PATHS.BROWSING_HISTORY,
-    main: BrowsingHistory
+    main: BrowsingHistory,
+    sidebar: BrowsingHistorySidebar
   },
   {
     path: PATHS.BOOKMARK,

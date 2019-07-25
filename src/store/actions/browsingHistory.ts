@@ -1,14 +1,14 @@
-import { ApiError, Schema$GridData } from '../../typings';
+import { Schema$GridData, Schema$BrowsingHistory } from '../../typings';
+import { Omit } from 'react-redux';
 
 export enum BrowsingHistoryActionTypes {
   ADD_BROWSING_HISTORY_SUCCESS = 'ADD_BROWSING_HISTORY_SUCCESS',
   ADD_BROWSING_HISTORY_FAILURE = 'ADD_BROWSING_HISTORY_FAILURE',
   REMOVE_BROWSING_HISTORY = 'REMOVE_BROWSING_HISTORY',
-  REFETCH_BROWSING_HISTORY = 'REFETCH_BROWSING_HISTORY',
-  REFETCH_BROWSING_HISTORY_SUCCESS = 'REFETCH_BROWSING_HISTORY_SUCCESS',
-  REFETCH_BROWSING_HISTORY_FAILURE = 'REFETCH_BROWSING_HISTORY_FAILURE',
+  UPDATE_BROWSING_HISTORY = 'UPDATE_BROWSING_HISTORY',
   UPDATE_BROWSING_HISTORY_SELECTION = 'UPDATE_BROWSING_HISTORY_SELECTION',
-  TOGGLE_BROWSING_HISTORY_SELECTION = 'TOGGLE_BROWSING_HISTORY_SELECTION'
+  TOGGLE_BROWSING_HISTORY_SELECT_ALL = 'TOGGLE_BROWSING_HISTORY_SELECT_ALL',
+  TOGGLE_BROWSING_HISTORY_SELECTABLE = 'TOGGLE_BROWSING_HISTORY_SELECTABLE'
 }
 
 export interface AddBrowsingHistorySuccess {
@@ -18,36 +18,31 @@ export interface AddBrowsingHistorySuccess {
 
 export interface AddBrowsingHistoryFailure {
   type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_FAILURE;
-  payload: ApiError;
+  payload: string;
 }
 
 export interface RemoveBrowsingHistory {
   type: BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY;
-  payload: string | string[];
+  payload?: string | string[];
 }
 
-export interface RefetchBrowsingHistory {
-  type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY;
-  payload: string;
-}
-
-export interface RefetchBrowsingHistorySuccess {
-  type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS;
-  payload: Schema$GridData;
-}
-
-export interface RefetchBrowsingHistoryFailure {
-  type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_FAILURE;
-  payload: ApiError;
+export interface UpdateBrowsingHistory {
+  type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY;
+  payload: Omit<Schema$BrowsingHistory, 'chapterID'>;
 }
 
 export interface UpdateBrowsingHistorySelection {
   type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION;
-  payload: string[];
+  payload: string;
 }
 
-export interface ToggleBrowsingHistorySelection {
-  type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION;
+export interface ToggleBrowsingHistorySelectAll {
+  type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECT_ALL;
+  payload?: boolean;
+}
+
+export interface ToggleBrowsingHistorySelectable {
+  type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTABLE;
   payload?: boolean;
 }
 
@@ -55,14 +50,13 @@ export type BrowsingHistoryActions =
   | AddBrowsingHistorySuccess
   | AddBrowsingHistoryFailure
   | RemoveBrowsingHistory
-  | RefetchBrowsingHistory
-  | RefetchBrowsingHistorySuccess
-  | RefetchBrowsingHistoryFailure
-  | ToggleBrowsingHistorySelection
-  | UpdateBrowsingHistorySelection;
+  | UpdateBrowsingHistory
+  | UpdateBrowsingHistorySelection
+  | ToggleBrowsingHistorySelectable
+  | ToggleBrowsingHistorySelectAll;
 
 export function removeBrowsingHistory(
-  payload: string | string[]
+  payload?: RemoveBrowsingHistory['payload']
 ): RemoveBrowsingHistory {
   return {
     type: BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY,
@@ -70,26 +64,17 @@ export function removeBrowsingHistory(
   };
 }
 
-export function refetchBrowsingHistory(
-  payload: string
-): RefetchBrowsingHistory {
+export function updateBrowsingHistory(
+  payload: UpdateBrowsingHistory['payload']
+): UpdateBrowsingHistory {
   return {
-    type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY,
-    payload
-  };
-}
-
-export function toggleBrowsingHistorySelection(
-  payload?: boolean
-): ToggleBrowsingHistorySelection {
-  return {
-    type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION,
+    type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY,
     payload
   };
 }
 
 export function updateBrowsingHistorySelection(
-  payload: string[]
+  payload: UpdateBrowsingHistorySelection['payload']
 ): UpdateBrowsingHistorySelection {
   return {
     type: BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION,
@@ -97,9 +82,28 @@ export function updateBrowsingHistorySelection(
   };
 }
 
+export function toggleBrowsingHistorySelectable(
+  payload?: ToggleBrowsingHistorySelectable['payload']
+): ToggleBrowsingHistorySelectable {
+  return {
+    type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTABLE,
+    payload
+  };
+}
+
+export function toggleBrowsingHistorySelectAll(
+  payload?: ToggleBrowsingHistorySelectAll['payload']
+): ToggleBrowsingHistorySelectAll {
+  return {
+    type: BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECT_ALL,
+    payload
+  };
+}
+
 export const BrowsingHistoryActionCreators = {
   removeBrowsingHistory,
-  refetchBrowsingHistory,
-  toggleBrowsingHistorySelection,
-  updateBrowsingHistorySelection
+  updateBrowsingHistory,
+  updateBrowsingHistorySelection,
+  toggleBrowsingHistorySelectable,
+  toggleBrowsingHistorySelectAll
 };

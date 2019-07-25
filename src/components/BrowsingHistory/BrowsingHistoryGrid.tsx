@@ -1,24 +1,46 @@
 import React from 'react';
-import { Grid } from '../Grid';
-import { connect, DispatchProp } from 'react-redux';
-import { RootState } from '../../store';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { SelectableGrid } from '../Grid';
+import {
+  RootState,
+  updateBrowsingHistory,
+  updateBrowsingHistorySelection
+} from '../../store';
 
 interface Props {
   comicID: string;
 }
 
 const mapStateToProps = (state: RootState, { comicID }: Props) => ({
-  ...state.browsingHistory.byIds[comicID]
+  ...state.browsingHistory.byIds[comicID],
+  selected: state.browsingHistory.selection.includes(comicID)
 });
 
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    { updateBrowsingHistory, updateBrowsingHistorySelection },
+    dispatch
+  );
+
 export function BrowsingHistoryGridComponent({
-  dispatch,
   chapterID,
+  updateBrowsingHistory,
+  updateBrowsingHistorySelection,
   ...props
-}: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
-  return <Grid {...props} />;
+}: Props &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>) {
+  return (
+    <SelectableGrid
+      {...props}
+      toggleSelect={updateBrowsingHistorySelection}
+      onRefetchSuccess={updateBrowsingHistory}
+    />
+  );
 }
 
-export const BrowsingHistoryGrid = connect(mapStateToProps)(
-  BrowsingHistoryGridComponent
-);
+export const BrowsingHistoryGrid = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BrowsingHistoryGridComponent);

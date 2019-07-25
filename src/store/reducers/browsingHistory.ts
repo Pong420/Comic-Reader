@@ -63,7 +63,7 @@ export default function(
         const comicIDs =
           typeof action.payload === 'string'
             ? [action.payload]
-            : action.payload;
+            : action.payload || state.selection;
 
         let ids = state.ids.slice();
         const byIds = { ...state.byIds };
@@ -80,13 +80,41 @@ export default function(
         };
       })();
 
-    case BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION:
+    case BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY:
       return {
         ...state,
-        selection: action.payload
+        byIds: {
+          ...state.byIds,
+          [action.payload.comicID]: {
+            ...state.byIds[action.payload.comicID],
+            ...action.payload
+          }
+        }
       };
 
-    case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTION:
+    case BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY_SELECTION:
+      return (() => {
+        const comicID = action.payload;
+
+        return {
+          ...state,
+          selection: state.selection.includes(comicID)
+            ? remove(state.selection, comicID)
+            : [...state.selection, comicID]
+        };
+      })();
+    case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECT_ALL:
+      const selectAll =
+        typeof action.payload !== 'undefined'
+          ? !!action.payload
+          : state.selection.length !== state.ids.length;
+
+      return {
+        ...state,
+        selection: selectAll ? state.ids : []
+      };
+
+    case BrowsingHistoryActionTypes.TOGGLE_BROWSING_HISTORY_SELECTABLE:
       return {
         ...state,
         selection: [],

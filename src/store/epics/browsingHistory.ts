@@ -1,14 +1,11 @@
 import { from, empty, of } from 'rxjs';
-import { map, switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import {
   BrowsingHistoryActions,
   BrowsingHistoryActionTypes,
   AddBrowsingHistorySuccess,
-  AddBrowsingHistoryFailure,
-  RefetchBrowsingHistory,
-  RefetchBrowsingHistorySuccess,
-  RefetchBrowsingHistoryFailure
+  AddBrowsingHistoryFailure
 } from '../actions/browsingHistory';
 import {
   ContentActionTypes,
@@ -17,7 +14,7 @@ import {
 } from '../actions/content';
 import { RootState } from '../reducers';
 import { getGridDataAPI } from '../../apis';
-import { Schema$GridData, ApiError } from '../../typings';
+import { Schema$GridData } from '../../typings';
 import { browsingHistoryStorage } from '../../storage/browsingHistory';
 
 type Actions = BrowsingHistoryActions | ContentActions;
@@ -32,31 +29,10 @@ const addBrowsingHistoryEpic: BrowsingHistoryEpic = action$ =>
           type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
           payload
         })),
-        catchError((payload: ApiError) =>
+        catchError(() =>
           of<AddBrowsingHistoryFailure>({
             type: BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_FAILURE,
-            payload
-          })
-        )
-      )
-    )
-  );
-
-const refetchBrowsingHistoryEpic: BrowsingHistoryEpic = action$ =>
-  action$.pipe(
-    ofType<Actions, RefetchBrowsingHistory>(
-      BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY
-    ),
-    mergeMap(action =>
-      from(getGridDataAPI({ comicID: action.payload })).pipe(
-        map<Schema$GridData, RefetchBrowsingHistorySuccess>(payload => ({
-          type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS,
-          payload
-        })),
-        catchError((payload: ApiError) =>
-          of<RefetchBrowsingHistoryFailure>({
-            type: BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_FAILURE,
-            payload
+            payload: action.payload.comicID
           })
         )
       )
@@ -69,7 +45,7 @@ const saveBrowsingHistoryEpic: BrowsingHistoryEpic = (action$, state$) =>
       ContentActionTypes.GET_CONTENT,
       BrowsingHistoryActionTypes.ADD_BROWSING_HISTORY_SUCCESS,
       BrowsingHistoryActionTypes.REMOVE_BROWSING_HISTORY,
-      BrowsingHistoryActionTypes.REFETCH_BROWSING_HISTORY_SUCCESS
+      BrowsingHistoryActionTypes.UPDATE_BROWSING_HISTORY
     ),
     switchMap(() => {
       const { byIds, ids } = state$.value.browsingHistory;
@@ -78,8 +54,4 @@ const saveBrowsingHistoryEpic: BrowsingHistoryEpic = (action$, state$) =>
     })
   );
 
-export default [
-  addBrowsingHistoryEpic,
-  refetchBrowsingHistoryEpic,
-  saveBrowsingHistoryEpic
-];
+export default [addBrowsingHistoryEpic, saveBrowsingHistoryEpic];

@@ -11,7 +11,7 @@ const mapStateToProps = (state: RootState) => ({
   selectable: state.bookmark.selectable
 });
 
-export function BookmarkComponent({
+function BookmarkComponent({
   bookmarks,
   selectable
 }: ReturnType<typeof mapStateToProps>) {

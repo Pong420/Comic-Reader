@@ -29,9 +29,9 @@ export function BookmarkGridComponent({
   ReturnType<typeof mapStateToProps>) {
   return (
     <SelectableGrid
+      {...props}
       toggleSelect={updateBookmarkSelection}
       onRefetchSuccess={updateBookmark}
-      {...props}
     />
   );
 }

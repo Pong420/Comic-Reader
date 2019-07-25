@@ -73,16 +73,13 @@ export default function(
       })();
 
     case BookmarkActionTypes.UPDATE_BOOKMARK:
-      return (() => {
-        const { comicID } = action.payload;
-        return {
-          ...state,
-          byIds: {
-            ...state.byIds,
-            [comicID]: action.payload
-          }
-        };
-      })();
+      return {
+        ...state,
+        byIds: {
+          ...state.byIds,
+          [action.payload.comicID]: action.payload
+        }
+      };
 
     case BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION:
       return (() => {
