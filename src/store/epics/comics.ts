@@ -4,8 +4,7 @@ import {
   concatMap,
   catchError,
   withLatestFrom,
-  take,
-  debounceTime
+  take
 } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
@@ -30,7 +29,6 @@ const getComicsEpic: ComicsEpic = (action$, state$) => {
   return action$.pipe(
     ofType(ComicsActionTypes.GET_COMICS, ComicsActionTypes.GET_MORE_COMICS),
     withLatestFrom(param$),
-    // debounceTime(100000000000),
     concatMap(([_, params]) =>
       race(
         from(getComicListAPI(params)).pipe(

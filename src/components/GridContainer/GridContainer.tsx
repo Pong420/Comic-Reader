@@ -38,12 +38,18 @@ const gridSizerContainerStyle: CSSProperties = {
 const gridStyle = { padding: `${gridGap / 2}px`, height: '100%' };
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
+  const containerInnerWidth = width - containerPadding;
   const columnWidth = el ? el.offsetWidth : 0;
-  const columnCount = Math.floor(width / columnWidth);
+  // if the `width` is zero, and this may return `-Infinity`, finally make the app crash
+  // so a Math.max is used to fix this issue
+  const columnCount = Math.max(
+    1,
+    Math.floor(containerInnerWidth / columnWidth)
+  );
 
   return {
     columnCount,
-    columnWidth
+    columnWidth: containerInnerWidth / columnCount
   };
 }
 
@@ -121,7 +127,7 @@ export function GridContainer<T extends {}>({
       <Grid
         className="grid-container"
         columnCount={columnCount}
-        columnWidth={columnWidth + gridGap}
+        columnWidth={columnWidth}
         rowCount={rowCount}
         rowHeight={columnWidth / ratio + gridGap}
         height={height}
