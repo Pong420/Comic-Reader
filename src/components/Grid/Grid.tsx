@@ -5,7 +5,9 @@ import { classes } from '../../utils/classes';
 import { PATHS } from '../../constants';
 import { Schema$GridData } from '../../typings';
 
-export interface GridPorps extends HTMLAttributes<HTMLDivElement> {
+export interface GridPorps
+  extends HTMLAttributes<HTMLDivElement>,
+    Omit<Partial<Schema$GridData>, 'comicID'> {
   comicID: string;
   subtitleType?: 'latest' | 'author';
 }
@@ -19,7 +21,7 @@ export function Grid({
   subtitleType = 'latest',
   updateTime,
   ...props
-}: GridPorps & Omit<Partial<Schema$GridData>, 'comicID'>) {
+}: GridPorps) {
   const style = useMemo<CSSProperties>(
     () => ({
       backgroundImage: `url(${cover})`

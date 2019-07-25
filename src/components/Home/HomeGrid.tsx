@@ -1,10 +1,14 @@
 import React from 'react';
-import { Grid, GridPorps } from '../Grid';
+import { Grid } from '../Grid';
 import { connect, DispatchProp, Omit } from 'react-redux';
 import { RootState } from '../../store';
 import { Schema$GridData } from '../../typings';
 
-const mapStateToProps = (state: RootState, { comicID }: GridPorps) => ({
+interface Props {
+  comicID: string;
+}
+
+const mapStateToProps = (state: RootState, { comicID }: Props) => ({
   ...((state.comics.byIds[comicID] || {}) as Omit<
     Partial<Schema$GridData>,
     'comicID'
@@ -14,7 +18,7 @@ const mapStateToProps = (state: RootState, { comicID }: GridPorps) => ({
 export function HomeGridComponent({
   dispatch,
   ...props
-}: GridPorps & DispatchProp & ReturnType<typeof mapStateToProps>) {
+}: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   return <Grid {...props} />;
 }
 

@@ -1,17 +1,42 @@
 import React from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { Grid, GridPorps } from '../Grid';
-import { RootState } from '../../store';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { SelectableGrid } from '../Grid';
+import {
+  RootState,
+  updateBookmark,
+  updateBookmarkSelection
+} from '../../store';
 
-const mapStateToProps = (state: RootState, { comicID }: GridPorps) => ({
-  ...state.bookmark.byIds[comicID]
-});
-
-export function BookmarkGridComponent({
-  dispatch,
-  ...props
-}: GridPorps & DispatchProp & ReturnType<typeof mapStateToProps>) {
-  return <Grid {...props} />;
+interface Props {
+  comicID: string;
 }
 
-export const BookmarkGrid = connect(mapStateToProps)(BookmarkGridComponent);
+const mapStateToProps = (state: RootState, { comicID }: Props) => ({
+  ...state.bookmark.byIds[comicID],
+  selected: state.bookmark.selection.includes(comicID)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ updateBookmark, updateBookmarkSelection }, dispatch);
+
+export function BookmarkGridComponent({
+  updateBookmark,
+  updateBookmarkSelection,
+  ...props
+}: Props &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>) {
+  return (
+    <SelectableGrid
+      toggleSelect={updateBookmarkSelection}
+      onRefetchSuccess={updateBookmark}
+      {...props}
+    />
+  );
+}
+
+export const BookmarkGrid = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BookmarkGridComponent);

@@ -3,12 +3,13 @@
   user-select: none;
 
   .grid-content {
-    @include relative();
+    @include animate(transform);
+    @include absolute(0, null, 0);
     @include sq-dimen(100%);
+    transform: scale(1) translateY(0px);
   }
 
   .cover {
-    @include animate(transform);
     @include sq-dimen(100%);
     border-radius: 5px;
     background-size: cover;
@@ -54,6 +55,10 @@
     @include sq-dimen(100%);
   }
 
+  .selection-layer {
+    display: none;
+  }
+
   .selection-layer,
   .click-to-refetch {
     cursor: pointer;
@@ -68,16 +73,23 @@
       color: #fff;
     }
   }
+}
 
-  &.seletable {
-    border-width: 6px;
-    border-style: dashed;
-    border-color: transparent;
-    border-radius: 4px;
-    padding: 5px;
+.selectable {
+  .grid {
+    .selection-layer {
+      display: block;
+    }
 
     &.selected {
+      border-width: 6px;
+      border-style: dashed;
+      border-radius: 5px;
       border-color: $secondary-color;
+
+      .grid-content {
+        transform: scale(0.93) translateY(-3px);
+      }
     }
   }
 }
