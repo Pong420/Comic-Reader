@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, generatePath } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
-// import { BookmarkBtn } from '../BookmarkBtn';
+import { BookmarkBtn } from '../BookmarkBtn';
 import { PageNo } from './PageNo';
 import { IconButton } from '../Mui/IconButton';
 import { Snackbar } from '../Mui/Snackbar';
@@ -80,7 +80,7 @@ function ContentSidebarComponent({
         to={generatePath(PATHS.COMIC, { comicID })}
       />
       <IconButton title="下一集" icon={LastPageIcon} onClick={nextChapter} />
-      {/* <BookmarkBtn comicID={comicID} /> */}
+      <BookmarkBtn comicID={comicID} />
       <IconButton
         title={fitToPage ? '預設大小' : '適合頁面'}
         icon={AspectRatioIcon}

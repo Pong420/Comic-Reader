@@ -40,4 +40,4 @@ export function BookmarkBtnComponent({
   );
 }
 
-export const BookmarkBtn = connect()(BookmarkBtnComponent);
+export const BookmarkBtn = connect(mapStateToProps)(BookmarkBtnComponent);

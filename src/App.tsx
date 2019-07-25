@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './components/Home';
-import { Comic } from './components/Comic';
+import { Comic, ComicSidebar } from './components/Comic';
 import { Content, ContentSidebar } from './components/Content';
 import { BrowsingHistory } from './components/BrowsingHistory';
 import { Bookmark } from './components/Bookmark';
@@ -28,7 +28,8 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: PATHS.COMIC,
-    main: Comic
+    main: Comic,
+    sidebar: ComicSidebar
   },
   {
     path: PATHS.CONTENT,
