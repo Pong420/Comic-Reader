@@ -108,13 +108,14 @@ export interface Schema$SearchResult extends Schema$GridData {
   category: string[];
 }
 
-export type Schema$Bookmark = [
-  string,
-  Partial<Schema$GridData> & Param$GridData
-];
+export interface Schema$Bookmark extends Partial<Schema$GridData> {
+  comicID: string;
+}
 
-export type Schema$BrowsingHistory = Partial<Schema$GridData> &
-  Param$ContentData;
+export interface Schema$BrowsingHistory extends Partial<Schema$GridData> {
+  comicID: string;
+  chapterID: string;
+}
 
 export type FilterData = Array<[string, FilterElement[]]>;
 

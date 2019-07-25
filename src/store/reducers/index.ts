@@ -5,6 +5,7 @@ import comics from './comics';
 import comicData from './comicData';
 import content from './content';
 import browsingHistory from './browsingHistory';
+import bookmark from './bookmark';
 
 const rootReducer = (history: History) =>
   combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = (history: History) =>
     comics,
     comicData,
     content,
-    browsingHistory
+    browsingHistory,
+    bookmark
   });
 
 export type RootState = ReturnType<ReturnType<typeof rootReducer>>;
