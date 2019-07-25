@@ -7,13 +7,13 @@ import {
 import { remove } from '../../utils/array';
 
 export interface State extends Schema$BookmarkStorage {
-  seletable: boolean;
+  selectable: boolean;
   selection: string[];
 }
 
 const initialState: State = {
   ...bookmarkStorage.get(),
-  seletable: false,
+  selectable: false,
   selection: []
 };
 
@@ -55,7 +55,7 @@ export default function(
         const comicIDs =
           typeof action.payload === 'string'
             ? [action.payload]
-            : action.payload;
+            : action.payload || state.selection;
 
         let ids = state.ids.slice();
         const byIds = { ...state.byIds };
@@ -72,27 +72,56 @@ export default function(
         };
       })();
 
+    case BookmarkActionTypes.UPDATE_BOOKMARK:
+      return (() => {
+        const { comicID } = action.payload;
+        return {
+          ...state,
+          byIds: {
+            ...state.byIds,
+            [comicID]: action.payload
+          }
+        };
+      })();
+
     case BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION:
+      return (() => {
+        const comicID = action.payload;
+
+        return {
+          ...state,
+          selection: state.selection.includes(comicID)
+            ? remove(state.selection, comicID)
+            : [...state.selection, comicID]
+        };
+      })();
+
+    case BookmarkActionTypes.TOGGLE_BOOKMARK_SELECT_ALL:
+      const selectAll =
+        typeof action.payload !== 'undefined'
+          ? !!action.payload
+          : state.selection.length !== state.ids.length;
+
       return {
         ...state,
-        selection: action.payload
+        selection: selectAll ? state.ids : []
       };
 
-    case BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION:
+    case BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTABLE:
       return {
         ...state,
         selection: [],
-        seletable:
+        selectable:
           typeof action.payload !== 'undefined'
             ? !!action.payload
-            : !state.seletable
+            : !state.selectable
       };
 
     case LOCATION_CHANGE:
       return {
         ...state,
         selection: [],
-        seletable: false
+        selectable: false
       };
 
     default:

@@ -1,15 +1,14 @@
-import { Schema$GridData, Param$ComicData } from '../../typings';
+import { Schema$GridData } from '../../typings';
 
 export enum BookmarkActionTypes {
   ADD_BOOKMARK = 'ADD_BOOKMARK',
   ADD_BOOKMARK_SUCCESS = 'ADD_BOOKMARK_SUCCESS',
   ADD_BOOKMARK_FAILURE = 'ADD_BOOKMARK_FAILURE',
   REMOVE_BOOKMARK = 'REMOVE_BOOKMARK',
-  REFETCH_BOOKMARK = 'REFETCH_BOOKMARK',
-  REFETCH_BOOKMARK_SUCCESS = 'REFETCH_BOOKMARK_SUCCESS',
-  REFETCH_BOOKMARK_FAILURE = 'REFETCH_BOOKMARK_FAILURE',
+  UPDATE_BOOKMARK = 'UPDATE_BOOKMARK',
   UPDATE_BOOKMARK_SELECTION = 'UPDATE_BOOKMARK_SELECTION',
-  TOGGLE_BOOKMARK_SELECTION = 'TOGGLE_BOOKMARK_SELECTION'
+  TOGGLE_BOOKMARK_SELECT_ALL = 'TOGGLE_BOOKMARK_SELECT_ALL',
+  TOGGLE_BOOKMARK_SELECTABLE = 'TOGGLE_BOOKMARK_SELECTABLE'
 }
 
 export interface AddBookmark {
@@ -29,31 +28,26 @@ export interface AddBookmarkFailure {
 
 export interface RemoveBookmark {
   type: BookmarkActionTypes.REMOVE_BOOKMARK;
-  payload: string | string[];
+  payload?: string | string[];
 }
 
-export interface RefetchBookmark {
-  type: BookmarkActionTypes.REFETCH_BOOKMARK;
-  payload: Param$ComicData;
-}
-
-export interface RefetchBookmarkSuccess {
-  type: BookmarkActionTypes.REFETCH_BOOKMARK_SUCCESS;
+export interface UpdateBookmark {
+  type: BookmarkActionTypes.UPDATE_BOOKMARK;
   payload: Schema$GridData;
-}
-
-export interface RefetchBookmarkFailure {
-  type: BookmarkActionTypes.REFETCH_BOOKMARK_FAILURE;
-  payload: string;
 }
 
 export interface UpdateBookmarkSelection {
   type: BookmarkActionTypes.UPDATE_BOOKMARK_SELECTION;
-  payload: string[];
+  payload: string;
 }
 
-export interface ToggleBookmarkSelection {
-  type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION;
+export interface ToggleBookmarkSelectAll {
+  type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECT_ALL;
+  payload?: boolean;
+}
+
+export interface ToggleBookmarkSelectable {
+  type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTABLE;
   payload?: boolean;
 }
 
@@ -62,11 +56,10 @@ export type BookmarkActions =
   | AddBookmarkSuccess
   | AddBookmarkFailure
   | RemoveBookmark
-  | RefetchBookmark
-  | RefetchBookmarkSuccess
-  | RefetchBookmarkFailure
+  | UpdateBookmark
   | UpdateBookmarkSelection
-  | ToggleBookmarkSelection;
+  | ToggleBookmarkSelectAll
+  | ToggleBookmarkSelectable;
 
 export function addBookmark(payload: AddBookmark['payload']): AddBookmark {
   return {
@@ -76,7 +69,7 @@ export function addBookmark(payload: AddBookmark['payload']): AddBookmark {
 }
 
 export function removeBookmark(
-  payload: RemoveBookmark['payload']
+  payload?: RemoveBookmark['payload']
 ): RemoveBookmark {
   return {
     type: BookmarkActionTypes.REMOVE_BOOKMARK,
@@ -84,11 +77,11 @@ export function removeBookmark(
   };
 }
 
-export function refetchBookmark(
-  payload: RefetchBookmark['payload']
-): RefetchBookmark {
+export function updateBookmark(
+  payload: UpdateBookmark['payload']
+): UpdateBookmark {
   return {
-    type: BookmarkActionTypes.REFETCH_BOOKMARK,
+    type: BookmarkActionTypes.UPDATE_BOOKMARK,
     payload
   };
 }
@@ -102,11 +95,20 @@ export function updateBookmarkSelection(
   };
 }
 
-export function toggleBookmarkSelection(
-  payload?: ToggleBookmarkSelection['payload']
-): ToggleBookmarkSelection {
+export function toggleBookmarkSelectAll(
+  payload?: ToggleBookmarkSelectAll['payload']
+): ToggleBookmarkSelectAll {
   return {
-    type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTION,
+    type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECT_ALL,
+    payload
+  };
+}
+
+export function toggleBookmarkSelectable(
+  payload?: ToggleBookmarkSelectable['payload']
+): ToggleBookmarkSelectable {
+  return {
+    type: BookmarkActionTypes.TOGGLE_BOOKMARK_SELECTABLE,
     payload
   };
 }
@@ -114,7 +116,8 @@ export function toggleBookmarkSelection(
 export const BookmarkActionCreators = {
   addBookmark,
   removeBookmark,
-  refetchBookmark,
-  toggleBookmarkSelection,
-  updateBookmarkSelection
+  updateBookmark,
+  updateBookmarkSelection,
+  toggleBookmarkSelectAll,
+  toggleBookmarkSelectable
 };

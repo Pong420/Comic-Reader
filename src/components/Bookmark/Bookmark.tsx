@@ -4,16 +4,19 @@ import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
 import { BookmarkGrid } from './BookmarkGrid';
 import { RootState } from '../../store';
+import { classes } from '../../utils/classes';
 
 const mapStateToProps = (state: RootState) => ({
-  bookmarks: state.bookmark.ids
+  bookmarks: state.bookmark.ids,
+  selectable: state.bookmark.selectable
 });
 
 export function BookmarkComponent({
-  bookmarks
+  bookmarks,
+  selectable
 }: ReturnType<typeof mapStateToProps>) {
   return (
-    <div className="browsing-history">
+    <div className={classes('browsing-history', selectable && 'selectable')}>
       <AutoSizer>
         {dimen => (
           <GridContainer

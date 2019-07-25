@@ -11,7 +11,7 @@ import { Home, HomeSidebar } from './components/Home';
 import { Comic, ComicSidebar } from './components/Comic';
 import { Content, ContentSidebar } from './components/Content';
 import { BrowsingHistory } from './components/BrowsingHistory';
-import { Bookmark } from './components/Bookmark';
+import { Bookmark, BookmarkSidebar } from './components/Bookmark';
 import { PATHS } from './constants';
 
 interface CustomRouteProps extends RouteProps {
@@ -42,7 +42,8 @@ const routes: CustomRouteProps[] = [
   },
   {
     path: PATHS.BOOKMARK,
-    main: Bookmark
+    main: Bookmark,
+    sidebar: BookmarkSidebar
   }
 ];
 

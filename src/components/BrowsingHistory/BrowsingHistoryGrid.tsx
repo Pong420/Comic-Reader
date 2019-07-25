@@ -1,21 +1,21 @@
 import React from 'react';
-import { Grid, GridPorps } from '../Grid';
-import { connect, DispatchProp, Omit } from 'react-redux';
+import { Grid } from '../Grid';
+import { connect, DispatchProp } from 'react-redux';
 import { RootState } from '../../store';
-import { Schema$BrowsingHistory } from '../../typings';
 
-const mapStateToProps = (state: RootState, { comicID }: GridPorps) => ({
-  ...((state.browsingHistory.byIds[comicID] || {}) as Omit<
-    Partial<Schema$BrowsingHistory>,
-    'comicID'
-  >)
+interface Props {
+  comicID: string;
+}
+
+const mapStateToProps = (state: RootState, { comicID }: Props) => ({
+  ...state.browsingHistory.byIds[comicID]
 });
 
 export function BrowsingHistoryGridComponent({
   dispatch,
   chapterID,
   ...props
-}: GridPorps & DispatchProp & ReturnType<typeof mapStateToProps>) {
+}: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   return <Grid {...props} />;
 }
 

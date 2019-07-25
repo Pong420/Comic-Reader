@@ -6,10 +6,10 @@ export function insertAfter<T>(arr: T[], val: T, prev?: T) {
   return insert(arr, val, index);
 }
 
-export function remove<T>(arr_: T[], val: any) {
+export function remove<T>(arr_: T[], val?: T) {
   const arr = arr_.slice();
 
-  const index = arr.indexOf(val);
+  const index = arr.indexOf(val!);
   if (index > -1) {
     arr.splice(index, 1);
   }

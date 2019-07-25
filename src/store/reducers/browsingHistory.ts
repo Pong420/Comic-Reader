@@ -11,13 +11,13 @@ import {
 import { remove } from '../../utils/array';
 
 export interface State extends Schema$BrowsingHistoryStorage {
-  seletable: boolean;
+  selectable: boolean;
   selection: string[];
 }
 
 const initialState: State = {
   ...browsingHistoryStorage.get(),
-  seletable: false,
+  selectable: false,
   selection: []
 };
 
@@ -90,17 +90,17 @@ export default function(
       return {
         ...state,
         selection: [],
-        seletable:
+        selectable:
           typeof action.payload !== 'undefined'
             ? !!action.payload
-            : !state.seletable
+            : !state.selectable
       };
 
     case LOCATION_CHANGE:
       return {
         ...state,
         selection: [],
-        seletable: false
+        selectable: false
       };
 
     default:
