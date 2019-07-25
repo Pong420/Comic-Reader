@@ -5,6 +5,7 @@ import {
   Param$ComicList,
   ApiRequestStatus
 } from '../../typings';
+import { UUID } from '../../utils/uuid';
 
 interface State extends Param$ComicList, ApiRequestStatus {
   byIds: { [comicID: string]: Schema$ComicItem };
@@ -14,11 +15,15 @@ interface State extends Param$ComicList, ApiRequestStatus {
   filter: string[];
 }
 
+const CID = new UUID();
+// depends on the source, cannot control
 const NUM_OF_COMIC_ITEM_RETURN = 42;
+const createPlaceholders = (length = NUM_OF_COMIC_ITEM_RETURN) =>
+  Array.from({ length }, () => CID.next());
 
 const initialState: State = {
   byIds: {},
-  ids: [],
+  ids: createPlaceholders(),
   noMore: false,
   page: 1,
   offset: 0,
@@ -40,7 +45,7 @@ export default function(state = initialState, action: ComicsActions): State {
       return {
         ...state,
         page: state.page + 1,
-        ids: [...state.ids] // TODO:
+        ids: [...state.ids, ...createPlaceholders()]
       };
 
     case ComicsActionTypes.GET_COMICS_SUCCESS:
