@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { AutoSizer } from 'react-virtualized';
 import { Layout } from '../Layout';
 import { GridContainer } from '../GridContainer';
 import { HomeGrid } from './HomeGrid';
@@ -29,17 +28,12 @@ export function HomeComponent({
   return (
     <Layout>
       <div className="home">
-        <AutoSizer>
-          {dimen => (
-            <GridContainer
-              {...dimen}
-              items={comics}
-              loadMore={loadMore}
-              scrollPostionKey={location.pathname}
-              onGridRender={comicID => <HomeGrid comicID={comicID} />}
-            />
-          )}
-        </AutoSizer>
+        <GridContainer
+          items={comics}
+          loadMore={loadMore}
+          scrollPostionKey={location.pathname}
+          onGridRender={comicID => <HomeGrid comicID={comicID} />}
+        />
       </div>
     </Layout>
   );

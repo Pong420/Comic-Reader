@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { push } from 'connected-react-router';
-import { AutoSizer } from 'react-virtualized';
 import { GridContainer } from '../GridContainer';
 import { SearchResultGrid } from './SearchResultGrid';
 import { SearchInput } from './SearchInput';
@@ -38,16 +37,11 @@ function SearchComponent({
     <div className="search">
       <SearchInput defaultValue={query} onSearch={onSearch} />
       <div className="search-results">
-        <AutoSizer>
-          {dimen => (
-            <GridContainer
-              {...dimen}
-              items={searchResults}
-              scrollPostionKey={keyword}
-              onGridRender={comicID => <SearchResultGrid comicID={comicID} />}
-            />
-          )}
-        </AutoSizer>
+        <GridContainer
+          items={searchResults}
+          scrollPostionKey={keyword}
+          onGridRender={comicID => <SearchResultGrid comicID={comicID} />}
+        />
       </div>
     </div>
   );

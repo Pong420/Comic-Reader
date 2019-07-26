@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useEffect,
   useMemo,
   useRef,
@@ -6,12 +7,16 @@ import React, {
   ReactNode,
   CSSProperties
 } from 'react';
-import { Grid, GridCellProps, OnScrollParams } from 'react-virtualized';
+import {
+  Grid,
+  GridCellProps,
+  OnScrollParams,
+  AutoSizer,
+  Size
+} from 'react-virtualized';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 
 export interface GridContainerProps<T> {
-  width: number;
-  height: number;
   items: T[];
   loadMore?: () => void;
   onGridRender: (props: T) => ReactNode;
@@ -39,13 +44,8 @@ const gridStyle = { padding: `${gridGap / 2}px`, height: '100%' };
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const containerInnerWidth = width - containerPadding;
-  const columnWidth = el ? el.offsetWidth : 0;
-  // if the `width` is zero, and this may return `-Infinity`, finally make the app crash
-  // so a Math.max is used to fix this issue
-  const columnCount = Math.max(
-    1,
-    Math.floor(containerInnerWidth / columnWidth)
-  );
+  const columnWidth = el ? el.offsetWidth : 1;
+  const columnCount = Math.floor(containerInnerWidth / columnWidth);
 
   return {
     columnCount,
@@ -53,7 +53,7 @@ function getColumnData(width: number, el: HTMLDivElement | null) {
   };
 }
 
-export function GridContainer<T extends {}>({
+function GridContainerComponent<T extends {}>({
   width,
   height,
   items,
@@ -62,13 +62,12 @@ export function GridContainer<T extends {}>({
   overscanRowCount = 1,
   noContentRenderer,
   scrollPostionKey
-}: GridContainerProps<T>) {
+}: GridContainerProps<T> & Size) {
   const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
   const scrollTopRef = useRef(0);
-  const { columnCount, columnWidth } = useMemo(
-    () => getColumnData(width, gridSizerRef.current),
-    [width]
+  const [{ columnCount, columnWidth }, setColumnState] = useState(
+    getColumnData.bind(null, width, gridSizerRef.current)
   );
   const rowCount = useMemo(() => Math.ceil(items.length / columnCount), [
     items.length,
@@ -107,6 +106,10 @@ export function GridContainer<T extends {}>({
   );
 
   useEffect(() => {
+    setColumnState(getColumnData(width, gridSizerRef.current));
+  }, [width]);
+
+  useEffect(() => {
     scrollTopRef.current =
       (scrollPostionKey && scrollPosition.get(scrollPostionKey)) || 0;
 
@@ -116,9 +119,8 @@ export function GridContainer<T extends {}>({
     });
 
     return () => {
-      if (scrollPostionKey) {
+      scrollPostionKey &&
         scrollPosition.set(scrollPostionKey, scrollTopRef.current);
-      }
     };
   }, [scrollPostionKey]);
 
@@ -144,5 +146,17 @@ export function GridContainer<T extends {}>({
         <div ref={gridSizerRef} />
       </div>
     </>
+  );
+}
+
+export function GridContainer<T>(props: GridContainerProps<T>) {
+  return (
+    <AutoSizer>
+      {({ width, height }) =>
+        !!width && (
+          <GridContainerComponent {...props} width={width} height={height} />
+        )
+      }
+    </AutoSizer>
   );
 }
