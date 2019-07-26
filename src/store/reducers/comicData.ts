@@ -4,7 +4,7 @@ import { Schema$ComicData, ApiRequestStatus } from '../../typings';
 export interface State extends ApiRequestStatus, Partial<Schema$ComicData> {}
 
 const initialState: State = {
-  error: false,
+  error: null,
   loading: false
 };
 
@@ -19,7 +19,7 @@ export default function(state = initialState, action: ComicDataActions): State {
     case ComicDataActionTypes.GET_COMIC_DATA_SUCCESS:
       return {
         ...state,
-        error: false,
+        error: null,
         loading: false,
         ...action.payload
       };

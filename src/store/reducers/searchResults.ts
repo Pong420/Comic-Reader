@@ -20,7 +20,7 @@ const NUM_OF_SEARCH_RESULT_RETURN = 20;
 
 const initialState: State = {
   loading: false,
-  error: false,
+  error: null,
   offset: 0,
   page: 1,
   keyword: '',
@@ -34,7 +34,7 @@ export default function(state = initialState, action: SearchResultActions) {
     case SearchResultActionTypes.GET_SEARCH_RESULTS:
       return {
         ...initialState,
-        error: false,
+        error: null,
         loading: true,
         keyword: action.payload
       };
@@ -51,7 +51,7 @@ export default function(state = initialState, action: SearchResultActions) {
 
         return {
           ...state,
-          error: false,
+          error: null,
           loading: false,
           offset: state.offset + ids.length,
           noMore: ids.length < NUM_OF_SEARCH_RESULT_RETURN,
@@ -66,7 +66,7 @@ export default function(state = initialState, action: SearchResultActions) {
     case SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE:
       return {
         ...state,
-        error: true,
+        error: null, // TODO:
         loading: false
       };
 

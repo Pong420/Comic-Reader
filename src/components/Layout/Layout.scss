@@ -1,6 +1,7 @@
 .error,
 .loading {
   @include flex(center, center);
+  padding: 20px;
 }
 
 .error {

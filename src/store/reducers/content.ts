@@ -12,7 +12,7 @@ export interface ContentState extends Schema$ContentData, ApiRequestStatus {
 
 const initialState: ContentState = {
   loading: false,
-  error: false,
+  error: null,
   images: [],
   imagesDetails: [],
   fitToPage: false
@@ -34,7 +34,7 @@ export default function(
       return {
         ...state,
         ...action.payload,
-        error: false,
+        error: null,
         loading: false,
         imagesDetails: action.payload.images.map((src, index) => ({
           index,

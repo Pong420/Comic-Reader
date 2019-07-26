@@ -12,11 +12,11 @@ import {
   ComicsActions,
   ComicsActionTypes,
   GetComicsSuccess,
-  GetComicsFail,
+  GetComicsFailure,
   GetComics
 } from '../actions/comics';
 import { RootState } from '../reducers';
-import { Schema$ComicItem, ApiError } from '../../typings';
+import { Schema$ComicItem } from '../../typings';
 
 type Actions = ComicsActions;
 type ComicsEpic = Epic<Actions, Actions, RootState>;
@@ -29,17 +29,17 @@ const getComicsEpic: ComicsEpic = (action$, state$) => {
   return action$.pipe(
     ofType(ComicsActionTypes.GET_COMICS, ComicsActionTypes.GET_MORE_COMICS),
     withLatestFrom(param$),
-    concatMap(([_, params]) =>
+    concatMap(([action, params]) =>
       race(
         from(getComicListAPI(params)).pipe(
           map<Schema$ComicItem[], GetComicsSuccess>(comicList => ({
             type: ComicsActionTypes.GET_COMICS_SUCCESS,
             payload: comicList
           })),
-          catchError((error: ApiError) =>
-            of<GetComicsFail>({
+          catchError(() =>
+            of<GetComicsFailure>({
               type: ComicsActionTypes.GET_COMICS_FAILURE,
-              payload: error
+              payload: []
             })
           )
         ),

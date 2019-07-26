@@ -18,10 +18,8 @@ export interface CustomApiError {
 
 export type ApiError = AxiosError | CustomApiError;
 
-export type Error = ApiError | boolean;
-
 export interface ApiRequestStatus {
-  error: Error;
+  error: ApiError | null;
   loading: boolean;
 }
 

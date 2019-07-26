@@ -1,4 +1,4 @@
-import { Schema$ComicItem, ApiError } from '../../typings';
+import { Schema$ComicItem } from '../../typings';
 
 export enum ComicsActionTypes {
   GET_COMICS = 'GET_COMICS',
@@ -17,9 +17,9 @@ export interface GetComicsSuccess {
   payload: Schema$ComicItem[];
 }
 
-export interface GetComicsFail {
+export interface GetComicsFailure {
   type: ComicsActionTypes.GET_COMICS_FAILURE;
-  payload: ApiError;
+  payload: Schema$ComicItem[];
 }
 
 export interface GetMoreComics {
@@ -37,7 +37,7 @@ export interface SetFIlter {
 export type ComicsActions =
   | GetComics
   | GetComicsSuccess
-  | GetComicsFail
+  | GetComicsFailure
   | GetMoreComics
   | SetFIlter;
 

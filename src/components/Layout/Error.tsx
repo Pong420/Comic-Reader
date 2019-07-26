@@ -3,15 +3,14 @@ import WarningIcon from '@material-ui/icons/WarningRounded';
 import { ApiError } from '../../typings';
 
 export interface ErrorProps {
-  error: ApiError | boolean;
+  error: ApiError | null;
   reload?: () => void;
 }
 
 const defaultStatusText = '出現錯誤';
 
 export function Error({ error }: ErrorProps) {
-  const statusText =
-    typeof error === 'object' && error.response && error.response.statusText;
+  const statusText = error && error.response && error.response.statusText;
 
   return (
     <div className="error">
