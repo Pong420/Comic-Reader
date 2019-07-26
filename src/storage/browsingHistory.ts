@@ -1,13 +1,7 @@
-import { Storage } from './storage';
-import { BROWSING_HISTORY_DIRECTORY } from '../constants';
-import { Schema$BrowsingHistory } from '../typings';
+import { FileStorage, BROWSING_HISTORY_DIRECTORY } from './storage';
+import { Schema$BrowsingHistory, Schema$Data } from '../typings';
 
-interface Schema {
-  byIds: {
-    [comicID: string]: Schema$BrowsingHistory;
-  };
-  ids: string[];
-}
+type Schema = Schema$Data<Schema$BrowsingHistory, 'comicID'>;
 
 export type Schema$BrowsingHistoryStorage = Schema;
 
@@ -16,7 +10,7 @@ const defaultValue = {
   ids: []
 };
 
-export const browsingHistoryStorage = new Storage<Schema>(
+export const browsingHistoryStorage = FileStorage<Schema>(
   BROWSING_HISTORY_DIRECTORY,
   defaultValue
 );

@@ -1,13 +1,7 @@
-import { Storage } from './storage';
-import { BOOKMARK_DIRECTORY } from '../constants';
-import { Schema$Bookmark } from '../typings';
+import { FileStorage, BOOKMARK_DIRECTORY } from './storage';
+import { Schema$Bookmark, Schema$Data } from '../typings';
 
-interface Schema {
-  byIds: {
-    [comicID: string]: Schema$Bookmark;
-  };
-  ids: string[];
-}
+type Schema = Schema$Data<Schema$Bookmark, 'comicID'>;
 
 export type Schema$BookmarkStorage = Schema;
 
@@ -16,7 +10,7 @@ const defaultValue = {
   ids: []
 };
 
-export const bookmarkStorage = new Storage<Schema>(
+export const bookmarkStorage = FileStorage<Schema>(
   BOOKMARK_DIRECTORY,
   defaultValue
 );
