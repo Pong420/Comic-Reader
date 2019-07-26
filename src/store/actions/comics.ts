@@ -4,7 +4,8 @@ export enum ComicsActionTypes {
   GET_COMICS = 'GET_COMICS',
   GET_COMICS_SUCCESS = 'GET_COMICS_SUCCESS',
   GET_COMICS_FAILURE = 'GET_COMICS_FAILURE',
-  GET_MORE_COMICS = 'GET_MORE_COMICS'
+  GET_MORE_COMICS = 'GET_MORE_COMICS',
+  SET_FILTER = 'SET_FILTER'
 }
 
 export interface GetComics {
@@ -25,11 +26,20 @@ export interface GetMoreComics {
   type: ComicsActionTypes.GET_MORE_COMICS;
 }
 
+export interface SetFIlter {
+  type: ComicsActionTypes.SET_FILTER;
+  payload: {
+    index: number;
+    value: string;
+  };
+}
+
 export type ComicsActions =
   | GetComics
   | GetComicsSuccess
   | GetComicsFail
-  | GetMoreComics;
+  | GetMoreComics
+  | SetFIlter;
 
 export function getComics(): GetComics {
   return {
@@ -43,7 +53,15 @@ export function getMoreComics(): GetMoreComics {
   };
 }
 
+export function setFilter(payload: SetFIlter['payload']): SetFIlter {
+  return {
+    type: ComicsActionTypes.SET_FILTER,
+    payload
+  };
+}
+
 export const ComicsCreators = {
   getComics,
-  getMoreComics
+  getMoreComics,
+  setFilter
 };
