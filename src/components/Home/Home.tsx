@@ -11,6 +11,14 @@ const mapStateToProps = (state: RootState) => ({
   noMoreComics: state.comics.noMore
 });
 
+const error = {
+  response: {
+    status: '404',
+    statusText:
+      '暫時沒有此類別組合的漫畫。您可以縮小類別組合進行篩選。或重新篩選。'
+  }
+};
+
 export function HomeComponent({
   comics,
   dispatch,
@@ -26,7 +34,7 @@ export function HomeComponent({
   }, [dispatch]);
 
   return (
-    <Layout>
+    <Layout error={comics.length === 0 ? error : null}>
       <div className="home">
         <GridContainer
           items={comics}

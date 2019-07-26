@@ -24,7 +24,7 @@ export function Grid({
 }: GridPorps) {
   const style = useMemo<CSSProperties>(
     () => ({
-      backgroundImage: `url(${cover})`
+      backgroundImage: cover && `url(${cover})`
     }),
     [cover]
   );

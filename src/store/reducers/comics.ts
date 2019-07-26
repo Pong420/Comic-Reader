@@ -61,6 +61,7 @@ export default function(state = initialState, action: ComicsActions): State {
             ...byIds,
             ...newComics.byIds
           },
+          /// Array.from(new Set([...])) this will union the array
           ids: Array.from(
             new Set([
               ...ids.slice(0, offset),
