@@ -28,10 +28,12 @@ export interface GetMoreComics {
 
 export interface SetFIlter {
   type: ComicsActionTypes.SET_FILTER;
-  payload: {
-    index: number;
-    value: string;
-  };
+  payload:
+    | []
+    | {
+        index: number;
+        value: string;
+      };
 }
 
 export type ComicsActions =

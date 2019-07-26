@@ -3,14 +3,16 @@ import { transformDatabyIds } from '../../utils/transformDatabyIds';
 import {
   Schema$ComicItem,
   Param$ComicList,
-  ApiRequestStatus
+  ApiRequestStatus,
+  Schema$Data
 } from '../../typings';
 import { UUID } from '../../utils/uuid';
-import { FILTER_DATA } from '../../constants';
+import { filterStorage } from '../../storage/filter';
 
-interface State extends Param$ComicList, Pick<ApiRequestStatus, 'error'> {
-  byIds: { [comicID: string]: Schema$ComicItem };
-  ids: string[];
+interface State
+  extends Param$ComicList,
+    Pick<ApiRequestStatus, 'error'>,
+    Schema$Data<Schema$ComicItem, 'comicID'> {
   noMore: boolean;
   offset: number;
   filter: string[];
@@ -29,7 +31,7 @@ const initialState: State = {
   page: 1,
   offset: 0,
   error: null,
-  filter: new Array(FILTER_DATA.length).fill('')
+  filter: filterStorage.get()
 };
 
 export default function(state = initialState, action: ComicsActions): State {
@@ -73,8 +75,14 @@ export default function(state = initialState, action: ComicsActions): State {
       })();
 
     case ComicsActionTypes.SET_FILTER:
-      const newFilter = state.filter.slice();
-      newFilter[action.payload.index] = action.payload.value;
+      let newFilter: string[] = [];
+      if (!Array.isArray(action.payload)) {
+        newFilter = state.filter.slice();
+        newFilter[action.payload.index] = action.payload.value;
+      }
+
+      filterStorage.save(newFilter);
+
       return {
         ...state,
         filter: newFilter
