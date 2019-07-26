@@ -1,4 +1,4 @@
-import { Response$SearchResult, ApiError } from '../../typings';
+import { Response$SearchResult } from '../../typings';
 
 export enum SearchResultActionTypes {
   GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS',
@@ -19,7 +19,7 @@ export interface GetSearchResultSuccess {
 
 export interface GetSearchResultFailure {
   type: SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE;
-  payload: ApiError;
+  payload: Response$SearchResult;
 }
 
 export interface GetMoreSearchResults {

@@ -5,20 +5,22 @@ import { push } from 'connected-react-router';
 import { GridContainer } from '../GridContainer';
 import { SearchResultGrid } from './SearchResultGrid';
 import { SearchInput } from './SearchInput';
-import { RootState, getSearchResults } from '../../store';
+import { RootState, getSearchResults, getMoreSearchResults } from '../../store';
 import { PATHS } from '../../constants';
 
 const SAERCH_KEY = 'query';
 
 const mapStateToProps = ({ searchResults }: RootState) => ({
   searchResults: searchResults.ids,
-  keyword: searchResults.keyword
+  keyword: searchResults.keyword,
+  noMoreResults: searchResults.noMore
 });
 
 function SearchComponent({
   dispatch,
   keyword,
   searchResults,
+  noMoreResults,
   location
 }: RouteComponentProps & DispatchProp & ReturnType<typeof mapStateToProps>) {
   const searchParam = new URLSearchParams(location.search);
@@ -28,6 +30,10 @@ function SearchComponent({
     (query: string) => dispatch(push(PATHS.SEARCH + `?${SAERCH_KEY}=${query}`)),
     [dispatch]
   );
+
+  const loadMore = useCallback(() => {
+    !noMoreResults && dispatch(getMoreSearchResults());
+  }, [dispatch, noMoreResults]);
 
   useEffect(() => {
     query && dispatch(getSearchResults(query));
@@ -39,7 +45,13 @@ function SearchComponent({
       <div className="search-results">
         <GridContainer
           items={searchResults}
+          loadMore={loadMore}
           scrollPostionKey={keyword}
+          noContentRenderer={() =>
+            noMoreResults && (
+              <div className="no-search-result">沒有相關結果</div>
+            )
+          }
           onGridRender={comicID => <SearchResultGrid comicID={comicID} />}
         />
       </div>

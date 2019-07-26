@@ -10,7 +10,7 @@ import {
   GetSearchResultFailure,
   GetMoreSearchResults
 } from '../actions/searchResults';
-import { Response$SearchResult, ApiError } from '../../typings';
+import { Response$SearchResult } from '../../typings';
 import { RootState } from '../reducers';
 
 type Actions = SearchResultActions;
@@ -30,10 +30,13 @@ const getSearchResultEpic: SearchResultEpic = (action$, state$) => {
             type: SearchResultActionTypes.GET_SEARCH_RESULT_SUCCESS,
             payload
           })),
-          catchError((payload: ApiError) =>
+          catchError(() =>
             of<GetSearchResultFailure>({
               type: SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE,
-              payload
+              payload: {
+                byIds: {},
+                ids: []
+              }
             })
           )
         ),

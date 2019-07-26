@@ -46,7 +46,6 @@ export interface Param$SearchResult {
   keyword: string;
   page: number;
   order?: number;
-  ajax?: number;
 }
 
 export interface Schema$GridData {

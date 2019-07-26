@@ -32,14 +32,14 @@ export function Grid({
   const subtitle = props[subtitleType];
 
   if (comicID) {
-    const to = generatePath(PATHS.COMIC, {
+    const pathname = generatePath(PATHS.COMIC, {
       comicID
     });
 
     return (
       <div className={classes('grid', className)} {...props}>
         <div className="grid-content">
-          <Link to={to}>
+          <Link to={{ pathname, state: { pathname } }}>
             <div className="cover" style={style} />
             {name && subtitle && (
               <div className="caption">

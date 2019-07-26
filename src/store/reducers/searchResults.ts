@@ -2,25 +2,21 @@ import {
   SearchResultActionTypes,
   SearchResultActions
 } from '../actions/searchResults';
-import {
-  Param$SearchResult,
-  Response$SearchResult,
-  ApiRequestStatus
-} from '../../typings';
+import { Param$SearchResult, Response$SearchResult } from '../../typings';
+import { UUID } from '../../utils/uuid';
 
-interface State
-  extends Param$SearchResult,
-    Response$SearchResult,
-    ApiRequestStatus {
+interface State extends Param$SearchResult, Response$SearchResult {
   offset: number;
   noMore: boolean;
 }
 
+const CID = new UUID();
+// depends on the source, cannot control
 const NUM_OF_SEARCH_RESULT_RETURN = 20;
+const createPlaceholders = (length = NUM_OF_SEARCH_RESULT_RETURN) =>
+  Array.from({ length }, () => CID.next());
 
 const initialState: State = {
-  loading: false,
-  error: null,
   offset: 0,
   page: 1,
   keyword: '',
@@ -29,46 +25,51 @@ const initialState: State = {
   ids: []
 };
 
-export default function(state = initialState, action: SearchResultActions) {
+export default function(
+  state = initialState,
+  action: SearchResultActions
+): State {
   switch (action.type) {
     case SearchResultActionTypes.GET_SEARCH_RESULTS:
+      CID.reset();
+
       return {
         ...initialState,
-        error: null,
-        loading: true,
-        keyword: action.payload
+        keyword: action.payload,
+        ids: createPlaceholders()
       };
 
     case SearchResultActionTypes.GET_MORE_SEARCH_RESULTS:
       return {
         ...state,
-        page: state.page + 1
+        page: state.page + 1,
+        ids: [...state.ids, ...createPlaceholders()]
       };
 
     case SearchResultActionTypes.GET_SEARCH_RESULT_SUCCESS:
+    case SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE:
       return (() => {
         const { byIds, ids } = action.payload;
-
         return {
           ...state,
           error: null,
           loading: false,
           offset: state.offset + ids.length,
           noMore: ids.length < NUM_OF_SEARCH_RESULT_RETURN,
-          ids: [...state.ids, ...ids],
           byIds: {
             ...state.byIds,
             ...byIds
-          }
+          },
+          // Array.from(new Set([...])) this will union the array
+          ids: Array.from(
+            new Set([
+              ...state.ids.slice(0, state.offset),
+              ...ids,
+              ...state.ids.slice(state.offset + NUM_OF_SEARCH_RESULT_RETURN)
+            ])
+          )
         };
       })();
-
-    case SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE:
-      return {
-        ...state,
-        error: null, // TODO:
-        loading: false
-      };
 
     default:
       return state;

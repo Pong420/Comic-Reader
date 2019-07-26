@@ -37,6 +37,7 @@ const initialState: State = {
 export default function(state = initialState, action: ComicsActions): State {
   switch (action.type) {
     case ComicsActionTypes.GET_COMICS:
+      CID.reset();
       return {
         ...initialState,
         filter: state.filter
@@ -63,7 +64,7 @@ export default function(state = initialState, action: ComicsActions): State {
             ...byIds,
             ...newComics.byIds
           },
-          /// Array.from(new Set([...])) this will union the array
+          // Array.from(new Set([...])) this will union the array
           ids: Array.from(
             new Set([
               ...ids.slice(0, offset),
