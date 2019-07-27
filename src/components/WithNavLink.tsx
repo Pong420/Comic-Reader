@@ -11,7 +11,7 @@ export function WithNavLink({
   className,
   ...props
 }: WithNavLinkProps) {
-  if (to) {
+  if (typeof to === 'string' || (to && to.pathname)) {
     return (
       <NavLink {...props} to={to} className={className}>
         {children}

@@ -36,8 +36,8 @@ function SearchComponent({
   }, [dispatch, noMoreResults]);
 
   useEffect(() => {
-    query && dispatch(getSearchResults(query));
-  }, [dispatch, query]);
+    query && query !== keyword && dispatch(getSearchResults(query));
+  }, [dispatch, query, keyword]);
 
   return (
     <div className="search">

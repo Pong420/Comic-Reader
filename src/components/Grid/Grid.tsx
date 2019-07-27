@@ -10,6 +10,7 @@ export interface GridPorps
     Omit<Partial<Schema$GridData>, 'comicID'> {
   comicID: string;
   subtitleType?: 'latest' | 'author';
+  prevPath?: string;
 }
 
 export function Grid({
@@ -20,6 +21,7 @@ export function Grid({
   name,
   subtitleType = 'latest',
   updateTime,
+  prevPath,
   ...props
 }: GridPorps) {
   const style = useMemo<CSSProperties>(
@@ -39,7 +41,7 @@ export function Grid({
     return (
       <div className={classes('grid', className)} {...props}>
         <div className="grid-content">
-          <Link to={{ pathname, state: { pathname } }}>
+          <Link to={{ pathname, state: { prevPath } }}>
             <div className="cover" style={style} />
             {name && subtitle && (
               <div className="caption">

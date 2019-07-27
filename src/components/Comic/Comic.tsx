@@ -13,12 +13,16 @@ interface MatchParams {
   chapterType?: string;
 }
 
+interface RouteState {
+  prevPath?: string;
+}
+
+interface Props extends RouteComponentProps<MatchParams, {}, RouteState> {}
+
 const mapStateToProps = (state: RootState) => {
   const { error, loading, ...comicData } = state.comicData;
   return { comicData, error, loading };
 };
-
-interface Props extends RouteComponentProps<MatchParams> {}
 
 // TODO: Add adultOnly handling
 
@@ -28,19 +32,21 @@ export function ComicComponent({
   error,
   loading,
   comicData,
-  history
+  history,
+  location
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
   const { comicID, chapterType } = match.params;
+  const prevPath = location.state && location.state.prevPath;
 
-  const backToHome = useCallback(() => {
-    history.push(PATHS.HOME);
-  }, [history]);
+  const goBack = useCallback(() => {
+    history.push(prevPath || PATHS.HOME);
+  }, [history, prevPath]);
 
   useEffect(() => {
     dispatch(getComicData(comicID));
   }, [comicID, dispatch]);
 
-  useMouseTrap('esc', backToHome);
+  useMouseTrap('esc', goBack);
 
   return (
     <Layout error={error} loading={loading}>

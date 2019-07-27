@@ -1,18 +1,15 @@
 import React from 'react';
 import { Grid } from '../Grid';
-import { connect, DispatchProp, Omit } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RootState } from '../../store';
-import { Schema$GridData } from '../../typings';
 
 interface Props {
   comicID: string;
 }
 
 const mapStateToProps = (state: RootState, { comicID }: Props) => ({
-  ...((state.comics.byIds[comicID] || {}) as Omit<
-    Partial<Schema$GridData>,
-    'comicID'
-  >)
+  ...(state.comics.byIds[comicID] || {}),
+  prevPath: state.router.location.pathname + state.router.location.search
 });
 
 export function HomeGridComponent({
