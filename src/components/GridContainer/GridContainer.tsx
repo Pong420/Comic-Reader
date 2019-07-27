@@ -32,7 +32,7 @@ const scrollPosition = new Map<string, number>();
 
 const gridContainerStyle: CSSProperties = {
   outline: 0,
-  padding: `${containerPadding - gridGap / 2}px`
+  padding: containerPadding - gridGap / 2
 };
 
 const gridSizerContainerStyle: CSSProperties = {
@@ -40,7 +40,7 @@ const gridSizerContainerStyle: CSSProperties = {
   padding: `0 ${containerPadding}px`
 };
 
-const gridStyle = { padding: `${gridGap / 2}px`, height: '100%' };
+const gridStyle = { padding: gridGap / 2, height: '100%' };
 
 function getColumnData(width: number, el: HTMLDivElement | null) {
   const containerInnerWidth = width - containerPadding;
@@ -98,7 +98,9 @@ function GridContainerComponent<T extends {}>({
 
   const onSectionRendered = useCallback(
     ({ rowStopIndex }: OnSectionRenderedParams) => {
-      if (rowStopIndex - rowCount >= -1 && loadMore) {
+      // Check `mounted` prevent unexpected load more event
+      const mounted = !!gridRef.current;
+      if (rowStopIndex - rowCount >= -2 && loadMore && mounted) {
         loadMore();
       }
     },
@@ -131,7 +133,7 @@ function GridContainerComponent<T extends {}>({
         columnCount={columnCount}
         columnWidth={columnWidth}
         rowCount={rowCount}
-        rowHeight={columnWidth / ratio + gridGap}
+        rowHeight={columnWidth / ratio + gridStyle.padding}
         height={height}
         width={width}
         style={gridContainerStyle}
