@@ -8,7 +8,8 @@ import { RootState, getComics, getMoreComics } from '../../store';
 
 const mapStateToProps = (state: RootState) => ({
   comics: state.comics.ids,
-  noMoreComics: state.comics.noMore
+  noMoreComics: state.comics.noMore,
+  shouldGetComics: state.comics.init
 });
 
 const error = {
@@ -23,15 +24,16 @@ export function HomeComponent({
   comics,
   dispatch,
   location,
-  noMoreComics
+  noMoreComics,
+  shouldGetComics
 }: DispatchProp & RouteComponentProps & ReturnType<typeof mapStateToProps>) {
   const loadMore = useCallback(() => {
     !noMoreComics && dispatch(getMoreComics());
   }, [dispatch, noMoreComics]);
 
   useEffect(() => {
-    dispatch(getComics());
-  }, [dispatch]);
+    shouldGetComics && dispatch(getComics());
+  }, [dispatch, shouldGetComics]);
 
   return (
     <Layout error={comics.length === 0 ? error : null}>

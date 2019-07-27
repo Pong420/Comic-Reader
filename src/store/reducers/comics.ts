@@ -13,6 +13,7 @@ interface State
   extends Param$ComicList,
     Pick<ApiRequestStatus, 'error'>,
     Schema$Data<Schema$ComicItem, 'comicID'> {
+  init: boolean;
   noMore: boolean;
   offset: number;
   filter: string[];
@@ -25,6 +26,7 @@ const createPlaceholders = (length = NUM_OF_COMIC_ITEM_RETURN) =>
   Array.from({ length }, () => CID.next());
 
 const initialState: State = {
+  init: true,
   byIds: {},
   ids: createPlaceholders(),
   noMore: false,
@@ -40,6 +42,7 @@ export default function(state = initialState, action: ComicsActions): State {
       CID.reset();
       return {
         ...initialState,
+        init: false,
         filter: state.filter
       };
 
@@ -86,6 +89,7 @@ export default function(state = initialState, action: ComicsActions): State {
 
       return {
         ...state,
+        init: true,
         filter: newFilter
       };
 
