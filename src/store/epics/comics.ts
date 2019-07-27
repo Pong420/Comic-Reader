@@ -1,19 +1,12 @@
-import { from, of, race } from 'rxjs';
-import {
-  map,
-  concatMap,
-  catchError,
-  withLatestFrom,
-  take
-} from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { map, concatMap, catchError, takeUntil } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { getComicListAPI } from '../../apis';
 import {
   ComicsActions,
   ComicsActionTypes,
   GetComicsSuccess,
-  GetComicsFailure,
-  GetComics
+  GetComicsFailure
 } from '../actions/comics';
 import { RootState } from '../reducers';
 import { Schema$ComicItem } from '../../typings';
@@ -21,35 +14,25 @@ import { Schema$ComicItem } from '../../typings';
 type Actions = ComicsActions;
 type ComicsEpic = Epic<Actions, Actions, RootState>;
 
-const getComicsEpic: ComicsEpic = (action$, state$) => {
-  const param$ = state$.pipe(
-    map(({ comics: { page, filter } }) => ({ page, filter }))
-  );
-
-  return action$.pipe(
+const getComicsEpic: ComicsEpic = (action$, state$) =>
+  action$.pipe(
     ofType(ComicsActionTypes.GET_COMICS, ComicsActionTypes.GET_MORE_COMICS),
-    withLatestFrom(param$),
-    concatMap(([action, params]) =>
-      race(
-        from(getComicListAPI(params)).pipe(
-          map<Schema$ComicItem[], GetComicsSuccess>(comicList => ({
-            type: ComicsActionTypes.GET_COMICS_SUCCESS,
-            payload: comicList
-          })),
-          catchError(() =>
-            of<GetComicsFailure>({
-              type: ComicsActionTypes.GET_COMICS_FAILURE,
-              payload: []
-            })
-          )
+    concatMap(() => {
+      const { page, filter } = state$.value.comics;
+      return from(getComicListAPI({ page, filter })).pipe(
+        map<Schema$ComicItem[], GetComicsSuccess>(comicList => ({
+          type: ComicsActionTypes.GET_COMICS_SUCCESS,
+          payload: comicList
+        })),
+        catchError(() =>
+          of<GetComicsFailure>({
+            type: ComicsActionTypes.GET_COMICS_FAILURE,
+            payload: []
+          })
         ),
-        action$.pipe(
-          ofType<Actions, GetComics>(ComicsActionTypes.GET_COMICS),
-          take(1)
-        )
-      )
-    )
+        takeUntil(action$.pipe(ofType(ComicsActionTypes.GET_COMICS)))
+      );
+    })
   );
-};
 
 export default [getComicsEpic];
