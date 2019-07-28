@@ -24,8 +24,6 @@ const mapStateToProps = (state: RootState) => {
   return { comicData, error, loading };
 };
 
-// TODO: Add adultOnly handling
-
 export function ComicComponent({
   dispatch,
   match,
@@ -57,6 +55,7 @@ export function ComicComponent({
             comicID={comicID}
             chapterType={chapterType}
             chapters={comicData.chapters}
+            adultOnly={comicData.adultOnly}
           />
         )}
       </div>
