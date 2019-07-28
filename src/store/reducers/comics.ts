@@ -39,7 +39,6 @@ const initialState: State = {
 export default function(state = initialState, action: ComicsActions): State {
   switch (action.type) {
     case ComicsActionTypes.GET_COMICS:
-      CID.reset();
       return {
         ...initialState,
         init: false,
@@ -58,23 +57,24 @@ export default function(state = initialState, action: ComicsActions): State {
       return (() => {
         const { byIds, ids, offset } = state;
         const newComics = transformDatabyIds(action.payload, 'comicID');
+        // Array.from(new Set([...])) this will union the array
+        const newIds = Array.from(
+          new Set([
+            ...ids.slice(0, offset),
+            ...newComics.ids,
+            ...ids.slice(offset + NUM_OF_COMIC_ITEM_RETURN)
+          ])
+        );
 
         return {
           ...state,
-          offset: offset + newComics.ids.length,
+          ids: newIds,
+          offset: newIds.length,
           noMore: newComics.ids.length < NUM_OF_COMIC_ITEM_RETURN,
           byIds: {
             ...byIds,
             ...newComics.byIds
-          },
-          // Array.from(new Set([...])) this will union the array
-          ids: Array.from(
-            new Set([
-              ...ids.slice(0, offset),
-              ...newComics.ids,
-              ...ids.slice(offset + NUM_OF_COMIC_ITEM_RETURN)
-            ])
-          )
+          }
         };
       })();
 
