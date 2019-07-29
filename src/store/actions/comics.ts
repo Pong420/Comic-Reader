@@ -26,7 +26,7 @@ export interface GetMoreComics {
   type: ComicsActionTypes.GET_MORE_COMICS;
 }
 
-export interface SetFIlter {
+export interface SetFilter {
   type: ComicsActionTypes.SET_FILTER;
   payload:
     | []
@@ -41,7 +41,7 @@ export type ComicsActions =
   | GetComicsSuccess
   | GetComicsFailure
   | GetMoreComics
-  | SetFIlter;
+  | SetFilter;
 
 export function getComics(): GetComics {
   return {
@@ -55,7 +55,7 @@ export function getMoreComics(): GetMoreComics {
   };
 }
 
-export function setFilter(payload: SetFIlter['payload']): SetFIlter {
+export function setFilter(payload: SetFilter['payload']): SetFilter {
   return {
     type: ComicsActionTypes.SET_FILTER,
     payload
