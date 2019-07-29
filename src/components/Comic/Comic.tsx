@@ -20,22 +20,45 @@ interface RouteState {
 
 interface Props extends RouteComponentProps<MatchParams, {}, RouteState> {}
 
-const mapStateToProps = (state: RootState) => {
-  const { error, loading, ...comicData } = state.comicData;
-  return { comicData, error, loading };
+const mapStateToProps = (state: RootState, { match }: Props) => {
+  const { error, loading, chapters, adultOnly, ...comicData } = state.comicData;
+  const visited = state.browsingHistory.byIds[match.params.comicID];
+
+  let chapterType = match.params.chapterType;
+
+  if (!chapterType && chapters && visited) {
+    const { byTypes } = chapters;
+    for (const type in byTypes) {
+      if (byTypes[type].includes(visited.chapterID)) {
+        chapterType = type;
+      }
+    }
+  }
+
+  return {
+    error,
+    loading,
+    adultOnly,
+    comicData,
+    chapters,
+    chapterType
+  };
 };
 
 export function ComicComponent({
   dispatch,
-  match,
   error,
   loading,
+  match,
+  adultOnly,
+  chapters,
   comicData,
+  chapterType,
   history,
   location
 }: Props & DispatchProp & ReturnType<typeof mapStateToProps>) {
-  const { comicID, chapterType } = match.params;
   const prevPath = location.state && location.state.prevPath;
+  const { comicID } = match.params;
 
   const goBack = useCallback(() => {
     history.push(prevPath || PATHS.HOME);
@@ -51,12 +74,12 @@ export function ComicComponent({
     <Layout error={error} loading={loading}>
       <div className="comic">
         <ComicHeader {...comicData} />
-        {!!comicData.chapters && (
+        {!!chapters && (
           <ComicContent
+            adultOnly={adultOnly}
             comicID={comicID}
+            chapters={chapters}
             chapterType={chapterType}
-            chapters={comicData.chapters}
-            adultOnly={comicData.adultOnly}
           />
         )}
       </div>
