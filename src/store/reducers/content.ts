@@ -4,18 +4,21 @@ import {
   Schema$ImageDetail,
   ApiRequestStatus
 } from '../../typings';
+import { LocalStorage } from '../../storage/storage';
 
 export interface ContentState extends Schema$ContentData, ApiRequestStatus {
   imagesDetails: Schema$ImageDetail[];
   fitToPage: boolean;
 }
 
+const fitToPageStorage = LocalStorage('COMIC_READER_FIT_TO_PAGE', false);
+
 const initialState: ContentState = {
   loading: false,
   error: null,
   images: [],
   imagesDetails: [],
-  fitToPage: false
+  fitToPage: fitToPageStorage.get()
 };
 
 export default function(
@@ -68,6 +71,8 @@ export default function(
         typeof action.payload !== 'undefined'
           ? !!action.payload
           : !state.fitToPage;
+
+      fitToPageStorage.save(fitToPage);
 
       return {
         ...state,
