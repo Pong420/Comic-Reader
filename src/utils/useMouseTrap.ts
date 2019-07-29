@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import mousetrap from 'mousetrap';
 
-type Callback = Parameters<MousetrapStatic['bind']>[1];
-
-export function useMouseTrap(key: string, method: Callback) {
+export function useMouseTrap(
+  ...[key, method]: Parameters<MousetrapStatic['bind']>
+) {
   useEffect(() => {
     const instance = mousetrap(document.body);
     instance.bind(key, method);

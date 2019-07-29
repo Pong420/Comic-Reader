@@ -1,0 +1,32 @@
+.keyboard-dialog {
+  font-size: 14px;
+
+  .keyborad-dialog-header {
+    @include flex(center, space-between);
+    @include margin-y(-5px 10px);
+
+    h3 {
+      @include margin-y(0);
+    }
+
+    svg {
+      cursor: pointer;
+      font-size: 20px;
+    }
+  }
+
+  .row {
+    @include flex(center, space-between);
+    @include padding-y(10px 0);
+    border-top: 1px solid;
+    font-weight: bold;
+
+    + .row {
+      margin-top: 10px;
+    }
+  }
+
+  .key {
+    text-transform: capitalize;
+  }
+}

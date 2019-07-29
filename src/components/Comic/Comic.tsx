@@ -7,6 +7,7 @@ import { ComicContent } from './ComicContent';
 import { RootState, getComicData } from '../../store';
 import { useMouseTrap } from '../../utils/useMouseTrap';
 import { PATHS } from '../../constants';
+import shortcuts from './shortcuts.json';
 
 interface MatchParams {
   comicID: string;
@@ -44,7 +45,7 @@ export function ComicComponent({
     dispatch(getComicData(comicID));
   }, [comicID, dispatch]);
 
-  useMouseTrap('esc', goBack);
+  useMouseTrap(shortcuts.goback.keys, goBack);
 
   return (
     <Layout error={error} loading={loading}>

@@ -28,13 +28,8 @@
 }
 
 .content-sidebar {
-  .flex-spacer {
-    flex: 1 1 auto;
-  }
-
   .page-no {
     color: $icon-inactive-color;
-    margin-bottom: 15px;
 
     &:hover {
       color: $icon-active-color;

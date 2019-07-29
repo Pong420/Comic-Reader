@@ -14,10 +14,11 @@ import { ConfirmDialog } from '../Mui/Dialog';
 import { Layout } from '../Layout';
 import { Image } from './Image';
 import { getContent, RootState } from '../../store';
-import { useMouseTrap } from '../../utils/useMouseTrap';
 import { PATHS, MESSAGE } from '../../constants';
+import { useMouseTrap } from '../../utils/useMouseTrap';
 import { useBoolean } from '../../utils/useBoolean';
 import { classes } from '../../utils/classes';
+import shortcuts from './shortcuts.json';
 
 interface MatchParams<T = string> {
   comicID: T;
@@ -33,10 +34,6 @@ const mapStateToProps = (state: RootState) => ({
   nextId: state.content.nextId,
   fitToPage: state.content.fitToPage
 });
-
-// TODO:
-// Add shortcuts guide => sidebar ?
-// save fit to page
 
 export function ContentComponent({
   dispatch,
@@ -119,10 +116,8 @@ export function ContentComponent({
     el && el.scrollTo(0, 0);
   }, [pageNo]);
 
-  useMouseTrap('up', prevPage);
-  useMouseTrap('left', prevPage);
-  useMouseTrap('down', nextPage);
-  useMouseTrap('right', nextPage);
+  useMouseTrap(shortcuts.prevPage.keys.split('/'), prevPage);
+  useMouseTrap(shortcuts.nextPage.keys.split('/'), nextPage);
 
   return (
     <>

@@ -1,0 +1,10 @@
+{
+  "prevPage": {
+    "keys": "up/left",
+    "desc": "上一頁"
+  },
+  "nextPage": {
+    "keys": "down/right/space",
+    "desc": "下一頁"
+  }
+}

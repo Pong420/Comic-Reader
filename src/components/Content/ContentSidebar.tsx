@@ -4,11 +4,13 @@ import { RouteComponentProps, generatePath } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { BookmarkBtn } from '../BookmarkBtn';
 import { PageNo } from './PageNo';
+import { KeyboardDialog } from '../KeyboardDialog';
 import { IconButton } from '../Mui/IconButton';
 import { Snackbar } from '../Mui/Snackbar';
 import { RootState, toggleFitToPage } from '../../store';
 import { PATHS, MESSAGE } from '../../constants';
 import { useBoolean } from '../../utils/useBoolean';
+import shortcuts from './shortcuts.json';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import LastPageIcon from '@material-ui/icons/LastPage';
@@ -80,6 +82,7 @@ function ContentSidebarComponent({
         to={generatePath(PATHS.COMIC, { comicID })}
       />
       <IconButton title="下一集" icon={LastPageIcon} onClick={nextChapter} />
+      <KeyboardDialog shortcuts={shortcuts} />
       <BookmarkBtn comicID={comicID} />
       <IconButton
         title={fitToPage ? '預設大小' : '適合頁面'}

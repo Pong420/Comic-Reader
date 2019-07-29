@@ -42,7 +42,7 @@ export function Dialog({
       {...props}
     >
       <div className="dialog-body">
-        <div className="dialog-title">{title}</div>
+        <h3 className="dialog-title">{title}</h3>
         <div className="dialog-content">{children}</div>
         {actions && <div className="dialog-actions">{actions}</div>}
       </div>
