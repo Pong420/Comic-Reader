@@ -9,7 +9,7 @@ interface Props {
 
 const mapStateToProps = (state: RootState, { comicID }: Props) => ({
   ...(state.comics.byIds[comicID] || {}),
-  prevPath: state.router.location.pathname + state.router.location.search
+  prevPath: state.router.location.pathname
 });
 
 export function HomeGridComponent({

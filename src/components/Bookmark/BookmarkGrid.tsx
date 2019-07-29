@@ -14,7 +14,8 @@ interface Props {
 
 const mapStateToProps = (state: RootState, { comicID }: Props) => ({
   ...state.bookmark.byIds[comicID],
-  selected: state.bookmark.selection.includes(comicID)
+  selected: state.bookmark.selection.includes(comicID),
+  prevPath: state.router.location.pathname
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
