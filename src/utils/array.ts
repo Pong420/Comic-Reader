@@ -32,3 +32,8 @@ export function move<T>(arr: T[], from: number, to: number) {
   clone.splice(to < 0 ? clone.length + to : to, 0, clone.splice(from, 1)[0]);
   return clone;
 }
+
+export function union<T>(arr: T[]) {
+  // Array.from(new Set([...])) this will union the array
+  return Array.from(new Set(arr));
+}

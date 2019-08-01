@@ -6,14 +6,14 @@ import {
 } from '../../typings';
 import { LocalStorage } from '../../storage/storage';
 
-export interface ContentState extends Schema$ContentData, ApiRequestStatus {
+interface State extends Schema$ContentData, ApiRequestStatus {
   imagesDetails: Schema$ImageDetail[];
   fitToPage: boolean;
 }
 
 const fitToPageStorage = LocalStorage('COMIC_READER_FIT_TO_PAGE', false);
 
-const initialState: ContentState = {
+const initialState: State = {
   loading: false,
   error: null,
   images: [],
@@ -21,10 +21,7 @@ const initialState: ContentState = {
   fitToPage: fitToPageStorage.get()
 };
 
-export default function(
-  state = initialState,
-  action: ContentActions
-): ContentState {
+export default function(state = initialState, action: ContentActions): State {
   switch (action.type) {
     case ContentActionTypes.GET_CONTENT:
       return {

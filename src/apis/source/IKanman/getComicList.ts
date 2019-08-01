@@ -1,10 +1,10 @@
 import { api } from './api';
-import { Param$ComicList, Schema$ComicItem } from '../../../typings';
+import { Params$ComicList, Schema$ComicItem } from '../../../typings';
 
 export async function getComicList({
   page = 1,
   filter
-}: Param$ComicList): Promise<Schema$ComicItem[]> {
+}: Params$ComicList): Promise<Schema$ComicItem[]> {
   const pageStr = page === 1 ? '' : `_p${page}`;
   const filterPath = getFilterPath(filter);
   try {

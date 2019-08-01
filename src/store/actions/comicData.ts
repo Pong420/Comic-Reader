@@ -26,7 +26,7 @@ export type ComicDataActions =
   | GetComicDataSuccess
   | GetComicDataFailure;
 
-export function getComicData(payload: string): GetComicData {
+export function getComicData(payload: GetComicData['payload']): GetComicData {
   return {
     type: ComicDataActionTypes.GET_COMIC_DATA,
     payload

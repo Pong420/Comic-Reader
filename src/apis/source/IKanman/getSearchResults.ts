@@ -1,5 +1,5 @@
 import { createAxiosInstance } from '../createAxiosInstance';
-import { Param$SearchResult, Response$SearchResult } from '../../../typings';
+import { Params$SearchResult, Response$SearchResult } from '../../../typings';
 
 const api = createAxiosInstance({
   baseURL: 'https://m.manhuagui.com',
@@ -10,7 +10,7 @@ export async function getSearchResults({
   keyword,
   page = 1,
   order = 0
-}: Param$SearchResult): Promise<Response$SearchResult> {
+}: Params$SearchResult): Promise<Response$SearchResult> {
   try {
     const ajax = page === 1 ? 0 : 1;
     const formData = new FormData();

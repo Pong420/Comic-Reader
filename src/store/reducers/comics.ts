@@ -2,15 +2,16 @@ import { ComicsActions, ComicsActionTypes } from '../actions/comics';
 import { transformDatabyIds } from '../../utils/transformDatabyIds';
 import {
   Schema$ComicItem,
-  Param$ComicList,
+  Params$ComicList,
   ApiRequestStatus,
   Schema$Data
 } from '../../typings';
 import { UUID } from '../../utils/uuid';
+import { union } from '../../utils/array';
 import { filterStorage } from '../../storage/filter';
 
 interface State
-  extends Param$ComicList,
+  extends Params$ComicList,
     Pick<ApiRequestStatus, 'error'>,
     Schema$Data<Schema$ComicItem, 'comicID'> {
   init: boolean;
@@ -20,8 +21,7 @@ interface State
 }
 
 const CID = new UUID();
-// depends on the source, cannot control
-const NUM_OF_COMIC_ITEM_RETURN = 42;
+const NUM_OF_COMIC_ITEM_RETURN = 42; // depends on the source, cannot control
 const createPlaceholders = (length = NUM_OF_COMIC_ITEM_RETURN) =>
   Array.from({ length }, () => CID.next());
 
@@ -57,14 +57,11 @@ export default function(state = initialState, action: ComicsActions): State {
       return (() => {
         const { byIds, ids, offset } = state;
         const newComics = transformDatabyIds(action.payload, 'comicID');
-        // Array.from(new Set([...])) this will union the array
-        const newIds = Array.from(
-          new Set([
-            ...ids.slice(0, offset),
-            ...newComics.ids,
-            ...ids.slice(offset + NUM_OF_COMIC_ITEM_RETURN)
-          ])
-        );
+        const newIds = union([
+          ...ids.slice(0, offset),
+          ...newComics.ids,
+          ...ids.slice(offset + NUM_OF_COMIC_ITEM_RETURN)
+        ]);
 
         return {
           ...state,

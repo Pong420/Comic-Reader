@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { replace } from 'connected-react-router';
 import { IconButton } from '../Mui/IconButton';
-import { FilterData } from '../../typings';
+import { Schema$FilterData } from '../../typings';
 import { RootState, setFilter } from '../../store';
 import { PATHS, FILTER_DATA } from '../../constants';
 import { useMouseTrap } from '../../utils/useMouseTrap';
@@ -55,7 +55,7 @@ function FilterComponent({
         <IconButton to={PATHS.HOME} icon={CloseIcon} />
       </div>
       <div className="filter-table">
-        {(FILTER_DATA as FilterData).map(([key, els], index) => {
+        {(FILTER_DATA as Schema$FilterData).map(([key, els], index) => {
           return (
             <div className="filter-table-row" key={key}>
               <div className="filter-table-cell">{key}</div>

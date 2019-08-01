@@ -23,26 +23,26 @@ export interface ApiRequestStatus {
   loading: boolean;
 }
 
-export interface Param$ComicList {
+export interface Params$ComicList {
   page: number;
   type?: string;
   filter?: string[];
 }
 
-export interface Param$GridData {
+export interface Params$GridData {
   comicID: string;
 }
 
-export interface Param$ComicData {
+export interface Params$ComicData {
   comicID: string;
 }
 
-export interface Param$ContentData {
+export interface Params$ContentData {
   comicID: string;
   chapterID: string;
 }
 
-export interface Param$SearchResult {
+export interface Params$SearchResult {
   keyword: string;
   page: number;
   order?: number;
@@ -123,9 +123,9 @@ export interface Schema$BrowsingHistory extends Partial<Schema$GridData> {
   chapterID: string;
 }
 
-export type FilterData = Array<[string, FilterElement[]]>;
+export type Schema$FilterData = Array<[string, Schema$FilterItem[]]>;
 
-export interface FilterElement {
+export interface Schema$FilterItem {
   label: string;
   val: string;
 }

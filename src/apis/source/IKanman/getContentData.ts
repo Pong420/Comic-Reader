@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { api } from './api';
-import { Param$ContentData, Schema$ContentData } from '../../../typings';
+import { Params$ContentData, Schema$ContentData } from '../../../typings';
 import './utils/splic';
 
 interface Variables {
@@ -29,7 +29,7 @@ export interface Sl {
 export async function getContentData({
   comicID,
   chapterID
-}: Param$ContentData): Promise<Schema$ContentData> {
+}: Params$ContentData): Promise<Schema$ContentData> {
   try {
     const { data: $ } = await api.get<CheerioStatic>(
       `/comic/${comicID}/${chapterID}.html`

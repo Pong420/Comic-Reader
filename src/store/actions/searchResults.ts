@@ -32,7 +32,9 @@ export type SearchResultActions =
   | GetSearchResultFailure
   | GetMoreSearchResults;
 
-export function getSearchResults(payload: string): GetSearchResults {
+export function getSearchResults(
+  payload: GetSearchResults['payload']
+): GetSearchResults {
   return {
     type: SearchResultActionTypes.GET_SEARCH_RESULTS,
     payload

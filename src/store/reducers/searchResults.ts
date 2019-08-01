@@ -2,17 +2,17 @@ import {
   SearchResultActionTypes,
   SearchResultActions
 } from '../actions/searchResults';
-import { Param$SearchResult, Response$SearchResult } from '../../typings';
+import { Params$SearchResult, Response$SearchResult } from '../../typings';
 import { UUID } from '../../utils/uuid';
+import { union } from '../../utils/array';
 
-interface State extends Param$SearchResult, Response$SearchResult {
+interface State extends Params$SearchResult, Response$SearchResult {
   offset: number;
   noMore: boolean;
 }
 
 const CID = new UUID();
-// depends on the source, cannot control
-const NUM_OF_SEARCH_RESULT_RETURN = 20;
+const NUM_OF_SEARCH_RESULT_RETURN = 20; // depends on the source, cannot control
 const createPlaceholders = (length = NUM_OF_SEARCH_RESULT_RETURN) =>
   Array.from({ length }, () => CID.next());
 
@@ -31,8 +31,6 @@ export default function(
 ): State {
   switch (action.type) {
     case SearchResultActionTypes.GET_SEARCH_RESULTS:
-      CID.reset();
-
       return {
         ...initialState,
         keyword: action.payload,
@@ -50,24 +48,22 @@ export default function(
     case SearchResultActionTypes.GET_SEARCH_RESULT_FAILURE:
       return (() => {
         const { byIds, ids } = action.payload;
+        const newIds = union([
+          ...state.ids.slice(0, state.offset),
+          ...ids,
+          ...state.ids.slice(state.offset + NUM_OF_SEARCH_RESULT_RETURN)
+        ]);
         return {
           ...state,
           error: null,
           loading: false,
-          offset: state.offset + ids.length,
+          offset: newIds.length,
           noMore: ids.length < NUM_OF_SEARCH_RESULT_RETURN,
+          ids: newIds,
           byIds: {
             ...state.byIds,
             ...byIds
-          },
-          // Array.from(new Set([...])) this will union the array
-          ids: Array.from(
-            new Set([
-              ...state.ids.slice(0, state.offset),
-              ...ids,
-              ...state.ids.slice(state.offset + NUM_OF_SEARCH_RESULT_RETURN)
-            ])
-          )
+          }
         };
       })();
 

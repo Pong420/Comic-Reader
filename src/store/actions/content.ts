@@ -1,5 +1,5 @@
 import {
-  Param$ContentData,
+  Params$ContentData,
   Schema$ContentData,
   Schema$ImageDetail,
   ApiError
@@ -22,7 +22,7 @@ export interface Payload$PreloadImageSuccess
 
 export interface GetContent {
   type: ContentActionTypes.GET_CONTENT;
-  payload: Param$ContentData;
+  payload: Params$ContentData;
 }
 
 export interface GetContentSuccess {
@@ -58,7 +58,7 @@ export type ContentActions =
   | PreloadImageFailure
   | ToggleFitToPage;
 
-export function getContent(payload: Param$ContentData): GetContent {
+export function getContent(payload: Params$ContentData): GetContent {
   return {
     type: ContentActionTypes.GET_CONTENT,
     payload
