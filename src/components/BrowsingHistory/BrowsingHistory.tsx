@@ -17,6 +17,7 @@ function BrowsingHistoryComponent({
   return (
     <div className={classes('browsing-history', seletable && 'selectable')}>
       <GridContainer
+        scrollPostionKey="browsing-history"
         items={browsingHistories}
         onGridRender={comicID => <BrowsingHistoryGrid comicID={comicID} />}
       />

@@ -15,8 +15,9 @@ function BookmarkComponent({
   selectable
 }: ReturnType<typeof mapStateToProps>) {
   return (
-    <div className={classes('browsing-history', selectable && 'selectable')}>
+    <div className={classes('bookmark', selectable && 'selectable')}>
       <GridContainer
+        scrollPostionKey="bookmark"
         items={bookmarks}
         onGridRender={comicID => <BookmarkGrid comicID={comicID} />}
       />
