@@ -3,12 +3,13 @@ import { Sidebar } from './Sidebar';
 import { IconButton } from '../Mui/IconButton';
 import { ListCheckIcon } from '../Icon/ListCheckIcon';
 import { DeleteIcon } from '../Icon/DeleteIcon';
+import { useMouseTrap } from '../../utils/useMouseTrap';
 import SelectAllIcon from '@material-ui/icons/SelectAllOutlined';
 
 interface Props {
   selectable: boolean;
   selectedAll: boolean;
-  toggleSelectable(): void;
+  toggleSelectable(flag?: boolean): void;
   toggleSelectAll(payload?: boolean): void;
   onRemove(): void;
 }
@@ -20,17 +21,21 @@ export function SelectionSidebar({
   toggleSelectAll,
   onRemove
 }: Props) {
-  const toggleSelectionCallback = useCallback(() => {
-    toggleSelectable();
-  }, [toggleSelectable]);
+  const uncheckSelection = useCallback(() => toggleSelectable(false), [
+    toggleSelectable
+  ]);
 
-  const toggleSelectAllCallback = useCallback(() => {
-    toggleSelectAll();
-  }, [toggleSelectAll]);
+  const toggleSelectionCallback = useCallback(() => toggleSelectable(), [
+    toggleSelectable
+  ]);
 
-  const onRemoveCallback = useCallback(() => {
-    onRemove();
-  }, [onRemove]);
+  const toggleSelectAllCallback = useCallback(() => toggleSelectAll(), [
+    toggleSelectAll
+  ]);
+
+  const onRemoveCallback = useCallback(() => onRemove(), [onRemove]);
+
+  useMouseTrap('esc', uncheckSelection);
 
   return (
     <Sidebar>
