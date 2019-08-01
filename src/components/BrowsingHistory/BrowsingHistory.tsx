@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { GridContainer } from '../GridContainer';
 import { BrowsingHistoryGrid } from './BrowsingHistoryGrid';
 import { RootState } from '../../store';
-import { classes } from '../../utils';
+import { classes } from '../../utils/classes';
+import { useDraggable } from '../../utils/useDraggable';
 
 const mapStateToProps = (state: RootState) => ({
   browsingHistories: state.browsingHistory.ids,
@@ -14,12 +15,16 @@ function BrowsingHistoryComponent({
   browsingHistories,
   seletable
 }: ReturnType<typeof mapStateToProps>) {
+  const dragProps = useDraggable();
+
   return (
     <div className={classes('browsing-history', seletable && 'selectable')}>
       <GridContainer
         scrollPostionKey="browsing-history"
         items={browsingHistories}
-        onGridRender={comicID => <BrowsingHistoryGrid comicID={comicID} />}
+        onGridRender={comicID => (
+          <BrowsingHistoryGrid {...dragProps} comicID={comicID} />
+        )}
       />
     </div>
   );

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
-import { SelectableGrid } from '../Grid';
+import { SelectableGrid, SelectableGridProps } from '../Grid/SelectableGrid';
 import {
   RootState,
   updateBrowsingHistory,
   updateBrowsingHistorySelection
 } from '../../store';
 
-interface Props {
+interface Props extends Pick<SelectableGridProps, 'dragging' | 'onDragStart'> {
   comicID: string;
 }
 
@@ -35,8 +35,8 @@ export function BrowsingHistoryGridComponent({
   return (
     <SelectableGrid
       {...props}
-      toggleSelect={updateBrowsingHistorySelection}
       onRefetchSuccess={updateBrowsingHistory}
+      toggleSelect={updateBrowsingHistorySelection}
     />
   );
 }

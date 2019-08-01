@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
-import { SelectableGrid } from '../Grid';
+import { SelectableGrid, SelectableGridProps } from '../Grid/SelectableGrid';
 import {
   RootState,
   updateBookmark,
   updateBookmarkSelection
 } from '../../store';
 
-interface Props {
+interface Props extends Pick<SelectableGridProps, 'dragging' | 'onDragStart'> {
   comicID: string;
 }
 
@@ -31,8 +31,8 @@ export function BookmarkGridComponent({
   return (
     <SelectableGrid
       {...props}
-      toggleSelect={updateBookmarkSelection}
       onRefetchSuccess={updateBookmark}
+      toggleSelect={updateBookmarkSelection}
     />
   );
 }
