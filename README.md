@@ -16,14 +16,6 @@ An Electron based comic reader.
 
 - Your IP has an opportunity that banned by the data owner. In my experience, you will unlock after around one day.
 
-### TODO
-
-- [ ] Check window & linux
-- [ ] Add title bar for content page
-- [ ] Preference page for preload / maxiumn history etc ...
-- [ ] Open comic in external window
-- [ ] Highlight bookmarked / visited comic in Home Page
-
 ### Development
 
 ```
