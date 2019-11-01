@@ -165,7 +165,7 @@
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "3.6.0"
+    "typescript": "3.6.4"
   },
   "dependencies": {
     "@material-ui/core": "^4.4.0",
