@@ -1,21 +1,15 @@
-import React, { ReactElement, SVGAttributes } from 'react';
-import { Classes, Icon, IconName } from '@blueprintjs/core';
+import React from 'react';
 import { NavLink, NavLinkProps } from 'react-router-dom';
+import { MuiIcon, MuiIconProps } from '../../components/MuiIcon';
 
-interface Props extends Pick<Partial<NavLinkProps>, 'to'> {
-  icon: IconName | ReactElement<SVGAttributes<SVGElement>>;
+interface Props extends Pick<Partial<NavLinkProps>, 'to'>, MuiIconProps {
   isActive?: boolean;
 }
 
 const className = 'sidebar-icon';
 
 export function SidebarIcon({ icon, to, isActive }: Props) {
-  const iconContent =
-    typeof icon === 'string' ? (
-      <Icon icon={icon} />
-    ) : (
-      <span className={Classes.ICON}>{icon}</span>
-    );
+  const iconContent = <MuiIcon icon={icon} />;
 
   if (to) {
     return (

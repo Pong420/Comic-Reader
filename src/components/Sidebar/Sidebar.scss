@@ -56,11 +56,7 @@
 
       svg {
         color: #777;
-        font-size: 20px;
-
-        &[data-icon] {
-          @include sq-dimen(1em);
-        }
+        font-size: 27.5px;
       }
     }
 
