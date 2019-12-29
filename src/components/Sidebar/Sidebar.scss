@@ -1,0 +1,40 @@
+.sidebar {
+  @include dimen($sidebar-width);
+  @include relative();
+
+  background-color: #424242;
+  border-right: 1px solid #555;
+  padding-top: 40px; // TODO: check fullscreen
+
+  .app-region {
+    @include app-region-drag;
+    @include absolute(0, null, 0);
+    @include sq-dimen(100%);
+
+    > div {
+      @include sq-dimen(100%);
+      align-items: flex-start !important;
+    }
+  }
+
+  .sidebar-content {
+    @include flex(center, flex-start, column);
+    @include relative();
+    @include sq-dimen(100%);
+    padding-bottom: 10px;
+
+    > * {
+      @include app-region-no-drag;
+    }
+  }
+
+  .divider {
+    @include dimen(40px);
+    background: #aaa;
+    margin: 10px auto;
+  }
+
+  .flex-spacer {
+    flex: 1 1 auto;
+  }
+}

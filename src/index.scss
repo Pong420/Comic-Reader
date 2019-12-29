@@ -28,3 +28,29 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+#root {
+  @include dimen(100%, 100vh);
+  @include flex();
+  font-size: 14px;
+
+  .sidebar {
+    flex: 0 0 auto;
+
+    + * {
+      flex: 1 1 auto;
+    }
+  }
+
+  &:not(.darwin) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  + .app-region {
+    @include app-region-drag;
+    @include fixed(0, null, $sidebar-width);
+    @include dimen(100%, 24px);
+  }
+}

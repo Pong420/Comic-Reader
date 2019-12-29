@@ -1,6 +1,7 @@
 /// <reference types="pong-react-scripts" />
 
 declare module '*.scss';
+declare module 'react-desktop/macOs';
 
 declare interface Window {
   SMH: {
