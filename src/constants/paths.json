@@ -1,6 +1,6 @@
 {
   "HOME": "/",
-  "COMIC": "/comic/:comicID/:chapterType?",
+  "COMIC_DETAILS": "/comic/:comicID/:chapterType?",
   "CONTENT": "/content/:comicID/:chapterID/:pageNo",
   "SEARCH": "/search",
   "BROWSING_HISTORY": "/browsing-history",

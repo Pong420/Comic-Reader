@@ -65,10 +65,10 @@ export async function getComicDetails({
 
     const types: Schema$ComicDetails['chapters']['types'] = [];
     const byTypes: Schema$ComicDetails['chapters']['byTypes'] = {};
-    const byIds = $('.chapter')
+    $('.chapter')
       .children()
       .toArray()
-      .reduce<Schema$ComicDetails['chapters']['byIds']>((byIds, child) => {
+      .forEach(child => {
         if ($(child).get(0).tagName === 'h4') {
           let $el = $(child);
           while (!$el.next().hasClass('chapter-list')) {
@@ -99,18 +99,14 @@ export async function getComicDetails({
               ''
             );
 
-            byTypes[chapterType].push(chapterID);
-
-            byIds[chapterID] = {
+            byTypes[chapterType].push({
               chapterID,
               p: $aTag.find('i').text(),
               isNew: !!$(chapter).find('.new').length,
               title: $aTag.attr('title') || ''
-            };
+            });
           });
         }
-
-        return byIds;
       }, {});
 
     const author = $(details['漫畫作者'])
@@ -126,7 +122,6 @@ export async function getComicDetails({
       title,
       details,
       chapters: {
-        byIds,
         byTypes,
         types
       },

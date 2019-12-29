@@ -25,7 +25,7 @@ export function Grid({
     const { comicID, cover, name } = comic;
     const subtitle = comic[subtitleType];
 
-    const pathname = generatePath(PATHS.COMIC, {
+    const pathname = generatePath(PATHS.COMIC_DETAILS, {
       comicID
     });
 

@@ -47,8 +47,7 @@ export interface Schema$ComicDetails {
   cover: string;
   comicID: string;
   chapters: {
-    byIds: Record<string, Schema$ChpaterItem>;
-    byTypes: Record<string, string[]>;
+    byTypes: Record<string, Schema$ChpaterItem[]>;
     types: string[];
   };
   details: Record<string, string>;
@@ -81,3 +80,19 @@ export type Response$SearchResult = TransformDataById<
   Schema$SearchResult,
   'comicID'
 >;
+
+export interface Schema$Bookmark extends Partial<Schema$GridData> {
+  comicID: string;
+}
+
+export interface Schema$BrowsingHistory extends Partial<Schema$GridData> {
+  comicID: string;
+  chapterID: string;
+}
+
+export type Schema$FilterData = Array<[string, Schema$FilterItem[]]>;
+
+export interface Schema$FilterItem {
+  label: string;
+  val: string;
+}

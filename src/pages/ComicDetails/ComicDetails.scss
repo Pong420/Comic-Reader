@@ -1,0 +1,164 @@
+$padding: 20px;
+
+.comic-details {
+  @include flex(stretch, stretch, column);
+  @include padding-x($padding);
+  color: #fff;
+}
+
+.comic-details-header {
+  @include flex();
+  @include relative;
+  flex: 0 0 auto;
+  margin-top: $padding;
+  z-index: 1;
+
+  .comic-info {
+    @include padding-x(1em);
+  }
+
+  .comic-title {
+    @include flex(baseline, $wrap: wrap);
+
+    > * {
+      margin: 0 10px 0 0;
+    }
+  }
+
+  .comic-info-items {
+    display: table;
+    padding: 10px 0 5px;
+  }
+
+  .comic-info-item {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 20px;
+
+    &:nth-child(4),
+    &:nth-child(6),
+    &:nth-child(7) {
+      clear: left;
+    }
+
+    > span {
+      span {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .comic-intro {
+    @include multi-line-ellipsis($line-height: 1.4em, $line-clamp: 3);
+    font-size: 15px;
+    text-indent: 1.8em;
+  }
+}
+
+.comic-cover {
+  @include relative();
+  // prettier-ignore
+  box-shadow: 
+    0 3px 10px 1px $shadow-color, 
+    0 3px 14px 2px $shadow-color,
+    0 5px 5px -3px $shadow-color;
+  background-color: #232323;
+  min-width: 190px;
+
+  img {
+    @include absolute(0, 0, 0);
+    @include sq-dimen(100%);
+    object-fit: cover;
+  }
+
+  &:after {
+    @include dimen(100%);
+    content: '';
+    display: block;
+    padding-bottom: 240 / 180 * 100%;
+  }
+}
+
+.comic-details-content {
+  flex: 1 1 auto;
+  margin-top: 10px;
+  overflow: auto;
+  padding-bottom: $padding;
+
+  .chapter-types {
+    @include flex();
+    @include sticky(0);
+    background-color: $primary-color;
+    padding: 10px 0;
+
+    .type {
+      color: #999;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1em;
+      order: 0;
+      padding: 7px 20px;
+
+      + .type {
+        margin-left: 10px;
+      }
+
+      &:hover {
+        color: #fff;
+      }
+
+      &.active {
+        border-bottom: 2px solid $secondary-color;
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .chapters-list {
+    @include dimen(100%);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    margin-top: 5px;
+    order: 1;
+  }
+
+  .chapter-item {
+    @include flex(center, space-between);
+
+    background-color: lighten($primary-color, 5%);
+    font-size: 13px;
+    min-height: 40px;
+    padding: 7px 15px;
+
+    &:hover {
+      background-color: $secondary-color;
+      color: #222;
+    }
+
+    svg {
+      color: $red;
+      font-size: 24px;
+    }
+  }
+
+  .warning {
+    @include flex(center, center, column);
+
+    margin: 100px auto auto;
+    max-width: 500px;
+    text-align: center;
+
+    [data-icon='warning-sign'] {
+      @include sq-dimen(50px);
+      margin-bottom: 20px;
+    }
+
+    button {
+      color: $secondary-color !important;
+      margin-top: 30px;
+    }
+  }
+}

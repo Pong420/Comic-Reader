@@ -35,3 +35,7 @@
 @mixin fixed($top: null, $bottom: null, $left: null, $right: null) {
   @include position($top, $bottom, $left, $right, fixed);
 }
+
+@mixin sticky($top: null, $bottom: null, $left: null, $right: null) {
+  @include position($top, $bottom, $left, $right, sticky);
+}
