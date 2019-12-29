@@ -14,6 +14,9 @@ export function Sidebar({ className, children }: Props) {
       <AppRegion />
       <div className="sidebar-content">
         <SidebarIcon icon="home" to={PATHS.HOME} />
+        <SidebarIcon icon="search" to={PATHS.SEARCH} />
+        <SidebarIcon icon="history" to={PATHS.BROWSING_HISTORY} />
+        <SidebarIcon icon="star" to={PATHS.BOOKMARK} />
         {children}
       </div>
     </div>

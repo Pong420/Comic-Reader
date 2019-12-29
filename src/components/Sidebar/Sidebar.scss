@@ -24,25 +24,35 @@
     padding-bottom: 10px;
 
     .sidebar-icon {
-      cursor: pointer;
+      @include dimen(100%, 50px);
+      @include flex(center, center);
+      @include relative();
       user-select: none;
 
-      + .sidebar-icon {
-        margin-top: 10px;
-      }
-
       &:hover,
-      &.active,
-      > .active {
+      &.active {
         svg {
           color: #fff;
+        }
+      }
+
+      &.active {
+        &:after {
+          @include absolute(0, 0, null, 0);
+          @include dimen(0px, 90%);
+          border-top: 3px solid transparent;
+          border-bottom: 3px solid transparent;
+          border-right: 4px solid $secondary-color;
+          border-radius: 50px;
+          content: '';
+          margin: auto;
         }
       }
     }
 
     .#{$ns}-icon {
-      @include sq-dimen(40px);
-      @include flex(center, center);
+      cursor: pointer;
+      margin: auto;
 
       svg {
         color: #777;
