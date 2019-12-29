@@ -7,15 +7,16 @@ import { Grid } from '../../components/Grid';
 import { getComicList } from '../../service';
 import { useComicActions, comicPaginationSelector } from '../../store';
 import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
+import { RouteComponentProps } from 'react-router-dom';
 
-export function Home() {
-  const { paginateComics, setPageComics } = useComicActions();
+export function Home({ location }: RouteComponentProps) {
+  const { paginateComics } = useComicActions();
 
   const { ids, pageNo, pageSize, total, defer } = useSelector(
     comicPaginationSelector
   );
 
-  const { run } = useRxAsync(getComicList, {
+  const { run, loading } = useRxAsync(getComicList, {
     defer: true,
     mapOperator: concatMap,
     onSuccess: paginateComics
@@ -24,15 +25,16 @@ export function Home() {
   const onSectionRendered = useCallback(
     ({ rowStopIndex, columnStopIndex }: OnSectionRenderedParams) => {
       const nextPage = pageNo + 1;
-      const hasNext = nextPage * pageSize < total;
+      const hasNext = nextPage * pageSize <= total;
       if (
+        !loading &&
         hasNext &&
         rowStopIndex * (columnStopIndex + 1) > (pageNo - 2) * pageSize
       ) {
-        setPageComics(nextPage);
+        run({ page: nextPage });
       }
     },
-    [setPageComics, pageNo, pageSize, total]
+    [loading, run, pageNo, pageSize, total]
   );
 
   useEffect(() => {
@@ -44,6 +46,7 @@ export function Home() {
       <GridContainer
         items={ids}
         overscanRowCount={2}
+        scrollPostionKey={location.pathname}
         onSectionRendered={onSectionRendered}
         onGridRender={id => <Grid id={id} />}
       />

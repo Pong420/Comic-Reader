@@ -26,6 +26,13 @@ export interface GridContainerProps<T> {
   scrollPostionKey?: string;
 }
 
+interface ColumnState {
+  columnCount: number;
+  columnWidth: number;
+}
+
+interface GridSizerProps<T> extends GridContainerProps<T> {}
+
 const gridGap = 20;
 const ratio = 360 / 480; // width / height
 const containerPadding = gridGap;
@@ -43,10 +50,10 @@ const gridSizerContainerStyle: CSSProperties = {
 
 const gridStyle = { padding: gridGap / 2, height: '100%' };
 
-function getColumnData(width: number, el: HTMLDivElement | null) {
+function getColumnData(width: number, el: HTMLDivElement | null): ColumnState {
   const containerInnerWidth = width - containerPadding;
   const columnWidth = el ? el.offsetWidth : 1;
-  const columnCount = Math.floor(containerInnerWidth / columnWidth);
+  const columnCount = el ? Math.floor(containerInnerWidth / columnWidth) : 1;
 
   return {
     columnCount,
@@ -54,31 +61,59 @@ function getColumnData(width: number, el: HTMLDivElement | null) {
   };
 }
 
+function GridSizer<T extends {}>(props: GridSizerProps<T> & Size) {
+  const { width } = props;
+  const gridSizerRef = useRef<HTMLDivElement>(null);
+  const [columnState, setColumnState] = useState(
+    getColumnData(width, gridSizerRef.current)
+  );
+
+  useEffect(() => {
+    setColumnState(getColumnData(width, gridSizerRef.current));
+  }, [width]);
+
+  return (
+    <>
+      {gridSizerRef.current && (
+        <GridContainerComponent {...columnState} {...props} />
+      )}
+      <div className="grid-sizer-container" style={gridSizerContainerStyle}>
+        <div ref={gridSizerRef} />
+      </div>
+    </>
+  );
+}
+
 function GridContainerComponent<T extends {}>({
   width,
   height,
+  columnCount,
+  columnWidth,
   items,
   onGridRender,
   loadMore,
   onSectionRendered,
   overscanRowCount = 1,
   noContentRenderer,
-  scrollPostionKey
-}: GridContainerProps<T> & Size) {
+  scrollPostionKey = ''
+}: GridContainerProps<T> & Size & ColumnState) {
   const gridRef = useRef<Grid>(null);
   const gridSizerRef = useRef<HTMLDivElement>(null);
-  const scrollTopRef = useRef(0);
-  const [{ columnCount, columnWidth }, setColumnState] = useState(
-    getColumnData.bind(null, width, gridSizerRef.current)
+  const [scrollTop, setScrollTop] = useState<number | undefined>(
+    (scrollPostionKey && scrollPosition.get(scrollPostionKey)) || 0
   );
+
   const rowCount = useMemo(() => Math.ceil(items.length / columnCount), [
     items.length,
     columnCount
   ]);
 
-  const onScroll = useCallback(({ scrollTop }: OnScrollParams) => {
-    scrollTopRef.current = scrollTop;
-  }, []);
+  const onScroll = useCallback(
+    ({ scrollTop }: OnScrollParams) => {
+      scrollPosition.set(scrollPostionKey, scrollTop);
+    },
+    [scrollPostionKey]
+  );
 
   const cellRenderer = useCallback(
     ({ key, style, rowIndex, columnIndex }: GridCellProps) => {
@@ -106,23 +141,8 @@ function GridContainerComponent<T extends {}>({
   );
 
   useEffect(() => {
-    setColumnState(getColumnData(width, gridSizerRef.current));
-  }, [width]);
-
-  useEffect(() => {
-    scrollTopRef.current =
-      (scrollPostionKey && scrollPosition.get(scrollPostionKey)) || 0;
-
-    gridRef.current!.scrollToPosition({
-      scrollTop: scrollTopRef.current,
-      scrollLeft: 0
-    });
-
-    return () => {
-      scrollPostionKey &&
-        scrollPosition.set(scrollPostionKey, scrollTopRef.current);
-    };
-  }, [scrollPostionKey]);
+    typeof scrollTop === 'number' && setScrollTop(undefined);
+  }, [scrollTop]);
 
   return (
     <>
@@ -139,6 +159,7 @@ function GridContainerComponent<T extends {}>({
         noContentRenderer={noContentRenderer}
         overscanRowCount={overscanRowCount}
         onScroll={onScroll}
+        scrollTop={scrollTop}
         onSectionRendered={onSectionRendered || handleLoadMore}
         ref={gridRef}
       />
@@ -153,9 +174,7 @@ export function GridContainer<T>(props: GridContainerProps<T>) {
   return (
     <AutoSizer>
       {({ width, height }) =>
-        !!width && (
-          <GridContainerComponent {...props} width={width} height={height} />
-        )
+        !!width && <GridSizer {...props} width={width} height={height} />
       }
     </AutoSizer>
   );

@@ -57,11 +57,7 @@ $padding: 20px;
 
 .comic-cover {
   @include relative();
-  // prettier-ignore
-  box-shadow: 
-    0 3px 10px 1px $shadow-color, 
-    0 3px 14px 2px $shadow-color,
-    0 5px 5px -3px $shadow-color;
+  box-shadow: $pt-dark-elevation-shadow-4;
   background-color: #232323;
   min-width: 190px;
 
