@@ -14,3 +14,5 @@ export type SubType<Base, Condition> = Pick<
 >;
 
 export type ValueOf<T> = T[keyof T];
+
+export * from './service';

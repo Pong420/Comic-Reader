@@ -132,6 +132,8 @@
     ]
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.15",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^13.1.0",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
@@ -150,6 +152,11 @@
     "typescript": "3.7.4"
   },
   "dependencies": {
+    "axios": "0.18.1",
+    "axios-extensions": "^3.0.6",
+    "cheerio": "^1.0.0-rc.3",
+    "chinese-conv": "^1.0.1",
+    "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2"

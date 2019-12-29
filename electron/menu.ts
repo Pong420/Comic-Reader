@@ -53,17 +53,17 @@ export class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout = {
-      label: 'React App',
+      label: 'Comic Reader',
       submenu: [
         {
-          label: 'About React App',
+          label: 'About Comic Reader',
           selector: 'orderFrontStandardAboutPanel:'
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide React App',
+          label: 'Hide Comic Reader',
           accelerator: 'Command+H',
           selector: 'hide:'
         },
