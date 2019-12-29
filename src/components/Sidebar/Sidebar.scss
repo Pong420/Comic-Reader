@@ -23,18 +23,39 @@
     @include sq-dimen(100%);
     padding-bottom: 10px;
 
+    .sidebar-icon {
+      cursor: pointer;
+      user-select: none;
+
+      + .sidebar-icon {
+        margin-top: 10px;
+      }
+
+      &:hover,
+      &.active,
+      > .active {
+        svg {
+          color: #fff;
+        }
+      }
+    }
+
+    .#{$ns}-icon {
+      @include sq-dimen(40px);
+      @include flex(center, center);
+
+      svg {
+        color: #777;
+        font-size: 20px;
+
+        &[data-icon] {
+          @include sq-dimen(1em);
+        }
+      }
+    }
+
     > * {
       @include app-region-no-drag;
     }
-  }
-
-  .divider {
-    @include dimen(40px);
-    background: #aaa;
-    margin: 10px auto;
-  }
-
-  .flex-spacer {
-    flex: 1 1 auto;
   }
 }

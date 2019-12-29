@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { FocusStyleManager } from '@blueprintjs/core';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 function render() {
   return ReactDOM.render(<App />, document.getElementById('root'));
