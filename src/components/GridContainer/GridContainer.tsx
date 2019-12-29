@@ -19,6 +19,7 @@ import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepp
 export interface GridContainerProps<T> {
   items: T[];
   loadMore?: () => void;
+  onSectionRendered?: (params: OnSectionRenderedParams) => void;
   onGridRender: (props: T) => ReactNode;
   noContentRenderer?: () => ReactNode;
   overscanRowCount?: number;
@@ -59,6 +60,7 @@ function GridContainerComponent<T extends {}>({
   items,
   onGridRender,
   loadMore,
+  onSectionRendered,
   overscanRowCount = 1,
   noContentRenderer,
   scrollPostionKey
@@ -83,10 +85,6 @@ function GridContainerComponent<T extends {}>({
       const index = rowIndex * columnCount + columnIndex;
       const data = items[index];
 
-      if (!data) {
-        return null;
-      }
-
       return (
         <div style={style} key={key}>
           <div style={gridStyle}>{onGridRender(data)}</div>
@@ -96,7 +94,7 @@ function GridContainerComponent<T extends {}>({
     [columnCount, items, onGridRender]
   );
 
-  const onSectionRendered = useCallback(
+  const handleLoadMore = useCallback(
     ({ rowStopIndex }: OnSectionRenderedParams) => {
       // Check `mounted` prevent unexpected load more event
       const mounted = !!gridRef.current;
@@ -141,7 +139,7 @@ function GridContainerComponent<T extends {}>({
         noContentRenderer={noContentRenderer}
         overscanRowCount={overscanRowCount}
         onScroll={onScroll}
-        onSectionRendered={onSectionRendered}
+        onSectionRendered={onSectionRendered || handleLoadMore}
         ref={gridRef}
       />
       <div className="grid-sizer-container" style={gridSizerContainerStyle}>

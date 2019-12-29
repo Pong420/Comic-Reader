@@ -1,7 +1,7 @@
 import { TransformDataById } from '../utils/transformDatabyId';
 
 export interface Params$ComicList {
-  page: number;
+  page?: number;
   type?: string;
   filter?: string[];
 }

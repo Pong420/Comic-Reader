@@ -1,0 +1,53 @@
+.grid {
+  @include relative();
+  user-select: none;
+
+  &:empty,
+  .cover {
+    border-radius: 5px;
+    border: 1px solid #666;
+    background-color: #232323;
+    box-shadow: $pt-dark-elevation-shadow-3;
+  }
+
+  .grid-content {
+    @include animate(transform);
+    @include absolute(0, null, 0);
+    @include sq-dimen(100%);
+    transform: scale(1) translateY(0px);
+  }
+
+  .cover {
+    @include sq-dimen(100%);
+    object-fit: cover;
+  }
+
+  .caption {
+    @include dimen(calc(100%));
+    @include absolute(null, 0, 0);
+    border-radius: 5px;
+    background-image: linear-gradient(
+      180deg,
+      hsla(0, 0%, 9%, 0) 0,
+      rgba(0, 0, 0, 0.5) 50%
+    );
+    color: #fff;
+    font-weight: bold;
+    text-align: right;
+    text-shadow: 1px 1px 10px #666;
+    padding: 20px 5px 5px;
+
+    .title {
+      font-size: 15px;
+    }
+
+    .subtitle {
+      @include text-overflow-ellipsis();
+    }
+
+    .title,
+    .subtitle {
+      line-height: 1.5em;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { Params$ComicList, Response$ComicList } from '../../../typings';
 export async function getComicList({
   page = 1,
   filter
-}: Params$ComicList): Promise<Response$ComicList> {
+}: Params$ComicList = {}): Promise<Response$ComicList> {
   const pageStr = page === 1 ? '' : `_p${page}`;
   const filterPath = getFilterPath(filter);
 
@@ -43,7 +43,8 @@ export async function getComicList({
       );
 
       return {
-        total: isNaN(total) ? 0 : total,
+        // TODO: check this
+        total: Math.min(4200, isNaN(total) ? 0 : total),
         pageNo: page,
         data: comicList
       };
