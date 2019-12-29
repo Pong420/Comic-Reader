@@ -70,6 +70,15 @@ export interface Schema$SearchResult extends Schema$GridData {
   category: string[];
 }
 
+export interface Schema$ImageDetail {
+  index: number;
+  src: string;
+  width?: number;
+  height?: number;
+  loaded: boolean;
+  error: boolean;
+}
+
 export type Response$ComicList = {
   total: number;
   pageNo: number;
@@ -79,6 +88,11 @@ export type Response$ComicList = {
 export type Response$SearchResult = TransformDataById<
   Schema$SearchResult,
   'comicID'
+>;
+
+export type Response$LoadImage = Pick<
+  Schema$ImageDetail,
+  'src' | 'width' | 'height'
 >;
 
 export interface Schema$Bookmark extends Partial<Schema$GridData> {

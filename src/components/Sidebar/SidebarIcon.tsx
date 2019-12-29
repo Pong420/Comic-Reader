@@ -13,7 +13,7 @@ export function SidebarIcon({ icon, to, isActive }: Props) {
 
   if (to) {
     return (
-      <NavLink className={className} to={to}>
+      <NavLink exact className={className} to={to}>
         {iconContent}
       </NavLink>
     );

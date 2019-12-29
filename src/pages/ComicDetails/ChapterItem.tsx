@@ -24,7 +24,7 @@ export function ChapterItem({ comicID, chapterID, title, isNew }: Props) {
     <Link
       className="chapter-item"
       key={chapterID}
-      to={generatePath(PATHS.CONTENT, {
+      to={generatePath(PATHS.COMIC_CONTENT, {
         comicID,
         chapterID,
         pageNo: 1
