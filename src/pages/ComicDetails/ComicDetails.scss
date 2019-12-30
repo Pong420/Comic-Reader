@@ -87,13 +87,12 @@ $padding: 20px;
     background-color: $primary-color;
     padding: 10px 0;
 
-    .type {
+    > a {
       color: #999;
       cursor: pointer;
-      font-size: 17px;
-      line-height: 1em;
-      order: 0;
+      font-size: 18px;
       padding: 7px 20px;
+      text-decoration: none;
 
       + .type {
         margin-left: 10px;

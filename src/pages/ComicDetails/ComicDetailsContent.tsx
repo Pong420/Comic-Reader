@@ -51,7 +51,7 @@ export function ComicDetailsContent({
           <div className="chapter-types">
             {types.map(chapterType => (
               <NavLink
-                className="type"
+                replace
                 key={chapterType}
                 isActive={() => chapterType === currChapterType}
                 to={generatePath(PATHS.COMIC_DETAILS, { comicID, chapterType })}

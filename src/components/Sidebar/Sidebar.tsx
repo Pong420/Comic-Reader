@@ -12,7 +12,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export function Sidebar({ className, children }: Props) {
+export function Sidebar({ className = '', children }: Props) {
   return (
     <div className={`sidebar ${className}`.trim()}>
       <AppRegion />
@@ -21,6 +21,9 @@ export function Sidebar({ className, children }: Props) {
         <SidebarIcon icon={SearchIcon} to={PATHS.SEARCH} />
         <SidebarIcon icon={HistoryIcon} to={PATHS.BROWSING_HISTORY} />
         <SidebarIcon icon={bookmarksIcon} to={PATHS.BOOKMARK} />
+
+        {!!children && <div className="divider" />}
+
         {children}
       </div>
     </div>

@@ -51,13 +51,19 @@
     }
 
     .#{$ns}-icon {
+      @include margin-x(auto);
       cursor: pointer;
-      margin: auto;
 
       svg {
         color: #777;
         font-size: 27.5px;
       }
+    }
+
+    .divider {
+      @include dimen(40px, 1px);
+      background: #777;
+      margin: 10px auto;
     }
 
     > * {

@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home } from './pages/Home';
-import { ComicDetails } from './pages/ComicDetails';
+import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
@@ -28,7 +28,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.COMIC_DETAILS,
     main: ComicDetails,
-    sidebar: Sidebar
+    sidebar: ComicDetailsSidebar
   },
   {
     path: PATHS.COMIC_CONTENT,

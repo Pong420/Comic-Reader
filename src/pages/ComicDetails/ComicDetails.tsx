@@ -10,15 +10,11 @@ interface MatchParams {
   chapterType?: string;
 }
 
-interface RouteState {
-  prevPath?: string;
-}
-
-interface Props extends RouteComponentProps<MatchParams, {}, RouteState> {}
+interface Props extends RouteComponentProps<MatchParams> {}
 
 export function ComicDetails({ match }: Props) {
   const { run, data } = useRxAsync(getComicDetails, { defer: true });
-  const { comicID } = match.params;
+  const { comicID, chapterType } = match.params;
 
   useEffect(() => {
     run({ comicID });
@@ -29,6 +25,7 @@ export function ComicDetails({ match }: Props) {
       <ComicDetailsHeader {...data} />
       <ComicDetailsContent
         comicID={comicID}
+        chapterType={chapterType}
         chapters={data ? data.chapters : { byTypes: {}, types: [] }}
       />
     </div>
