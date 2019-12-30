@@ -1,30 +1,31 @@
 import React, { HTMLAttributes, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import { PATHS } from '../../constants';
-import { comicSelector } from '../../store';
+import { Schema$GridData } from '../../typings';
 
-export interface GridPorps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
-  id: string | null;
+export interface GridPorps
+  extends HTMLAttributes<HTMLDivElement>,
+    Omit<Partial<Schema$GridData>, 'comicID'> {
+  comicID: string | null;
   subtitleType?: 'latest' | 'author';
   prevPath?: string;
 }
 
 export function Grid({
-  id,
-  subtitleType = 'latest',
-  prevPath,
   className = '',
   children,
+  subtitleType = 'latest',
+  prevPath,
+  comicID,
+  cover,
+  name,
   ...props
 }: GridPorps) {
-  const comic = useSelector(comicSelector(id));
   let content: ReactNode = null;
 
-  if (comic) {
-    const { comicID, cover, name } = comic;
-    const subtitle = comic[subtitleType];
+  const subtitle = props[subtitleType];
 
+  if (comicID) {
     const pathname = generatePath(PATHS.COMIC_DETAILS, {
       comicID
     });

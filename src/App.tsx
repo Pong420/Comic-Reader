@@ -1,15 +1,10 @@
 import React, { ComponentType } from 'react';
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  RouteProps,
-  Redirect
-} from 'react-router-dom';
+import { Route, Switch, RouteProps, Redirect } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home } from './pages/Home';
 import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
+import { Search } from './pages/Search';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
 
@@ -34,11 +29,16 @@ const routes: CustomRouteProps[] = [
     path: PATHS.COMIC_CONTENT,
     main: ComicContent,
     sidebar: Sidebar
+  },
+  {
+    path: PATHS.SEARCH,
+    main: Search,
+    sidebar: Sidebar
   }
 ];
 
 const App = () => (
-  <Router>
+  <>
     {routes.map(({ sidebar = Sidebar, ...props }, index) => (
       <Route {...props} key={index} component={sidebar} />
     ))}
@@ -49,7 +49,7 @@ const App = () => (
       <Redirect to={PATHS.HOME} />
     </Switch>
     <ClearTosterOnLocationChanged />
-  </Router>
+  </>
 );
 
 export default App;

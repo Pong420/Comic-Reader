@@ -1,18 +1,18 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import { useRxAsync } from 'use-rx-hooks';
 import { concatMap } from 'rxjs/operators';
+import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
 import { GridContainer } from '../../components/GridContainer';
-import { Grid } from '../../components/Grid';
+import { HomeGrid } from './HomeGrid';
 import { getComicList } from '../../service';
 import { useComicActions, comicPaginationSelector } from '../../store';
-import { OnSectionRenderedParams } from 'react-virtualized/dist/es/ArrowKeyStepper';
-import { RouteComponentProps } from 'react-router-dom';
 
 export function Home({ location }: RouteComponentProps) {
   const { paginateComics } = useComicActions();
 
-  const { ids, pageNo, pageSize, total, defer } = useSelector(
+  const { ids, pageNo, pageSize, total, hasData } = useSelector(
     comicPaginationSelector
   );
 
@@ -25,7 +25,7 @@ export function Home({ location }: RouteComponentProps) {
   const onSectionRendered = useCallback(
     ({ rowStopIndex, columnStopIndex }: OnSectionRenderedParams) => {
       const nextPage = pageNo + 1;
-      const hasNext = nextPage * pageSize <= total;
+      const hasNext = Math.ceil(total / pageSize) >= nextPage;
       if (
         !loading &&
         hasNext &&
@@ -38,8 +38,8 @@ export function Home({ location }: RouteComponentProps) {
   );
 
   useEffect(() => {
-    !defer && run({ page: pageNo });
-  }, [defer, run, pageNo]);
+    !hasData && run({ page: pageNo });
+  }, [hasData, run, pageNo]);
 
   return (
     <div className="home">
@@ -48,7 +48,7 @@ export function Home({ location }: RouteComponentProps) {
         overscanRowCount={2}
         scrollPostionKey={location.pathname}
         onSectionRendered={onSectionRendered}
-        onGridRender={id => <Grid id={id} />}
+        onGridRender={id => <HomeGrid comicID={id} />}
       />
     </div>
   );

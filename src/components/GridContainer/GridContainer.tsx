@@ -120,6 +120,10 @@ function GridContainerComponent<T extends {}>({
       const index = rowIndex * columnCount + columnIndex;
       const data = items[index];
 
+      if (data === undefined) {
+        return null;
+      }
+
       return (
         <div style={style} key={key}>
           <div style={gridStyle}>{onGridRender(data)}</div>

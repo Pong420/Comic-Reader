@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import { TransformDataById } from '../utils/transformDatabyId';
 
 export interface CustomApiError {
   response: {
@@ -89,16 +88,15 @@ export interface Schema$ImageDetail {
   error: boolean;
 }
 
-export type Response$ComicList = {
+export type Response$Pagination<T> = {
   total: number;
   pageNo: number;
-  data: Schema$ComicItem[];
+  data: T[];
 };
 
-export type Response$SearchResult = TransformDataById<
-  Schema$SearchResult,
-  'comicID'
->;
+export type Response$ComicList = Response$Pagination<Schema$ComicItem>;
+
+export type Response$SearchResult = Response$Pagination<Schema$SearchResult>;
 
 export type Response$LoadImage = Pick<
   Schema$ImageDetail,

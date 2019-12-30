@@ -6,6 +6,8 @@ const api = createAxiosInstance({
   headers: { 'Content-Type': 'multipart/form-data' }
 });
 
+const cacheForTotalResult: Record<string, number> = {};
+
 export async function getSearchResults({
   keyword,
   page = 1,
@@ -26,53 +28,56 @@ export async function getSearchResults({
 
     const li = ajax === 0 ? $('.cont-list li') : $('li');
 
-    const searchResults = li.toArray().reduce<Response$SearchResult>(
-      (data, li) => {
-        const text = (selector: string) =>
-          $(li)
-            .find(selector)
-            .text()
-            .trim();
-
-        const comicID = (
-          $(li)
-            .find('a')
-            .attr('href') || ''
-        ).replace(/[^\d.]+/g, '');
-
-        const cover = (
-          $(li)
-            .find('img')
-            .attr('data-src') || ''
-        ).replace(/\/[a-z]\//, '/h/');
-
-        const name = text('h3');
-        const author = text('dl:nth-child(3) dd');
-        const category = text('dl:nth-child(4) dd').split(',');
-        const latest = text('dl:nth-child(5) dd');
-        const updateTime = text('dl:nth-child(6) dd');
-
-        data.ids.push(comicID);
-
-        data.byIds[comicID] = {
-          comicID,
-          cover,
-          name,
-          author,
-          category,
-          latest,
-          updateTime
-        };
-
-        return data;
-      },
-      {
-        byIds: {},
-        ids: []
-      }
+    const matches = ($('.cat-bar h3').text() || '').match(
+      /(?<=共有).*?(?=條)/g
     );
 
-    return searchResults;
+    const total =
+      cacheForTotalResult[keyword] || Number(matches && matches[0]) || 0;
+
+    cacheForTotalResult[keyword] = total;
+
+    const searchResults = li.toArray().map(li => {
+      const text = (selector: string) =>
+        $(li)
+          .find(selector)
+          .text()
+          .trim();
+
+      const comicID = (
+        $(li)
+          .find('a')
+          .attr('href') || ''
+      ).replace(/[^\d.]+/g, '');
+
+      const cover = (
+        $(li)
+          .find('img')
+          .attr('data-src') || ''
+      ).replace(/\/[a-z]\//, '/h/');
+
+      const name = text('h3');
+      const author = text('dl:nth-child(3) dd');
+      const category = text('dl:nth-child(4) dd').split(',');
+      const latest = text('dl:nth-child(5) dd');
+      const updateTime = text('dl:nth-child(6) dd');
+
+      return {
+        comicID,
+        cover,
+        name,
+        author,
+        category,
+        latest,
+        updateTime
+      };
+    });
+
+    return {
+      total,
+      pageNo: page,
+      data: searchResults
+    };
   } catch (err) {
     return Promise.reject({
       response: {
