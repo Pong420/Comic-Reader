@@ -9,6 +9,7 @@
 
     color: #fff;
     margin: auto;
+    user-select: none;
 
     .content.fit-to-page & {
       @include sq-dimen(100% !important);

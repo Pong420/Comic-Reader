@@ -11,6 +11,7 @@ import { Home } from './pages/Home';
 import { ComicDetails } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { PATHS } from './constants';
+import { ClearTosterOnLocationChanged } from './utils/toaster';
 
 interface CustomRouteProps extends RouteProps {
   main: ComponentType<any>;
@@ -47,6 +48,7 @@ const App = () => (
       ))}
       <Redirect to={PATHS.HOME} />
     </Switch>
+    <ClearTosterOnLocationChanged />
   </Router>
 );
 

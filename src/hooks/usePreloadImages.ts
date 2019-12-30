@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
-import { from, of } from 'rxjs';
+import { useEffect, useState, useMemo, useRef } from 'react';
+import { from, of, Subscription } from 'rxjs';
 import { concatMap, filter, map, catchError } from 'rxjs/operators';
 import {
   Response$LoadImage,
@@ -7,12 +7,14 @@ import {
   Schema$ComicContent
 } from '../typings';
 
+// TODO: review
+
 interface Props {
   pageNo: number;
 }
 
-const loadImage = (src: string) =>
-  new Promise<Response$LoadImage>((resolve, reject) => {
+const loadImage = async (src: string) =>
+  new Promise<Response$LoadImage>(async (resolve, reject) => {
     const image = new Image();
     image.src = src;
     image.onload = () =>
@@ -27,8 +29,10 @@ const loadImage = (src: string) =>
 export function usePreloadImages({ pageNo }: Props) {
   const [imageDetails, setImageDetails] = useState<Schema$ImageDetail[]>([]);
 
-  const preloadImage = useCallback(
-    ({ images }: Schema$ComicContent) =>
+  const subscription = useRef(new Subscription());
+
+  const { preloadImage, clearPreloadImage } = useMemo(() => {
+    const preloadImage = ({ images }: Schema$ComicContent) => {
       setImageDetails(
         images.map((src, index) => ({
           index,
@@ -36,9 +40,13 @@ export function usePreloadImages({ pageNo }: Props) {
           loaded: false,
           error: false
         }))
-      ),
-    []
-  );
+      );
+    };
+
+    const clearPreloadImage = () => setImageDetails([]);
+
+    return { preloadImage, clearPreloadImage };
+  }, []);
 
   const startIndex = pageNo - 1;
   const images = useMemo(
@@ -47,7 +55,7 @@ export function usePreloadImages({ pageNo }: Props) {
   );
 
   useEffect(() => {
-    const subscription = from(images)
+    subscription.current = from(images)
       .pipe(
         filter(({ loaded, error }) => !loaded && !error),
         concatMap(({ src, index, ...rest }) =>
@@ -62,18 +70,18 @@ export function usePreloadImages({ pageNo }: Props) {
           )
         )
       )
-      .subscribe(image =>
+      .subscribe(image => {
         setImageDetails(curr => [
           ...curr.slice(0, image.index),
           image,
           ...curr.slice(image.index + 1)
-        ])
-      );
+        ]);
+      });
 
     return () => {
-      subscription.unsubscribe();
+      subscription.current.unsubscribe();
     };
   }, [images]);
 
-  return [imageDetails, preloadImage] as const;
+  return { imageDetails, preloadImage, clearPreloadImage };
 }

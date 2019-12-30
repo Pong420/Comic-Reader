@@ -1,4 +1,14 @@
+import { AxiosError } from 'axios';
 import { TransformDataById } from '../utils/transformDatabyId';
+
+export interface CustomApiError {
+  response: {
+    status: string | number;
+    statusText: string;
+  };
+}
+
+export type ApiError = AxiosError | CustomApiError | Error;
 
 export interface Params$ComicList {
   page?: number;

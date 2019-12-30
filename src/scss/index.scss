@@ -1,6 +1,7 @@
-@import './variables';
-@import './functions';
-@import './mixins';
 @import '~@blueprintjs/core/lib/scss/variables';
 @import '~@blueprintjs/core/src/common/_mixins.scss';
 @import '~@blueprintjs/core/src/components/forms/_common.scss';
+@import './variables';
+@import './functions';
+@import './mixins';
+@import './toaster';

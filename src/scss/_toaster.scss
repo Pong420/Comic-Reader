@@ -1,0 +1,22 @@
+.#{$ns}-toast-container-bottom {
+  .#{$ns}-toast.bottom-toaster {
+    @include flex(center);
+    background-color: $primary-color;
+    margin-left: 80px;
+
+    &,
+    svg {
+      color: #fff;
+    }
+
+    .bp3-toast-message {
+      > div {
+        @include flex(center, space-between);
+
+        button {
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+}
