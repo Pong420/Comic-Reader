@@ -12,7 +12,12 @@ export function HomeSidebar() {
   return (
     <Sidebar className="home-sidebar">
       <span className={`${filtered ? 'filtered' : ''}`}>
-        <SidebarIcon to={PATHS.FILTER} icon={FilterIcon} isActive={filtered} />
+        <SidebarIcon
+          tooltip="過濾"
+          to={PATHS.FILTER}
+          icon={FilterIcon}
+          isActive={filtered}
+        />
       </span>
     </Sidebar>
   );

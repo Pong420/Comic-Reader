@@ -36,6 +36,7 @@ export function BookmarkBtn({ comicID }: Props) {
 
   return (
     <SidebarIcon
+      tooltip={bookmarked ? '取消收藏' : '收藏漫畫'}
       icon={bookmarked ? BookmarkedIcon : BookmarkIcon}
       onClick={toggle}
     />

@@ -8,10 +8,10 @@ export function FilterSidebar({ history }: RouteComponentProps) {
   return (
     <Sidebar className="filter-sidebar">
       <SidebarIcon
+        tooltip="返回首頁"
         icon={ArrowBackIcon}
         onClick={() => history.push({ pathname: PATHS.HOME })}
       />
-      {/* TODO: clear filter */}
     </Sidebar>
   );
 }

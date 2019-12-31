@@ -1,0 +1,16 @@
+.#{$ns}-tooltip {
+  &.#{$ns}-tooltip {
+    $color: lighten($primary-color, 10%);
+    path {
+      fill: $color;
+    }
+    .#{$ns}-popover-content {
+      @include padding-y(7px);
+      @include padding-x(10px);
+      background-color: $color;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1em;
+    }
+  }
+}

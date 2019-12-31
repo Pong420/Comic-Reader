@@ -31,8 +31,10 @@
 
       &:hover,
       &.active {
-        svg {
-          color: #fff;
+        .#{$ns}-icon {
+          svg {
+            color: #fff;
+          }
         }
       }
 

@@ -23,7 +23,7 @@ export function ComicDetailsSidebar({
 
   return (
     <Sidebar className="comic-details-sidebar">
-      <SidebarIcon icon={ArrowBackIcon} onClick={goBack} />
+      <SidebarIcon tooltip="返回" icon={ArrowBackIcon} onClick={goBack} />
       <BookmarkBtn comicID={match.params.comicID} />
     </Sidebar>
   );

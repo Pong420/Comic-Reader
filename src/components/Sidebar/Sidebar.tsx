@@ -17,10 +17,14 @@ export function Sidebar({ className = '', children }: Props) {
     <div className={`sidebar ${className}`.trim()}>
       <AppRegion />
       <div className="sidebar-content">
-        <SidebarIcon icon={HomeIcon} to={PATHS.HOME} />
-        <SidebarIcon icon={SearchIcon} to={PATHS.SEARCH} />
-        <SidebarIcon icon={HistoryIcon} to={PATHS.BROWSING_HISTORY} />
-        <SidebarIcon icon={bookmarksIcon} to={PATHS.BOOKMARK} />
+        <SidebarIcon tooltip="首頁" icon={HomeIcon} to={PATHS.HOME} />
+        <SidebarIcon tooltip="搜索" icon={SearchIcon} to={PATHS.SEARCH} />
+        <SidebarIcon
+          tooltip="瀏覽紀錄"
+          icon={HistoryIcon}
+          to={PATHS.BROWSING_HISTORY}
+        />
+        <SidebarIcon tooltip="收藏" icon={bookmarksIcon} to={PATHS.BOOKMARK} />
 
         {!!children && <div className="divider" />}
 
