@@ -8,7 +8,7 @@ import {
 } from '../../store';
 import { PATHS } from '../../constants';
 
-interface Props extends Omit<GridPorps, 'onSelect'> {}
+interface Props extends GridPorps {}
 
 export function BrowsingHistoryGrid({ comicID, ...props }: Props) {
   const { chapterID, ...data } =

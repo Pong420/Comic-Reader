@@ -1,7 +1,7 @@
 import React, { DragEvent } from 'react';
 import { GridPorps, Grid } from './Grid';
 
-export interface SelectableGridProps extends Omit<GridPorps, 'onSelect'> {
+export interface SelectableGridProps extends GridPorps {
   selected: boolean;
   selectable: boolean;
   dragging?: boolean;

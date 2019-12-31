@@ -3,7 +3,7 @@ import { generatePath, Link } from 'react-router-dom';
 import { PATHS } from '../../constants';
 
 export interface GridPorps
-  extends HTMLAttributes<HTMLDivElement>,
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'>,
     Omit<Partial<Schema$GridData>, 'comicID'> {
   comicID: string | null;
   subtitleType?: 'latest' | 'author';

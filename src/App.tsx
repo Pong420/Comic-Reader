@@ -9,7 +9,7 @@ import {
   BrowsingHistory,
   BrowsingHistorySidebar
 } from './pages/BrowsingHistory';
-import { Bookmark } from './pages/Bookmark';
+import { Bookmark, BookmarkSidebar } from './pages/Bookmark';
 import { Filter, FilterSidebar } from './pages/Filter';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
@@ -49,7 +49,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.BOOKMARK,
     main: Bookmark,
-    sidebar: Sidebar
+    sidebar: BookmarkSidebar
   },
   {
     path: PATHS.FILTER,

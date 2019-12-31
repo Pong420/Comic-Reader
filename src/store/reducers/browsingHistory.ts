@@ -1,4 +1,5 @@
 import { createCRUDReducer } from '@pong420/redux-crud';
+import { LocationChangeAction, LOCATION_CHANGE } from 'connected-react-router';
 import {
   BrowsingHistoryActionTypes,
   BrowsingHistoryActions
@@ -30,9 +31,12 @@ const initialState: State = {
 
 export const browsingHistoryReducer = (
   state = initialState,
-  action: BrowsingHistoryActions
+  action: BrowsingHistoryActions | LocationChangeAction
 ): State => {
   switch (action.type) {
+    case LOCATION_CHANGE:
+      return { ...state, ...selectionInitialState };
+
     case BrowsingHistoryActionTypes.SET_SELECTION_BROWSING_HISTORY:
     case BrowsingHistoryActionTypes.TOGGLE_SELECTABLE_BROWSING_HISTORY:
     case BrowsingHistoryActionTypes.TOGGLE_SELECTION_BROWSING_HISTORY:
