@@ -74,6 +74,7 @@ export function Search({ location }: RouteComponentProps) {
         <InputGroup
           large
           name={name}
+          defaultValue={keyword}
           rightElement={
             <Button minimal>
               <MuiIcon icon={SearchIcon} />

@@ -10,5 +10,6 @@ export const [, searchResultsReducer] = createCRUDReducer<
 >({
   key: 'comicID',
   actions: SearchResultActionTypes,
-  pageSize
+  pageSize,
+  pathname: window.location.hash.slice(1).replace(/\?.*/, '')
 });

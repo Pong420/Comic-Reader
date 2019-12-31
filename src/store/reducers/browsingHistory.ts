@@ -7,5 +7,6 @@ export const [, browsingHistoryReducer] = createCRUDReducer<
   'comicID'
 >({
   key: 'comicID',
-  actions: BrowsingHistoryActionTypes
+  actions: BrowsingHistoryActionTypes,
+  onLocationChanged: null
 });

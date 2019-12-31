@@ -19,6 +19,7 @@ export function Grid({
   comicID,
   cover,
   name,
+  updateTime,
   ...props
 }: GridPorps) {
   let content: ReactNode = null;

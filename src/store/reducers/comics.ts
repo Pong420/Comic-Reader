@@ -9,6 +9,7 @@ export const [, comicsReducer] = createCRUDReducer<Schema$ComicItem, 'comicID'>(
     key: 'comicID',
     actions: ComicActionTypes,
     pageSize,
-    ids: new Array(pageSize).fill(null)
+    ids: new Array(pageSize).fill(null),
+    onLocationChanged: null
   }
 );
