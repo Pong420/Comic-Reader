@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { AnyAction } from 'redux';
 import { useDispatch } from 'react-redux';
 
@@ -10,9 +10,11 @@ interface Actions {
 
 export function useActions<A extends Actions>(actions: A): A {
   const dispatch = useDispatch();
+  const actionsRef = useRef(actions);
 
   return useMemo(() => {
     const handler: any = {};
+    const actions = actionsRef.current;
 
     for (const key in actions) {
       const action = actions[key];
@@ -22,5 +24,5 @@ export function useActions<A extends Actions>(actions: A): A {
     }
 
     return handler as A;
-  }, [actions, dispatch]);
+  }, [dispatch]);
 }

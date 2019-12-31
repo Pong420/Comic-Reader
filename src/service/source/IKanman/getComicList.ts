@@ -61,7 +61,7 @@ export async function getComicList({
   }
 }
 
-function getFilterPath(arr: string[] | undefined = []) {
+function getFilterPath(arr: string[] = []) {
   const fitler = arr.filter(Boolean);
   return fitler.length ? `${fitler.join('_')}/` : '';
 }

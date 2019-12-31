@@ -1,12 +1,13 @@
 import React, { ComponentType } from 'react';
 import { Route, Switch, RouteProps, Redirect } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
-import { Home } from './pages/Home';
+import { Home, HomeSidebar } from './pages/Home';
 import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { Search } from './pages/Search';
 import { BrowsingHistory } from './pages/BrowsingHistory';
 import { Bookmark } from './pages/Bookmark';
+import { Filter, FilterSidebar } from './pages/Filter';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
 
@@ -20,7 +21,7 @@ const routes: CustomRouteProps[] = [
     path: PATHS.HOME,
     exact: true,
     main: Home,
-    sidebar: Sidebar
+    sidebar: HomeSidebar
   },
   {
     path: PATHS.COMIC_DETAILS,
@@ -46,6 +47,11 @@ const routes: CustomRouteProps[] = [
     path: PATHS.BOOKMARK,
     main: Bookmark,
     sidebar: Sidebar
+  },
+  {
+    path: PATHS.FILTER,
+    main: Filter,
+    sidebar: FilterSidebar
   }
 ];
 

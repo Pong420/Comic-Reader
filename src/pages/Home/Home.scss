@@ -1,0 +1,28 @@
+.home {
+  .no-results {
+    @include sq-dimen(100%);
+    @include flex(center, center);
+    color: #fff;
+
+    a {
+      color: $secondary-color;
+    }
+  }
+}
+
+.home-sidebar {
+  .filtered.filtered {
+    @include relative();
+    &:after {
+      $size: 5px;
+      @include absolute(calc(50% - 12px), null, null, -$size);
+      @include sq-dimen($size);
+      border-radius: 50%;
+      background-color: $red3;
+      content: '';
+    }
+    svg {
+      color: #fff;
+    }
+  }
+}

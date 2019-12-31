@@ -1,0 +1,131 @@
+[
+  [
+    "地區",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "日本", "val": "japan" },
+      { "label": "港台", "val": "hongkong" },
+      { "label": "其它", "val": "other" },
+      { "label": "歐美", "val": "europe" },
+      { "label": "內地", "val": "china" },
+      { "label": "韓國", "val": "korea" }
+    ]
+  ],
+  [
+    "劇情",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "熱血", "val": "rexue" },
+      { "label": "冒險", "val": "maoxian" },
+      { "label": "魔幻", "val": "mohuan" },
+      { "label": "神鬼", "val": "shengui" },
+      { "label": "搞笑", "val": "gaoxiao" },
+      { "label": "萌系", "val": "mengxi" },
+      { "label": "愛情", "val": "aiqing" },
+      { "label": "科幻", "val": "kehuan" },
+      { "label": "魔法", "val": "mofa" },
+      { "label": "格斗", "val": "gedou" },
+      { "label": "武俠", "val": "wuxia" },
+      { "label": "機戰", "val": "jizhan" },
+      { "label": "戰爭", "val": "zhanzheng" },
+      { "label": "競技", "val": "jingji" },
+      { "label": "體育", "val": "tiyu" },
+      { "label": "校園", "val": "xiaoyuan" },
+      { "label": "生活", "val": "shenghuo" },
+      { "label": "勵志", "val": "lizhi" },
+      { "label": "歷史", "val": "lishi" },
+      { "label": "偽娘", "val": "weiniang" },
+      { "label": "宅男", "val": "zhainan" },
+      { "label": "腐女", "val": "funv" },
+      { "label": "耽美", "val": "danmei" },
+      { "label": "百合", "val": "baihe" },
+      { "label": "後宮", "val": "hougong" },
+      { "label": "治愈", "val": "zhiyu" },
+      { "label": "美食", "val": "meishi" },
+      { "label": "推理", "val": "tuili" },
+      { "label": "懸疑", "val": "xuanyi" },
+      { "label": "恐怖", "val": "kongbu" },
+      { "label": "四格", "val": "sige" },
+      { "label": "職場", "val": "zhichang" },
+      { "label": "偵探", "val": "zhentan" },
+      { "label": "社會", "val": "shehui" },
+      { "label": "音樂", "val": "yinyue" },
+      { "label": "舞蹈", "val": "wudao" },
+      { "label": "雜志", "val": "zazhi" },
+      { "label": "黑道", "val": "heidao" }
+    ]
+  ],
+  [
+    "受眾",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "少女", "val": "shaonv" },
+      { "label": "少年", "val": "shaonian" },
+      { "label": "青年", "val": "qingnian" },
+      { "label": "兒童", "val": "ertong" },
+      { "label": "通用", "val": "tongyong" }
+    ]
+  ],
+  [
+    "年份",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "2020年", "val": "2020" },
+      { "label": "2019年", "val": "2019" },
+      { "label": "2018年", "val": "2018" },
+      { "label": "2017年", "val": "2017" },
+      { "label": "2016年", "val": "2016" },
+      { "label": "2015年", "val": "2015" },
+      { "label": "2014年", "val": "2014" },
+      { "label": "2013年", "val": "2013" },
+      { "label": "2012年", "val": "2012" },
+      { "label": "2011年", "val": "2011" },
+      { "label": "2010年", "val": "2010" },
+      { "label": "00年代", "val": "200x" },
+      { "label": "90年代", "val": "199x" },
+      { "label": "80年代", "val": "198x" },
+      { "label": "更早", "val": "197x" }
+    ]
+  ],
+  [
+    "字母",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "A", "val": "a" },
+      { "label": "B", "val": "b" },
+      { "label": "C", "val": "c" },
+      { "label": "D", "val": "d" },
+      { "label": "E", "val": "e" },
+      { "label": "F", "val": "f" },
+      { "label": "G", "val": "g" },
+      { "label": "H", "val": "h" },
+      { "label": "I", "val": "i" },
+      { "label": "J", "val": "j" },
+      { "label": "K", "val": "k" },
+      { "label": "L", "val": "l" },
+      { "label": "M", "val": "m" },
+      { "label": "N", "val": "n" },
+      { "label": "O", "val": "o" },
+      { "label": "P", "val": "p" },
+      { "label": "Q", "val": "q" },
+      { "label": "R", "val": "r" },
+      { "label": "S", "val": "s" },
+      { "label": "T", "val": "t" },
+      { "label": "U", "val": "u" },
+      { "label": "V", "val": "v" },
+      { "label": "W", "val": "w" },
+      { "label": "X", "val": "x" },
+      { "label": "Y", "val": "y" },
+      { "label": "Z", "val": "z" },
+      { "label": "0-9", "val": "0-9" }
+    ]
+  ],
+  [
+    "進度",
+    [
+      { "label": "全部", "val": "" },
+      { "label": "連載", "val": "lianzai" },
+      { "label": "完結", "val": "wanjie" }
+    ]
+  ]
+]
