@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { Search } from './pages/Search';
+import { BrowsingHistory } from './pages/BrowsingHistory';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
 
@@ -33,6 +34,11 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.SEARCH,
     main: Search,
+    sidebar: Sidebar
+  },
+  {
+    path: PATHS.BROWSING_HISTORY,
+    main: BrowsingHistory,
     sidebar: Sidebar
   }
 ];

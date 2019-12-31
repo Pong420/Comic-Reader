@@ -25,11 +25,19 @@ function FileStorage<T extends {}>(
 ): Schema$Storage<T> {
   function get(): T {
     const val = fs.readFileSync(path, 'utf8');
-    return val ? JSON.parse(val) : defaultValue;
+    if (val) {
+      try {
+        return JSON.parse(val);
+      } catch (error) {}
+    }
+
+    return defaultValue;
   }
+
   function save(value: T) {
-    fs.writeFileSync(path, value);
+    fs.writeFileSync(path, JSON.stringify(value));
   }
+
   return {
     get,
     save
