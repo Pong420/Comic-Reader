@@ -17,7 +17,7 @@ const newIcon = <MuiIcon icon={NewIcon} />;
 const lastVisitIcon = <MuiIcon icon={LocationOnIcon} />;
 
 export function ChapterItem({ comicID, chapterID, title, isNew }: Props) {
-  const isLastVisit = useSelector(isLastVisitSelector(comicID));
+  const isLastVisit = useSelector(isLastVisitSelector(comicID, chapterID));
   const icon = isLastVisit ? lastVisitIcon : isNew ? newIcon : null;
 
   return (

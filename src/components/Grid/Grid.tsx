@@ -1,7 +1,6 @@
 import React, { HTMLAttributes, ReactNode } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 import { PATHS } from '../../constants';
-import { Schema$GridData } from '../../typings';
 
 export interface GridPorps
   extends HTMLAttributes<HTMLDivElement>,

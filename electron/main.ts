@@ -31,7 +31,10 @@ async function createWindow() {
     titleBarStyle: 'hiddenInset',
     frame: false,
     autoHideMenuBar: true,
-    webPreferences
+    webPreferences: {
+      preload: path.join(app.getAppPath(), 'preload.js'),
+      ...webPreferences
+    }
   });
 
   const startUrl =

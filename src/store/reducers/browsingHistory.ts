@@ -1,6 +1,5 @@
 import { createCRUDReducer } from '@pong420/redux-crud';
 import { BrowsingHistoryActionTypes } from '../actions/browsingHistory';
-import { Schema$BrowsingHistory } from '../../typings';
 
 export const [, browsingHistoryReducer] = createCRUDReducer<
   Schema$BrowsingHistory,
@@ -8,5 +7,7 @@ export const [, browsingHistoryReducer] = createCRUDReducer<
 >({
   key: 'comicID',
   actions: BrowsingHistoryActionTypes,
-  onLocationChanged: null
+  onLocationChanged: null,
+  pageSize: 1000000000000,
+  ...window.browsingHistoryStorage.get()
 });

@@ -1,4 +1,4 @@
-import { Params$ComicDetails, Schema$GridData } from '../typings';
+import { Params$ComicDetails } from '../typings';
 import { getComicDetails } from './source/IKanman';
 import pick from 'lodash/pick';
 

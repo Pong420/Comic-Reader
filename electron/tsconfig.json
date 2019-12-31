@@ -6,5 +6,5 @@
     "rootDir": "./"
   },
   "exclude": ["../node_modules"],
-  "include": ["./**/*"]
+  "include": ["./**/*", "../common.d.ts"]
 }

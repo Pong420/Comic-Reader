@@ -4,7 +4,7 @@ import { Button, Icon } from '@blueprintjs/core';
 import { ChapterItem } from './ChapterItem';
 import { Schema$ComicDetails } from '../../typings';
 import { PATHS } from '../../constants';
-import { LocalStorage } from '../../storage';
+import { LocalStorage } from '../../utils/localStorage';
 
 interface Props extends Pick<Schema$ComicDetails, 'chapters'> {
   adultOnly?: boolean;

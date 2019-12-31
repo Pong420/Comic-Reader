@@ -1,5 +1,4 @@
 import { createCRUDActions } from '@pong420/redux-crud';
-import { Schema$BrowsingHistory } from '../../typings';
 import { useActions } from '../../hooks/useActions';
 
 export const [

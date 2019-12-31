@@ -37,15 +37,6 @@ export interface Params$SearchResult {
   order?: number;
 }
 
-export interface Schema$GridData {
-  comicID: string;
-  cover: string;
-  name: string;
-  latest: string;
-  updateTime: string;
-  author?: string;
-}
-
 export interface Schema$ComicItem extends Schema$GridData {
   status: string;
 }
@@ -102,15 +93,6 @@ export type Response$LoadImage = Pick<
   Schema$ImageDetail,
   'src' | 'width' | 'height'
 >;
-
-export interface Schema$Bookmark extends Partial<Schema$GridData> {
-  comicID: string;
-}
-
-export interface Schema$BrowsingHistory extends Partial<Schema$GridData> {
-  comicID: string;
-  chapterID: string;
-}
 
 export type Schema$FilterData = Array<[string, Schema$FilterItem[]]>;
 
