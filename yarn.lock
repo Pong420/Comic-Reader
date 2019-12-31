@@ -1831,10 +1831,10 @@
     "@nodelib/fs.scandir" "2.1.2"
     fastq "^1.6.0"
 
-"@pong420/redux-crud@^1.3.0-beta.4":
-  version "1.3.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@pong420/redux-crud/-/redux-crud-1.3.0-beta.4.tgz#e429a877fc8b5523b0778c2b22ab8a31f9952ad3"
-  integrity sha512-s6WTkYSLNfJu8mb0dhezJKBaFeLT0YnDgdgLaJ7zCzlsCVbyT4rA2Taqo0SepKxCJKj0KACAHS2SPrKDVfOkGg==
+"@pong420/redux-crud@^1.3.0-beta.6":
+  version "1.3.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@pong420/redux-crud/-/redux-crud-1.3.0-beta.6.tgz#a9a28a2d0bea889dfda4870ab692d8d306cbe9c2"
+  integrity sha512-UWuCPF8fgmmLSy7hEm4VdsCe91HRDC7dE3je8UsAlkPR1c66l8Wqvk81cGtPpgcYJzNFz3Xg3nJLAqbYqAFdAA==
   dependencies:
     query-string "^6.9.0"
 

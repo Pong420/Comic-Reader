@@ -1,3 +1,4 @@
 export * from './comics';
-export * from './browsingHistory';
 export * from './searchResults';
+export * from './browsingHistory';
+export * from './bookmarks';

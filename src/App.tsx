@@ -6,6 +6,7 @@ import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { Search } from './pages/Search';
 import { BrowsingHistory } from './pages/BrowsingHistory';
+import { Bookmark } from './pages/Bookmark';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
 
@@ -39,6 +40,11 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.BROWSING_HISTORY,
     main: BrowsingHistory,
+    sidebar: Sidebar
+  },
+  {
+    path: PATHS.BOOKMARK,
+    main: Bookmark,
     sidebar: Sidebar
   }
 ];

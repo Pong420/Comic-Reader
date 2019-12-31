@@ -35,7 +35,7 @@ function FileStorage<T extends {}>(
   }
 
   function save(value: T) {
-    fs.writeFileSync(path, JSON.stringify(value));
+    fs.writeFileSync(path, JSON.stringify(value, null, 2));
   }
 
   return {

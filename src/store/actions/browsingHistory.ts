@@ -6,7 +6,7 @@ export const [
   BrowsingHistoryActionTypes
 ] = createCRUDActions<Schema$BrowsingHistory, 'comicID'>()({
   createBrowsingHistory: ['CREATE', 'CREATE_BROWSING_HISTORY'],
-  deleteBrowsingHistory: ['DELETE', 'DELTE_BROWSING_HISTORY'],
+  deleteBrowsingHistory: ['DELETE', 'DELETE_BROWSING_HISTORY'],
   updateBrowsingHistory: ['UPDATE', 'UPDATE_BROWSING_HISTORY']
 });
 

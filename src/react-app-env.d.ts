@@ -11,7 +11,6 @@ declare interface Window {
       preInit: () => T;
     };
   };
-  // bookmarkStorage: number;
 }
 
 declare interface Window {
