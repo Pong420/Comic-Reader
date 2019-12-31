@@ -1,7 +1,15 @@
 import { createCRUDReducer } from '@pong420/redux-crud';
-import { BrowsingHistoryActionTypes } from '../actions/browsingHistory';
+import {
+  BrowsingHistoryActionTypes,
+  BrowsingHistoryActions
+} from '../actions/browsingHistory';
+import {
+  SelectionState,
+  selectionInitialState,
+  selectionReducer
+} from '../selection';
 
-const [initialState, reducer] = createCRUDReducer<
+const [crudinitialState, crudReducer] = createCRUDReducer<
   Schema$BrowsingHistory,
   'comicID'
 >({
@@ -12,15 +20,40 @@ const [initialState, reducer] = createCRUDReducer<
   ...window.browsingHistoryStorage.get()
 });
 
-export const browsingHistoryReducer: typeof reducer = (
+type CRUDState = Parameters<typeof crudReducer>[0];
+type State = CRUDState & SelectionState;
+
+const initialState: State = {
+  ...crudinitialState,
+  ...selectionInitialState
+};
+
+export const browsingHistoryReducer = (
   state = initialState,
-  action
-) => {
+  action: BrowsingHistoryActions
+): State => {
   switch (action.type) {
+    case BrowsingHistoryActionTypes.SET_SELECTION_BROWSING_HISTORY:
+    case BrowsingHistoryActionTypes.TOGGLE_SELECTABLE_BROWSING_HISTORY:
+    case BrowsingHistoryActionTypes.TOGGLE_SELECTION_BROWSING_HISTORY:
+      return {
+        ...state,
+        ...selectionReducer(state, action)
+      };
+
+    case BrowsingHistoryActionTypes.TOGGLE_SELECT_ALL_BROWSING_HISTORY:
+      return {
+        ...state,
+        ...selectionReducer(state, {
+          ...action,
+          payload: state.ids as string[]
+        })
+      };
+
     case BrowsingHistoryActionTypes.CREATE:
     case BrowsingHistoryActionTypes.DELETE:
     case BrowsingHistoryActionTypes.UPDATE:
-      const newState = reducer(state, action);
+      const newState = { ...state, ...crudReducer(state, action) };
       window.browsingHistoryStorage.save({
         ids: newState.ids as string[],
         byIds: newState.byIds

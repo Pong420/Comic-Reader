@@ -1,4 +1,5 @@
 import { RootState } from '../reducers';
+import { selectionSelector } from '../selection';
 
 export const isLastVisitSelector = (comicID: string, chapterID: string) => (
   state: RootState
@@ -13,3 +14,19 @@ export const browsingHistoryIdsSelector = (state: RootState) =>
 export const browsingHistorySelector = (comicID: string | null) => (
   state: RootState
 ) => comicID && state.browsingHistory.byIds[comicID];
+
+export const browsingHistorySelectionSelector = (state: RootState) => {
+  const select = selectionSelector(state.browsingHistory);
+  const total = state.browsingHistory.ids.length;
+  return {
+    ...select,
+    total,
+    allSelected: total === select.selection.length
+  };
+};
+export const browsingHistorySelectedSelector = (comicID: string) => (
+  state: RootState
+) => {
+  const { selectable, selection } = state.browsingHistory;
+  return { selected: selection.includes(comicID), selectable };
+};

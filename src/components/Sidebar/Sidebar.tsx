@@ -7,12 +7,12 @@ import { ReactComponent as SearchIcon } from '../../assets/search-24px.svg';
 import { ReactComponent as HistoryIcon } from '../../assets/history-24px.svg';
 import { ReactComponent as bookmarksIcon } from '../../assets/bookmarks-24px.svg';
 
-interface Props {
+export interface SidebarProps {
   className?: string;
   children?: ReactNode;
 }
 
-export function Sidebar({ className = '', children }: Props) {
+export function Sidebar({ className = '', children }: SidebarProps) {
   return (
     <div className={`sidebar ${className}`.trim()}>
       <AppRegion />

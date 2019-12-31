@@ -50,4 +50,28 @@
       line-height: 1.5em;
     }
   }
+
+  .grid-layer {
+    @include absolute(0, null 0);
+    @include flex(center, center, column);
+    @include sq-dimen(100%);
+  }
+
+  &.selectable-grid {
+    .selection-layer {
+      display: block;
+      cursor: pointer;
+    }
+
+    &.selected {
+      border-width: 6px;
+      border-style: dashed;
+      border-radius: 5px;
+      border-color: $secondary-color;
+
+      .grid-content {
+        transform: scale(0.95) translateY(-3px);
+      }
+    }
+  }
 }

@@ -5,7 +5,10 @@ import { Home, HomeSidebar } from './pages/Home';
 import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
 import { ComicContent } from './pages/ComicContent';
 import { Search } from './pages/Search';
-import { BrowsingHistory } from './pages/BrowsingHistory';
+import {
+  BrowsingHistory,
+  BrowsingHistorySidebar
+} from './pages/BrowsingHistory';
 import { Bookmark } from './pages/Bookmark';
 import { Filter, FilterSidebar } from './pages/Filter';
 import { PATHS } from './constants';
@@ -41,7 +44,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.BROWSING_HISTORY,
     main: BrowsingHistory,
-    sidebar: Sidebar
+    sidebar: BrowsingHistorySidebar
   },
   {
     path: PATHS.BOOKMARK,

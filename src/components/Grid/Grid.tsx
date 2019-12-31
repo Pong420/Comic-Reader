@@ -33,7 +33,7 @@ export function Grid({
     content = (
       <div className="grid-content">
         <Link to={{ pathname, state: { prevPath } }}>
-          <img className="cover" src={cover} alt="" />
+          <img draggable={false} className="cover" src={cover} alt="" />
           {name && subtitle && (
             <div className="caption">
               <div className="title">{name}</div>

@@ -37,7 +37,9 @@
           }
         }
       }
+    }
 
+    a.sidebar-icon {
       &.active {
         &:after {
           @include absolute(0, 0, null, 0);
@@ -70,6 +72,20 @@
 
     > * {
       @include app-region-no-drag;
+    }
+  }
+}
+
+.delete-selection-alert {
+  &.#{$ns}-dialog.#{$ns}-dialog {
+    @include dimen(300px);
+    background-color: $primary-color;
+    padding-bottom: 10px;
+
+    button {
+      + button {
+        color: $secondary-color !important;
+      }
     }
   }
 }
