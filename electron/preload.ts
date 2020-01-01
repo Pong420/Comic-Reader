@@ -24,12 +24,10 @@ function FileStorage<T extends {}>(
   defaultValue: T
 ): Schema$Storage<T> {
   function get(): T {
-    const val = fs.readFileSync(path, 'utf8');
-    if (val) {
-      try {
-        return JSON.parse(val);
-      } catch (error) {}
-    }
+    try {
+      const val = fs.readFileSync(path, 'utf8');
+      return JSON.parse(val);
+    } catch (error) {}
 
     return defaultValue;
   }
@@ -53,3 +51,7 @@ window.browsingHistoryStorage = FileStorage(BROWSING_HISTORY_DIRECTORY, {
   byIds: {},
   ids: []
 });
+
+window.chineseConv = require('chinese-conv');
+
+window.getCurrentWindow = require('electron').remote.getCurrentWindow;

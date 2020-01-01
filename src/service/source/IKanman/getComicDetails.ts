@@ -2,8 +2,6 @@ import { api } from './api';
 import { Params$ComicDetails, Schema$ComicDetails } from '../../../typings';
 import LZString from './utils/LZString';
 
-const chineseConv = require('chinese-conv');
-
 export async function getComicDetails({
   comicID
 }: Params$ComicDetails): Promise<Schema$ComicDetails> {
@@ -87,7 +85,7 @@ export async function getComicDetails({
             ];
           }
 
-          const chapterType = chineseConv.tify($(child).text());
+          const chapterType = window.chineseConv.tify($(child).text());
 
           types.push(chapterType);
           byTypes[chapterType] = [];

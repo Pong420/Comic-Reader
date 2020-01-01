@@ -5,8 +5,6 @@ import {
 } from 'axios-extensions';
 import cheerio from 'cheerio';
 
-const chineseConv = require('chinese-conv');
-
 export const createAxiosInstance = (options: AxiosRequestConfig) =>
   axios.create({
     headers: {
@@ -16,7 +14,7 @@ export const createAxiosInstance = (options: AxiosRequestConfig) =>
     transformResponse: [
       (response: string | CheerioStatic) => {
         if (typeof response === 'string') {
-          const html: string = chineseConv.tify(response);
+          const html: string = window.chineseConv.tify(response);
           return cheerio.load(html, { decodeEntities: false });
         }
 

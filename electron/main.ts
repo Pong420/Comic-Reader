@@ -8,8 +8,7 @@ let mainWindow: BrowserWindow | null = null;
 const isDevelopment = process.env.NODE_ENV === 'development';
 const webPreferences: WebPreferences = isDevelopment
   ? {
-      webSecurity: false,
-      nodeIntegration: true
+      webSecurity: false
     }
   : {};
 
@@ -32,7 +31,7 @@ async function createWindow() {
     frame: false,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(app.getAppPath(), 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       ...webPreferences
     }
   });

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TitleBar as MacOSTitleBar } from 'react-desktop/macOs';
-import { remote } from 'electron';
 
 const {
   isMaximized,
@@ -8,7 +7,7 @@ const {
   setFullScreen,
   minimize,
   close
-} = remote.getCurrentWindow();
+} = window.getCurrentWindow();
 
 function toggleMaximize() {
   setFullScreen(!isFullScreen());
