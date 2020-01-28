@@ -1831,10 +1831,10 @@
     "@nodelib/fs.scandir" "2.1.2"
     fastq "^1.6.0"
 
-"@pong420/redux-crud@^1.3.0-beta.6":
-  version "1.3.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@pong420/redux-crud/-/redux-crud-1.3.0-beta.6.tgz#a9a28a2d0bea889dfda4870ab692d8d306cbe9c2"
-  integrity sha512-UWuCPF8fgmmLSy7hEm4VdsCe91HRDC7dE3je8UsAlkPR1c66l8Wqvk81cGtPpgcYJzNFz3Xg3nJLAqbYqAFdAA==
+"@pong420/redux-crud@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@pong420/redux-crud/-/redux-crud-1.3.1.tgz#bef129223c0d3ff499a60e7779b2f625c4adc8b6"
+  integrity sha512-V3QUxmfk0mG50q2t17GfxmeyZVSRSELmmU2Bv2u4J1FBm7JfLxlbML36R5OkIVNMgzFxE6WT1wQlGgJQZUTeZg==
   dependencies:
     query-string "^6.9.0"
 
@@ -2838,13 +2838,12 @@ axios-extensions@^3.0.6:
     tslib "^1.9.0"
     util "^0.11.1"
 
-axios@0.18.1:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.1.tgz#ff3f0de2e7b5d180e757ad98000f1081b87bcea3"
-  integrity sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==
+axios@0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.1.tgz#8a6a04eed23dfe72747e1dd43c604b8f1677b5aa"
+  integrity sha512-Yl+7nfreYKaLRvAvjNPkvfjnQHJM1yLBY3zhqAwcJSwR/6ETkanUgylgtIvkvz0xJ+p/vZuNw8X7Hnb7Whsbpw==
   dependencies:
     follow-redirects "1.5.10"
-    is-buffer "^2.0.2"
 
 axobject-query@^2.0.2:
   version "2.0.2"
@@ -6800,11 +6799,6 @@ is-buffer@^1.0.2, is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
-
-is-buffer@^2.0.2:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.4.tgz#3e572f23c8411a5cfd9557c849e3665e0b290623"
-  integrity sha512-Kq1rokWXOPXWuaMAqZiJW4XxsmD9zGx9q4aePabbn3qCRGedtH7Cm+zV8WETitMfu1wdh+Rvd6w5egwSngUX2A==
 
 is-callable@^1.1.4:
   version "1.1.4"
@@ -12496,17 +12490,10 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-rx-async@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/use-rx-async/-/use-rx-async-1.1.5.tgz#edff351472bb792c49ab121b29a8bad78583f8db"
-  integrity sha512-6Dkm9V8fMLanw6Rg3dFd4rR1UgrN4UZq2HQOtr74ovKgwSFvh/iyqe/ZSv1eHhJ2dwAQwAKSMTVPQSWYus/HJw==
-
-use-rx-hooks@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/use-rx-hooks/-/use-rx-hooks-1.4.1.tgz#a29d0043166b9f553eac2cebfa772a6e46caff2c"
-  integrity sha512-C8LrhqntdrqQHYDoD3ANZQcJoIrTOYL/iZ6ZNlkXEEFlRSkQ06aZXRF+OEZ+BY5ajWUoOk8pUST/xR3v5iUFrA==
-  dependencies:
-    use-rx-async "^1.1.5"
+use-rx-hooks@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/use-rx-hooks/-/use-rx-hooks-1.4.2.tgz#35224218ec5393b8210cf18a861e3a30a244bcef"
+  integrity sha512-Vdk/VcElrJwdC7fJDxHh1GZEoHoUTpOUuZW7XdUHL7wPVYlqqDUnHB1ohV5Yo9XxPM37Z7Dy3yo0j7yr/M746g==
 
 use@^3.1.0:
   version "3.1.1"

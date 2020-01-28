@@ -3,7 +3,7 @@ import { Route, Switch, RouteProps, Redirect } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Home, HomeSidebar } from './pages/Home';
 import { ComicDetails, ComicDetailsSidebar } from './pages/ComicDetails';
-import { ComicContent } from './pages/ComicContent';
+import { ComicContent, ComicContentSidebar } from './pages/ComicContent';
 import { Search } from './pages/Search';
 import {
   BrowsingHistory,
@@ -13,6 +13,7 @@ import { Bookmark, BookmarkSidebar } from './pages/Bookmark';
 import { Filter, FilterSidebar } from './pages/Filter';
 import { PATHS } from './constants';
 import { ClearTosterOnLocationChanged } from './utils/toaster';
+import { ComicContentProvider } from './hooks/useComicContent';
 
 interface CustomRouteProps extends RouteProps {
   main: ComponentType<any>;
@@ -34,7 +35,7 @@ const routes: CustomRouteProps[] = [
   {
     path: PATHS.COMIC_CONTENT,
     main: ComicContent,
-    sidebar: Sidebar
+    sidebar: ComicContentSidebar
   },
   {
     path: PATHS.SEARCH,
@@ -59,10 +60,12 @@ const routes: CustomRouteProps[] = [
 ];
 
 const App = () => (
-  <>
-    {routes.map(({ sidebar = Sidebar, ...props }, index) => (
-      <Route {...props} key={index} component={sidebar} />
-    ))}
+  <ComicContentProvider>
+    <Switch>
+      {routes.map(({ sidebar = Sidebar, ...props }, index) => (
+        <Route {...props} key={index} component={sidebar} />
+      ))}
+    </Switch>
     <Switch>
       {routes.map(({ main, ...props }, index) => (
         <Route {...props} key={index} component={main} />
@@ -70,7 +73,7 @@ const App = () => (
       <Redirect to={PATHS.HOME} />
     </Switch>
     <ClearTosterOnLocationChanged />
-  </>
+  </ComicContentProvider>
 );
 
 export default App;

@@ -27,13 +27,13 @@ const loadImage = async (src: string) =>
   });
 
 export function usePreloadImages({ pageNo }: Props) {
-  const [imageDetails, setImageDetails] = useState<Schema$ImageDetail[]>([]);
+  const [imagesDetail, setimagesDetail] = useState<Schema$ImageDetail[]>([]);
 
   const subscription = useRef(new Subscription());
 
   const { preloadImage, clearPreloadImage } = useMemo(() => {
     const preloadImage = ({ images }: Schema$ComicContent) => {
-      setImageDetails(
+      setimagesDetail(
         images.map((src, index) => ({
           index,
           src,
@@ -43,15 +43,15 @@ export function usePreloadImages({ pageNo }: Props) {
       );
     };
 
-    const clearPreloadImage = () => setImageDetails([]);
+    const clearPreloadImage = () => setimagesDetail([]);
 
     return { preloadImage, clearPreloadImage };
   }, []);
 
   const startIndex = pageNo - 1;
   const images = useMemo(
-    () => imageDetails.slice(startIndex, startIndex + 5 + 1),
-    [startIndex, imageDetails]
+    () => imagesDetail.slice(startIndex, startIndex + 5 + 1),
+    [startIndex, imagesDetail]
   );
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function usePreloadImages({ pageNo }: Props) {
         )
       )
       .subscribe(image => {
-        setImageDetails(curr => [
+        setimagesDetail(curr => [
           ...curr.slice(0, image.index),
           image,
           ...curr.slice(image.index + 1)
@@ -83,5 +83,9 @@ export function usePreloadImages({ pageNo }: Props) {
     };
   }, [images]);
 
-  return { imageDetails, preloadImage, clearPreloadImage };
+  useEffect(() => {
+    setimagesDetail([]);
+  }, []);
+
+  return { imagesDetail, preloadImage, clearPreloadImage };
 }

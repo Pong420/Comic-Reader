@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useRxAsync } from 'use-rx-hooks';
 import { ComicImage } from './ComicImage';
-import { getComicContent } from '../../service';
-import { usePreloadImages } from '../../hooks/usePreloadImages';
-import { usePrevNextChapter } from '../../hooks/usePrevNextChapter';
+import { useComicContent } from '../../hooks/useComicContent';
 import { useBrowsingHistory } from '../../hooks/useBrowsingHistory';
 
 interface MatchParams {
@@ -14,37 +11,14 @@ interface MatchParams {
 }
 
 export function ComicContent({ match }: RouteComponentProps<MatchParams>) {
-  const { comicID, chapterID } = match.params;
-
+  const { comicID, chapterID, pageNo } = match.params;
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const pageNo = Number(match.params.pageNo);
-
-  const { imageDetails, preloadImage, clearPreloadImage } = usePreloadImages({
-    pageNo
-  });
+  const { imagesDetail, run, nextPage, prevPage } = useComicContent();
 
   useBrowsingHistory({ comicID, chapterID });
 
-  const { run, data } = useRxAsync(getComicContent, {
-    defer: true,
-    onSuccess: preloadImage
-  });
-
-  const total = imageDetails.length;
-
-  const { prevId, nextId } = data || {};
-
-  const { nextPage, prevPage } = usePrevNextChapter({
-    prevId,
-    nextId,
-    total,
-    beforeChapterChanged: clearPreloadImage
-  });
-
-  useEffect(() => {
-    run({ comicID, chapterID });
-  }, [comicID, chapterID, run]);
+  useEffect(() => run({ comicID, chapterID }), [comicID, chapterID, run]);
 
   useEffect(() => {
     const el = contentRef.current;
@@ -58,11 +32,11 @@ export function ComicContent({ match }: RouteComponentProps<MatchParams>) {
       onContextMenu={prevPage}
       ref={contentRef}
     >
-      {imageDetails.map(props => (
+      {imagesDetail.map(props => (
         <ComicImage
           {...props}
           key={props.src}
-          hidden={pageNo !== props.index + 1}
+          hidden={Number(pageNo) !== props.index + 1}
         />
       ))}
     </div>

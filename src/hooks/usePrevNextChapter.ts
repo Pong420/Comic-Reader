@@ -1,20 +1,17 @@
 import React, { useMemo, SyntheticEvent } from 'react';
-import { useRouteMatch, useHistory, generatePath } from 'react-router';
+import { useHistory, generatePath } from 'react-router';
 import { Button, IButtonProps } from '@blueprintjs/core';
 import { PATHS } from '../constants';
 import { Toaster } from '../utils/toaster';
 
 interface Props {
+  comicID?: string | number;
+  chapterID?: string | number;
+  pageNo?: number;
   prevId?: number;
   nextId?: number;
   total: number;
   beforeChapterChanged: () => void;
-}
-
-interface MatchParams {
-  comicID: string;
-  chapterID: string;
-  pageNo?: string;
 }
 
 function renderWithButton(
@@ -31,25 +28,26 @@ function renderWithButton(
 }
 
 export function usePrevNextChapter({
+  pageNo,
+  chapterID,
+  comicID,
   prevId,
   nextId,
   total,
   beforeChapterChanged
 }: Props) {
   const history = useHistory();
-  const match = useRouteMatch<MatchParams>();
-
-  const pageNo = Number(match.params.pageNo || 1);
 
   const [nextPage, prevPage] = useMemo(() => {
     const handler = (step: number) => (evt?: SyntheticEvent<HTMLElement>) => {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
-      const push = (params: { [X in keyof MatchParams]?: any } = {}) => {
+      const push = (params: Partial<Pick<Props, 'pageNo' | 'chapterID'>>) => {
         history.push(
           generatePath(PATHS.COMIC_CONTENT, {
-            ...match.params,
+            chapterID,
+            comicID,
             ...params
           })
         );
@@ -81,7 +79,8 @@ export function usePrevNextChapter({
     return [handler(1), handler(-1)];
   }, [
     history,
-    match.params,
+    chapterID,
+    comicID,
     pageNo,
     prevId,
     nextId,

@@ -70,6 +70,10 @@
       margin: 10px auto;
     }
 
+    .flex-spacer {
+      flex: 1 1 auto;
+    }
+
     > * {
       @include app-region-no-drag;
     }
