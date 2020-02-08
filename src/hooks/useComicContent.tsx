@@ -1,4 +1,5 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import React, { useContext, useLayoutEffect, useCallback } from 'react';
+import { generatePath } from 'react-router-dom';
 import {
   Schema$ComicContent,
   Params$ComicContent,
@@ -10,6 +11,7 @@ import { useRxAsync, RxAsyncState } from 'use-rx-hooks';
 import { usePreloadImages } from './usePreloadImages';
 import { usePrevNextChapter } from './usePrevNextChapter';
 import { PATHS } from '../constants';
+import { history } from '../store';
 
 export interface MatchParams {
   comicID: string;
@@ -22,6 +24,7 @@ type Context = RxAsyncState<Schema$ComicContent, Params$ComicContent> &
     total: number;
     pageNo: number;
     imagesDetail: Schema$ImageDetail[];
+    handlePageChange: (pageNo: number) => void;
   };
 
 export const ComicContentContext = React.createContext({} as Context);
@@ -50,11 +53,23 @@ export const ComicContentProvider: React.FC = ({ children }) => {
     beforeChapterChanged: clearPreloadImage
   });
 
+  const handlePageChange = useCallback(
+    pageNo =>
+      history.push(
+        generatePath(PATHS.COMIC_CONTENT, {
+          ...(match && match.params),
+          pageNo
+        })
+      ),
+    [match]
+  );
+
   return (
     <ComicContentContext.Provider
       value={{
         total,
         pageNo,
+        handlePageChange,
         imagesDetail,
         ...state,
         ...navigation
