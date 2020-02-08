@@ -33,7 +33,8 @@ export const ComicContentProvider: React.FC = ({ children }) => {
   const match = useRouteMatch<MatchParams>(PATHS.COMIC_CONTENT);
   const pageNo = Number(match && match.params.pageNo) || 1;
 
-  const { imagesDetail, preloadImage, clearPreloadImage } = usePreloadImages({
+  const { imagesDetail, preloadImage } = usePreloadImages({
+    comicID: match ? match.params.comicID : '',
     pageNo
   });
 
@@ -49,8 +50,7 @@ export const ComicContentProvider: React.FC = ({ children }) => {
     ...state.data,
     ...(match && match.params),
     pageNo,
-    total,
-    beforeChapterChanged: clearPreloadImage
+    total
   });
 
   const handlePageChange = useCallback(

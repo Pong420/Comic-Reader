@@ -11,7 +11,6 @@ interface Props {
   prevId?: number;
   nextId?: number;
   total: number;
-  beforeChapterChanged: () => void;
 }
 
 function renderWithButton(
@@ -33,8 +32,7 @@ export function usePrevNextChapter({
   comicID,
   prevId,
   nextId,
-  total,
-  beforeChapterChanged
+  total
 }: Props) {
   const history = useHistory();
 
@@ -57,7 +55,6 @@ export function usePrevNextChapter({
         Toaster.bottom({
           message: prevId
             ? renderWithButton('已經係第一頁', '返回上一集', () => {
-                beforeChapterChanged();
                 push({ pageNo: 1, chapterID: prevId });
               })
             : '已經係第一集'
@@ -66,7 +63,6 @@ export function usePrevNextChapter({
         Toaster.bottom({
           message: nextId
             ? renderWithButton('已經係最後一頁', '睇下一集', () => {
-                beforeChapterChanged();
                 push({ pageNo: 1, chapterID: nextId });
               })
             : '已經係最後一集'
@@ -77,16 +73,7 @@ export function usePrevNextChapter({
     };
 
     return [handler(1), handler(-1)];
-  }, [
-    history,
-    chapterID,
-    comicID,
-    pageNo,
-    prevId,
-    nextId,
-    total,
-    beforeChapterChanged
-  ]);
+  }, [history, chapterID, comicID, pageNo, prevId, nextId, total]);
 
   return { nextPage, prevPage };
 }

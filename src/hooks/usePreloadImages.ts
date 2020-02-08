@@ -10,6 +10,7 @@ import {
 // TODO: review
 
 interface Props {
+  comicID: string;
   pageNo: number;
 }
 
@@ -26,7 +27,7 @@ const loadImage = async (src: string) =>
     image.onerror = reject;
   });
 
-export function usePreloadImages({ pageNo }: Props) {
+export function usePreloadImages({ comicID, pageNo }: Props) {
   const [imagesDetail, setimagesDetail] = useState<Schema$ImageDetail[]>([]);
 
   const subscription = useRef(new Subscription());
@@ -84,8 +85,10 @@ export function usePreloadImages({ pageNo }: Props) {
   }, [images]);
 
   useEffect(() => {
-    setimagesDetail([]);
-  }, []);
+    if (comicID) {
+      return () => setimagesDetail([]);
+    }
+  }, [comicID]);
 
   return { imagesDetail, preloadImage, clearPreloadImage };
 }
