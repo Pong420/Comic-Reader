@@ -13,7 +13,7 @@ export function ComicDetailsSidebar({
   location,
   history,
   match
-}: RouteComponentProps<MatchParams>) {
+}: RouteComponentProps<MatchParams, {}, { prevPath: string } | undefined>) {
   const prevPath = location.state && location.state.prevPath;
 
   const goBack = useCallback(() => history.push(prevPath || PATHS.HOME), [

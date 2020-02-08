@@ -22,14 +22,11 @@ const name: keyof Params$SearchResult = 'keyword';
 export function Search({ location }: RouteComponentProps) {
   const { paginateSearchResults } = useSearchResultActions();
 
-  const {
-    ids,
-    pageNo,
-    pageSize,
-    total,
-    params: { [name]: keyword },
-    hasData
-  } = useSelector(searchResultsPaginationSelector);
+  const { ids, pageNo, pageSize, total, params, hasData } = useSelector(
+    searchResultsPaginationSelector
+  );
+
+  const keyword = params[name] as string;
 
   const { run, loading } = useRxAsync(getSearchResults, {
     defer: true,

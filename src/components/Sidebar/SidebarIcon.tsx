@@ -4,7 +4,7 @@ import { MuiIcon, MuiIconProps } from '../../components/MuiIcon';
 import { Tooltip } from '@blueprintjs/core';
 
 interface Props extends MuiIconProps {
-  to?: NavLinkProps['to'];
+  to?: NavLinkProps<unknown>['to'];
   onClick?: () => void;
   isActive?: boolean;
   tooltip?: string;
@@ -27,11 +27,7 @@ export function SidebarIcon({ icon, to, tooltip, isActive, ...props }: Props) {
   );
 
   return to
-    ? React.createElement(
-        NavLink,
-        { ...props, exact: true, className, to },
-        content
-      )
+    ? React.createElement(NavLink, { exact: true, className, to }, content)
     : React.createElement(
         'div',
         {
