@@ -14,7 +14,13 @@ export function ComicContent({ match }: RouteComponentProps<MatchParams>) {
   const { comicID, chapterID, pageNo } = match.params;
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const { imagesDetail, run, nextPage, prevPage } = useComicContent();
+  const {
+    imagesDetail,
+    run,
+    nextPage,
+    prevPage,
+    fitToPage
+  } = useComicContent();
 
   useBrowsingHistory({ comicID, chapterID });
 
@@ -27,7 +33,7 @@ export function ComicContent({ match }: RouteComponentProps<MatchParams>) {
 
   return (
     <div
-      className="comic-content"
+      className={`comic-content ${fitToPage ? 'fit-to-page' : ''}`.trim()}
       onClick={nextPage}
       onContextMenu={prevPage}
       ref={contentRef}

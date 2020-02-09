@@ -11,19 +11,19 @@
     margin: auto;
     user-select: none;
 
-    .content.fit-to-page & {
-      @include sq-dimen(100% !important);
+    &[hidden] {
+      display: none;
     }
+  }
 
-    img {
-      .content.fit-to-page & {
+  &.fit-to-page {
+    .comic-image {
+      @include sq-dimen(100% !important);
+
+      img {
         @include sq-dimen(100%);
         object-fit: contain;
       }
-    }
-
-    &[hidden] {
-      display: none;
     }
   }
 }

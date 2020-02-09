@@ -13,7 +13,14 @@ export function ComicContentSidebar({
   history,
   match
 }: RouteComponentProps<MatchParams>) {
-  const { pageNo, total, handlePageChange, nextChapter } = useComicContent();
+  const {
+    pageNo,
+    total,
+    handlePageChange,
+    nextChapter,
+    fitToPage,
+    toggleFitToPage
+  } = useComicContent();
   const { comicID } = match.params;
   return (
     <Sidebar className="comic-content-sidebar">
@@ -29,9 +36,15 @@ export function ComicContentSidebar({
 
       <SidebarIcon tooltip="下一集" icon={SkipNextIcon} onClick={nextChapter} />
 
-      <SidebarIcon icon={AspectRatioIcon} />
+      <SidebarIcon
+        tooltip={fitToPage ? '預設大小' : '適合頁面'}
+        icon={AspectRatioIcon}
+        isActive={fitToPage}
+        onClick={toggleFitToPage}
+      />
 
       <div className="flex-spacer" />
+
       <Pagination pageNo={pageNo} total={total} onChange={handlePageChange} />
     </Sidebar>
   );
