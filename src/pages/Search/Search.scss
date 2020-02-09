@@ -6,6 +6,7 @@
     @include padding-x(20px);
     flex: 0 0 auto;
     padding-top: 25px;
+    padding-bottom: 10px;
 
     form {
       @include flex(center);
