@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { ComicImage } from './ComicImage';
 import { useComicContent } from '../../hooks/useComicContent';
 import { useBrowsingHistory } from '../../hooks/useBrowsingHistory';
+import { useMouseTrap } from '../../hooks/useMouseTrap';
 
 interface MatchParams {
   comicID: string;
@@ -21,6 +22,9 @@ export function ComicContent({ match }: RouteComponentProps<MatchParams>) {
     prevPage,
     fitToPage
   } = useComicContent();
+
+  useMouseTrap(['up', 'left'], prevPage);
+  useMouseTrap(['down', 'right', 'space'], nextPage);
 
   useBrowsingHistory({ comicID, chapterID });
 

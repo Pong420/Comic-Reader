@@ -3,6 +3,7 @@ import { Dialog, Classes, Button, H5 } from '@blueprintjs/core';
 import { Sidebar, SidebarProps } from './Sidebar';
 import { SidebarIcon } from './SidebarIcon';
 import { useBoolean } from '../../hooks/useBoolean';
+import { useMouseTrap } from '../../hooks/useMouseTrap';
 import { ReactComponent as SelectAllIcon } from '../../assets/select_all-24px.svg';
 import { ReactComponent as ListCheckIcon } from '../../assets/list-check-24px.svg';
 import { ReactComponent as TrashIcon } from '../../assets/trash-24px.svg';
@@ -37,7 +38,11 @@ export function SelectionSidebar({
     setSelection([]);
     closeDialog();
   };
+
   const handleDelete = selection.length > 1 ? openDialog : deleteSelection;
+
+  useMouseTrap(selectable ? 'esc' : '', () => setSelection([]));
+  useMouseTrap(selectable && !allSelected ? 'command+a' : '', toggleSelectAll);
 
   return (
     <>

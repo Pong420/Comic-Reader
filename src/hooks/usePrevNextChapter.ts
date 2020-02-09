@@ -60,7 +60,7 @@ export function usePrevNextChapter({
         : Toaster.bottom({ message: '已經係最後一集' });
 
     const changePage = (step: number) => (
-      evt?: SyntheticEvent<HTMLElement>
+      evt?: SyntheticEvent<HTMLElement> | Event
     ) => {
       evt && evt.preventDefault();
 

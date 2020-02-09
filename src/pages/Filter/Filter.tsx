@@ -5,6 +5,7 @@ import { Button } from '@blueprintjs/core';
 import { MuiIcon } from '../../components/MuiIcon';
 import { PATHS, FILTER_DATA } from '../../constants';
 import { comicsFilterSelector, useComicFilter } from '../../store';
+import { useMouseTrap } from '../../hooks/useMouseTrap';
 import { ReactComponent as CloseIcon } from '../../assets/close-24px.svg';
 
 export type Schema$FilterData = [
@@ -42,7 +43,7 @@ const FilterItem = React.memo<FilterItemProps>(
   }
 );
 
-export function Filter({ history, location }: RouteComponentProps) {
+export function Filter({ history }: RouteComponentProps) {
   const { setFilter } = useComicFilter();
   const filter = useSelector(comicsFilterSelector);
   const onItemClick = useCallback(
@@ -52,11 +53,15 @@ export function Filter({ history, location }: RouteComponentProps) {
     [filter, setFilter]
   );
 
+  const backToHome = () => history.push(PATHS.HOME);
+
+  useMouseTrap('esc', backToHome);
+
   return (
     <div className="filter">
       <div className="filter-header">
         <h1>篩選</h1>
-        <Button minimal onClick={() => history.push(PATHS.HOME)}>
+        <Button minimal onClick={backToHome}>
           <MuiIcon icon={CloseIcon} />
         </Button>
       </div>
