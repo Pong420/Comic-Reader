@@ -1,8 +1,9 @@
 import React, { useMemo, SyntheticEvent } from 'react';
-import { useHistory, generatePath } from 'react-router';
+import { generatePath } from 'react-router';
 import { Button, IButtonProps } from '@blueprintjs/core';
 import { PATHS } from '../constants';
 import { Toaster } from '../utils/toaster';
+import { history } from '../store';
 
 interface Props {
   comicID?: string | number;
@@ -26,6 +27,8 @@ function renderWithButton(
   );
 }
 
+type Parmas = Partial<Pick<Props, 'pageNo' | 'chapterID'>>;
+
 export function usePrevNextChapter({
   pageNo,
   chapterID,
@@ -34,46 +37,61 @@ export function usePrevNextChapter({
   nextId,
   total
 }: Props) {
-  const history = useHistory();
+  return useMemo(() => {
+    const navigate = (params: Parmas) => {
+      history.push(
+        generatePath(PATHS.COMIC_CONTENT, {
+          chapterID,
+          comicID,
+          pageNo: 1,
+          ...params
+        })
+      );
+    };
 
-  const [nextPage, prevPage] = useMemo(() => {
-    const handler = (step: number) => (evt?: SyntheticEvent<HTMLElement>) => {
+    const prevChapter = () =>
+      prevId
+        ? navigate({ chapterID: prevId })
+        : Toaster.bottom({ message: '已經係第一集' });
+
+    const nextChapter = () =>
+      nextId
+        ? navigate({ chapterID: nextId })
+        : Toaster.bottom({ message: '已經係最後一集' });
+
+    const changePage = (step: number) => (
+      evt?: SyntheticEvent<HTMLElement>
+    ) => {
       evt && evt.preventDefault();
 
       const newPageNo = Number(pageNo) + step;
-      const push = (params: Partial<Pick<Props, 'pageNo' | 'chapterID'>>) => {
-        history.push(
-          generatePath(PATHS.COMIC_CONTENT, {
-            chapterID,
-            comicID,
-            ...params
-          })
-        );
-      };
 
       if (newPageNo <= 0) {
-        Toaster.bottom({
-          message: prevId
-            ? renderWithButton('已經係第一頁', '返回上一集', () => {
-                push({ pageNo: 1, chapterID: prevId });
-              })
-            : '已經係第一集'
-        });
+        if (prevId) {
+          Toaster.bottom({
+            message: renderWithButton('已經係第一頁', '返回上一集', prevChapter)
+          });
+        } else {
+          prevChapter();
+        }
       } else if (newPageNo > total) {
-        Toaster.bottom({
-          message: nextId
-            ? renderWithButton('已經係最後一頁', '睇下一集', () => {
-                push({ pageNo: 1, chapterID: nextId });
-              })
-            : '已經係最後一集'
-        });
+        if (nextId) {
+          Toaster.bottom({
+            message: renderWithButton('已經係最後一頁', '睇下一集', nextChapter)
+          });
+        } else {
+          nextChapter();
+        }
       } else {
-        push({ pageNo: newPageNo });
+        navigate({ pageNo: newPageNo });
       }
     };
 
-    return [handler(1), handler(-1)];
-  }, [history, chapterID, comicID, pageNo, prevId, nextId, total]);
-
-  return { nextPage, prevPage };
+    return {
+      nextPage: changePage(1),
+      prevPage: changePage(-1),
+      nextChapter,
+      prevChapter
+    };
+  }, [chapterID, comicID, pageNo, prevId, nextId, total]);
 }

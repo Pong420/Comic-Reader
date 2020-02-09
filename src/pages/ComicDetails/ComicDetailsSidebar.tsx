@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Sidebar, SidebarIcon } from '../../components/Sidebar';
 import { BookmarkBtn } from '../../components/BookmarkBtn';
@@ -16,14 +16,13 @@ export function ComicDetailsSidebar({
 }: RouteComponentProps<MatchParams, {}, { prevPath: string } | undefined>) {
   const prevPath = location.state && location.state.prevPath;
 
-  const goBack = useCallback(() => history.push(prevPath || PATHS.HOME), [
-    history,
-    prevPath
-  ]);
-
   return (
     <Sidebar className="comic-details-sidebar">
-      <SidebarIcon tooltip="返回" icon={ArrowBackIcon} onClick={goBack} />
+      <SidebarIcon
+        tooltip="返回"
+        icon={ArrowBackIcon}
+        onClick={() => history.push(prevPath || PATHS.HOME)}
+      />
       <BookmarkBtn comicID={match.params.comicID} />
     </Sidebar>
   );
