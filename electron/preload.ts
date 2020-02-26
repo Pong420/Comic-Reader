@@ -19,6 +19,10 @@ export const BROWSING_HISTORY_DIRECTORY = path.join(
 
 export const BOOKMARK_DIRECTORY = path.join(STORAGE_DIRECTORY, 'bookmark.json');
 
+if (!fs.existsSync(STORAGE_DIRECTORY)) {
+  fs.mkdirSync(STORAGE_DIRECTORY);
+}
+
 function FileStorage<T extends {}>(
   path: string,
   defaultValue: T
