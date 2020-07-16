@@ -166,7 +166,7 @@
     "connected-react-router": "^6.6.1",
     "customize-cra": "^0.9.1",
     "history": "^4.10.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mousetrap": "^1.6.5",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
